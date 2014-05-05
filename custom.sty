@@ -1,0 +1,100 @@
+\ProvidesPackage{custom}
+
+
+% Style
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% Coding
+\newcommand{\code}[1]{\ttfamily{#1}\rmfamily{}}
+
+% Derivatives
+\newcommand{\dd}{\ {\rm d}}
+\newcommand{\deriv}[2]{\frac{{\rm d} #1}{{\rm d} #2}}
+\newcommand{\dderiv}[2]{\frac{{\rm d}^2 #1}{{\rm d} #2^2}}
+
+% Functions
+\newcommand{\function}{\ensuremath{\rightarrow}}
+\newcommand{\surjective}{\ensuremath{\twoheadrightarrow}}
+\newcommand{\injective}{\ensuremath{\rightarrowtail}}
+\newcommand{\bijective}{\ensuremath{\injective\!\!\!\!\!\surjective}}
+\newcommand{\nontotal}{\ensuremath{-\!\!\!\mapsto}}
+\newcommand{\nontotalsurjective}{\ensuremath{-\!\!\!\mapsto\!\!\!\!\!\!\surjective}}
+\newcommand{\nontotalinjective}{\ensuremath{\injective\!\!\!\!\shortmid}}
+\newcommand{\nontotalbijective}{\ensuremath{\bijective\!\!\!\!\shortmid}}
+
+% Writing
+\newcommand{\ttilde}{\text{\raise.17ex\hbox{$\scriptstyle\sim$}}}
+
+
+
+% \makeatletter
+% \renewcommand\l@section[2]{%
+%   \ifnum \c@tocdepth >\z@
+%     \addpenalty\@secpenalty
+%     \addvspace{1.0em \@plus\p@}%
+%     \setlength\@tempdima{1.5em}%
+%     \begingroup
+%       \parindent \z@ \rightskip \@pnumwidth
+%       \parfillskip -\@pnumwidth
+%       \leavevmode \bfseries
+%       \advance\leftskip\@tempdima
+%       \hskip -\leftskip
+%       #1\nobreak\ 
+%       \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
+%      \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+%     \endgroup
+%   \fi}
+% \makeatother
+
+% \newcommand{\define}[2]{{\bf #1}\begin{itemize}\item[]{{\bf #1}: {\it #2}}\end{itemize}}
+
+% \newcommand{\suchthat}{\ \bigl|\ }
+% \newcommand{\twocases}[4]{\begin{cases}#1 & \text{if } #2\\#3 & \text{if } #4\end{cases}}
+% \newcommand{\R}[1]{\mathbb{R}^{#1}}
+% \newcommand{\dint}[4]{\displaystyle\int_{#1}^{#2}\! #3\cdot{\rm d}#4}
+% \newcommand{\dintd}[7]{\displaystyle\int_{#1}^{#2}\!\!\int_{#3}^{#4}\! #5\cdot{\rm d}#6{\rm d}#7}
+% \newcommand{\inintd}[3]{\displaystyle\int\!\!\!\int\! #1\cdot{\rm d}#2{\rm d}#3}
+% \newcommand{\intone}[1]{\displaystyle\int\! {\rm d#1}}
+% \newcommand{\intoned}[3]{\displaystyle\int_{#1}^{#2}\!\! {\rm d#3}}
+% \newcommand{\abs}[1]{\big|#1\big|}
+% \newcommand{\vectwo}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+% \newcommand{\vecthree}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+% \newcommand{\matrixtwo}[4]{\begin{bmatrix}#1 & #2\\#3 & #4\end{bmatrix}}
+% \newcommand{\magv}[1]{\big|\big|\vec{#1}\thinspace\big|\big|}
+% \newcommand{\mags}[1]{\big|\big|#1\thinspace\big|\big|}
+% \newcommand{\isin}[1]{\ \in\ #1}
+% \newcommand{\isnotin}[1]{\notin\ #1}
+% \newcommand{\proj}[2]{{\rm proj}_{\vec{#2}} (\vec{#1})}
+% \newcommand{\perpp}[2]{{\rm perp}_{\vec{#2}} (\vec{#1})}
+% \newcommand{\spanv}[1]{{\rm span}\{#1\}}
+% \newcommand{\theorem}[1]{\textbf{\emph{#1}}}
+% \newcommand{\fracd}[2]{\frac{{\rm d}#1}{{\rm d}#2}}
+% \newcommand{\definition}{\textit{Definition: }}
+% \newcommand{\divides}{\ \!|\ \!}
+% \newcommand{\notdivides}{\nmid}
+% \newcommand{\proposition}[1]{{\bf Proposition: \textit{#1}}}
+% \newcommand{\proof}[1]{\vspace{2pt}\centerline{\begin{minipage}{0.95\textwidth}\emph{Proof:}\\#1 QED.\end{minipage}}}
+% \newcommand{\power}[1]{\mathcal{P}(#1)}
+% \newcommand{\Power}{\mathcal{P}}
+% \newcommand{\divisors}[1]{\mathcal{D}_#1}
+% \newcommand{\relation}{\ensuremath{\mathcal{R}}}
+% \newcommand{\propositionlist}[2]{{\bf Proposition} (#1). \emph{#2}}
+% \renewcommand{\O}[1]{\ensuremath{\mathcal{O}(#1)}}
+% \newcommand{\?}{\ensuremath{\overset{?}{=}}}
+% \newcommand{\comb}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+
+% \newcommand{\true}{{\it true }}
+% \newcommand{\false}{{\it false }}
+% \newcommand{\implied}{\Longleftarrow}
+% \newcommand{\vDashnd}{\ensuremath{\vDash_{ND}}}
+% \newcommand{\vDashst}{\ensuremath{\vDash_{ST}}}
+% \newcommand{\LeftRightarrow}{\ensuremath{\Lleftarrow\!\Rrightarrow}}
+
+
+% \newcommand{\truthone}[3]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{c|c}x & f \\ \hline 0 & #2 \\ 1 & #3 \\\end{tabular}\end{table}}
+% \newcommand{\truthtwo}[5]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{cc|c}x & y & f \\ \hline 0 & 0 & #2 \\ 0 & 1 & #3 \\ 1 & 0 & #4 \\ 1 & 1 & #5 \\\end{tabular}\end{table}}
+% \newcommand{\truththree}[9]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{ccc|c}x & y & z & f \\ \hline 0 & 0 & 0 & #2 \\ 0 & 0 & 1 & #3 \\ 0 & 1 & 0 & #4 \\ 0 & 1 & 1 & #5 \\ 1 & 0 & 0 & #6\\ 1 & 0 & 1 & #7\\ 1 & 1 & 0 & #8\\ 1 & 1 & 1 & #9\\\end{tabular}\end{table}}
+% \newcommand{\truththreen}[8]{\begin{table}[ht]\centering\begin{tabular}{ccc|c}x & y & z & f \\ \hline 0 & 0 & 0 & #1 \\ 0 & 0 & 1 & #2 \\ 0 & 1 & 0 & #3 \\ 0 & 1 & 1 & #4 \\ 1 & 0 & 0 & #5\\ 1 & 0 & 1 & #6\\ 1 & 1 & 0 & #7\\ 1 & 1 & 1 & #8\\\end{tabular}\end{table}}
+% \newcommand{\truth}[4]{\begin{table}[ht]\centering\begin{tabular}{cc|c}x & y & f \\ \hline 0 & 0 & #1 \\ 0 & 1 & #2 \\ 1 & 0 & #3 \\ 1 & 1 & #4 \\\end{tabular}\end{table}}
+% \newcommand{\kmaptwo}[4]{\begin{table}[ht]\centering\begin{tabular}{c|cc}& 0 & 1\\ \hline0 & #1 & #2\\1 & #3 & #4 \\\end{tabular}\end{table}}
+% \newcommand{\kmapthree}[8]{\begin{table}[ht]\centering\begin{tabular}{c|cccc}& 00 & 01 & 11 & 10 \\\hline 0 & #1 & #3 & #7 & #5 \\1 & #2 & #4 & #8 & #6 \\\end{tabular}\end{table}}
