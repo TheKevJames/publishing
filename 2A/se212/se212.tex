@@ -1,0 +1,683 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,parskip,ulem,custom}
+\usepackage[margin=.6in]{geometry}
+
+\begin{document}
+
+\title{SE 212 - Logic and Computation}
+\author{Kevin James}
+\date{\vspace{-2ex}Fall 2013}
+\maketitle\HRule
+
+\section*{Elements of a Logic}
+A logic consists of \define{syntax}{a format for inscribing the logic} \define{semantics}{the definition of validity within the logic} and \define{proof theories}{methods of determining validity}
+
+The syntax defines a "well-formed formula" (wff). The semantics tells us which of these wffs are true or valid. Valid formulas are given the symbol $\vdash$, and non-valid formulas are marked as $\not\vdash$. When we describe a formula as being proven by theory, we use "$\vDash$"; if this is a natural deduction, we use \vDashnd.
+
+Proof theories do mechanical manipulations on strings or symbols. It does not make use of the meanings of characters, but simply uses them as strings of characters. Semantics and proof theories are related by soundness and completeness.
+
+A proof theory is {\bf sound} if there is a way to prove it that ensures its validity, ie $\vDash\implies\vdash$. A proof theory is {\bf complete} if there is only a way to prove it if it is actually valid, e.g. $\vdash\implies\vDash$.
+
+\section*{Propositional Logic}
+Propositional Logic is also called {\it sentential} logic, i.e. the logic of sentences. We also refer to it as propositional calculus, sentential calculus, or boolean logic.
+
+\subsection*{Syntax}
+A formula in propositional logic consists of
+\begin{itemize}
+\item two constant symbols: true and false
+\item propositional letters: any single lower- or upper-case letters
+\item propositional connectives: $\neg, \land, \lor, \implies, \implied$ (in that order of operations)
+\item brackets: these always have the highest precedence
+\end{itemize}
+
+All binary logical connectives are right associative. Example: $a \land b \land c$ means $a \land (b \land c)$.
+
+With ands, the constants are conjuncts; with ors, they are disjuncts. Not that disjuncts are inclusive, and thus we must formulate exclusive ors by $(p \lor q) \land \neg (p \land q)$. By implication, we have the premise or antecedant or hypothesis leading to the consequent or conclusion. The contrapositive or $a \implies b$ is $\neg b \implies \neg a$.
+
+{\bf Prime propositions} are declarative sentences which can be either true or false. The primeness is based on the lack of connectives. Propositions with connectives are called {\bf compound propositions}. Sentences that are interogative (questions) or imperative (commands) are not propositions.
+
+Logic is concerned with the structure of an argument, particularly valid ones. We encode sentences in symbols to give us a better understanding of the structure. Avoid using $t$ or $f$, since those tend to confuse us with \true and \false .
+
+Our goal is to formalize all the details found in an English sentence while matching the form of the sentence as closely as possible. We do this by selecting the smallest statements without connectives about which we can can determine validity. Using propositional letters to stand for each of these sentences, we construct our statement by connecting them with connectives.
+
+\subsubsection*{George}
+"It is cold but not snowing" can by entered into George with
+
+\begin{verbatim}
+#u kevin
+
+#a 01
+
+#q 01a
+
+% it is cold but not snowing
+
+#check PROP
+
+c & !s
+
+% where
+% c means "it is cold"
+5 s means "it is snowing"
+\end{verbatim}
+
+\subsubsection*{Ambiguity}
+The English language is notorious for {\bf ambiguity}. When formalizing sentences, we must be sure to reduce the ambiguity as much as possible. The use of logical connectives, particularly, is often incorrect in English. For example, "and" in English is not always commutative and must be sometimes treated temporally.
+
+\subsection*{Semantics}
+Semantics are about giving our propositions meaning by relating words. They provide the interpretation of expressions in one world in terms of values in another world. The often act as a fucntion which converts between the two. The semantics define the limits of how a proof theory can transform a logical formula.
+
+The syntax of our logic is the {\bf domain} of the semantic function.
+
+Classical logic is two-valued: \true and \false are the only possibilities for truth values. These are not a part of the syntax of propositional logic. The {\bf range} of a logic is the set of its truth values.
+
+The semantics are described using \define{boolean valuations}{a function in propositional logic which maps from the set of formulas to the range} We can define these boolean valuations with truth tables. For example, we can map $\true \land \false$ to $\false$.
+
+The truth value of a formula is uniquely determined by the truth values of the prime propositions. When describing a boolean function, we must only describe the relation of truth values.
+
+For example: $(p \implies q) \land r$ where $v(p) = \true, v(q) = \false, v(r) = \false$ gives
+\begin{align*}
+v((p \implies q) \land r) &= v(p \implies q) \land v(r)\\
+                          &= (v(p) \implies v(q)) \land v(r)\\
+                          &= (\true \implies \false) \land \false\\
+                          &= \false \land \false\\
+                          &= \false
+\end{align*}
+
+We define a function as {\bf satisfiable} if there is some combination of input values which will make the outcome \true . If the formula is true for all possible input values, that formula is {\bf valid} and can be referred to as a {\bf tautology}. A tautology is written as $\vdash p \land \neg p$.
+
+A formula $p$ {\bf logically implies} another formula $q$ if and only if for all possible boolean value $v(p) \vdash v(q)$. This can be represented as a tautology with $\vdash p \implies q$. Note that we sometimes use $\Rrightarrow$
+
+We can also generalize this over a set of functions with $p_0, p_1, ... p_n \vdash q$.
+
+A formula is a {\bf contradiction} or {\bf falsehood} if it is false for all possible input values. If a formula is neither tautology nor contradiction, then it is a {\bf contingent formula}.
+
+Two formulas are {\bf logically equivalent} if they have the same truth values. For example $p \lor q \leftrightarrow q \lor p$. A {\bf material equivalence} uses the symbol $\Leftrightarrow$, which expresses the "if and only if" idea.
+
+Though any formula can be proven with truth tables, these can sometimes be ungainly. A more concise method of determining whether a formula is a tautology is to use a {\bf proof theory} (so long as the theory is sound).
+
+\section*{Proof Theories}
+\subsection*{Transformational Proof}
+{\bf Transformational Proof} is the act of using substitutions to prove a formula. For example
+\begin{align*}
+(p \land q) \land \neg q &\LeftRightarrow \false\\
+p \land (q \land \neg q) &\LeftRightarrow \false\\
+p \land \false &\LeftRightarrow \false\\
+\false &\LeftRightarrow \false
+\end{align*}
+
+Common transformations include commutativity, associativity, distributivity, contradiction, the law of the excluded middle, double negation, simplification, DeMorgan's law, contrapositives, equivalence, implications, and idempotents ($p \land p \implies p$).
+
+We implicitely use the \define{rule of substitution}{substituting equivalent formulas for sub-formulas} and the \define{rule of transistivity}{all lines are equivalent, not just the closest two}
+
+Examples:
+\begin{align*}
+\neg ( ( p \land q ) \implies p ) &\LeftRightarrow \false\\
+\neg ( \neg ( p \land q ) \lor p ) &\LeftRightarrow \false\\
+\neg ( \neg p \lor \neg q \lor p ) &\LeftRightarrow \false\\
+(p \land q) \land \neg p &\LeftRightarrow \false\\
+(p \land \neg p) \land q &\LeftRightarrow \false\\
+\false \land q &\LeftRightarrow \false\\
+\false &\LeftRightarrow \false\\\\
+x &\LeftRightarrow x \land (y \implies x)\\
+x &\LeftRightarrow x \land ( \neg y \lor x)\\
+x &\LeftRightarrow x\\\\
+\neg \true &\LeftRightarrow \false\\
+\neg (p \lor \neg p) &\LeftRightarrow \false\\
+\neg p \land p &\LeftRightarrow \false\\
+\false &\LeftRightarrow \false\\
+\end{align*}
+
+\subsection*{Natural Deduction}
+An argument is a collection of formulas beginning with a premise or multiple premises and ending with a conclusion which is justified by the remaining formulas.
+
+If the conclusion of an argument is completely justified by the premises, it is a {\bf deductive argument}. {\bf Inductive arguments} conclude more general knowledge from a small number of particular facts or observations.
+
+In this course, we will be studying deductive arguments. Later on, we will study mathematical induction.
+
+Natural deduction is a collection of rules (inference rules), each of which allws us to infer new formulas from given ones. It is a {\bf forward proof}, which begins from the premises and deduces new formulas which logically follow. We continue this until we have deduced the conclusion.
+
+An {\bf inference rule} is a primitive valid argument form. Each one enables the introduction or elimination of some logical connection.
+
+We use a horizontal line to divide our premises from our conclusion, and write the name of the rule used on each line to the right of the preceeding line. These names may reference previous lines (including premises) by line number. The order of our premises does not matter.
+
+\section*{Normal Forms}
+A literal is a proposition letter or its negation. A formula is in {\bf conjunctive normal form} if it is a conjunction of clauses, where a clause is a disjunction of literals or a single literal. A formula is in {\bf disjunctive normal form} if it is a disjunction of clauses, where a clause is a conjunction of literals or a single literal.
+
+There are no repeated literals in a clause and no clause contains \true or \false. No two clauses should contain the same literals. Note that \true and \false by themselves are in CNF and DNF.
+
+Every formula has an equivalent formula in CNF and DNF.
+
+We can convert our formula to CNF with the following methodology:
+\begin{enumerate}
+\item Remove all $\rightarrow$ and $\implies$ using implication and equivalence laws
+\item Use the negation law or DeMorgan's theorem to remove any negated compound subformulas
+\item Use distributivity to reduce the scope
+\item Simplify so there are no repeated literals in a clause and no clause contains \true or \false
+\end{enumerate}
+
+\section*{Subproofs}
+Some natural deduction rules use {\bf subordinate proofs}, which are enclosed by \{ and \}, are indented, and involve and assumption and the conclusion it leads to. Once we've proven a subproof, we refer to it as {\bf closed}. We must close all subproofs to complete the proof.
+
+The {\bf active} formulas at any stage of a proof are those which do NOT occur in a subproof.
+
+
+
+\section*{Predicate Logic}
+Predicate logic is a method of formalizing an English sentence. A sentence expressed in predicate logic looks like the following:
+
+"Rich actors collect some valuables" becomes $\forall x \cdot rich(x) \land actor(x) \implies \exists y \cdot collects(x,y) \land valuable(y)$. "Not everyone in Louisiana speaks French, but everyone in Louisiana knows someone in Louisiana who speaks French" becomes $\neg (\forall x \cdot inL(x) \implies speaks(x, French)) \land (\forall c \cdot inL(x) \implies \exists y \cdot knows(x,y) \land inL(speaks(y, French)))$.
+
+\subsection*{Types}
+A type is a set of objects describing the possible values of a variable. We assume types to be non-empty. Any unary predicates are interchangeable with the type of the object they describe.
+
+\subsection*{Quantifiers}
+For a {\bf universally} qualified variable, the formula must be true for all sbstituions of an object int he domain for the quantified variable. For an {\bf existentially} qualified variable, the formula must be true for some substitution.
+
+We can eliminate $\forall$ by simply selecting a possiblity, i.e. $\forall x \implies x_g$. The opposite of this would be to introduce an $\exists$, i.e. $x_g \implies \exists x$.
+
+We can also introduce $\forall$ terms; informally: if a formula is true for an arbitrary value, it is true for all values. For example:
+\begin{verbatim}
+for every g {
+  ...
+  ...
+  P[g/x]
+}
+A x * P
+\end{verbatim}
+
+We can similarly eliminate $\exists$ terms with
+\begin{verbatim}
+E x * P
+for some u P[u/x] {
+  ...
+  q
+}
+q
+\end{verbatim}
+
+\subsection*{Interpretations}
+Interpretations are sets of rules our equation must follow. An interpretation must contain a {\bf domain} ($x \isin \{0, 1, 2 \cdots\}$) and a
+
+The {\bf environment} is the mapping between variables and objects within the domain.
+
+For example: $\forall d \isin D : I[x => \text{something}(x,y)], e[x \rightsquigarrow d]$.
+
+\subsection*{Terms}
+A predicate formula {\bf satisfies} a logic if it is true in that interpretation and environment. If there exists any interpretation and environment for which it is true, that formula is {\bf satisfiable}. It is a {\bf tautology} (valid) if every environment and interpretation satisfies the formula. It is a {\bf contradiction} if it is not satisfiable in any interpretation or environment.
+
+A logic is {\bf closed} if it contains no free occurances of a variable. In this case, environments have no effect (e.g. it is satisfiable dependant only on the interpretatation, not also the environment).
+
+Predicate logic is {\bf valid} if there exists some interpretation with both valid premises and conclusions. It is {\bf invalid} if and only if there exists some interpretation such that the premises are true but a conclusion is false.
+
+\subsection*{Types of Variables}
+A {\bf genuine variable} is a free variable such that the universal quantification of it yields a true formula. For example: $\forall x \cdot x + x = 2x$. We tend to represent these with $x_g, y_g$, etc.
+
+A {\bf universal variable} requires an existential quanitification to be rendered true; it represents a specific but unknown value. Example: $\exists x \cdot x + 1 = 2$. We represent these as $x_u, y_u$, etc.
+
+\section*{Induction}
+There are two branches in the philosophical study of logic:
+\begin{itemize}
+\item {\bf Deduction} is showing a conclusion follows from the stated premises using rules of inference.
+\item {\bf Philosophical induction} is the process of deriving general principles from particular observations.
+\item {\bf Mathematical induction} deals with generalizations, but does not allow exceptions since we are dealing with an ordered domain.
+\end{itemize}
+
+We have Peano's axioms of {\bf arithmetic}:
+\begin{enumerate}
+\item $\forall n \cdot \neg (suc(n) = 0)$
+\item $\forall x, y \cdot (suc(x) == suc(y)) \implies (x == y)$
+\item $\forall m \cdot m + 0 == m$, $\forall m \cdot 0 + m == m$
+\item $\forall m,n \cdot m + suc(n) == suc(m + n)$
+\item $\forall n \cdot n \times 0 == 0$
+\item $\forall m,n \cdot m \times suc(n) == m \times n + m$
+\item $(P(0) \land (\forall k \cdot P(k) \implies P(suc(k)))) \implies \forall n \cdot P(n)$
+\end{enumerate}
+
+Note that the seventh axiom is the basis for mathematical induction.
+
+\section*{Set Theory}
+A set is a collection of elements or numbers. They have no order and may or may not be infinite. All elements are distinct, i.e. no set contains more than one of the same element.
+
+We define $x$ as being a member of $S$ with $x \in S$ and its converse with $x \not\in S$. Note that $x \not\in S \leftrightarrow \neg(x \in S)$.
+
+In addition to defining exactly which members are in a set, we can use set construction notation as follows \[ S = \{ 2x \cdot x : \mathbb{N} \suchthat (5 < x) \land (x < 10) \} \] for the set of all even numbers between five and ten.
+
+We can refer to the size of set $A$ as $\#A$ or $|A|$, where the size is equal to the number of elements in $A$. A {\bf singleton set} is any set with a size of one.
+
+\subsection*{Set Comprehension}
+We have two axioms for dealing with set comprehension:
+\begin{itemize}
+\item $x \in \{ y : S \suchthat P(y) \} \iff x \in S \land P(x)$
+\item $x \in \{ f(y) \cdot y : S \suchthat P(y) \} \iff \exists y \cdot y \in S \land P(y) \land x == f(y)$
+\end{itemize}
+
+\subsection*{Special Sets}
+The {\bf empty set}, which contains no elements, is written as $\emptyset$. This can be defined as $\forall x \cdot \neg(x \in \emptyset)$.
+
+The {\bf universal set} contains all objects of concern (e.g. all countries in the world, all people...). This set is denoted $U$.
+
+The {\bf power set} of $A$ is the set of all sets such that $\mathbb{P}A = \{ B \suchthat B \subseteq A \}$. For any finite set, $\#\mathbb{P}A = 2^{\#A}$. We have the following axiom for power sets: $S \in \mathbb{P} Q \iff (\forall x \cdot x \in S \implies x \in Q)$.
+
+\subsection*{Set Comparisons}
+Sets are equal if and only if they contain exactly the same elements. The corresponding axiom is \[ A == B \iff (\forall x \cdot x \in A \iff x \in B) \]
+
+We define $A$ to be a subset of $B$ if all elements of $A$ are contained in $B$. Note that this includes the case where $A == B$. The subset axiom is $A \subseteq B \iff (\forall x \cdot x \in A \implies x \in B)$.
+
+If $A$ is a subset of $B$ and the two sets are not equal, we refer to $A$ as a {\bf proper subset} of $B$. $A \subset B \iff A \subseteq B \land \neg(A == B)$.
+
+\subsection*{Derived Laws}
+We can derive a few laws in set theory:
+\begin{itemize}
+\item The empty set is a subset of every set
+\begin{description}
+\item $\vdash \emptyset \subseteq A$
+\end{description}
+\item Every set is a subset of itself
+\begin{description}
+\item $\vdash A \subseteq A$
+\end{description}
+\item Subsets are transitive
+\begin{description}
+\item $\vdash A \subseteq B \land B \subseteq C \implies A \subseteq C$
+\end{description}
+\item Equal sets can be shown as subsets
+\begin{description}
+\item $\vdash A == B \iff A \subseteq B \land B \subseteq A$
+\end{description}
+\end{itemize}
+
+\subsection*{Set Functions}
+We can perform {\bf unions} and {\bf intersections} of sets as follows:
+\begin{itemize}
+\item Set Union: $A \cup B = \{ x \suchthat x \in A \lor x \in B \}$
+\item Set Intersection: $A \cap B = \{ x \suchthat x \in A \land x \in B \}$.
+\end{itemize}
+
+Two sets $A$ and $B$ are {\bf disjoint} if their intersection is empty (i.e. $A \cap B = \emptyset$).
+
+Note: $\#(A \cup B) = \#A + \#B − \#(A \cap B)$
+
+We can also take the {\bf absolute complement} of a set with $A' = \{ x \suchthat x \in U \land \neg(x \in A) \}$ and the {\bf relative complement}, or set difference, with $A - B = \{ x \suchthat x \in A \land x \not\in B \}$.
+
+\subsubsection*{Derived Laws}
+These laws can be derived from our axioms:
+\begin{itemize}
+\item $A \cap B = B \cap A$
+\item $A \cup B = B \cup A$
+\item $A \cap (B \cap C) = (A \cap B) \cap C$
+\item $A \cup (B \cup C) = (A \cup B) \cup C$
+\item $(A \cap B) \cup C = (A \cup C) \cap (B \cup C)$
+\item $(A \cup B) \cap C = (A \cap C) \cup (B \cap C)$
+\item $(A \cap B)' = A' \cup B'$
+\item $(A \cup B)' = A' \cap B'$
+\item $A \cap \emptyset = \emptyset$
+\item $A \cup \emptyset = \emptyset$
+\item $A - \emptyset = A$
+\item $\emptyset - A = \emptyset$
+\item $\emptyset' = U$
+\item $A \cap U = A$
+\item $A \cup U = U$
+\item $A - U = \emptyset$
+\item $U - A = A'$
+\item $U' = \emptyset$
+\item $A \cap B \subseteq A$
+\item $A \subseteq A \cup B$
+\end{itemize}
+
+\section*{Tuples}
+A {\bf tuple} is an object containing two or more components. For example, $(Ferrari, Red, 1962)$ is a tuple containing a make, color, and year of a car. We user the terms pair and triple as shorthand for 2- and 3-item tuples. Note that the order of element in a tuple is important.
+
+We can also use {\bf maplets} to describe pairs, i.e. $(a,b) \implies a \mapsto b$.
+
+\subsection*{Cartesian Product}
+The {\bf Cartesian Product} of two sets $B$ and $C$ is written as $B \times C$. It is the set of all pairs of elements such that the first element in the pair belongs to $B$ and the second belongs to $C$. \[ B \times C = \{ (b,c) \suchthat b \in B \land c \in C \} \]
+
+\subsection*{Relations}
+Relations are subsets of the Cartesian Products of two or more sets such that it is a set of tuples, or $R \subseteq A \times B$. We can also state that $R$ is a relation from set $A$ to $B$ as $R : A \leftrightarrow B$. A set of pairs is a {\bf binary relation}.
+
+For example, for some set $People = \{ p_1, p_2, \dots p_n \}$ and $Cars = \{ c_1, c_2, \dots c_n \}$, we may have $own: People \times Cars = \{ (p_1, c_2), (p_4, c_1), (p_8, c_5) \}$ where the relation $own$ shows which people own which cars.
+
+For a binary relation, the first item is the {\bf domain} and the second is the {\bf range}. For relation $R : D \leftrightarrow B$, we have $dom\ R = \{ x : D \suchthat \exists y : B \cdot (x,y) \in R \}$ and $ran\ R = \{ y : B \suchthat \exists x : D \cdot (x,y) \in R \}$.
+
+We define the {\bf inverse} of $R$ as $R^\ttilde = \{ (b,a) \suchthat (a,b) \in R) \}$ and the {\bf id} as $id\ D = \{ (a,a) \suchthat a \in D \}$. The {\bf relative complement} of two relations $R$ and $S$ is $S \cdot R == R; S == \{ (a,c) \suchthat \exists b \cdot (a,b) \in R \land (b,c) \in S \}$.
+
+We define {\bf iteration} over a relation as $R^n = R; R^{n-1}$, where $R^0 = id\ A$. Iterations obey the following rules: $R^{m+n} == R^m; R^n$ and $R^{mn} == (R^m)^n$.
+
+The {\bf relative image} of $S$ through $R$ is $R(\abs{S}) == \{ y : B \suchthat \exists x : D \cdot (x,y) \in R \land x \in S \}$. Basically, the relative image is the set of elements that are the second element of any pair in $R$ who's first element is in $S$.
+
+We can use the following rules when dealing with relative images: $R(\abs{D \cup B}) == R(\abs{D}) \cup R(\abs{B})$, $R(\abs{D \cap B}) \subseteq R(\abs{D}) \cap R(\abs{B})$, and $R(\abs{dom\ R}) == ran\ R$.
+
+\subsubsection*{Derived Laws}
+For two relations $S : D \leftrightarrow B$ and $T : D \leftrightarrow B$, we have
+\begin{itemize}
+\item $dom\ S \subseteq D$
+\item $dom\ (S \cup T) == (dom\ S) \cup (dom\ T)$
+\item $dom\ (S \cap T) \subseteq (dom\ S) \cap (dom\ T)$
+\item $ran\ S \subseteq B$
+\item $ran\ (S \cup T) == (ran\ S) \cup (ran\ T)$
+\item $ran\ (S \cap T) \subseteq (ran\ S) \cap (ran\ T)$
+\end{itemize}
+
+For $R : D \leftrightarrow B, S : B \leftrightarrow C, T : C \leftrightarrow D$, we can derive
+\begin{itemize}
+\item $R; (S; T) == (R: S); T$
+\item $(R; S)^\ttilde == S^\ttilde; R^\ttilde$
+\item $id\ (dom\ R) \subseteq R; R^\ttilde$
+\item $id\ (ran\ R) \subseteq R^\ttilde; R$
+\item $id\ A; R == R$
+\item $R; id\ B == R$
+\end{itemize}
+
+\subsection*{Restrictions}
+We can use the following functions to interact between our relations and our tuples:
+\begin{itemize}
+\item Domain restriction: $S \vartriangleleft R == \{ (a,b) \cdot a : D, b : B \suchthat (a,b) \in R \land a \in S \}$
+\item Domain co-restriction / subtraction: $S \ \text{\sout{$\vartriangleleft$}}\  R == \{ (a,b) \cdot a : D, b : B \suchthat (a,b) \in R \land \neg(a \in S) \}$
+\item Range restriction: $R \vartriangleright S == \{ (a,b) \cdot a : D, b : B \suchthat (a,b) \in R \land b \in S \}$
+\item Range co-restriction / subtraction: $R \ \text{\sout{$\vartriangleright$}}\  S == \{ (a,b) \cdot a : D, b : B \suchthat (a,b) \in R \land \neg(b \in S) \}$
+\end{itemize}
+where we retain only the pairs whos first/second element is/is not part of a set.
+
+We can also override the values in our relation with $R \oplus S == ((dom\ S) \ \text{\sout{$\vartriangleleft$}}\ R) \cup S$. This will replace any pairs in $R$ with any pairs in $S$ of the same domain. Note that $R \oplus R == R$ and $R \oplus (S \oplus T) == (R \oplus S) \oplus T$.
+
+We can derive the following laws for domain restrictions:
+\begin{itemize}
+\item $D \vartriangleleft (B \vartriangleleft R) == (D \cap B) \vartriangleleft R$
+\item $D\ \text{\sout{$\vartriangleleft$}}\ (B\ \text{\sout{$\vartriangleleft$}}\ R) == (D \cup B)\ \text{\sout{$\vartriangleleft$}}\ R$
+\item $(D \vartriangleleft R) \cup (D\ \text{\sout{$\vartriangleleft$}}\ R) == R$
+\end{itemize}
+
+\subsection*{Functions}
+Elements of the system can also be elements of a compound type, denoted by arrows with various lines to explain the function: a standard arrow is drawn. With a tail ($\injective$), this becomes injective. With a second head ($\surjective$), it is surjective. With both of these (i.e. a tail and a second head $\bijective$), it becomes bijective. With a vertical strike-through ($\nontotal$), it becomes non-total. Of course, any of these may be used in concert.
+
+A function must have a single range value for every domain value (i.e. a one-to-one mapping). Any elements in the origin set which do not have a mapping are said to be undefined (for that element).
+
+A set of functions is called a {\bf function space}.
+
+The set of all {\bf partial functions} (all functions are partial functions) between $A$ and $B$ is $A \nontotal B == \{ f : A \function B \suchthat \forall x : A \cdot \forall y,z : B \cdot (x,y) \in f \land (x,z) \in f \implies y == z \}$.
+
+A {\bf total function} from sets $A$ to $B$ is defined for all elements in $A$. This is a subset of partial functions from $A$ to $B$. $A \function B == \{ A\ \nontotal B \suchthat dom\ f == A \}$.
+
+A function $f$ is {\bf surjective} if every element in $B$ is matched with some element in $A$. We have $A \surjective B \iff \forall b : B \cdot \exists a : A \cdot f(a) == b$. Note that for a function ro be surjective, there must be at least as many elements in $A$ as in $B$.
+
+We have the {\bf partial surjective} $A \nontotalsurjective B == \{ f : A \nontotal B \suchthat ran\ f == B \}$ and the {\bf total surjective} $A \surjective B == \{ f : A \nontotalsurjective B \suchthat dom\ f == A \} == \{ f : A \function B \suchthat ran\ f == B \}$.
+
+A function is {\bf injective} if its inverse is a function such that every element of $B$ appears at most once as the second component of any ordered pair in $f$. If $f$ is injective, so is $f^\ttilde$.
+
+We have the {\bf partial injective} $A \nontotalinjective\ B == \{ f : A \nontotal B \suchthat f^\ttilde \in B \nontotal A \}$ and the {\bf total injective} $A \injective B == \{ f : A \nontotalinjective B \suchthat dom\ f == A \} == \{ f : A \function B \suchthat f^\ttilde \in B \nontotal A \}$.
+
+A function is {\bf bijective} if it is both surjective and injective such that every element from $B$ appears exactly once as the second componenet of an ordered pair in $f$.
+
+We have the {\bf partial bijective}
+\begin{align*}
+A \nontotalbijective\ B &== \{ f : A \nontotalinjective\ B \suchthat ran\ f == B \}\\
+                        &== \{ f : A \nontotalsurjective B \suchthat f^\ttilde \in B\ \nontotal A \}\\
+                        &== (A \nontotalinjective\ B) \cap (A\ \nontotalsurjective B)
+\end{align*}
+and the {\bf total bijective}
+\begin{align*}
+A \bijective B &== \{ f : A \injective B \suchthat ran\ f == B \}\\
+               &== \{ f : A \surjective B \suchthat f^\ttilde \in B\ \nontotal A \}\\
+               &== (A \injective B) \cap (A \surjective B)
+\end{align*}
+
+When the domain of a function is infinite, we can't write out all the pairs to describe the function, so we use set comprehension. Example: $double\ == \{ (x,2x) \cdot x \in \mathbb{N} \}$.
+
+{\bf Function composition} is the sequential application of multiple functions to a value. We write this as $(f; g)(x) == g(f(x))$ provided that $x \in dom\ f \land ran\ f \in dom\ g$.
+
+\begin{itemize}
+\item If $f$ is a function $(x,y)$, $y = f(x)$
+\item If $f$ is an injective function $(x,y)$, $x = f^\ttilde(y)$
+\item If $R$ is a relation $X \leftrightarrow Y$, $y = R(|{x}|)$
+\item If $R$ is a relation $X \leftrightarrow Y$, $x = R^\ttilde(|{y}|) = \text{dom}(R \vartriangleright {y})$
+\end{itemize}
+
+\section*{Formal Specification}
+{\bf Formal Specification} means writing the system to built in a language such that each formula is unambiguous (i.e. has a single distinct meaning). We describe what a system should do, for all possible input cases, but don't worry about how it is to be implemented.
+
+Since systems can be so large and complex so as to make set theory and predicate logic alone unable to provide enough structure to define every aspect of them, we need a formal language which can be used to specify changes over time. The {\bf Z Formal Specification Language} is one such tool.
+
+In Z, we think of the execution of a system as a progression of system states, where each state is a mapping between variables / state elements and values. In a Z system specification, we must define the following (in order):
+\begin{enumerate}
+\item Types of data manipulated by the system
+\item Constants and their types
+\item System elements (states), their types, and invariants about the relationship between said elements
+\item Initial system state
+\item System operations
+\begin{itemize}
+\item System operations which change the system state or elements ($\Delta$)
+\item System operations which report the system state ($\Xi$)
+\end{itemize}
+\end{enumerate}
+
+We use {\bf Z Schemas} for the latter three, sometimes four, of these.
+
+A schema is a way of grouping information. So, if we have
+\begin{verbatim}
+A = 1
+B = 2
+C = 3
+-----
+A < B
+B < C
+\end{verbatim}
+we could say that the declarations (the {\bf signature}) above the line is a schema where we introduce elements and the {\bf predicate} part below the line contains well-formed formulas which are implicitely joined together.
+
+In the system state schema, the predicate part lists invariants, which must be true in all states.
+
+We can reference schema by name and include them later simply by mentioning them. i.e.
+\begin{verbatim}
+-- Declare ----
+- X is a number
+- Y is a number
+---------------
+- X < Y
+---------------
+
+-- Initial ----
+- Declare
+---------------
+- X == 0
+- Y == 5
+---------------
+\end{verbatim}
+
+To describe how a schema changes, we must refer to both the present and future values of an element. We do so with $X$ and $X'$. We can refer to the value of the next state with $CurrentState'$. We can refer to both cases with {\bf delta schemas}, e.g. we can replace
+\begin{verbatim}
+Schema2
+Schema2'
+\end{verbatim}
+with \code{$\Delta$ Schema2}
+
+We also use deltas in the system state reference in the signature for any operation schemas which change the system state, e.g.
+\begin{verbatim}
+-- MySystem ----
+- X is a number
+- Y is a number
+----------------
+- X < Y
+----------------
+
+-- Inc ----------
+- Delta MySystem
+-----------------
+- Xprime == X + 1
+- Yprime == Y + 1
+-----------------
+\end{verbatim}
+
+We use $?$ and $!$ for input and output, e.g. $p?$ is an input and $q!$ is an output.
+
+Operations tend to have both pre- and post-conditions. So a non-negative subtraction schema may look like
+\begin{verbatim}
+-- Subtract ------
+- Delta MySystem
+- i? is a number
+------------------
+- i? <= X
+- Xprime == X - i?
+- Yprime == Y
+------------------
+\end{verbatim}
+where we have the pre-condition \code{i?\ <= X} and the other two predicate lines are post-conditions.
+
+We can refer to several types in Z:
+\begin{itemize}
+\item Built-in types ($\mathbb{Z}, \mathbb{R}$)
+\item Generic types ({\it Flight}, {\it Location})
+\begin{description}
+\item  Note: we do not need to know the implementation of the object, simply that it is a universal set.
+\end{description}
+\item Free (enumerated) types (\code{Colors ::== Red | Blue | Green})
+\item Compound types
+\end{itemize}
+
+For example, if we have type {\it Books} of which there is some pre-defined parameter which serves as the maximum number, we may define
+\begin{verbatim}
+[Books]
+MaxBooks : N
+---
+#Books <= MaxBooks
+\end{verbatim}
+
+Exception handlers use $\Xi$ specifications. For example, to ensure one is at least 18 years old, we may have
+\begin{verbatim}
+-- TooYoung --
+Xi Vars
+person? : People
+error : Errors, Errors ::|| TooYoung
+--
+Age(person?) < 18
+error! = TooYoung
+--
+\end{verbatim}
+
+\section*{Program Correctness}
+The goal of program correctness is to show that a program has the correct behaviour. A specification describes the desired output for admissible inputs: correctness, then, is relative to this specification.
+
+We have proof rules which can be used to prove that a program satisfies its specification.
+
+Program testing can be used to show the presence of bugs, but {\it never to show their absence}. At best, verification helps reduce bugs in code and reduces debugging and maintenance costs. Remember, though, that we are only checking that the program obeys the specification, not that the specification is accurate.
+
+{\bf Formal Verification} describes the program specification in some logic, then uses a proof procedure to prove that the program satisfies its specification. Formal verification allows us to check programs for all possible inputs.
+
+We can check {\bf partial correctness} by verifying that the program {\it does not terminate with invalid post-conditions}. Note that this does not mean the program must terminate.
+
+To check {\bf total correctness}, however, we must ensure termination occurs as well.
+
+We may sometimes have the need for logical variables, i.e. variables which do not exist in the program itself. For example:
+\begin{verbatim}
+x = x0; x > 0
+y^2 < x0
+\end{verbatim}
+
+\subsection*{Proving Correctness}
+A specification for a program consists of a pre-condition and a post-condition. Both are well-formed formulas which describe the system state. For example:
+\begin{verbatim}
+  @ x == x0 && x > 0 @
+double(x);
+  @ x == 2 * x0 @
+\end{verbatim}
+Note that it is possible for us to have no pre-conditions, in which case we simply annotate our code with \code{@ true @}.
+
+We prove programs by including assertions between virtually every command such that the assertions form a logical link between the pre-conditions and the post-conditions. For example:
+\begin{verbatim}
+  @ y == y0 & x == x0 @
+R := x;
+  @ y == y0 & R == x0 @ Asn
+x := y;
+  @ x == y0 & R == x0 @ Asn
+y = R;
+  @ x == y0 & y == x0 @ Asn
+\end{verbatim}
+
+The notation \code{Asn} is used to refer to an annotation which is simply the previous proof line given a new assignment for some variable. We can use any natural deduction law in the same way, though any proof requiring more than a single application of a simple rule must be proven separately. For example:
+
+\begin{verbatim}
+  @ x >= 5 & y >= 0 @
+  @ x + y >= 5 @ Implied(VC 1)
+z := x;
+  @ z + y >= 5 @ Asn
+z := z + y;
+  @ z >= 5 @ Asn
+v := z;
+  @ v >= 5 @ Asn
+  @ v >= 3 @ arith(common)
+
+VC 1
+x >= 5 & y >= 0 |= x + y >= 5
+1) x >= 5 & y >= 0 premise
+2) y >= 0 and_e on 1
+3) x >= 5 and_e on 1
+4) x + y >= 5 + 0 by arith(common) on 2,3
+5) x + y >= 5 by arith(common) on 4
+\end{verbatim}
+
+We can {\bf strengthen} or {\bf weaken} our proof by either assuming more than we need (pre-condition strengthening) or concluding less than is true (post-condition weakening).
+
+\subsection*{Conditionals}
+When we come across a conditional, we must prove the conclusion for every branch. For example:
+\begin{verbatim}
+  @ true @
+if (max < A) then {
+    @ max < A @ If-Then
+    @ A >= A @ Implied(arith)
+  max := A;
+    @ max >= A @ Asn
+}
+  @ max >= A @ If-Then (VC 1)
+
+VC 1: !(max < A) |= max >= A
+\end{verbatim}
+Note that we must prove that we conclude \code{max >= A} both inside and outside of the conditional (i.e. by negating the if-test).
+
+This is shown more explicitely with an if-then-else statement:
+\begin{verbatim}
+  @ P @
+if B then {
+    @ P & B @ If-Then-Else
+  C1;
+    @ Q @
+} else {
+    @ P & !B @ If-Then-Else
+  C2;
+    @ Q @
+}
+  @ Q @ If-Then-Else
+\end{verbatim}
+
+\subsection*{Loops}
+A loop (such as a \code{while} statement) has an {\bf invariant} and a {\bf guard}. The invariant is some w.f.f. which is true both at the beginning and end of each loop iteration, and the guard is the looping condition. By partial \code{while} analysis, we can see that at the end of the loop the invariant and the opposite of the guard is true. For example:
+\begin{verbatim}
+  @ I @
+while G do {
+    @ I & G @ Invariant & Guard
+  C;
+    @ I @
+}
+  @ I & !G @ Partial While
+\end{verbatim}
+
+\subsection*{Arrays}
+Arrays are a mapping of indices to values. We can access the $i$th member of array $A$ with $A[i]$. When an array appears on the right-hand-side of an equation, we can simply treat it as we have other variables. {\bf Array assignment}, though, must be handled differently.
+
+We use relational overriding to show this relationship:
+\begin{verbatim}
+  @ (B (+) {k,14})[4] == c @
+B[k] = 14;
+  @ B[4] == c @
+\end{verbatim}
+or more expansively:
+\begin{verbatim}
+  @ ((A (+) {j, c+1}) (+) {k, b-1})[5] == 6 @
+A[j] = c+1;
+  @ (A (+) {k, b-1})[5] == 6 @
+A[k] = b-1;
+  @ A[5] == 6 @
+\end{verbatim}
+
+\subsection*{Proving Incorrectness}
+To prove incorrectness, we must provide a counter-example. Simply trace the program to determine a set of initial and final values for each variable, then prove that though the inital variables satisfy the pre-condition, the final variables do not satisfy the post-condition.
+
+\end{document}
