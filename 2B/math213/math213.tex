@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,parskip,custom}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\title{MATH 213 --- Advanced Mathematics for Software Engineers}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2014}
+\maketitle\HRule
+
+\section{Differential Equations}
+{\bf Differential equations} are equations involving derivatives with respect to some independant variable. For example, Newton's Law states \[ M \ddot x = F \] or \[ M \dderiv{x}{t} = F \]
+
+In the {\bf classical approach}, we suppose $f$ is given as a function of time, and we solve for the dependant variable with respect to the independant one. For example, \[ F(x) \function x(t) \]
+
+The {\bf systems approach} has less of an emphasis on the response to a specific input and deals more with the overall relationships between the function and between the individual dependant variables.
+
+\subsection{Examples}
+The population of an organism (given abundant resources) or the growth of an economy (if the economy were to grow at a constant percentage rate) can be modelled as:
+\begin{align*}
+\dot x &= ax\\
+\frac{\dd x}{x} &= a \dd t\\
+\int \frac{\dd x}{x} &= \int a \dd t\\
+\ln x + C_1 &= at + C_2\\
+\ln x &= at + C_3\\
+x(t) &= e^{at + C_3}\\
+x(t) &= e^{at} \times e^{C_3}\\
+x(t) &= C_4 \times e^{at}\\
+x(t) &= x(0) \times e^{at}
+\end{align*}
+where the value of $x(0)$ is called the {\bf initial condition}.
+
+Given that this function assumes that the population growth is not limited by resources, etc., it is not very useful in the real world. More likely, we would find for large populations a limit of some sort must be included. For example, the {\bf logistic equation} is modelled as:
+\begin{align*}
+\dot x &= ax - bx^2\\
+\frac{\dd x}{ax - bx^2} &= \dd t\\
+\int \frac{\dd x}{ax - bx^2} &= \int \dd t\\
+\int \frac{\dd x}{x(a - bx)} &= \int \dd t\\
+\int \dd x (\frac{A}{x} + \frac{B}{a - bx}) &= \int \dd t\\
+\int \dd x (\frac{1}{ax} + \frac{B}{a - bx}) &= \int \dd t\\
+\int \dd x (\frac{1}{ax} + \frac{b}{a(a - bx)}) &= \int \dd t\\
+\int \frac{\dd x}{ax} + \int \frac{b \dd x}{a(a - bx)} &= \int \dd t\\
+\frac{\ln x}{a} + \frac{b}{a}\frac{-1}{b}\ln(a - bx) &= t + C_0\\
+\frac{1}{a} \bigg(\ln\frac{x}{a - bx}\bigg) &= t + C_0\\
+\frac{x}{a - bx} &= e^{at + aC_0}\\
+x &= C_1 e^{at} (a - bx)\\
+x &= \frac{aC_1 e^{at}}{1 + bC_1e^{at}}\\
+x &= \frac{a}{b} \bigg(\frac{1}{1 + C_2 e^{-at}}\bigg)
+\end{align*}
+Where $C_2 = \frac{1}{bC_1}$. In this case, the population will ``level out'' at $ax = bx^2$ (i.e.\ have an asymptote). The solution to this {\bf DE (differential equation)} is called the {\bf logistic curve}.
+
+
+
+\end{document}
