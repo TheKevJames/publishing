@@ -1,0 +1,737 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,parskip,custom}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\title{MATH 117 - Calculus 1 for Engineers}
+\author{Kevin Carruthers}
+\date{\vspace{-2ex}Fall 2012}
+\maketitle\HRule
+
+\section*{Functions}
+A {\bf function} is a rule which assigns a single output to a variable given at least one input variable. In this class we deal only with a single input x and write y = f(x)
+\begin{itemize}
+\item x is the indepenant variable
+\item y is the dependant variable
+\end{itemize}
+
+A {\bf domain} is the set of allowable values for the independant variable (x)
+
+A {\bf range} is the set of possible values for the dependant variable (y)
+
+\subsection*{Function Composition}
+If $y = f(x)$ and $x = g(t)$ then we can view y as a function of t, $y = f(g(t))$, which we sometimes write as $y = f \circ g(t)$
+
+For $f(x) = 1 - \sin{x}, g(x) = x^3$,
+\begin{align*}
+f \circ g(x) &= f(x^3) = 1 - \sin{x^3}\\
+g \circ f(x) &= g(1-\sin{x}) = (1-\sin{x})^3
+\end{align*}
+
+\subsection*{Domain of Composite Functions}
+For $f\circ g(x)$, \[R = \{y\suchthat y = f\circ g(x),\ x\ \epsilon\ D_g\}\] or \[R = \{y\suchthat y = f(x),\ x\ \epsilon\ R_g\}\]
+
+\subsection*{Inverse Functions}
+We say $g$ is the inverse of $f$ if \[ g(f(x)) = x \] for all $x$ in the domain of $f$. If $g(f(x)) = x$, then \[ R_f \equiv D_g \]
+
+Typically, the inverse of f(x) is written as \[ g = f^{-1}(x) \] Note that this does not mean the reciprocal: \[ \frac{1}{f(x)} = (f(x))^{-1} \]
+
+\subsection*{Finding Inverses}
+In simple cases, we just solve $y = f(x)$ for $x$.
+\begin{align*}
+\intertext{Example: if $f(x) = \frac{x-1}{2}$, find the inverse}
+y &= \frac{x-1}{2}\\
+2y &= x-1\\
+2y + 1 &= x\\
+f^{-1}(y) &= 2y + 1
+\end{align*}
+
+\subsubsection*{Does $f^{-1}(x)$ always exist?}
+No, $f(x)$ only has an inverse if it is one-to-one, ie. if its graph passes the horizontal line test. Mathematically, if $f(x_0) = f(x_1),$ $x_0 = x_1$
+
+We can restrict the domain so a non-invertible function has an inverse:
+\begin{center}
+$f(x) = x^2$ on $[0,\infty )$ has inverse $f^{-1}(x) = \sqrt{x}$\\
+$f(x) = x^2$ on $(-\infty ,0]$ has inverse $f^{-1}(x) = -\sqrt{x}$
+\end{center}
+
+\subsection*{Even and Odd Periodic Functions}
+A function is {\bf even} if $f(-x) = f(x)$, this means its graph is symmetric about the y-axis.
+
+A function is {\bf odd} if $f(-x) = -f(x)$, this means its graph is symmetric about the origin (ie. reflected in the x- and y-axes).
+
+Most functions are neither even nor odd, but we can transform any function into the sum of even and odd parts.
+\begin{align*}
+f(x) &= f(x) + \frac{f(-x)}{2} - \frac{f(-x)}{2}\\
+&= \frac{f(x)}{2} + \frac{f(x)}{2} + \frac{f(-x)}{2} - \frac{f(-x)}{2}\\
+&= \frac{f(x) + f(-x)}{2} + \frac{f(x) - f(-x)}{2}\\
+&= g(x) + h(x)
+\end{align*}
+where g(x) is an even function and h(x) is an odd function.
+
+This idea is used to form two useful functions.
+\begin{align*}
+e^x &= \frac{e^x + e^{-x}}{2} + \frac{e^x-e^{-x}}{2}\\
+&= \cosh{x} + \sinh{x}
+\end{align*}
+
+\subsection*{Usefulness of Symmetry}
+To sketch $f(x) = x^2 - |x|$, we note that $f(x)$ is even, thus we can consider only $x > 0$ and use symmetry to determine $x < 0$
+
+\subsection*{Periodicity}
+A function $f(t)$ is {\bf periodic} with period $P$ if \[ f(t + nP) = f(t),\ n\ \epsilon\ \mathbb{Z} \]
+
+Any function which exists only over a finite interval can be extended as an even or odd periodic function.
+
+\subsection*{Absolute Values}
+\[ |x| = \twocases{x}{x > 0}{-x}{x < 0} \]
+Alternatively, we can use $|x| = \sqrt{x^2}$. Note: $\sqrt{x^2}\neq x$. Note 2: $(\sqrt{x})^2 = x$
+
+Geometrically, $|x|$ is the distance between $x$ and $0$ on the number line. Similarly, $|x-a|$ is the distance between $x$ and $a$ on the number line.
+
+\subsection*{Heavyside Function}
+\begin{align*}
+H(t) &= \twocases{0}{t < 0}{1}{t \geq 0}\\
+H(t-a) &= \twocases{0}{t < a}{1}{t \geq a}
+\end{align*}
+
+Multiplying a function by $H(t-a)$ is like a switch which "turns the function on" at $t = a$. We can combine multiple Heavyside functions to "activate" certain functions in a specified region.
+
+Example: $f(t) = t + (2-t)H(t+2) + (t^2+1)H(t) + (2-t-t^2)H(t-1)$
+\[ f(t) = 
+   \begin{cases}
+     t       & \text{if } t\ \epsilon\ (-\infty,-1)\\
+     2       & \text{if } t\ \epsilon\ [-2,0)\\
+     t^2 + 1 & \text{if } t\ \epsilon\ [0,1)\\
+     3 - t   & \text{if } t\ \epsilon\ [1,\infty)
+   \end{cases}
+\]
+
+How do we do this in reverse? ie: take a piecewise function and definite it in terms of $H(t-a)$?
+\begin{enumerate}
+\item Use the fact that (for $a < b$) \[ H(t-a) - H(t-b) = \begin{cases}0 & \text{if } t < a\\1 & \text{if } a \leq t < b\\0 & \text{if } t \geq b\end{cases} \] makes an on/off switch. So does \[ 1 - H(t-a) = \twocases{1}{t < a}{0}{t \geq a} \]
+\item When a new function is turned on, subtract the previous one.
+\end{enumerate}
+
+\subsection*{Rational Functions}
+A {\bf rational function} is a ratio of polynomials. It is
+\begin{itemize}
+\item Proper, when numerator $<$ denominator
+\item Improper, otherwise
+\end{itemize}
+
+Any proper rational function can be expressed as the sum of simpler rational functions whose demoninators are either linear or quadratic.
+
+\subsection*{Partial Fraction Decomposition}
+\[ \frac{5x^2-5x+4}{x^3-x^2-x-2} = \frac{3x-1}{x^2+x+1} + \frac{2}{x-2} \]
+Steps:
+\begin{enumerate}
+\item Factor the denominator
+\item For each linear factor, construct a term \[ \frac{A}{ax+b} \]
+\item For each irreducible quadratic factor, construct a term \[ \frac{Bx+C}{ax^2+bx+c} \]
+\item If any of the factors are repeated $n$ times, construct $n$ terms in the same way as steps 2 and 3, but with increasing exponents on the denominator. \[ \frac{A}{ax+b} + \frac{B}{(ax+b)^2} \]
+\item Add together all of the terms and solve for the unknowns
+\end{enumerate}
+
+\subsubsection*{Repeated Factors (Step 4)}
+If you had something like \[ \frac{2x^5-x^3}{(x+2)^2(x^2+1)^3} \] then you would decompose it as follows \[ \frac{2x^5-x^3}{(x+2)^2(x^2+1)^3} = \frac{A}{(x+2)}+\frac{B}{(x+2)^2}+\frac{Cx+D}{(x^2+1)}+\frac{Ex+F}{(x^2+1)^2}+\frac{Gx+H}{(x^2+1)^3} \] and then proceed as in step 5.
+
+\subsubsection*{Improper Rational Functions}
+When the degree of the numerator $\geq$ the degree of the denominator, we need to use long division first.
+
+Example:
+\begin{align*}
+\frac{x^4-2}{x^2-2x-1} &= \frac{(x^2-2x+3)(x^2+2x+1)+(-4x-5)}{x^2+2x+1}\\
+&= (x^2-2x+3) + \frac{(-4x-5)}{(x^2+2x+1)}
+\end{align*}
+
+\subsection*{Trigonometric Functions}
+A {\bf radian} is the angle subtended by an arc length which is equal to the radius.
+
+The {\bf radian measure} of an angle is the ratio of arc length to radius ($\theta = \frac{s}{r}$)
+
+Notes:
+\begin{enumerate}
+\item In a full circle \begin{align*}
+                         s &= 2\pi r\\
+                         \theta &= \frac{2\pi r}{r}\\
+                         &= 2\pi \text{ rad}
+                       \end{align*}
+\item Radians are dimensionless
+\item In calculus, we only use radians
+\end{enumerate}
+
+\subsubsection*{Inverse Trig Functions}
+\begin{align*}
+\sec\theta &= \frac{1}{\cos\theta}\\
+\csc\theta &= \frac{1}{\sin\theta}\\
+\cot\theta &= \frac{1}{\tan\theta}
+\end{align*}
+
+Since $f(x)=\sin x$ is not one-to-one, to find an inverse we must restrict the domain. The most natural interval is $[-\frac{\pi}{2},\frac{\pi}{2}]$. We then define
+\begin{align*}
+y &= \sin^{-1}x\\
+y &= \arcsin x
+\end{align*}
+
+$y$ is the angle between $-\frac{\pi}{2}$ and $\frac{\pi}{2}$ whose sine is $x$
+\begin{align*}
+\sin(\arcsin\bigg(\frac{1}{2}\bigg)) &= \frac{1}{2}\\
+\sin(\arcsin\bigg(\frac{5\pi}{6}\bigg)) &= \frac{\pi}{6}
+\end{align*}
+
+Thus, $\arcsin x$ is not a true inverse, only within its restricted domain. The domain of $\arcsin x$ is $[-1,1]$ and the range is $[-\frac{\pi}{2},\frac{\pi}{2}]$; however, the domain of $\sin x$ is $(-\infty,\infty)$ and the range is $[-1,1]$
+
+Similarly, $f(x) = \cos x$ is not one-to-one. In this case, we restrict the domain to $[0,\pi]$. We then define $y=\arccos x=\cos^{-1}x$ to mean "y is the angle between 0 and $\pi$ whose cosine is x".
+
+$f(x) = \arccos x$ has domain $x\ \epsilon\ [-1,1]$ and range $y\ \epsilon\ [0,\pi]$, thus $\arccos x$ is not a true inverse.
+
+For $\arctan x$, we restrict the domain of $\tan x$ to $[-\frac{\pi}{2},\frac{\pi}{2}]$. The domain of $\arctan x$ is $(-\infty,\infty)$ and the range is $[-\frac{\pi}{2},\frac{\pi}{2}]$ with the understanding that $\arctan\infty = \frac{\pi}{2}$
+
+For $\csc{x}, \sec{x}, \cot{x}$, it is difficult to restrict the domain for these in a nice way. It is easier to use the primary trig functions.
+
+\subsubsection*{Identities}
+\begin{align*}
+\sin^2\theta + \cos^2\theta &= 1\\
+\sin(a\pm b) &= \sin a\cos b \pm \sin b\cos a\\
+\cos(a\pm b) &= \cos a\cos b \mp \sin a\sin b
+\end{align*}
+
+\subsubsection*{Working with Sinusoids}
+For many applications it is more useful to work with a single sinusoid. When our work yields a solution of the form \[ g(t) = a\sin(\omega t) + b\cos(\omega t) \] we can convert this to a single sine or cosine with a phase shift.
+
+Example:
+\begin{align*}
+g(t) &= 5\cos(2t) - 3\sin(2t) \to g(t) = A\sin(2t+\omega)\\\\
+\sin(a+b) &= \sin a\cos b + \sin b\cos a\\\\
+A\sin(2t+\omega) &= A\sin(2t)\cos\omega + A\sin\omega\cos(2t)\\\\
+g(t) &= 5\cos(2t) - 3\sin(2t)\\
+A\cos\omega &= -3\\
+A\sin\omega &= 5
+\end{align*}
+and then solve for $\omega$
+
+\section*{Sequences and Convergences}
+A {\bf sequence} is simply an ordered list of numbers. It may be finite or infinte in length. More precisely, it is a function whose domain is the natural numbers.
+
+Notation: for an infinite sequence, we typically write \[ \{a_n\}_{n=1}^\infty \] or more simply \[ \{a_n\} \] to represent the whole sequence.
+
+A sequence may have a formula \[ \{\frac{(-1)^n(n+1)}{3^{n-1}}\}_{n=1}^\infty = \{-2,1,-\frac{4}{9},...\} \] or it might not \[ \{a_n\} \text{ where $a_n$ is the $n^{th}$ prime number} \]
+
+Sometimes we will want to identify a formula \[ \{2,7,12,17,...\} = \{2+5n\}_{n=0}^\infty \]
+
+You can always change the index without changing the sequence as long as you also change the formula.
+
+\begin{align*}
+\intertext{Example: let $n = k-4$}
+\{2+5n\}_{n=0}^\infty &= \{2+5(k-4)\}_{k-4=0}^\infty\\
+&= \{5k-18\}_{k=4}^\infty
+\end{align*}
+
+\subsection*{Convergence}
+Consider the sequence $\{a_n\} = \{\frac{n}{n+1}\}_{n=1}^\infty$ which is $\{\frac{1}{2},\frac{2}{3},\frac{3}{4},...\}$. It is clear that the sequence is increasing, $a_{n+1} > a_n$. It should also be clear that $a_n < 1$. Since the terms get closer and closer to 1 as $n$ increases, we say that this sequence {\bf converges} to 1 and write \[ \{a_n\}\to 1 \text{as} n\to\infty \] or \[ \displaystyle\lim_{n\to\infty}a_n = 1 \]
+
+\subsection*{The Precise Definition of a Limit}
+A sequence $\{a_n\}$ converges to the limit $L$ if no matter how small we choose a positive number $\varepsilon$ there is an integer $N$ such that \[ |a_n-L| < \varepsilon \text{wherever} n > N \] The number $N$ will often depend on $\varepsilon$
+
+Example: Prove that $\frac{n}{n+1} \to 1$ as $n \to\infty$
+
+Solution: We need to show that if someone gives us a positive number $\varepsilon$, we can find a value $N$ so that when $n>N$ \[ \frac{n}{n+1} < \varepsilon \] The trick is to work backwards. Assume you have $\varepsilon$. Let's find how big $n$ has to be to satisfy the equation.
+\begin{align*}
+\bigg|\frac{n}{n+1}\bigg| &< \varepsilon\\
+\bigg|\frac{n-(n+1)}{n+1}\bigg| &< \varepsilon\\
+\bigg|\frac{-1}{n+1}\bigg| &< \varepsilon\\
+\frac{1}{n+1} &< \varepsilon\\
+\frac{1}{\varepsilon} &< n+1\\
+\frac{1}{\varepsilon} - 1 &< n\\
+n &> \frac{1}{\varepsilon} - 1\\
+n &> N
+\end{align*}
+Thus \[ \text{Given } \varepsilon > 0, \text{ if } n > \frac{1}{\varepsilon} - 1 \text{ then } \bigg|\frac{n}{n+1}\bigg| < \varepsilon \]
+
+\subsubsection*{Limit Theorems}
+\begin{enumerate}
+\item Sum Rule
+\begin{itemize}
+\item If $a_n \to a$ and $b_n \to b$ as $n\to\infty$ then $a_n \pm b_n \to a \pm b$ as $n\to\infty$
+\end{itemize}
+\item Product Rule
+\begin{itemize}
+\item If $a_n \to a$ and $b_n \to b$ as $n\to\infty$ then $a_nb_n \to ab$ as $n\to\infty$ and $\frac{a_n}{b_n} \to \frac{a}{b}$ as $n\to\infty$
+\end{itemize}
+\item Exponent Rule
+\begin{itemize}
+\item If $|r| < 1$ then $r^n \to 0$ as $n\to\infty$
+\end{itemize}
+\item Continuous Rule
+\begin{itemize}
+\item If $f$ is continuous at $a$ and $a_n \to a$ as $n\to\infty$ then $f(a_n) \to f(a)$ as $n\to\infty$
+\end{itemize}
+\item Squeeze Theorem
+\begin{itemize}
+\item If $a_n \to L$ and $c_n \to L$ as $n\to\infty$ and if $a_n\leq b_n\leq c_n$ for all $n$, then $b_n\to L$ as $n\to\infty$
+\end{itemize}
+\end{enumerate}
+
+Many limits will be obvious by inspection. In cases where we have indeterminate forms $\big(\frac{\infty}{\infty}, \frac{0}{0}, \infty-\infty,...\big)$ we can try to rewrite the sequence into more agreeable forms.
+
+\subsubsection*{Sequences Without Limits ($\infty$)}
+Sequences can fail to have a limit in many ways
+\begin{itemize}
+\item Digits of $\pi$ have no limit
+\item $\cos(k\pi)$ oscillates infinitely between -1 and 1
+\item $n^2$ grows without bounds
+\end{itemize}
+
+For infinite limits, we write $a_n \to\infty$ as $n \to\infty$
+
+\subsubsection*{Limits of Functions of Real Variables}
+The definition and theorems for limits of sequences can easily be extended to limits of functions as $x\to\infty$
+
+However, for functions we are often invested in what happens to $f(x)$ as $x \to a$ ($a$ being finite).
+
+This requires a new definition: $f(x) \to L$ as $x \to a$ means that for any $\varepsilon > 0$ there exists a number $\delta$ such that \[ |f(x) - L| < \varepsilon \text{ whenever } |x - a| < \delta \]
+
+\subsubsection*{Limit Examples}
+If a function is continuous at $x=a$ then $\displaystyle\lim_{x \to a}f(x) = f(a)$
+
+Difference of squares:
+\[ a^3 \pm b^3 = (a \pm b)(a^2 \mp ab + b^2) \]
+
+\subsubsection*{A Special Limit}
+If $\theta$ is in radians, then $\displaystyle\lim_{\theta\to 0}\frac{\sin\theta}{\theta} = 1$
+
+\section*{Continuity}
+Roughly speaking, a {\bf continuous function} has no breaks or holes. A function is continuous at $x=a$ if $f(x) \to f(a)$ as $x \to a$. This statement has 3 parts:
+\begin{enumerate}
+\item $\displaystyle\lim_{x\to a}f(x)$ exists
+\item The function is defined at $x=a$
+\item The limit actually equals the value of $f$ at $x=a$
+\end{enumerate}
+
+A function $f(x)$ is continuous on an interval if for any $x_0$ and $x_1$ on that interval, and for any $\varepsilon > 0$, we can find $\delta > 0$ such that \[ |x_0 - x_1| < \delta \text{ and } |f(x_0)-f(x_1)| < \varepsilon \]
+
+This definition is cumbersome. We'll simply accept that it can be used to prove that all our familiar functions \[ \sin{x},\cos{x},x^p,\sqrt{x},\ln{x},e^x,\frac{1}{x},... \] are continuous on their domains.
+
+If $f(x)$ and $g(x)$ are continuous, the following are as well
+\begin{itemize}
+\item $f\circ g$
+\item $f\pm g$
+\item $fg$
+\item $\frac{1}{f}, f\neq 0$
+\end{itemize}
+
+Most of the functions we encounter will be continuous except where they are undefined. Continuity will usually come into quetion for piecewise-defined functions.
+
+Defining \[ f(x) = \twocases{\frac{\sin{x}}{x}}{x \neq 0}{1}{x = 0} \] gives a continuous function on all of $\mathbb{R}$.
+
+Note: this is called a removable discontinuity, as it can be removed by defining the value at one point. We also distinguish between "infinite discontinuities" and "jump discontinuities".
+
+\subsection*{Three Theorems That Seem Obvious}
+\subsubsection*{Intermediate Value Theorem}
+If $f(x)$ is continuous on an interval $[a,b]$ and $f(a) < c$ while $f(b) > c$, then there exists a point $x\ \epsilon\ (a,b)$ such that $f(x) = c$
+
+\subsubsection*{Boundedness Theorem}
+If $f$ is continuous on a closed interval $[a,b]$, then $f$ is "bounded" about and below. That is, there exists numbers $n_0$ and $n_1$ such that $n_0 < f(x) < n_1$ when $x\ \epsilon\ [a,b]$
+
+\subsubsection*{Extreme Value Theorem}
+If $f$ is continuous on a closed interval $[a,b]$, then $f$ attains a maximum and minimum value on $[a,b]$. Note the importance of continuity and closedness, and that these are required for a function to attain a max and a min value.
+
+\section*{Differentiation}
+\subsection*{Motivation}
+The average rate of change of a function $f(t)$ over an interval $[t_0,t_1]$ is \[ \frac{f(t_1)-f(t_0)}{t_1-t_0} \]
+
+This gives the slope between two different points on the graph of $f$. Often we want to know how the function is changing at a single point (ie. $t_0$).
+
+To calculate this, we simply take the limit of the average rate of change as $t \to t_0$. This is called the derivative of $f$ at $t_0$. \[ \lim_{t\to t_0}\frac{f(t) - f(t_0)}{t-t_0} \] gives the instantaneous rate of change of $f$ at $t_0$ (ie. slope).
+
+There are three common symbols for derivatives.
+\begin{enumerate}
+\item Leibniz Notation
+\begin{itemize}
+\item $\frac{df}{dt}$
+\item Useful as it is most explicit
+\end{itemize}
+\item Legrange Notation
+\begin{itemize}
+\item $f^\prime(t)$
+\item Most common for single variable functions
+\end{itemize}
+\item Newton's Notation
+\begin{itemize}
+\item $\dot{f}(t)$
+\item Usually reserved for time derivatives
+\end{itemize}
+\end{enumerate}
+
+The $n^{th}$ derivative of $f(t) = \frac{d^nf}{dt^n}$
+
+With this, we can write the equaiton of the tangent line at $t_0$ as \[ y = f(t_0)+f^\prime(t_0)(t-t_0) \]
+
+One can also express the derivative as a function (instead of a value at one point) \[ f^\prime(t) = \lim_{\Delta t\to 0}\frac{f(t+\Delta t)-f(t)}{\Delta t} \] where $\Delta t$ means "change in $t$". It's like the $h$ in high school. \[ f^\prime(t) = \lim_{\Delta t\to 0}\frac{f(t+h)-f(t)}{h} \]
+
+The point is to find the ratio of change in output to change in input as the input change shrinks to zero. \[ \lim_{\Delta t\to 0} \frac{\Delta f}{\Delta t} \]
+
+\subsection*{Differentiation Rules}
+\begin{enumerate}
+\item $\frac{d}{dx}(k) = 0$ for any constant $k$
+\item $\frac{d}{dx}(x^n) = nx^{(n-1)}$ for any value $n$
+\item $\frac{d}{dx}[kf(x)] = k\frac{df(x)}{dx}$ for any constant $k$
+\item $\frac{d}{dx}[f(x)+g(x)] = \frac{df(x)}{dx} + \frac{dg(x)}{dx}$
+\item Product Rule: $\frac{d}{dx}[f(x)g(x)] = \frac{df(x)}{dx}g(x) + f(x)\frac{dg(x)}{dx}$
+\item Quotient Rule: $\frac{d}{dx}\big[\frac{f(x)}{g(x)}\big] = \frac{1}{g(x)^2}\big[\frac{df(x)}{dx}g(x) - f(x)\frac{dg(x)}{dx}\big]$
+\end{enumerate}
+
+\subsection*{Trig Derivatives}
+\begin{align*}
+\frac{d}{dx}\sin x &= \cos x\\
+\frac{d}{dx}\cos x &= -\sin x\\
+\frac{d}{dx}\tan x &= \sec^2 x\\
+\frac{d}{dx}\csc x &= -\csc x\cot x\\
+\frac{d}{dx}\sec x &= -\sec x\tan x\\
+\frac{d}{dx}\cot x &= -\csc^2 x
+\end{align*}
+
+\subsection*{Exponential / Logarithmic Derivatives}
+\begin{align*}
+\frac{d}{dx}(a^x) &= a^x\ln{a}\\
+\frac{d}{dx}(\log_a x) &= \frac{1}{x\ln{a}}\\
+\frac{d}{dx}(e^x) &= e^x\\
+\frac{d}{dx}(\ln{x+k}) &= \frac{1}{x} \text{ for any constant } k
+\end{align*}
+
+\subsection*{Chain Rule}
+\[ \frac{d}{dt}[f(g(t))] = f^\prime(g(t))g^\prime(t) \] As this notation can get confusing, it's best to use Leibniz' style and for the following:
+
+Let \[ u = g(t) \] then \[ f(g(t)) = f(u) \] and the chain rule says \[ \frac{df}{dt} = \frac{df}{du}\frac{du}{dt} \] This can be extended to any number of variables.
+
+For instance, if $u$ was a function of $s$ which was a function of $x$ which was a function of $t$, ie \[ u(s), s(x), x(t) \] then \[ \frac{df}{dt} = \frac{df}{du}\frac{du}{ds}\frac{ds}{dx}\frac{dx}{dt} \] It just depends on how easy it is to write one variable in terms of another. Most of the time, we don't explicitly write out different functions.
+
+\subsection*{Differentials}
+The derivative describes the instantaneous change of one quantity with respect to another \[ \lim_{\Delta x\to 0}\frac{\Delta y}{\Delta x} = \frac{dy}{dx} \]
+
+When $\Delta x$ is small we can write \[ \frac{\Delta y}{\Delta x} \approx \frac{dy}{dx} \] and assuming $y$ to be a function of $x$, (ie. $f=f(x)$), then we have \[ \Delta y \approx f^\prime(x)\Delta x \]
+
+We call $f^\prime(x)\Delta x$ the linear change or differential of $y$ and denote it as \[ dy = f^\prime(x)\Delta x \] or more commonly \[ dy = f^\prime(x)dx \]
+
+Note: $\Delta x = dx$, but $\Delta y \neq dy$
+
+\begin{itemize}
+\item $\Delta y$ represents the change along the curve (actual change)
+\item $dy$ represents the change along the tangent line
+\end{itemize}
+
+\subsubsection*{Differential Equations}
+Differential equations are used to model real-world physical phenomena. With regular equations, you often solve for numbers \[ x+2 = 6 \to x=4 \]
+
+A differential equation is an equation involving an unknown variable and derivatives of that unknown variable, ex:
+\begin{align*}
+\frac{dy}{dx} + 2y &= 3x\\
+y &= Ce^{-2x} + \frac{3}{4}(2x-1)
+\end{align*}
+
+\subsubsection*{Modeling}
+Differential equations are the most important type of equations in applied math/physics. They describe the behaviour of systems. It is usually difficult, if not impossible, to solve them. Computers can approximate solutions. Coming up with differential equations in the first place is often difficult enough.
+
+\section*{Definite Integral}
+The definite integral of $f$ from $a$ to $b$ is \[ \dint{a}{b}{f(x)}{x} = \lim_{n\to\infty}\sum_{i=1}^n f(x_i^\star)\Delta x \] where $x_i^\star\ \epsilon\ [x_{i+j}, ..., x_{i}]$ and $\Delta x = \frac{b-a}{n}$
+
+The integral sign and the differential also act as brackets.
+
+The definition of $\dint{a}{b}{f(x)}{x}$ is purely a mathematical concept. There is no area requirement anywhere. Area is just a nice way to think about it when $f$ is positive.
+
+Since $\dint{a}{b}{f(x)}{x}$ yields a number, $x$ is called a dummy variable (ie. you can use anything).
+
+\subsection*{Properties of the Definite Integral}
+If $f$ and $g$ are intergrable on $[a,b]$, then
+\begin{enumerate}
+\item $\dint{a}{b}{k}{x} = k(b-a)$
+\item $\dint{a}{a}{f(x)}{x} = 0$
+\item $\dint{a}{b}{f(x)\pm g(x)}{x} = \dint{a}{b}{f(x)}{x} \pm \dint{a}{b}{g(x)}{x}$
+\item $\dint{a}{b}{cf(x)}{x} = c\dint{a}{b}{f(x)}{x}$
+\item $\dint{a}{b}{f(x)}{x} = -\dint{b}{a}{f(x)}{x}$
+\item $\dint{a}{b}{f(x)}{x} = \dint{a}{c}{f(x)}{x} + \dint{c}{b}{f(x)}{x}$
+\item if $f(x) \geq g(x)$ then $\dint{a}{b}{f(x)}{x} \geq \dint{a}{b}{g(x)}{x}$
+\end{enumerate}
+
+\subsection*{Where Derivatives Meet Integrals}
+Calculating \[ \dint{a}{b}{f(x)}{x} \] from first principles is worse than bronchitis. As it turns out, there is an easy way to compute it.
+
+\subsection*{Fundamental Theorem of Calculus I}
+If $f$ is continuous on $[a,b]$ and $a \leq x \leq b$, then the function \[ g(x) = \dint{a}{x}{f(t)}{t} \] is differentiable on $(x,b)$ and its derivative is \[ g^\prime(x) = f(x) \]
+
+What this means is in order to calculate \[ \dint{a}{b}{f(x)}{x} \] we need to find a function whose derivative is equal to $f(x)$. Basically, we're going backwards from differentiation. The function $g(x)$ is called the antiderivative of $f(x)$.
+
+\subsubsection*{Why Does This Work?}
+Define $A(x)$ to be the "area" under the curve $f(x)$ up to $x$. That is \[ A(x) = \dint{a}{x}{f(t)}{t} \] If we add a small quantity $\Delta x$ to $x$, we get an extra rectangular area which we can compute exactly as \[ A(x+\Delta x) - A(x) \] or approximate it as \[ \Delta xf(x) \] thus we have
+\begin{align*}
+A(x+\Delta x) - A(x) &\approx \Delta xf(x)\\
+\frac{A(x+\Delta x) - A(x)}{\Delta x} &\approx f(x)
+\end{align*}
+
+Take $\displaystyle\lim_{x\to 0}$ and the approximation becomes exact and we have \[ \frac{d}{dx}A(x) = f(x) \]
+
+Replacing $A(x)$ with its definition gives \[ \frac{d}{dx}\dint{a}{x}{f(t)}{t} = f(x) \]
+
+\subsection*{Fundamental Theorem of Calculus II}
+If $F(x)$ is an antiderivative of $f(x)$, then \[ \dint{a}{b}{f(t)}{t} = F(b) - F(a) \]
+
+Note that if $F(x)$ is an antiderivate, then so is $F(x) + C$, for any constant $C$
+
+\[ \dint{3}{5}{2x}{x} = x^2\ \bigg|_3^5 \]
+
+\section*{Indefinite Integrals}
+An indefinite integral of $f$ is written as \[ \inint{f(x)}{x} \]
+
+It is basically the antiderivative of $f$ plus some arbitrary constant \[ \inint{f(x)}{x} = F(x) +C \]
+
+Finding antiderivatives is a bit of an art form. There are some basic rules to help out:
+\begin{enumerate}
+\item $\frac{d}{dx}x^n = nx^{n-1}$, so $\inint{x^n}{x} = \frac{x^{n+1}}{n+1} + C$, if $n\neq -1$
+\begin{itemize}
+\item if $n=-1$, then $\inint{\frac{1}{x}}{x} = \ln{|x|} + C$
+\end{itemize}
+\item $\frac{d}{dx}a^x = a^x\ln{a}$, so $\inint{a^x}{x} = \frac{a^x}{\ln{a}}$
+\item $\inint{\cos x}{x} = \sin x + C$, $\inint{\sin x}{x} = -\cos x + C$, $\inint{\sec^2 x}{x} = \tan x$
+\end{enumerate}
+
+\subsection*{Find Antriderivates by Guessing...}
+Often, an educated guess based on your knowledge of derivatives will be the only way to find an integral. Some rearrangement is usually necessary.
+
+\subsection*{...And Without Guessing}
+The trick is to look out for functions within the function to be integrated, assign them to variables, and integrate those. Ex, let $u = f(x)$ so that $\frac{d}{dx}u = f^\prime(x)$ thus we can write $du = f^\prime(x)dx$
+
+\section*{Method of Solving Definite Integrals}
+When solving definite integrals by substitution, you must be careful to change the limits of the integration. \[ \dint{1}{3}{2x(x^2+1)}{x} \neq \dint{1}{3}{u}{u} \] \[ \dint{1}{3}{2x(x^2+1)}{x} = \dint{2}{10}{u}{u} \]
+
+\subsection*{Integration by Parts}
+Now it's time to reverse the product rule. Recall that \[ \frac{d}{dx} h\circ g = h^\prime g + hg^\prime \]
+
+If we take the integral of both sides
+\begin{align*}
+h\circ g &= \inint{h^\prime g}{x} + \inint{hg^\prime}{x}\\
+\inint{h^\prime g}{x} &= h\circ g - \inint{hg^\prime}{x}
+\end{align*}
+Assume that \[ F(x) = \int\! f(x)dx \] let $h = F$ and we get \[ \inint{fg}{x} = Fg - \inint{Fg^\prime}{x} \]
+
+Note: what you call $f$ and $g$ is arbitrary.
+
+\section*{Integration of Rational Functions}
+Every proper rational function has an antiderivative that is some combination of
+\begin{itemize}
+\item Rational Functions
+\item Logarithms
+\item Arctangents
+\end{itemize}
+
+\subsection*{Eight Methods/Examples of Integration}
+\begin{enumerate}
+\item $\inint{\frac{1}{x+2}}{x} = \ln|x+2| + C$
+\item $\inint{\frac{1}{(x-1)^3}}{x} = -\frac{1}{2}(x-1)^{-2} + C$
+\item $\inint{\frac{1}{x^2-1}}{x} = \inint{\frac{A}{x-1}+\frac{B}{x+1}}{x} = \frac{1}{2}\ln\bigg|\frac{x-1}{x+1}\bigg| + C$
+\item $\inint{\frac{1}{x^2+9}}{x} = \frac{1}{9}\inint{\frac{1}{(\frac{x}{3})^2+1}}{x} = \frac{1}{3}\arctan\bigg(\frac{x}{3}\bigg) + C$
+\item $\inint{\frac{3x}{x^2+5}}{x} = \inint{\frac{3}{2u}}{u} = \frac{3}{2}\ln|x^2+5| + C$
+\item $\inint{\frac{2x+5}{x^2+5x+10}}{x} = \inint{\frac{1}{u}}{u} = \ln|x^2+5x+10| + C$
+\item $\inint{\frac{1}{x^2-2x+5}}{x} = \frac{1}{4}\inint{\frac{1}{\big(\frac{x-1}{2}\big)^2+1}}{x} = \frac{1}{2}\arctan\big(\frac{x-1}{2}\big) + C$
+\item $\inint{\frac{3x}{x^2-2x+5}}{x} = \frac{3}{4}\inint{\frac{x}{\big(\frac{x-1}{2}\big)^2+1}}{x} = \frac{3}{2}\inint{\frac{2u+1}{u^2+1}}{u} = \frac{3}{2}\bigg(\ln\big|\big(\frac{x-1}{2}\big)^2 + 1\big| + \arctan\big(\frac{x-1}{2}\big)\bigg) + C$
+\end{enumerate}
+
+Finally, if they are improper fractions, convert them to proper ones (with division) and then use these eight methods to integrate.
+
+Example:
+\begin{align*}
+\inint{\frac{x^2}{x^2+2x-3}}{x} &= \inint{1}{x} + \inint{\frac{4-2x}{x^2+2x-3}}{x}\\
+&= x + \inint{\frac{4-2x}{(x+3)(x-1)}}{x}\\
+&= x + \inint{\frac{\frac{-5}{2}}{x+3}}{x} + \inint{\frac{\frac{1}{2}}{x-1}}{x}\\
+&= x - \frac{5}{2}\ln\abs{x+3} + \frac{1}{2}\ln\abs{x-1} + C
+\end{align*}
+
+\subsection*{Integration Summary}
+The goal is to rewrite the integrand into one of the following forms
+\begin{itemize}
+\item $\inint{x^n}{x} = \frac{x^{n+1}}{n+1} + C$, for $n \neq 1$
+\item $\inint{\frac{dx}{x}}{x} = \ln\abs{x} + C$
+\item $\inint{a^x}{x} = \frac{a^x}{\ln a} + C$
+\item $\inint{\cos x}{x} = \sin x + C$
+\item $\inint{\sin x}{x} = -\cos x + C$
+\item $\inint{\sec^2 x}{x} = \tan x + C$
+\item $\inint{\csc^2 x}{x} = -\cot x + C$
+\item $\inint{\sec x\tan x}{x} = \sec x + C$
+\item $\inint{\csc x\cot x}{x} = -\csc x + C$
+\item $\inint{\frac{1}{x^2+1}}{x} = \arctan x + C$
+\end{itemize}
+by using any of
+\begin{itemize}
+\item Algebraic manipulations
+\item Trigonometric identities
+\item Completing the square
+\item Substitions (or trig substitutions)
+\item Integration by parts (IBP)
+\item Partial fraction decomposition
+\end{itemize}
+
+\subsection*{Some Common Integrals}
+\begin{itemize}
+\item $\inint{\ln x}{x} = x(\ln x - 1) + C$ through {\bf partial fraction decomposition}
+\item $\inint{\tan x}{x} = -\ln \abs{\cos x} + C = \ln \abs{\sec x} + C$ through {\bf substitution}
+\item $\inint{\sec x}{x} = \ln \abs{\sec x + \tan x} + C$ through {\bf hell if I know}
+\end{itemize}
+
+\subsection*{Applications of Integration}
+\textit{Definition:} The {\bf mean value} of a function $f(x)$ over the interval $[a,b]$ is \[ f_{av} = \frac{1}{b-a}\dint{a}{b}{f(x)}{x} \]
+
+\textit{Definition:} The {\bf area between curves} $f(x)$ an $g(x)$ we essentially create rectangles that fit between $f(x)$ an $g(x)$. The base of each rectangle is still dx, but the height is $\abs{f(x) - g(x)}$
+
+The area is then calculated as \[ \dint{a}{b}{f(x)-g(x)}{x} \] where $f(x)$ is the upper function.
+
+Note: often, we will be require to find points of intersection of the functions. It sometimes may be easier to integrate up the $y$-axis.
+
+Example: find the area between $y = x$ and $y = \frac{2}{x} - 1$ that is above the $x$-axis.
+
+Using the {\bf $x$-axis} as the integration variable, we have
+\begin{align*}
+\dint{0}{1}{x}{x} + \dint{1}{2}{\frac{2}{x} - 1}{x} &= \frac{x^2}{2}\bigg|_0^1 + (2\ln\abs{x} - x)\bigg|_1^2\\
+&= \frac{1}{2} - 0 + (2\ln 2 - 2) - (2\ln 1 - 1)\\
+&= 2\ln 2 - \frac{1}{2}
+\end{align*}
+
+Using the {\bf $y$-axis} as the integration variable, we get
+\begin{align*}
+\dint{0}{1}{\frac{2}{y+1} - y}{y} &= \bigg(2\ln\abs{y+1} - \frac{y^2}{2}\bigg)\bigg|_0^1\\
+&= 2\ln 2 - \frac{1}{2}
+\end{align*}
+
+\section*{Solving Separable Differential Equations}
+In special cases, {\bf first order differential equations} (ie. $x^1 = a$) can be solved by simply performing two integrations. In this case, the differential equation is {\bf separable}.
+
+\subsection*{Separable Differential Equations}
+A first order differential equation is {\bf separable} if you can write it as \[ \frac{{\rm dy}}{{\rm dx}} = f(x)g(y) \text{ where $y$ is a function of $x$} \]
+
+To solve these, we simply write them as \[ \frac{{\rm dy}}{g(y)} = f(x){\rm dx} \] then integrate both sides (independantly) \[ \inint{\frac{1}{g(y)}}{y} = \inint{f(x)}{x} \] and isolate for $y$ (if possible)
+
+Example: find $y$ if $\frac{{\rm dy}}{{\rm dx}} = 2yx$
+
+\begin{align*}
+\inint{\frac{1}{2y}}{y} &= \inint{x}{x}\\
+ln\abs{y} &= x^2 + C\\
+\abs{y} &= e^{x^2 + C}\\
+y &= \pm e^{x^2}e^C \text{ let $A = \pm e^C$}\\
+y &= Ae^{x^2}
+\end{align*}
+
+\subsection*{Arclength}
+To find the length of a curve $f(x)$ between $a$ and $b$, the trick is to break up the curve into infinitely small chunks, each of which is a straight line, then add them up.
+
+\begin{align*}
+\text{Arclength } &= \sum_{i=1}^n L_{i-1}\\
+&\approx \sum_{i=1}^n r_{i-1}\\
+&\approx \sum_{i=1}^n \sqrt{(\Delta x)^2 + (\Delta y)^2}\\
+&\approx \sum_{i=1}^n \sqrt{1+\bigl(\frac{\Delta y}{\Delta x}\bigl)^2} \Delta x
+\end{align*}
+now, taking $\displaystyle\lim_{n\to\infty}$ gives us the definition of an integral gives us \[ \Delta x \to {\rm dx\ as\ } \frac{\Delta y}{\Delta x} \to \frac{{\rm dy}}{{\rm dx}} \]
+
+\subsubsection*{Arclength Formula}
+The length of the curve $f(x)$ from $a$ to $b$ is given by \[ L = \dint{a}{b}{\sqrt{1+\bigl(\frac{{\rm dy}}{{\rm dx}}\bigl)^2}}{x} \] where $y = f(x)$
+
+Example: consider the curve $y = \frac{2}{3}x^{\frac{3}{2}}$. Find its length for $x\isin [0,3]$
+
+\begin{align*}
+\frac{{\rm dy}}{{\rm dx}} &= \sqrt{x}\\
+L &= \dint{0}{3}{\sqrt{1+x}}{x}\\
+&= \frac{(x+1)^{\frac{3}{2}}}{\frac{3}{2}} \bigg|_0^3\\
+&= \frac{16}{3} - \frac{2}{3} = \frac{14}{3}
+\end{align*}
+
+\section*{Improper Integrals}
+Consider the curve $f(x) = \frac{1}{x^2}$. The area under $f$ from $x = 1$ to $x = t$ is given by \[ A(t) = \dint{1}{t}{\frac{1}{x^2}}{x} \]
+
+The bigger $t$ gets, the closer the area is to 1. This notion is helpful in understanding the following:
+
+\textit{Definition:} If $f$ is continuous on $[a,\infty)$ then the {\bf improper integral} $\dint{a}{\infty}{f(x)}{x}$ is defined by \[ \dint{a}{\infty}{f(x)}{x} = \lim_{t\to\infty} \dint{a}{t}{f(x)}{x} \]
+
+If the limit exists, the integral is said to converge. Otherwise, the function diverges.
+
+Example:
+\begin{align*}
+\dint{1}{\infty}{\frac{1}{x^2}}{x} &= \lim_{t\to\infty} \dint{1}{t}{\frac{1}{x^2}}{x}\\
+&= \lim_{t\to\infty} 1-\frac{1}{t}\\
+&= 1
+\end{align*}
+so the improper integral converges.
+
+On the other hand
+\begin{align*}
+\dint{1}{\infty}{\frac{1}{x}}{x} &= \lim_{t\to\infty} \dint{1}{t}{\frac{1}{x}}{x}\\
+&= \lim_{t\to\infty} \ln\abs{x} \bigg|_1^t\\
+&= \infty
+\end{align*}
+so this improper integral diverges.
+
+\textit{Definition:} If $f(x)$ is continuous at every point in $[a,b]$ except at $a$ then we define \[ \dint{a}{b}{f(x)}{x} = \lim_{t\to\ a^+} \dint{t}{b}{f(x)}{x} \]
+
+\textit{Definition:} Similarly, if $f$ is discontinuous at $b$ instead, we define \[ \dint{a}{b}{f(x)}{x} = \lim_{t\to\ b^-} \dint{a}{t}{f(x)}{x} \]
+
+Finally, if there is a discontinuity between $a$ and $b$, at point $c$, just break the integral into two pieces
+\begin{align*}
+\dint{a}{b}{f(x)}{x} &= \dint{a}{c}{f(x)}{x} + \dint{c}{b}{f(x)}{x}\\
+&= \lim_{s\to c^-} \dint{a}{s}{f(x)}{x} + \lim_{t\to c^+} \dint{t}{b}{f(x)}{x}
+\end{align*}
+
+Example:
+\begin{align*}
+\dint{1}{4}{\frac{1}{(t-2)^2}}{t} &= \lim_{s\to 2^-} \dint{1}{s}{\frac{1}{(t-2)^2}}{x} + \lim_{t\to 2^+} \dint{t}{4}{\frac{1}{(t-2)^2}}{x}\\
+&= \lim_{s\to 2^-} -\frac{1}{t-2} \bigg|_1^s - \lim_{t\to 2^+} \frac{1}{t-2} \bigg|_t^4\\
+&= \infty - 1 - \frac{1}{2} + \infty\\
+&= \infty
+\end{align*}
+so this integral diverges.
+
+\section*{Polar Coordinates}
+To use {\bf polar coordinates} instead of cartesian coordinates $(x,y)$, we specify $(r,\theta)$ where r is the distance between the point and the origin, usually $r \isin [0,\infty]$, and $\theta$ is the angle between the positive x axis and the point, where $\theta \isin [0,2\pi]$
+
+To calculte $x$ and $y$ given polar coordinates $r$ and $\theta$, we find $x = r\cos\theta$ and $y = r\sin\theta$
+
+To calculate $r$ and $\theta$ given cartesian points $x$ and $y$, simply solve $r = \sqrt{x^2 + y^2}$ and $\theta = \arctan(\frac{y}{x})$. However, the arctan function only has a range of $\bigl(\frac{\pi}{2},\frac{\pi}{2}\bigl)$, so you'll need to adjust the value of $\theta$ if your point is in QII, QII, or QIV. Generally, for QII or QIII, you must add $\pi$. For a point in QIV, add $2\pi$.
+
+\subsection*{Polar Plots}
+Typically, {\bf polar plots} are written as explicit functions of $\theta$. That is, $r = f(\theta)$
+
+\subsection*{When $r$ is Negative}
+For values of $r < 0$, the convention is to reflect about the origin (or rotate by $\pi$) and make $r > 0)$
+
+Basically, just draw as if $r > 0$, then rotate by $180^\circ$. In this interval, all values of $\sin\theta$ are negative, but have the same magnitude as they had in QI and QII.
+
+So we draw them as if they were positive, then rotate.
+
+\subsection*{Some Cool Polar Plots}
+\begin{itemize}
+\item $r = \theta$
+\item $r = \sin(2\theta)$
+\end{itemize}
+
+\section*{Complex Numbers}
+The equation $x^2 + 1 = 0$ used to be impossible to solve. Now, we know that \[ i^2 = -1 \] If $z = a + bi$, then the conjugate $z^* = a - bi$.
+
+It is also common to write {\bf complex numbers} in polar form. So, if $z = a + bi$, we have \[ z = r(\cos\theta + i\sin\theta) \] $r$ is called the {\it modulus} of $z$, and is written as $\abs{z}$. $\theta$ is the {\it argument} of $z$.
+
+In polar form, multiplication is simplified: let $z_1 = r_1(\cos\theta_1 + j\sin\theta_1)$ and $z_2 = r_2(\cos\theta_2 + j\sin\theta_2)$, then \[ z_1z_2 = r_1r_2\bigl(\cos(\theta_1+\theta_2) + \sin(\theta_1+\theta_2)i\bigl) \]
+
+That is, to multiply in polar form simply multiply the modului and add the arguments.
+
+Recall that multiplying exponentials has a similar effect (ie $3a^x4a^y = 12a^{x+y}$). As it turns out, we can show that $z = r(\cos\theta + \sin\theta i)$ is equivelent to $re^{\theta i}$, thus we have {\bf Euler's Formula} is \[ e^{\theta i} = \cos\theta + \sin\theta i \]
+
+Note that $e^{\pi i} + 1 = 0$
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
