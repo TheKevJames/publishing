@@ -1,13 +1,30 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath,amssymb,parskip,custom}
 \usepackage[margin=1in]{geometry}
-
 \begin{document}
 
 \title{CS 240 --- Data Structures and Data Management}
 \author{Kevin James}
 \date{\vspace{-2ex}Spring 2014}
 \maketitle\HRule
+
+\section{Algorithms}
+An {\bf algorithm} is a step-by-step process for carrying out a set of operations given an arbitrary problem instance. An algorithm {\bf solves} a problem if, for every instance of the problem, the algorithm finds a valid solution in finite time.
+
+A {\bf program} is an implementation of an algorithm using a specified programming language.
+
+For each problem we can have several algorithms and for each algorithm we can have several programs (implementations).
+
+In practice, given a problem:
+\begin{enumerate}
+\item Design an algorithm.
+\item Assess the correctness of that algorithm.
+\item If the algorithm is acceptable, implement it. Otherwise, return to step 1.
+\end{enumerate}
+
+When determining the efficiency of algorithms, we tend to be primarily concerned with either the runtime or the memory requirements. In this course, we will focus mostly on the runtime.
+
+To perform runtime analysis, we may simply mplement the algorithm and use some method to determine the end-to-end time of the program. Unfortunately, this approach has many variables: test system, programming language, programmer skill, compiler choice, input selection, \dots
 
 
 
