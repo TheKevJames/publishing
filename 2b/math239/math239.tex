@@ -36,4 +36,54 @@
 
 ``Which graphs can be drawn in 3d-space to correspond to a fair symmetrical die?''
 
+\subsection{Course Notation}
+\begin{itemize}
+\item $[n] = \{1, 2, 3, \dots, n\}$
+\item $\mathbb{N} = \{1, 2, 3, \dots \}$
+\item $A \cup B = \{ x \suchthat x \in A \text{ or } x \in B\}$
+\item $A \cap B = \{ x \suchthat x \in A \text{ and } x \in B \}$
+\item $|A \cup B| = |A| + |B| - |A \cap B|$
+\item $A \times B = \{ (a,b) \suchthat a \in A \text{ and } b \in B \}$
+\item $|A \times B| = |A| |B|$
+\item $\mathbb{R} \times \mathbb{R}$ is the cartesian plane
+\item $\mathbb{Z} \times \mathbb{Z}$ is the cartesian latice
+\item $(a,b) \neq (b,a)$
+\item ${n \choose k}$ is the number of $k$-element subsets of $n$.
+\end{itemize}
+
+\subsection{Functions}
+A {\bf function} $f: A \function B$ is a subset of $A \times B$ such that each element of $A$ occurs as the first element of exactly one pair in the subset.
+
+Given the set $\{ (dog, 4), (duck, 2), (cat, 3), (cow, 4) \}$, the mapping from first to second values in each tuple is a function.
+
+A {\bf bijective} (\bijective) function is a `one-to-one' (no two elements of $A$ map to the same element of $B$) and `onto' (each element of $B$ is mapped to by some element of $A$) function.
+
+A function $f$ is bijective if and only if it has an {\bf inverse}: a function $g: B \function A$ such that $f(g(x)) = x$ and $g(f(y)) = y$. If $A$ and $B$ are finite and a bijection $f: A \bijective B$ exists, then $|A| = |B|$.
+
+\section{Combinatorial Proofs (Bijective Proofs)}
+Proposition: There are $2^n$ subsets of $[n]$.
+
+Proof:\\Let $X_n$ be the set of all subsets of $[n]$.\\
+		Let $Y_n$ be the set of binary strings of length $[n]$.\\
+		We know that $|Y_n| = 2^n$.\\
+		For each set $S \in X_n$, let $f(S) = a_1, a_2, \dots, a_n$ where $a_i =
+			\begin{cases}
+				1, & i \in S\\
+				0, & \text{otherwise}.
+			\end{cases}
+		$\\
+		For each string $a_1, a_2, \dots, a_n \in Y_n$, let $g(a_1, a_2, \dots, a_n) = \{ i \in [n]: a_1 = 1 \}$\\
+		Then, $g$ is an inverse function of $f$, so $f$ is a bijective function and thus $|X_n| = |Y_n| = 2^n$
+
+
+Proposition: ${n \choose k} = {n \choose n - k}$ for all $0 \leq k \leq n$.
+
+Proof:\\Let $x = \{ k\text{-element subsets of} [n] \}$.\\
+		Let $y = \{ n-k\text{-element subsets of} [n] \}$.\\
+		We know that $|y| = {n \choose n-k}$.\\
+		For each set $S \in X$, let $f(S) = [n] \setminus S$ and let $g(S) = [n] \setminus S$.\\
+		Then $f$ is a bijective function and thus $|x| = |y|$ and so ${n \choose k} = {n \choose n - k}$.
+
+
+
 \end{document}

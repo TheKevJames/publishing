@@ -48,8 +48,50 @@ x &= C_1 e^{at} (a - bx)\\
 x &= \frac{aC_1 e^{at}}{1 + bC_1e^{at}}\\
 x &= \frac{a}{b} \bigg(\frac{1}{1 + C_2 e^{-at}}\bigg)
 \end{align*}
-Where $C_2 = \frac{1}{bC_1}$. In this case, the population will ``level out'' at $ax = bx^2$ (i.e.\ have an asymptote). The solution to this {\bf DE (differential equation)} is called the {\bf logistic curve}.
+Where $C_2 = \frac{1}{bC_1}$. In this case, the population will ``level out'' at $ax = bx^2$ (i.e.\ have an asymptote). The solution to this specific {\bf DE (differential equation)} is called the {\bf logistic curve}.
 
+\subsection{Partial Differential Equations}
+{\bf PDEs (partial differential equations)} arise when there is more than one independant variable.
 
+If we were to model the vibration of a string, we would use a PDE.\@ Assuming there is no length-wise vibration (i.e.\ horizontal motion), that the string has constant tension and mass per unit length, and that we are only considering small transverse displacements, we could write Newton's equation $F = ma$ as \[ F = (\rho\Delta x) \times \dderiv{y}{t} \]
+
+Since all forces on this string are tension, we have \[ F = T\sin\theta_1 - T\sin\theta_2 \]
+
+Given that we have small displacements (which leads to small angles $\theta_1$ and $\theta_2$), we can replace all instances of $\sin$ with $\tan$. Finally, this gives us \[ F \approx T\deriv{y}{x} \bigg|_{x+\frac{\Delta x}{2}} - T\deriv{y}{x} \bigg|_{x-\frac{\Delta x}{2}} \]
+
+so therefore \[ \rho\dderiv{y}{t} = \frac{T}{\Delta x} \bigg(\deriv{y}{x} \bigg|_{x+\frac{\Delta x}{2}} - \deriv{y}{x} \bigg|_{x-\frac{\Delta x}{2}}\bigg) \]
+
+As $\Delta x$ approaches zero, we see that \[ \dderiv{y}{t} = \frac{T}{\rho} \dderiv{y}{X} \]
+
+We will not be solving PDEs in this course, but this equation is solveable to give us \[ y = A\sin k\bigg(x - t\sqrt{\frac{T}{\rho}}\bigg) \]
+
+\subsubsection{Boundary Conditions}
+This equation should additionally have several {\bf boundary conditions} which represent the ends of the string being fixed in place.
+
+\begin{align*}
+y(0, t) &= 0\\
+y(L, t) &= 0
+\end{align*}
+
+We use these equations as well as the equation for a standing wave to get \[ y = A_+ \sin k \bigg( x - t\sqrt{\frac{T}{p}} \bigg) + A_- \sin k \bigg( L - t\sqrt{\frac{T}{\rho}} \bigg) \]
+
+Since $y(0, t) = 0$,
+\begin{align*}
+0 &= A_+ \sin k \bigg( 0 - t\sqrt{\frac{T}{p}} \bigg) + A_- \sin k \bigg( 0 - t\sqrt{\frac{T}{\rho}} \bigg)\\
+A_+ &= A_- = A
+\end{align*}
+
+and since $y(L, t) = 0$,
+\begin{align*}
+y &= A_+ \sin k \bigg( L - t\sqrt{\frac{T}{p}} \bigg) + A_- \sin k \bigg( L - t\sqrt{\frac{T}{\rho}} \bigg)\\
+KL &= \pm n\pi
+\end{align*}
+
+Because waves can only have certain frequences we have
+\begin{align*}
+K \sqrt\frac{T}{\rho} &= \pm \frac{n\pi}{L} \sqrt\frac{T}{\rho}\\
+f &= \pm \frac{n}{2L} \sqrt\frac{T}{\rho}
+\end{align*}
+where $n = 1$ implies a fundamental frequency and $n \geq 2$ implies a harmonic frequency.
 
 \end{document}
