@@ -24,7 +24,22 @@ In practice, given a problem:
 
 When determining the efficiency of algorithms, we tend to be primarily concerned with either the runtime or the memory requirements. In this course, we will focus mostly on the runtime.
 
-To perform runtime analysis, we may simply mplement the algorithm and use some method to determine the end-to-end time of the program. Unfortunately, this approach has many variables: test system, programming language, programmer skill, compiler choice, input selection, \dots
+To perform runtime analysis, we may simply implement the algorithm and use some method to determine the end-to-end time of the program. Unfortunately, this approach has many variables: test system, programming language, programmer skill, compiler choice, input selection, \dots. This, of course, makes manual implementation a bad approach.
+
+An idealized implementation uses a {\bf Random Access Machine (RAM)} model. RAM systems have constant time access to memory locations and constant time primitive operations, thus the running time is determinable (as the number of memory operations plus the number of primitive operations).
+
+We can also generally use {\bf order notation} to compare multiple algorithms. For the most part, we compare assuming $n$ is very large, since for small values of $n$ the runtime will be miniscule regardless of algorithm.
+
+We denote the runtime of a function as $T(f(x))$, for example: $T(3 \times 4)$ may be equal to $0.8ns = 8\text{ops}$. The return value is the number of operations required in the worst-case scenario.
+
+Example: given $T_A(n) = 1 000 000n + 2 000 000 000$ and $T_B(n) = 0.01n^2$, which is `better'? For $n < 100 000 000$, algorithm $B$ is better. Since we only care about large inputs, though, we say $A$ is better overall.
+
+Example: prove that $2010n^2 + 1388 = \mathbb{O}(n^3)$.
+
+Proof:\\$\forall c > 0$, $2010 n^2 + 1388 \leq cn^3$\\
+		$n > 1388 \implies 2010n^2 + 1388 \leq 2011n^2 \leq cn^3$\\
+		$2011n^2 \leq cn^3 \iff 2011 \leq cn$\\
+		$n > \frac{2011}{c} = n_0$
 
 
 
