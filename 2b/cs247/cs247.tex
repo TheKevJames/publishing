@@ -30,6 +30,40 @@ We can also overload operators. For example, we could define the sum of two clas
 
 A class can have \code{private}, \code{protected}, and \code{public} data members and functions (in addition to several less-often used flags). It is best practice to use the most secure flag as possible (generally: \code{private}). We can also use the \code{friend} flag to create a \code{private} method which is accessible to a given other class.
 
+\subsection{Inheritance}
+{\bf Inheritance} allows us to crreate classes ({\bf derived classes}) which include the data members and functions of a {\bf base class}.
 
+\subsection{Polymorphism}
+When we create a derived class, that class can inherit pointers from its parent.
+
+{\bf Object slicing} occurs when only base class fields are copied from a subclass. It can occur as a side-effect of intereactions between a subclass and a superclass: passing the sublcass by value, assigning the subclass to the superclass, or suing the superclass assignment operator between subclass instances.
+
+{\bf Function binding} occurs at compile time. When a base class pointer is given a reference to a subclass after its declaration, the subclasses methods will not be called.
+
+{\bf Virtual functions} are a method of getting around this. A virtual function delays function lookup to runtime, and thus will ensure the subclass function will be called even when using a pointer to the base class.
+
+When having an instance of a base class doesn't make sense, we can make a {\bf pure virtual function}. Pure virtual functions need no definitition and prevent class instatiation. They also ensure all subclasses must have a definition for that function.
+
+\subsection{Overloading}
+{\bf Overloading} occurs when two functions with the same name have a different set (amount or type) of parameters.
+
+\subsection{Overriding}
+{\bf Overriding} occurs in subclasses, when a subclass function has the same signature as a superclass function. When this function is called from the derived class, the derived class' version of the function will be called.
+
+\subsection{Friendship}
+The {\bf friend} command allows us to declare a class or function which can access the private members of the class containing the friend declaration.
+
+For example:
+\begin{verbatim}
+class Base {
+    int priv;
+public:
+    friend void print(Base);
+}
+
+void print (Base esab) {
+    cout << esab.priv << endl;
+}
+\end{verbatim}
 
 \end{document}

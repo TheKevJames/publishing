@@ -1,5 +1,7 @@
 \ProvidesPackage{custom}
 
+\usepackage{amsthm}
+
 
 % Style
 \newcommand{\suchthat}{\ |\ }
@@ -13,11 +15,17 @@
 \newcommand{\deriv}[2]{\frac{{\rm d} #1}{{\rm d} #2}}
 \newcommand{\dderiv}[2]{\frac{{\rm d}^2 #1}{{\rm d} #2^2}}
 
+% Environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{note}{Note}
+
 % Functions
 \newcommand{\function}{\ensuremath{\rightarrow}}
-% surjective: onto -> each y is mapped to
+	% surjective: onto -> each y is mapped to
 \newcommand{\surjective}{\ensuremath{\twoheadrightarrow}}
-% injective: one-to-one -> no two elements of x are mapped to the same y
+	% injective: one-to-one -> no two elements of x are mapped to the same y
 \newcommand{\injective}{\ensuremath{\rightarrowtail}}
 \newcommand{\bijective}{\ensuremath{\injective\!\!\!\!\!\surjective}}
 \newcommand{\nontotal}{\ensuremath{-\!\!\!\mapsto}}
