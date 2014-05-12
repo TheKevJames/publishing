@@ -94,4 +94,113 @@ f &= \pm \frac{n}{2L} \sqrt\frac{T}{\rho}
 \end{align*}
 where $n = 1$ implies a fundamental frequency and $n \geq 2$ implies a harmonic frequency.
 
+\subsection{Linear Differential Equations}
+A {\bf linear differential equation} has the form: \[ a_n(t)\nderiv{y(t)}{t}{n} + a_{n-1}(t)\nderiv{y(t)}{t}{n-1} + \cdots + a_0(t) y(t) = b_n(t)\nderiv{f(t)}{t}{n} + b_{n-1}(t)\nderiv{f(t)}{t}{n-1} + \cdots + b_0(t) f(t) \]
+
+In this equation, we have two dependant variables: $f$ and $y$. The `classical' approach is to assume $f(t)$ is given, then solve for $y(t)$.
+
+This equation is linear in the sense that it obeys the principle of superposition: if $y_1(t), y_2(t)$ are solutions corresponding to $f_1(t), f_2(t)$, then if $f(t) = k_1f_1(t) + k_2f_2(t)$, then $y(t) = k_1y_1(t) + k_2y_2(t)$.
+
+Given constant coefficients, we would write this equation as \[ a_n\nderiv{y(t)}{t}{n} + a_{n-1}\nderiv{y(t)}{t}{n-1} + \cdots + a_0y(t) = b_n\nderiv{f(t)}{t}{n} + b_{n-1}\nderiv{f(t)}{t}{n-1} + \cdots + b_0f(t) \]
+
+In shorthand, given
+\begin{align*}
+Dy &= \deriv{y}{t}\\
+D^2 y &= \dderiv{y}{t}\\
+D^n y &= \nderiv{y}{t}{n}
+\end{align*}
+we can write this as \[ Q(D)y = P(D)y \] where $Q(x)$ and $P(x)$ are polynomials.
+
+In general, we can assume $P(D) = 1$.
+
+\begin{proof}
+Suppose $\tilde y(t)$ is a solution of $Q(D)y = f$ (e.g.\ $Q(D) \tilde y = f$). Now let $y = P(D) \tilde y$. Then
+\begin{align*}
+Q(D)y &= Q(D)P(D) \tilde y\\
+&= P(D)Q(D)\tilde y\\
+&= P(D) f
+\end{align*}
+So $y = Q(D)\tilde y$ solves the original equation.
+\end{proof}
+
+\begin{example}
+Prove $Dy = (D+1)f$
+\end{example}
+
+\begin{proof}
+Suppose $Dy = (D + 1)f$ and $f(t) = t, \forall t$. Let's find $\tilde y$ that solves
+\begin{align*}
+Q(D)\tilde y &= f\\
+D\tilde y &= f\\
+D\tilde y &= t
+\end{align*}
+So $\tilde y = \half t^2 + C$. Let
+\begin{align*}
+y &= P(D)\tilde y\\
+&= (D+1)\bigl(\half t^2 + C\bigl)\\
+&= t + \half t^2 + C \half
+\end{align*}
+Then
+\begin{align*}
+D\bigl(t + \half t^2 + C\bigl) &= 1 + t\\
+&= (D + 1)t
+\end{align*}
+\end{proof}
+
+\begin{definition}
+If $f(t)$ is continuous on an interval $a \leq t \leq b$, then there exists a solution $y(t)$ satisfying the above differential equation and also the ``intial conditions'' for $a \leq t_0 \leq b$
+\begin{align*}
+y(t_0) &= P_0\\
+\deriv{y(t_0)}{t} &= P_1\\
+\nderiv{y(t_0)}{t}{n-1} &= P_{n-1}
+\end{align*}
+Moreover, this solution is unique.
+\end{definition}
+
+\begin{example}
+For a falling block, given the mass and gravitational force, determine the distance fallen over a given time $t$.
+\end{example}
+
+\begin{proof}
+\begin{align*}
+m \ddot y &= mg\\
+\ddot y &= g\\
+\dot y &= gt + C_1\\
+y &= \half gt^2 + C_1t + C_2
+\end{align*}
+For an $n$-th degree differential equation, we will end up with $n$ unknowns. Thus, we will need $n$ sets of initial conditions to solve for a general solution. Let's assume $y(0) = 0$. This gives us
+\begin{align*}
+y &= \half gt^2 + C_1t + C_2\\
+0 &= C_2\\
+\end{align*}
+So we now have $y = \half gt^2 + C_1t$. Given a second initial condition $\dot y(0) = 0$, we have
+\begin{align*}
+\dot y &= gt + C_1\\
+0 &= C_1
+\end{align*}
+Thus \[ y = \half gt^2 \]
+\end{proof}
+
+The {\bf general solution} of the equation is an expression for $y$ that solves the equation and contains $n$ arbitrary constants.
+
+Given a differential equation of order $n$ and $n$ initial conditions, we have an {\bf initial value problem}.
+
+To solve such problems, we find the general solution of the differential equation and plug in the initial conditions to evaluate the arbitrary constants.
+
+\begin{example}
+We'll first find the general solution of the auxillary equation $q(D)y = 0$ (a ``homogeneous equation'' because the right-hand side is zero). Note: this contains $n$ arbitrary constants and is called the complimentary solution $y_c$.
+
+Then, we'll find any solution of the original equation \[ Q(D)y = f \] This is called a particular solution $y_p$.
+
+To see why this works, let \[ y = y_c + y_p \]. Then
+\begin{align*}
+Q(D)y &= Q(D)(y_c + y_p)\\
+&= Q(D)y_c + Q(D)y_p\\
+&= 0 + f\\
+&= f
+\end{align*}
+\end{example}
+
+
+
 \end{document}

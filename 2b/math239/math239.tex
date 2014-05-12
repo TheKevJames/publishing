@@ -124,4 +124,78 @@ $\displaystyle{n + k \choose n} = \sum_{i=0}^n {n + i - 1 \choose n - i}$
 The first term is the number of $n$-element subsets of $[n+k]$ which must have a largest element $l$ equal to $n \leq l \leq n+k$. Now, the right-hand side could be expanded to ${n-1 \choose n-1} + {n \choose n-1} + {n+1 \choose n-1} + \cdots + {n + k -1 \choose n-1}$ which are respectively equivalent to the number of $n$-element subsets of $[n+k]$ with largest element $n, n+1, n+2, \dots n+k$.
 \end{proof}
 
+How many binary strings of length $n$ are there? How many subsets of $[n]$ are there of size $k$? How many permutatinos are there of a set of size $n$?
+
+We can unify these three problems (and more) by `abstracting out' the idea of size or length. Let $S$ be a set. Suppose that each $\sigma \in S$ is assigned a non-negative integer `weight' $w(\sigma)$.
+
+So if $S = \{\text{subsets of } [n]\}$ then manybe $w(\sigma) = (\text{size of }\sigma)$ for each $\sigma \in S$. Or, we could set $w(\sigma) =$ the sum of the elements of $\sigma$. If $S$ is the set of all binary strings, then maybe $w(\sigma) =$ the number of $1$'s in $\sigma$ or, alternatively, the length of $\sigma$.
+
+\begin{example}
+Given a set $S$ (of numbers, strings, sets, or whatever) and a weight function $w(\sigma)$ assigning a non-negative integer weight to each $\sigma$, how many elements of $S$ have weight $k$?
+\end{example}
+
+\begin{proof}
+Given $S$ and $w$, define $\Phi_S(x)$ by $\Phi_S(x) = \displaystyle\sum_{\sigma \in S} x^{w(\sigma)}$. This is the {\bf generating series} for $S$ and $\sigma$.
+
+For example: Assume $S = \{1, 3, 5\} \times \{2, 4, 6\}$. Let $w(a,b) = a+b$ for $a,b \in S$. The $S = \{ (1,2), (1,4), (1,6), (3,2), (3,4), (3,6), (5,2), (5,4), (5,6) \}$ and the weights are $[ 3, 5, 7, 5, 7, 9, 7, 9, 11 ]$.
+
+Then we have $\Phi_S(x) = x^3 + 2x^5 + 3x^7 + 2x^9 + x^{11} = (x^1 + x^3 + x^5)(x^2 + x^4 + x^6)$. More generally, we have $\Phi_S(x) = \displaystyle\sum_{k \geq 0} (\text{number of elements of }S\text{ with weight }k)x^k$.
+\end{proof}
+
+\begin{example}
+Let $S$ be the set of odd numbers beginning with $1$ and $w(\sigma) = \sigma, \forall \sigma \in S$.
+
+Given
+\begin{align*}
+\Phi_S(x) &= \sum_{\sigma \in S} x^{w(\sigma)}\\
+&= x^{w(1)} + x^{w(3)} + x^{w(5)} + \dots\\
+&= x^1 + x^3 + x^5 + \dots\\
+&= x(1 + x^2 + x^4 + \dots)\\
+&= x(\frac{1}{1 - x^2})\\
+&= \frac{x}{1-x^2}
+\end{align*}
+\end{example}
+
+\begin{theorem}
+For a finite $S$ and any weight function on $S$, $\Phi_S(1) = |S|$.
+\end{theorem}
+
+\begin{proof}
+$\Phi_S(1) = \displaystyle\sum_{\sigma \in S} 1^{w(\sigma)} = \sum_{\sigma \in S} 1 = |S|$.
+\end{proof}
+
+\begin{theorem}
+$\deriv{\Phi_S(1)}{S} =$ the total weight of the elements of $S$.
+\end{theorem}
+
+\begin{theorem}
+$\deriv{\Phi_S(1)}{\Phi_S(1)} =$ the average weight of an element of $S$.
+\end{theorem}
+
+\begin{example}
+Let $S$ be the set of binary strings of a length less than or equal to $n$ and $w(\sigma)$ be the length of $\sigma$.
+
+\begin{align*}
+\Phi_S(x) &= \sum_{\sigma \in S} x^{w(\sigma)}\\
+&= \sigma_{k \geq 0} (\text{number of elements of }S\text{ with weight }k) x^k\\
+&= \sum_{k \geq 0} (\text{number of binary strings of length }\leq n\text{ of weight }k) x^k\\
+&= \sum_{k=0}^n 2^k x^k\\
+&= \sum_{k=0}^n {(2x)}^k\\
+&= 1 + 2x + {(2x)}^2 + \cdots + {(2x)}^n\\
+&= \frac{1 - {(2x)}^{n+1}}{1 - 2x}
+\end{align*}
+and thus we have $\Phi_S(1) = \frac{1 - {(2x)}^{n+1}}{1 - 2x} = 2^{n+1} - 1$.
+
+And so
+\begin{align*}
+\deriv{\Phi_S(x)}{S} &= \sum_{k=0}^n k 2^k x^{k-1}\\
+\deriv{\Phi_S(1)}{S} &= \sum_{k=0}^n k 2^k\\
+&= (n-1)2^{n+1} + 2
+\end{align*}
+
+The average length is thus \[ \deriv{\Phi_S(1)}{\Phi_S(1)} = \frac{(n-1)2^{n+1} + 2}{2^{n+1} - 1} = n - 1 + \frac{n+1}{2^{n+1} - 1} \approx n - 1 \]
+\end{example}
+
+
+
 \end{document}
