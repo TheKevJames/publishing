@@ -34,13 +34,30 @@ We denote the runtime of a function as $T(f(x))$, for example: $T(3 \times 4)$ m
 
 Example: given $T_A(n) = 1 000 000n + 2 000 000 000$ and $T_B(n) = 0.01n^2$, which is `better'? For $n < 100 000 000$, algorithm $B$ is better. Since we only care about large inputs, though, we say $A$ is better overall.
 
-Example: prove that $2010n^2 + 1388 = \mathbb{O}(n^3)$.
+\begin{example}
+Prove that $2010n^2 + 1388 = \mathbb{O}(n^3)$.
+\end{example}
 
-Proof:\\$\forall c > 0$, $2010 n^2 + 1388 \leq cn^3$\\
-		$n > 1388 \implies 2010n^2 + 1388 \leq 2011n^2 \leq cn^3$\\
-		$2011n^2 \leq cn^3 \iff 2011 \leq cn$\\
-		$n > \frac{2011}{c} = n_0$
+\begin{proof}
+$\forall c > 0$, $2010 n^2 + 1388 \leq cn^3$\\
+$n > 1388 \implies 2010n^2 + 1388 \leq 2011n^2 \leq cn^3$\\
+$2011n^2 \leq cn^3 \iff 2011 \leq cn$\\
+$n > \frac{2011}{c} = n_0$
+\end{proof}
 
+\begin{definition}
+$f(n) = \mathbb{O}(g(n))$ if there exists a positive real number $c$ and an integer $n_0 > 0$ such that $\forall n \geq n_0$, $f(n) \leq cg(n)$.
+\end{definition}
 
+More concretely, we can say that $f(n) = \mathbb{O}(af(n))$ and $a^\prime f(n) = \mathbb{O}(f(n))$. It's also worth noting that order notation is transitive (e.g.\ $f(n) = \mathbb{O}(g(n))$ and $g(n) = \mathbb{O}(h(n))$ implies $f(n) = \mathbb{O}(h(n))$).
+
+We use five different symbols to denote order notation:
+\begin{itemize}
+\item $\mathbb{O}$ denotes a function \emph{less than or equal} to a given order
+\item $\theta$ denotes a function \emph{exactly equal} to a given order
+\item $\Omega$ denotes a function \emph{greater than or equal} to a given order
+\item $o$ denotes a function \emph{always less} than a given order
+\item $\omega$ denotes a function \emph{always greater} than a given order
+\end{itemize}
 
 \end{document}

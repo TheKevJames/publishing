@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,parskip,custom}
+\usepackage{amsmath,amssymb,mathtools,parskip,custom}
 \usepackage[margin=1in]{geometry}
 
 \begin{document}
@@ -22,9 +22,59 @@ For example, when computing the difference between receiving $\$1000$ right now 
 Note that `interest rates' do not always refer to, say, the interest received by placing one's money in a savings account. If you are starting a company, this determination becomes something different: what would the value of your company be in three years if you had $\$1000$ now versus $\$1300$ in three years?
 
 \subsection{Interest and Equivalence}
-Most of this was wrong or imperfect, I'll fill it in properly later.
+When calculating the time value of money, it is important to take into account the interest which will accumulate on that money over time. There are several commonly used methods for calculating interest, many of which are generally {\bf repayment options} for loan payments.
 
-\subsection{Monday's Lecture}
-I missed this class, but I'll take textbook notes or steal someone's notes. Soon.
+\subsubsection{Simple Interest}
+{\bf Simple Interest} is computed only on the principle loan without regards to the additional debt accrued over time. The total amount paid back (future value $F$) is equal to the principle $P$ times the interest rate $i$ and the number of time periods $n$ (in addition to the original principal), or more clearly \[ F = P(1 + in) \]
+
+\subsubsection{Compound Interest}
+{\bf Compound Interest} is much more common; it allows interest to be calculated for both the principle and all previously accrued interest at the end of each pay period. For example, if a loan for $\$1000$ has interest compounding monthly at $5\%$, then after the first few months the borrower would respectively owe $\$1050, \$1102.5, \$1157.63, \dots$.
+
+With compound interest, it becomes interesting to calculate {\bf payment plans}. These plans outline the amounts which will be paid back as well as the times. Common plans include: payment in full at term end, equal payments at set intervals until debt is cleared, paying off interest for each period and principle at the end, and paying a set amount plus the accrued interest at each pay period. It is interesting to note that these plans, while technically equivalent, result in the borrower paying back a different sum.
+
+Taking into account time-value, we note that if the `usefulness' of the money being borrowed is exactly equal to the interest rate then the selection of a payment plan does not matter in the slightest. However, as soon as the borrower gains a benefit from his loan which is not exactly equal to the interest rate, the selection of a proper plan becomes much more important.
+
+For example, if you were borrowing some large sum to invest in the stock market and you absolutely knew with $100\%$ certainty you could return three times your investment each month for so long as you were investing, then it is in your best interest to borrow as much money for as long as possible---though the interest will continue to compound against you, it will do so at a far lower rate than $300\%$ which will thus result in a net benefit for you. On the other hand, if the stock market is only returning $0.00000001\%$ to you, you would be much better off paying off your loan as soon as possible. In other words, equivalence is \emph{dependant on interest rate}.
+
+% Money-Time graphs?
+
+With compound interest, we find that the future sum varies exponentially with time as \[ F = P{(1 + i)}^n \] This is the {\bf single payment compound amount formula} and is functionally denoted as $F = P(F/P, i, n)$. Note that conversely this implies \[ P = F{(1 + i)}^{-n} \]
+
+{\bf Uniform Payment Rates} are one of the most common payment plans; this classification of payment plans includes any with a constant series of payments over time---regardless of whether those payments are equal.
+
+Imagine you are saving a set amount of money $A$ at the end of each year. This is the most common type of uniform rates and is modeled with the general case for $n$ years $F = A{(1 + i)}^{n-1} + \cdots + A{(1 + i)}^2 + A{(1 + i)} + A$. Note that the first amount is only invested at the end of the first year and thus the terms only begin with $n-1$. Solving this equation gives \[ F = A \bigg( \frac{{(1 + i)}^n - 1}{i} \bigg) \] or functionally $F = A(F / A, i, n)$. This is the {\bf uniform series compound amount factor}.
+
+Conversely, we have \[ A = F\bigg( \frac{i}{{(1 + i)}^n - 1} \bigg) \] as the {\bf uniform series sinking fund factor}.
+
+By using both the sinking fund formula and the single payment compound formula, we see that \[ A = P \bigg( \frac{i{(1 + i)}^n}{{(1 + i)}^n - 1} \bigg) \] which allows us to determine the end-of-period payment or disbursement series for any principle value. This formula is the {\bf uniform series capital recovery factor}. Conversely, \[ P = A \bigg( \frac{{(1 + i)}^n - 1}{i{(1 + i)}^n} \bigg) \] is the {\bf uniform series present worth factor}.
+
+{\bf Gradient Rates} are another extremely common distribution series. If each payment on a principle follows the sequential form of $A, A+G, A+2G, \dots$ we have a gradient rate. These can be solved by seperating out the $A$ and $G$ terms, solving the $A$ term normally, and adding that to the {\bf arithmetic gradient present worth factor} \[ P = G \bigg( \frac{{(1 + i)}^n - in - 1}{i^2 {(1 + i)}^n} \bigg) \]
+
+This also allows us to derive the {\bf arithmetic gradient uniform series factor} \[ A = G \bigg( \frac{{(1+i)}^n -in - 1}{i{(1+i)}^n - i} \bigg) \] More complexly, the present worth of a gradient series is given by \[ P = A_1{(1 + i)}^{-n} \sum_{x=1}^n {\bigg( \frac{1+g}{1+i} \bigg)}^{x-1} \] where $A_1$ is the value of cash flow at the first interval (or simply $A$ if we think og the overall value as having been seperated into $A$ and $G$). Through manipulation of this formala, we see that \[ P =
+\begin{dcases*}
+A \bigg( \frac{1 - {(1+g)}^n {(1 + i)}^{-n}}{i-g} \bigg) & where $i \neq g$, or\\
+A_1n{(1+i)}^{-1} & otherwise
+\end{dcases*}
+\]
+
+\subsubsection{Interest Rates}
+If an interest rate compounds over a given term (e.g.\ a $5\%$ rate compounding semi-annually), we can discuss either the {\bf nominal interest rate} $r$ which does not take compounding into account ($2.5\% + 2.5\% = 5\%$ per year) or the {\bf effective interest rate} $i$ which is the flat interest for the entire year, taking into account compounding an applied as if it was a single year-end payment. For a $\$100$ deposit earning $5\%$ compounded semi-annually, thie effective rate is $i_1 = 5.06\%$ in the first year ($\$100 * 0.025 * 0.025 - \$100 = \$5.06$).
+
+The effective rate can be calculated with \[ i_a = {\bigg(1 + \frac{r}{m} \bigg)}^m - 1 \] where $m$ is the number of compounding subperiods per year. Note we define the effective interest rate $i$ as $\frac{r}{m}$ and thus have \[ i_a = {(1 + i )}^m - 1 \]
+
+\subsubsection{Continuous Compounding}
+The single payment compound amount formula may now be rewritten as $F = P{(1 + \frac{r}{m})}^n$. As we increase $m$, we see that $F = P \lim_{m\to\inf} {\bigg(1 + \frac{r}{m} \bigg)}^{mn}$ and thus by calculus \[ i_a = e^r - 1 \] We then have the {\bf compound amount} \[ F = P(e^{rn}) \] and the {\bf present worth} \[ P = F(e^{-rn}) \]
+
+We can now redefine the previous set of equations for continuous compound interest
+\begin{align*}
+A &= F \bigg( \frac{e^r - 1}{e^{rn} - 1} \bigg)\\
+A &= P \bigg( \frac{e^{rn}(e^r - 1)}{e^{rn} - 1} \bigg)\\
+F &= A \bigg( \frac{e^{rn} - 1}{e^r - 1} \bigg)\\
+P &= A \bigg( \frac{e^{rn} - 1}{e^{rn}(e^r - 1)} \bigg)\\
+F &= P \bigg( \frac{(e^r - 1)e^{rn}}{re^r} \bigg)\\
+P &= F \bigg( \frac{e^r - 1}{re^{rn}} \bigg)\\
+\end{align*}
+
+
 
 \end{document}

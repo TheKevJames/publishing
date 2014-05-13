@@ -28,7 +28,7 @@ We can also overload operators. For example, we could define the sum of two clas
 
 {\bf Nonmember functions} are critical ADT functions which are declared outside of the class. This leads to ebtter encapsulation and more flexible packaging. Additonally, certain functions are required to be nonmember functions (e.g.\ \code{operator>>}). Streaming operators should be nonmember functions so that they can accept a stream as a first operand and thus chain stream operations.
 
-A class can have \code{private}, \code{protected}, and \code{public} data members and functions (in addition to several less-often used flags). It is best practice to use the most secure flag as possible (generally: \code{private}). We can also use the \code{friend} flag to create a \code{private} method which is accessible to a given other class.
+A class can have \code{private}, \code{protected}, and \code{public} data members and functions (in addition to several less-often used flags). It is best practice to use the most secure flag as possible (generally: \code{private}); though the \code{public} flag is sometimes necessary, the \code{protected} flag should be avoided. We can also use the \code{friend} flag to create a \code{private} method which is accessible to a given other class.
 
 \subsection{Inheritance}
 {\bf Inheritance} allows us to crreate classes ({\bf derived classes}) which include the data members and functions of a {\bf base class}.
@@ -59,11 +59,34 @@ class Base {
     int priv;
 public:
     friend void print(Base);
-}
+};
 
 void print (Base esab) {
     cout << esab.priv << endl;
 }
 \end{verbatim}
+
+\subsection{Helper Functions}
+The best practice is to hide helper functions as \code{private} methods or within a namespace. Helper functions modularize our code, but should not pollute the gloal namespace.
+
+\section{Entity vs Value Objects}
+{\bf Entity Objects} are the digital embodiment of a real-world entity. Each object has a distinct identity and objects with the same attribute values are not equal. {\bf Value Objects} simply represent a value of an ADT.\@ Value objects with the same attribute values are considered to be identical.
+
+An operation on an entity object should reflect a real-world event: copying is not meaningful---though cloning may be, entities referred to by pointers are useless (due to the no-copy rule), and computation on entities are not meaningful (overload \code{new} and \code{delete}, maybe \code{operator<}). Virtual functions and inheritance are uncommon for value-based ADTs, though equality and computations are useful.
+
+\subsectino{Singleton Design Pattern}
+The {\bf Singleton Design Pattern} ensures that only one object of our ADT exists. By using a structure of the form
+\begin{verbatim}
+class ADT {
+    static ADT a;
+    ADT() {}
+    ADT(const ADT&);
+public:
+    static ADT* instance() {
+        return &a;
+    }
+};
+\end{verbatim}
+we can ensure that the singleton is created the first time, then \emph{referenced} every time thereafter.
 
 \end{document}
