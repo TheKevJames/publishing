@@ -34,6 +34,8 @@
 	I wish to thank P. Kang for the idea of creating the \LaTeX\ template with which I wrote this report.
 }
 {
+	\includegraphics[scale=0.5]{signature.jpg}\\
+	\line(1,0){150}\\
 	Kevin Carruthers, 20463098
 }
 
@@ -78,6 +80,8 @@ It will also provide follow-up recommendations for potential improvements to be 
 
 \subsection{Report Structure}
 This report will first analyze the current implementation, then it will enumerate the alternative solutions (of which the current implementation is one). The decision criteria will be described and the potential solutions will be subjected to these criteria in accordance with the MCDA variation.\@ Finally, this report will conclude with a summary of the decision making process and an analysis of the implemented solution, including any further suggestions and issues faced in implementation.
+
+This report is intended to be read by the developers at Wriber, such that they can make an informed decision as to the solution of the stated problem. Additionally, the scope of this report is Wriber's specific problem instance, though it may be applied to any and all similar problems.
 \newpage
 
 
@@ -135,7 +139,7 @@ The system could be designed to learn from a large corpus of manually-ranked dat
 \section{Criteria}
 There are several criteria which will be used to determine which approach should be selected. Each of these criteria will be assigned a score from 1 to 5, as well as a relative weighting. By taking the sum of each of a method's criteria (multiplied by that criterium's specific weighting), the method with the greatest score will be declared to be the one which best meets the problem statement.
 
-This methodology is similar to MCDA, a very well-known decision-making process and should be adequate for this situation. The specific variations are to simplify the algorithm used in determining exact weighting and score; since the selected criteria are subjective, this will result in no loss of analysis quality.
+This methodology is similar to MCDA, a very well-known decision-making process, and should be adequate for this situation. The specific variations are to simplify the algorithm used in determining exact weighting and score; since the selected criteria are subjective, this will result in no loss of analysis quality.
 
 \begin{table}[ht]
 \caption{Criteria Weighting}
@@ -160,7 +164,7 @@ This methodology is similar to MCDA, a very well-known decision-making process a
 \end{tabular}
 \end{table}
 
-The relative weightings of our criteria are represented in table~\ref{tbl:weighting} and then described in-depth below, including the determination of thee weightings.
+The relative weightings of the criteria are represented in table~\ref{tbl:weighting} and then described in-depth below, including the determination of thee weightings.
 
 \subsection{Cost}
 Lower costs are always prefered in business. Wriber is dedicated to creating an excellent product, though, and thus places a low weight on the cost necessary to produce any one solution. This criterium is rated from zero to five, with zero being outlandishly expensive and five being free. Developer time (i.e.\ salaries) has been taken into account and algorithm licensing fees have been determined to be zero in all cases.
@@ -183,7 +187,7 @@ The final of the time-based criteria, this deals with any time, over and beyond 
 This criterium takes into account the degree to which the solution will allow for user-specific and state-based results. This criterium is rated from zero to five, where zero represents `not at all' and five represents `completely'.
 
 \subsection{Quality of Results}
-This is a completely subjective measurement of the potential quality of the final results of using this algorithm. Though this is an important criterium, it is the most subjective of our criteria and should be treated carefully. This criterium is rated from zero to five, where zero represents a completely inaccurate and unuseable solution and five represents a perfect one.
+This is a completely subjective measurement of the potential quality of the final results of using this algorithm. Though this is an important criterium, it is the most subjective of the criteria and should be treated carefully. This criterium is rated from zero to five, where zero represents a completely inaccurate and unuseable solution and five represents a perfect one.
 \newpage
 
 
@@ -228,7 +232,7 @@ It is also worth noting that even if creating the best possible system was the s
 This report recommends that Wriber implement an unsupervised learning system in order to produce high-quality results with a minimum of development time.
 
 \subsection{Further Recommendation}
-It was determined that a higher weighting should be assigned to the quality of results than to the time it takes an algorithm to be implemented. However, in the competitive startup world, we may find ourself in the situation of wanting a minimum viable product right away and only focusing on `perfection' thereafter.
+It was determined that a higher weighting should be assigned to the quality of results than to the time it takes an algorithm to be implemented. However, in the competitive startup world, one may be in the situation of wanting a minimum viable product right away and only focusing on `perfection' thereafter.
 
 A supervised learning algorithm would allow us to reach a working prototype in less time than using the unsupervised approach. Since it will require very little time to convert a supervised to an unsupervised approach, it may therefore be useful to complete a supervised approach first, to be replaced by an unsupervised approach when time permits (e.g.\ before the final product release).
 
