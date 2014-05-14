@@ -63,7 +63,7 @@ If an interest rate compounds over a given term (e.g.\ a $5\%$ rate compounding 
 The effective rate can be calculated with \[ i_a = {\bigg(1 + \frac{r}{m} \bigg)}^m - 1 \] where $m$ is the number of compounding subperiods per year. Note we define the effective interest rate $i$ as $\frac{r}{m}$ and thus have \[ i_a = {(1 + i )}^m - 1 \]
 
 \subsubsection{Continuous Compounding}
-The single payment compound amount formula may now be rewritten as $F = P{(1 + \frac{r}{m})}^n$. As we increase $m$, we see that $F = P \lim_{m\to\inf} {\bigg(1 + \frac{r}{m} \bigg)}^{mn}$ and thus by calculus \[ i_a = e^r - 1 \] We then have the {\bf compound amount} \[ F = P(e^{rn}) \] and the {\bf present worth} \[ P = F(e^{-rn}) \]
+The single payment compound amount formula may now be rewritten as $F = P{(1 + \frac{r}{m})}^n$. As we increase $m$, we see that $F = P \displaystyle\lim_{m\to\infty} {\bigg(1 + \frac{r}{m} \bigg)}^{mn}$ and thus by calculus \[ i_a = e^r - 1 \] We then have the {\bf compound amount} \[ F = P(e^{rn}) \] and the {\bf present worth} \[ P = F(e^{-rn}) \]
 
 We can now redefine the previous set of equations for continuous compound interest
 \begin{align*}

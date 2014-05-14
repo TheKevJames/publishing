@@ -196,6 +196,51 @@ And so
 The average length is thus \[ \deriv{\Phi_S(1)}{\Phi_S(1)} = \frac{(n-1)2^{n+1} + 2}{2^{n+1} - 1} = n - 1 + \frac{n+1}{2^{n+1} - 1} \approx n - 1 \]
 \end{example}
 
+\subsection{Formal Power Series}
+A {\bf formal power series} is an expansion (i.e.\ generating function) of the form $\displaystyle\sum_{k \geq 0} a_k x^k$.
 
+``A {\bf generating function} is a clothesline on which we hang a sequence of coefficients for display.'' -H. Wilf
+
+We often treat formal power series as actual power series when using them. If $A(x) = \displaystyle\sum_{k\geq 0} a_k x^k, B(x) = \sum_{k\geq 0} b_k x^k$, then we define $(A+B)(x) = \displaystyle\sum_{k\geq 0} (a_k + b_k) x^k$. We can also multiply: with the same $A(x)$ and $B(x)$, we have $AB(x) = \displaystyle\sum_{k\geq 0} \bigg(\sum_{i=0}^k a_i b_{k-1}\bigg) x^k$.
+
+We can also perform {\bf coefficient extraction}; $[x^k]A(x)$ is defined to be the coefficient of $x^k$ in $A(x)$.
+
+We cnan easily solve linear equations whose variables are formal power series (FPS).
+
+\begin{example}
+Find a FPS $A(x)$ such that $(1 + x + x^2 + \dots)A(x) = 1-x$.
+
+Let $A(x) = a_0 + a_1 x + a_2 x^2 + \dots$. We want to solve
+\begin{align*}
+(1 + x + x^2 + \dots)(a_0 + a_1 x + a_2 x^2 + \dots) &= 1 - x + (0x^2 + 0x^3 + 0x^4 + \dots)\\
+a_o + (a_0 + a_1)x + (a_0 + a_1 + a_2)x^2 + \cdots &= 1 + (-1)x + 0x^2 + 0x^3 + \dots
+\end{align*}
+
+Equating coefficients gives
+\begin{align*}
+a_0 &= 1\\
+a_0 + a_1 &= -1\\
+a_0 + a_1 + a_2 &= 0\\
+a_0 + a_1 + a_2 + a_3 &= 0\\
+&\dots
+\end{align*}
+or more usefully
+\begin{align*}
+a_0 &= 1\\
+a_1 &= -2\\
+a_2 &= 1\\
+a_3 &= 0\\
+a_3 &= 0\\
+&\dots
+\end{align*}
+
+So the solution is $A(x) = 1 - 2x + x^2$.
+
+More simply, we have
+\begin{align*}
+\frac{1}{1-x} A(x) &= 1 - x\\
+A(x) &= 1 -2x + x^2
+\end{align*}
+\end{example}
 
 \end{document}

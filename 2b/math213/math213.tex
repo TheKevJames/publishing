@@ -192,7 +192,7 @@ We'll first find the general solution of the auxillary equation $q(D)y = 0$ (a `
 
 Then, we'll find any solution of the original equation \[ Q(D)y = f \] This is called a particular solution $y_p$.
 
-To see why this works, let \[ y = y_c + y_p \]. Then
+To see why this works, let \[ y = y_c + y_p \] Then
 \begin{align*}
 Q(D)y &= Q(D)(y_c + y_p)\\
 &= Q(D)y_c + Q(D)y_p\\
@@ -201,6 +201,68 @@ Q(D)y &= Q(D)(y_c + y_p)\\
 \end{align*}
 \end{example}
 
+\begin{example}
+Prove $(D^2 - 6D + 9) = 0$.
 
+Then
+\begin{align*}
+Q(m) &= 0\\
+m^2 -6m + 9 &= m\\
+{(m - 3)}^2 &= 0\\
+m &= 3
+\end{align*}
+where $m$ has multiplicity $2$.
+% MISSING
+
+If $y = y_1$ is a solution of $Q(D)y(t) = f(t)$, then substituting $y = y_1v$ yields an equation of order $n=1$ in $\dot v$. Thus we have
+\begin{align*}
+y_1 &= e^{3t}\\
+y &= e^{3t}v\\
+Dy &= 3e^{3t}v + e^{3t}\dot v\\
+D^2y &= 3(3e^{3t}v + e^{3t}\dot v) + 3e^{3t}\dot v + e^{3t} \ddot v\\
+(D^2 - 6D +9)y &= 0\\
+9e^{3t} + 6e{3t} \dot v + e^{3t} \ddot v -6 (3e^{3t}v + e^{3t}\dot v) + 9e^{3t} v &= 0\\
+e^{3t} \ddot v &= 0\\
+\ddot v &= 0\\
+\dot v &= c_0\\
+v &= c_1t + c_2
+\end{align*}
+So we have another solution to our original equation \[ y_c = y_1v = e^{3t} (c_1 t + c_2) \]
+\end{example}
+
+Generally, if the repeated root $\lambda$ is of multiplicity $k$, then the complimentary solution would be \[ (c_1 + c_2t + \cdots + c_k t^{k-1})e^{\lambda t} \] Of course this implies that with multiplicity $1$ we have \[ ce^{\lambda t} \] The general solution, then, is the given by the sum of all such terms for every $\lambda$ of the characteristic equation.
+
+\begin{example}
+For a block of mass $M$ attached to a spring with constant $k$, we have
+\begin{align*}
+M\ddot y &= ky\\
+\ddot y &= \frac{k}{M}y = 0\\
+\bigg(D^2 + \frac{k}{M}\bigg)y &= 0\\
+Q(m) &= 0\\
+M^2 + \frac{k}{M} &= 0\\
+m &= \pm i\sqrt\frac{k^2}{M}
+\end{align*}
+
+By our method we have
+\begin{align*}
+y &= c_1 e^{i\sqrt\frac{k}{M} t} + c_2 e^{-i\sqrt\frac{k}{M} t}\\
+&= c_1\bigg( \cos\bigl(\sqrt\frac{k}{M} t\bigl) + i\sin\bigl(\sqrt\frac{k}{M} t\bigl)\bigg) + c_2 \bigg(\cos\bigl(-\sqrt\frac{k}{M} t\bigl) + i\sin\bigl(-\sqrt\frac{k}{M} t\bigl)\bigg)
+\end{align*}
+
+Consider the potential initial conditions. We would have
+\begin{align*}
+y(t_0) &= c_1 e^{i\sqrt\frac{k}{M} t_0} + c_2 e^{-i\sqrt\frac{k}{M} t_0}\\
+\dot y(t_0) &= i\sqrt\frac{k}{M} \bigg(c_1 e^{i\sqrt\frac{k}{M} t_0} + c_2 e^{-i\sqrt\frac{k}{M} t_0}\bigg)
+\end{align*}
+
+So we can find
+\begin{align*}
+c_1 &= \frac{j\sqrt\frac{k}{M} y(t_0) + \dot y(t_0)}{2i\sqrt\frac{k}{M} e^{i\sqrt\frac{k}{M} t_0}}\\
+c_2 &= \frac{i\sqrt\frac{k}{M} y(t_0) - \dot y(t_0)}{2i\sqrt\frac{k}{M} e^{-i\sqrt\frac{k}{M} t_0}}
+\end{align*}
+or in other words, if $y(t_0)$ and $\dot y(t_0)$ are real-valued, $c_2$ is the complex conjugate of $c_1$ ($c_1 = c_2^*$).
+
+It thus follows that \[ y = 2 |c_1| \cos\bigg(\sqrt\frac{k}{M} t_0 + \angle c_1\bigg) \]
+\end{example}
 
 \end{document}
