@@ -205,7 +205,7 @@ We often treat formal power series as actual power series when using them. If $A
 
 We can also perform {\bf coefficient extraction}; $[x^k]A(x)$ is defined to be the coefficient of $x^k$ in $A(x)$.
 
-We cnan easily solve linear equations whose variables are formal power series (FPS).
+We can easily solve linear equations whose variables are formal power series (FPS).
 
 \begin{example}
 Find a FPS $A(x)$ such that $(1 + x + x^2 + \dots)A(x) = 1-x$.
@@ -242,5 +242,23 @@ More simply, we have
 A(x) &= 1 -2x + x^2
 \end{align*}
 \end{example}
+
+Given a power series $P(x)$, if $Q(x)$ is another power series such that $PQ(x) = 1$ then $Q(x)$ is an inverse of $P(x)$. We write $Q(x) = P^{-1}(x) = \frac{1}{P(x)}$.
+
+\begin{lemma}
+$P(x) = \displaystyle\sum_{k \geq 0} P_k x^k$ has an inverse if and only iff $p_0 \neq =$.
+\end{lemma}
+
+We can often write formal power series more concisely in terms of their inverses. This can be useful for simplifying a series, for example:
+\begin{align*}
+(1 + x + x^2 + \dots) B(x) &= 1-x\\
+\frac{1}{1-x} B(x) &= 1 - x\\
+B(x) &= {(1-x)}^2\\
+&= 1 -2x  + x^2
+\end{align*}
+
+A common way to compute inverses is to use the formula for the sum of a geometric series \[ \sum_{k\geq 0} x^k = \frac{1}{1-x} \] We can `substitute' any formal power series $P(x)$ in place of $x$ in this formula if $P(x)$ has a constant term with a value of zero (e.g.\ has no constant terms).
+
+
 
 \end{document}
