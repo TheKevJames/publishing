@@ -74,7 +74,7 @@ The best practice is to hide helper functions as \code{private} methods or withi
 
 An operation on an entity object should reflect a real-world event: copying is not meaningful---though cloning may be, entities referred to by pointers are useless (due to the no-copy rule), and computation on entities are not meaningful (overload \code{new} and \code{delete}, maybe \code{operator<}). Virtual functions and inheritance are uncommon for value-based ADTs, though equality and computations are useful.
 
-\subsectino{Singleton Design Pattern}
+\subsection{Singleton Design Pattern}
 The {\bf Singleton Design Pattern} ensures that only one object of our ADT exists. By using a structure of the form
 \begin{verbatim}
 class ADT {
@@ -88,5 +88,121 @@ public:
 };
 \end{verbatim}
 we can ensure that the singleton is created the first time, then \emph{referenced} every time thereafter.
+
+\subsection{Essential Methods}
+Some C++ member functions are necessary for all object definitions and will thus be inserted by default if no implementation is provided. These include
+\begin{itemize}
+\item the default constructor (if and only if we do not define any other constructor)
+\item the destructor
+\item the copy constructor
+\item the assignment operator
+\end{itemize}
+in addition, the equality operator should be defined for all objects, though it has no default implementation.
+
+If we do not declare a copy constructor (a constructor which copies class instances), the default copy constructor will be created based on {\bf memberwise initialization} such that
+\begin{itemize}
+\item simple data members are bitwise copied
+\item pointer members are bitwise copied
+\item member objects are copied using their copy constructors
+\item inherited members are copied using thir copy constructors
+\end{itemize}
+The assignment operator follows the same pattern as the above.
+
+The default constructor follows a slightly different set of default values ({\bf memberwise initialization})
+\begin{itemize}
+\item simple data members are uninitialized
+\item pointer members are uninitialized
+\item member objects are initialized using their default constructors
+\item inherited members are initialized using their default constructors
+\end{itemize}
+
+The deconstructor is similar since it uses {\bf memberwise destruction}
+\begin{itemize}
+\item simple data mambers are deallocated
+\item pointer members deallocate the pointer
+\item member objects call their destructor
+\item inherited members call their destructor
+\end{itemize}
+
+\subsection{Mutable vs Immutable Objects}
+Entity objects are {\bf mutable}, that is, their objects can change via mutators or other functions. Value objects, though, are often {\bf immutable}: their objects can not change value, a new object must be created instead.
+
+It is possible, though, to design a mutable value-based ADT:\@
+\begin{verbatim}
+Person myPerson("David", new Date(1, "May", 1990));
+cout << myPerson.DOB;
+
+Date myDate = myPerson.DOB;
+myDate.monthIs(myDate + 1);
+cout << myPerson.DOB;
+\end{verbatim}
+This is generally a bad design: this ADT has a mutable date field if and only if the constructor did not create a {\bf deep copy} of the input date and the accessor did not return a deep copy. If either of these do not create a copy, the original, mutable object continues to be accessible externally.
+
+\subsubsection{Copy Types}
+A deep copy creates an entirely new instance of an object.
+\begin{verbatim}
+class ADT {
+    Date d;
+public:
+    void setDate(const Date din) {
+        d = new Date(din);
+    }
+}
+\end{verbatim}
+
+A {\bf shallow copy} simply creates a pointer to the copied object.
+\begin{verbatim}
+class ADT {
+    Date d;
+public:
+    void setDate(const Date din) {
+        d = din;
+    }
+}
+\end{verbatim}
+
+\section{Polymorphism}
+The compiled byte code contains executable code for every function and method definition. The compiler can see at compile time which method should be executed. When we add virtual functions, each class with such a function will have a {\bf vtable} of pointers to these functions and a pointer to its vtable. This allows us to call the same functions from multiple subclasses without reimplementing them.
+
+The general convention as to whether a public function is to be made virtual is made for the class as a whole instead of for each individual function. This is generally based on whether the class should be polymorphic or not.
+
+We can use the assignment operator to assign derived class instances to base class instances.
+\begin{verbatim}
+int main (void) {
+    Base b(42, 'x');
+    Derived d(10, 'c', 8.1);
+    b = d;
+}
+\end{verbatim}
+This assignment will not copy the derived class' extra data members or vpointers. We call this {\bf object slicing}.
+
+If there exists any virtual function, the class is polymorphic and should thus have a virtual destructor. If we do not implement this manually, the compiler will default to creating a non-virtual constructor.
+
+In order to print a polymorphic function, we generally
+\begin{itemize}
+\item create a \code{virtual void print(std::ostream\& os) const;} function which does the actual printing
+\item create a non-member function \code{std::ostream\& operator<<(std::ostream\& os, const ADT\& adt);} which takes an instance of the class and calls the \code{print()} member function
+\end{itemize}
+
+The overloaded streaming operator generally looks similar to
+\begin{verbatim}
+std::ostream& operator<<(std::ostream& os, const ADT& adt) {
+    adt.print(os);
+    return os;
+}
+\end{verbatim}
+
+In general, we have
+\begin{verbatim}
+class ADT {
+public:
+    ADT();
+    ADT(ADT& adt);
+    virtual ~ADT();
+    void operator=(ADT& adt);
+    virtual bool operator==(ADT& adt);
+    virtual void print(std::ostream& os);
+}
+\end{verbatim}
 
 \end{document}

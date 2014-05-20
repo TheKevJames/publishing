@@ -129,9 +129,120 @@ we find the order equation
 \end{align*}
 \end{example}
 
-\section{Dynamic Arrays}
+\section{Data Types}
+\subsection{Dynamic Arrays}
 Linked lists support $\mathbb{O}(1)$ insertion and deletion, $\mathbb{O}(n)$ accessing. Arrays are vice-versa.
 
 {\bf Dynamic arrays} offer a compromise: $\mathbb{O}(1)$ for both, but can only insert or delete from the end of the list.
 
+% BEGIN OTHER LECTURER
+\subsection{Heaps}
+Given a binary tree such that all levels are filled except for the lowest ({\bf heap structure property}) where all nodes have a lower value than that of their parent ({\bf heap ordering property}), we have the size of the heap $h$ given by $\log(n+1) - 1 \leq h \leq \log h$ or $h=\lfloor\log n\rfloor$.
+
+Note that we do not implement tree-like data structures as such, but rather as arrays.
+
+Heap functions have worst case running times bounded as follows
+\begin{itemize}
+\item Heap insertion: $\Theta(\log n)$
+\item Heap deletion: $\Theta(\log n)$
+\item Top-down heap creation: $\Theta(n\log n)$
+\item Bottom-up heap creation: $O(n)$
+\end{itemize}
+
+\subsubsection{Heap Insert}
+The item to-be-inserted must be placed in the only possible location to preserve integrity: i.e.\ the bottom level in the first available position. However, this may violate heap ordering procedure; we must perform bottom-up heap swaps until the ordering is satisfied.
+
+To perform a bottom-up heap swap, we must
+\begin{itemize}
+\item compare node with parent
+\item if the node is larger than the parent
+\begin{itemize}
+\item swap
+\item recurse
+\end{itemize}
+\item else
+\begin{itemize}
+\item quit
+\end{itemize}
+\end{itemize}
+
+These swaps can be performed in $\Theta(1)$ time and since the maximum number of swaps is equal to the height of the heap we have an overall time complexity of $\Theta(\log n)$. This worst case would occur when the item to-be-inserted is larger than anything else on the heap, since it would need to swap all the way to the top.
+
+\subsubsection{Heap Delete}
+The item to-be-deleted can simply be removed form our heap; however, we must replace this vacated position with the lowest item in our heap. This satisfies the structural integrity of the heap. Afterward, we must follow top-down heap swapping in order to satisfy ordering integrity.
+
+To perform a top-down heap swap, we must
+\begin{itemize}
+\item compare node with children
+\item if the node is smaller than at least one child
+\begin{itemize}
+\item swap with the largest child
+\item recurse
+\end{itemize}
+\item else
+\begin{itemize}
+\item quit
+\end{itemize}
+\end{itemize}
+
+Again, these swaps can be performed in $\Theta(1)$ time and we can perform no more than $\lfloor\log n\rfloor$ swaps. As such, we have worst case time complexity $\Theta(\log n)$ when the deleted item is at the top of the heap and the replacement item is the smallest in the heap.
+
+\subsubsection{Heap Creation}
+Given an array in no particular order, our goal is to adjust the ordering such that we have a valid heap.
+
+The obvious approach is to call the heap insertion method once for each item in our input array. This is the {\bf top-down} approach to heap creation.
+
+This can generally done in place, as we can treat the input array as a structurally valid but orderingly incorrect binary tree. As such, each insertion operation simply `ignores' values to its right. Since we are calling out $\Theta(\log n)$ insertion method $n$ times, we see that top-down heap creatoin has runtime complexity $\Theta(n\log n)$.
+
+More formally, we see we have an upper bound such that the cost of the swaps is proportional to the depth of the node (i.e.\ which level it is on) and the number of nodes to process. This depth is given by $O(\log n)$ and the number of nodes by $n$, so we have $O(n\log n)$ as our upper bound. Our lower bound is given as such: the worst case occurs when the input array is sorted in ascending order (i.e.\ requires we perform the maximal number of swaps for each insertion). In this case, we would be required to swap $\lfloor\log n\rfloor$ times for each of our $n$ insertions.
+
+\begin{lemma}
+\label{heaphalf}
+At least half of the nodes in a heap are in the last two levels (have depth $d \geq h - 1$)
+\end{lemma}
+
+Based on lemma~\ref{heaphalf}, we can ignore all levels above the bottom two when computing the lower bound. The worst case number of swaps at level $h-1$ or $h$ is at least $h-1$, thus the overall number of swaps $s \geq \frac{n}{2} (h-1)$ which is $\Omega(n\log n)$.
+
+We can also creation a heap in the {\bf bottom-up} fashion as such: the entire array is transformed into a heap in one iteration, by finding the elements from largest to smallest and inserting them in that order.
+
+We begin in the same way as for top-down creation, by placing our array into a incomplete binary tree (or associating our already-made array with a binary tree). Now, we start with the element in the last position and perform a top-down swap operation for each element in the array (recursing backwards).
+
+This is very similar to the top-down heap creation method, but has different boundaries.
+
+Since our swaps can now be made in the opposite direction, our lowest level of the tree no longer needs to swap and our second lowest level can only possible swap once. As such, over half of our tree has a maximal swapping runtime of $O(1)$ and the remainder of the tree has $O(\log n)$, whereas the top-down approach uses the constant boundary $O(\log n)$.
+
+More concretely, the total number of swaps we can perform is equal to
+\begin{align*}
+\sum_{i=0}^h i2^{h-i} < n\sum_{i=0}^\infty \frac{i}{2^i}\\
+&< 2n
+\end{align*}
+and thus we have the upper bound of $O(n)$.
+
+The lower bound is at least $\Omega(n)$ (since we must run our heap creation on $n$ elements), thus we have an overall runtime complexity of $\Theta(n)$.
+
+\subsubsection{Heap Sort}
+The heap sort algorithm is
+\begin{verbatim}
+heapSort(A, n):
+    H = new Heap(n)
+    for i in range(0, n - 1):
+        heapInsert(H, A[i])
+    for i in range(0, n - 1):
+        A[n-1 - i] = heapDeleteMax(H, n-1)
+\end{verbatim}
+or given our ``heapify'' algorithm
+\begin{verbatim}
+heapSort(A, n):
+    H = heapify(A, n)
+    for i in range(0, n - 1):
+        A[n-1 - i] = heapDeleteMax(H, n-1)
+\end{verbatim}
+which gives us a complexity of
+\begin{align*}
+O(n) + \sum_{i=0}^{n-1} \Theta(\log n) &= O(n) + \Theta(n\log n)\\
+&= \Theta(n\log n)
+\end{align*}
+% END OTHER LECTURER
+
 \end{document}
+
