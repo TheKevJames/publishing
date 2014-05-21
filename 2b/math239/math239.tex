@@ -259,6 +259,30 @@ B(x) &= {(1-x)}^2\\
 
 A common way to compute inverses is to use the formula for the sum of a geometric series \[ \sum_{k\geq 0} x^k = \frac{1}{1-x} \] We can `substitute' any formal power series $P(x)$ in place of $x$ in this formula if $P(x)$ has a constant term with a value of zero (e.g.\ has no constant terms).
 
+\begin{example}
+How many ways are there to eat $n$ pieces of fruit if you must eat
+\begin{itemize}
+\item at most five apples
+\item at least three bananas
+\item an even number of cherries
+\end{itemize}
 
+The solution is
+\begin{align*}
+f(x) &= [x^n] (1 + x + x^2 + x^3 + x^4 + x^5)(x^3 + x^4 + x^5 + \dots)(1 + x^2 + x^4 + \dots)\\
+&= [x^n] \bigg(\frac{1-x^6}{1-x}\bigg)\bigg(\frac{x^3}{1-x}\bigg)\bigg(\frac{1}{1-x^2}\bigg)\\
+&= [x^n] \bigg(\frac{x^3(1-x^6)}{{(1-x)}^2(1-x^2)}\bigg)
+\end{align*}
+\end{example}
+
+Given a set $S$ and a weight function $w$ assigning a non-negative integer value to each $\sigma \in S$, we defined \[ \Phi_S (x) = \sum_{\sigma\in S} x^{w(\sigma)} = \sum_{k\geq 0} {\text{\# elements in }S \choose \text{ with weight }k} x^k \]
+
+\begin{lemma}[sum lemma]
+Given a set $S$ with a weight function $w$, if $A$ and $B$ are disjoint sets such that $A \cup B = S$, then $\Phi_S (x) = \Phi_A (x) + \Phi_B (x)$.
+\end{lemma}
+
+\begin{lemma}[product lemma]
+Let $A$ and $B$ be sets with weight functions $\alpha$ and $\beta$. If $S = A \times B$ and a weight function $w$ on $S$ is defined by $w(a,b) = \alpha(a) + \beta(b) \cdot \forall a,b \in S$, then \[ \Phi_S (x) = \Phi_A (x) \Phi_B (x) \]
+\end{lemma}
 
 \end{document}
