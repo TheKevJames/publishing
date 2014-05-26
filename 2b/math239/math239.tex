@@ -285,4 +285,32 @@ Given a set $S$ with a weight function $w$, if $A$ and $B$ are disjoint sets suc
 Let $A$ and $B$ be sets with weight functions $\alpha$ and $\beta$. If $S = A \times B$ and a weight function $w$ on $S$ is defined by $w(a,b) = \alpha(a) + \beta(b) \cdot \forall a,b \in S$, then \[ \Phi_S (x) = \Phi_A (x) \Phi_B (x) \]
 \end{lemma}
 
+\begin{theorem}[power theory]
+The power theory is given by \[ {(1-x)}^{-k} = \sum_{n\geq 0} {n + k - 1 \choose k - 1} x^n \] Equivalently, $[x^n]{(1-x)}^{-k} = {n+k-1 \choose k-1}$.
+\end{theorem}
+
+\begin{proof}
+We have
+\begin{align*}
+[x^n]{(1-x)}^{-k} &= {\bigg(\frac{1}{1-x}\bigg)}^k\\
+&= [x^n](1+x+x^2+x^3+\dots)(1+x+x^2+x^3+\dots)\dots(1+x+x^2+x^3+\dots)
+\end{align*}
+which is equivalent to the number of solutions to $a_1 + a_2 + a_3 + \cdots + a_n = n$ where $a_1, a_2, a_3, \dots, a_k \geq 0$. We need to prove this.
+
+{\bf Claim:} the number of solutions to $a_1 + a_2 + a_3 + \cdots + a_n = n$ where $a_1, a_2, a_3, \dots, a_k \geq 0$ is equal to ${n+k-1 \choose k-1}$.
+
+Let $T = \{\text{solutions to the equation}\}$ and $S = \{\text{binary strings of length }n+k-1 \text{ having }k-1\text{ ones}\}$. Thus $|S| = {n+k-1 \choose k-1}$. We associate each solution $(a_1, a_2, \dots, a_n) \in T$ with the string \[ 000\dots 01000\dots 1\dots 1000\dots 0 \in S \] where each lenth of $0$'s is equal in leangth to $a_1, a_2, \dots, a_k$.
+
+This mapping is clearlt invertible, so it is a bijection. Therefore $|S| = |T|$ as required.
+\end{proof}
+
+A {\bf composition} of an integer $n$ into $k$ parts is a $k$-tuple $(a_1,a_2,\dots a_k)$ such that $a_1 + a_2 + \cdots + a_k = n$ and $a_1, a_2, \dots, a_k \in \mathbb{N} \geq 1$. Special case: there is a single composition of zero.
+
+\begin{theorem}
+For $n,k \geq 1$, there are ${n-1 \choose k-1}$ compositions of $n$ into $k$ parts.
+\end{theorem}
+
+\begin{proof}
+For each composition $(a_1, a_2, \dots, a_k)$ of $n$, $(a_1 -1, a_2 -1, \dots, a_k -1)$ is a ``composition'' of $n-k$, except with partss allowed to be zero. There are ${(n-k)+k-1 \choose k-1} = {n-1 \choose k-1}$ of these by the claim.
+\end{proof}
 \end{document}
