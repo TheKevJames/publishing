@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath,amssymb,parskip,custom}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=.8in]{geometry}
 
 \begin{document}
 
@@ -292,7 +292,7 @@ The power theory is given by \[ {(1-x)}^{-k} = \sum_{n\geq 0} {n + k - 1 \choose
 \begin{proof}
 We have
 \begin{align*}
-[x^n]{(1-x)}^{-k} &= {\bigg(\frac{1}{1-x}\bigg)}^k\\
+[x^n]{(1-x)}^{-k} &= [x^n]{\bigg(\frac{1}{1-x}\bigg)}^k\\
 &= [x^n](1+x+x^2+x^3+\dots)(1+x+x^2+x^3+\dots)\dots(1+x+x^2+x^3+\dots)
 \end{align*}
 which is equivalent to the number of solutions to $a_1 + a_2 + a_3 + \cdots + a_n = n$ where $a_1, a_2, a_3, \dots, a_k \geq 0$. We need to prove this.
@@ -311,6 +311,71 @@ For $n,k \geq 1$, there are ${n-1 \choose k-1}$ compositions of $n$ into $k$ par
 \end{theorem}
 
 \begin{proof}
-For each composition $(a_1, a_2, \dots, a_k)$ of $n$, $(a_1 -1, a_2 -1, \dots, a_k -1)$ is a ``composition'' of $n-k$, except with partss allowed to be zero. There are ${(n-k)+k-1 \choose k-1} = {n-1 \choose k-1}$ of these by the claim.
+For each composition $(a_1, a_2, \dots, a_k)$ of $n$, $(a_1 -1, a_2 -1, \dots, a_k -1)$ is a ``composition'' of $n-k$, except with parts allowed to be zero. There are ${(n-k)+k-1 \choose k-1} = {n-1 \choose k-1}$ of these by the claim.
 \end{proof}
+
+\begin{theorem}
+For $n\geq 1$, there are $2^{n-1}$ compositions of $n$.
+\end{theorem}
+
+\begin{proof}
+Summing the previous answer over all $k$, we get \[ \sum_{k=1}^n {n-1 \choose k-1} = {n-1 \choose 0} + {n-1 \choose 1} + \cdots + {n-1 \choose n-1} = 2^{n-1} \]
+\end{proof}
+
+\section{Restricted Compositions}
+Many problems ask us to count the number of compositions of $n$ subject to restrictions on both the size and number of the parts. We can solve these `all' with generating series and the sum/product lemmas.
+
+\begin{example}
+How many compositons of $n$ are there into 2, 3, or 4 parts, where the first part is at most $4$ and the rest of the parts are odd?
+
+We have
+\begin{align*}
+[x^n]\bigg(&(x^1 + x^2 + x^3 + x^4)(x^1 + x^3 + \dots)\\
++ &(x^1 + x^2 + x^3 + x^4)(x^1 + x^3 + \dots)(x^1 + x^3 + \dots)\\
++ &(x^1 + x^2 + x^3 + x^4)(x^1 + x^3 + \dots)(x^1 + x^3 + \dots)(x^1 + x^3 + \dots)\bigg)
+\end{align*}
+or more simply
+\begin{align*}
+[x^n]\bigg(&(x^1 + x^2 + x^3 + x^4)\bigg(\frac{x}{1-x} + {\bigg(\frac{x}{1-x}\bigg)}^2 + {\bigg(\frac{x}{1-x}\bigg)}^3\bigg)\bigg)\\
+\end{align*}
+\end{example}
+
+\begin{example}
+How many compositions of $n$ are there into $k$ parts where each part is $1$ or $2$?
+
+The answer is
+\begin{align*}
+[x^n]{(x^1 + x^2)}^k &= [x^n]x^k{(1+x)}^k\\
+&= [x^{n-k}] {(1+x)}^k\\
+&= {k \choose n-k}
+\end{align*}
+\end{example}
+
+\begin{example}
+How many compositions of $n$ are there into parts of size $1$ or $2$?
+
+By the previous example, the answer is \[ \sum_{k=0}^\infty {k \choose n-k} \] Alternatively, since the answer for $k$ parts is $[x^n] x^k{(1+x)}^k$, we know that the answer for any number of parts is
+\begin{align*}
+&\quad\ [x^n]\bigl(1 + x(1+x) + x^2{(1+x)}^2 + x^3{(1+x)}^3 + \dots \bigl)\\
+&= [x^n]\bigl(1 + x(1+x) + {(x(1+x))}^2\bigl)\\
+&= [x^n]\frac{1}{1-x(1+x)}\\
+&= [x^n]\frac{1}{1-x-x^2}
+\end{align*}
+which is the $n$th Fibonacci number.
+\end{example}
+
+\begin{example}
+How many compositions of $n$ are there into parts of an odd size?
+
+\begin{align*}
+&\quad\ [x^n]\bigg(1 + () + ()() + ()()() + \dots\bigg)\\
+&= [x^n]\bigg(1 + (x^1 + x^3 + \dots) + {(x^1 + x^3 + \dots)}^2 + {(x^1 + x^3 + \dots)}^3 + \dots\bigg)\\
+&= [x^n]\bigg(1 + \frac{x}{1-x^2} + {\frac{x}{1-x^2}}^2 + {\frac{x}{1-x^2}}^3 + \dots\bigg)\\
+&= [x^n]\bigg(\frac{1}{1 - \frac{x}{1 - x^2}}\bigg)\\
+&= [x^n]\bigg(\frac{1 - x^2}{1 - x - x^2}\bigg)\\
+\end{align*}
+
+If $A(x) = \frac{1-x^2}{1-x-x^2}$, we get \[ (1-x-x^2)A(x) = 1-x^2 \] which we can use to find $a = (1,1,1,2,3,5,8,13,21,\dots)$.
+\end{example}
+
 \end{document}

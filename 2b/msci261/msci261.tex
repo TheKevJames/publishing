@@ -42,7 +42,7 @@ With compound interest, we find that the future sum varies exponentially with ti
 
 {\bf Uniform Payment Rates} are one of the most common payment plans; this classification of payment plans includes any with a constant series of payments over time---regardless of whether those payments are equal.
 
-Imagine you are saving a set amount of money $A$ at the end of each year. This is the most common type of uniform rates and is modeled with the general case for $n$ years $F = A{(1 + i)}^{n-1} + \cdots + A{(1 + i)}^2 + A{(1 + i)} + A$. Note that the first amount is only invested at the end of the first year and thus the terms only begin with $n-1$. Solving this equation gives \[ F = A \bigg( \frac{{(1 + i)}^n - 1}{i} \bigg) \] or functionally $F = A(F / A, i, n)$. This is the {\bf uniform series compound amount factor}.
+An {\bf annuity} is a payment that occurs on an equal time interval---in essence, a loan with uniform payments. You pay in equal intervals and the loan amount stays the same. This works is reverse, as well: imagine you are saving a set amount of money $A$ at the end of each year. This is the most common type of uniform rates and is modeled with the general case for $n$ years $F = A{(1 + i)}^{n-1} + \cdots + A{(1 + i)}^2 + A{(1 + i)} + A$. Note that the first amount is only invested at the end of the first year and thus the terms only begin with $n-1$. Solving this equation gives \[ F = A \bigg( \frac{{(1 + i)}^n - 1}{i} \bigg) \] or functionally $F = A(F / A, i, n)$. This is the {\bf uniform series compound amount factor}.
 
 Conversely, we have \[ A = F\bigg( \frac{i}{{(1 + i)}^n - 1} \bigg) \] as the {\bf uniform series sinking fund factor}.
 
@@ -74,9 +74,6 @@ P &= A \bigg( \frac{e^{rn} - 1}{e^{rn}(e^r - 1)} \bigg)\\
 F &= P \bigg( \frac{(e^r - 1)e^{rn}}{re^r} \bigg)\\
 P &= F \bigg( \frac{e^r - 1}{re^{rn}} \bigg)\\
 \end{align*}
-
-\section{Annuities}
-An {\bf annuity} is a payment that occurs on an equal time interval---in essence, a loan with uniform payments. You pay in equal intervals and the loan amount stays the same.
 
 
 
