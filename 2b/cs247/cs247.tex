@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath,amssymb,parskip,custom}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=.8in]{geometry}
 \begin{document}
 
 \title{CS 247 --- Software Engineering Principles}
@@ -22,7 +22,7 @@ We use the {\bf outside-in} method fo development: first we determine what the u
 
 {\bf Function Overloading} is syntactic sugar which allows us to define a function with the same name as some other function, so long as this new function has different parameters. It is generally best practice to only overload functions when the purpose of the function is the same for each. For example: \code{void print(int)} and \code{void print{float}}.
 
-Another option is to use {\bf default arguments}. Defulat arguments tend to be used when a given argument should be optional. For example: \code{void print(int, outputStream=cout)}. Default arguments must appear only in the function declaration.
+Another option is to use {\bf default arguments}. Defualt arguments tend to be used when a given argument should be optional. For example: \code{void print(int, outputStream=cout)}. Default arguments must appear only in the function declaration.
 
 We can also overload operators. For example, we could define the sum of two classes as some other class, some modified version of one class, or even a standard data type of some sort with \code{MyClass operator+(const MyClass\&, const MyClass\&)}. Though widely used, this practice should be used sparingly, if at all.
 
@@ -31,7 +31,7 @@ We can also overload operators. For example, we could define the sum of two clas
 A class can have \code{private}, \code{protected}, and \code{public} data members and functions (in addition to several less-often used flags). It is best practice to use the most secure flag as possible (generally: \code{private}); though the \code{public} flag is sometimes necessary, the \code{protected} flag should be avoided. We can also use the \code{friend} flag to create a \code{private} method which is accessible to a given other class.
 
 \subsection{Inheritance}
-{\bf Inheritance} allows us to crreate classes ({\bf derived classes}) which include the data members and functions of a {\bf base class}.
+{\bf Inheritance} allows us to create classes ({\bf derived classes}) which include the data members and functions of a {\bf base class}.
 
 \subsection{Polymorphism}
 When we create a derived class, that class can inherit pointers from its parent.
@@ -204,5 +204,30 @@ public:
     virtual void print(std::ostream& os);
 }
 \end{verbatim}
+
+% HOW TO COMPILE AND LINK
+
+\section{Exceptions}
+% Messiness of robust code
+
+An {\bf exception} is an unusual event or situtation which prevents a function from completing normally. In C++, we handle exceptions in a separate section from our normal code: risky and risk-free code is separated, different areas of our program can handle exceptions in a different manner, and errors can not be silently ignored.
+
+We handle errors in a block of code with
+\begin{verbatim}
+try {
+    // risky code
+} catch(exceptionType1& e) {
+    std::cout << "Generated exception 1" << std::endl;
+    system.exit(-1);
+} catch(exceptionType2& e) {
+    std::cout << "Generated exception 2" << std::endl;
+    system.exit(-2);
+} catch(...) {
+    std::cout << "Generated unspecified exception" << std::endl;
+    throw;
+}
+\end{verbatim}
+
+An exception is handled by the ``nearest'' handler whose argument matches its type. A {\bf local exception} is one which is handled in the same routine as it is thrown (e.g.\ through an alternative computatino or return value). Otherwise, the exception is caught by the dynamically nearest matching catch-clause whose try-block encloses the throw. If there is no matching handler, the program aborts.
 
 \end{document}

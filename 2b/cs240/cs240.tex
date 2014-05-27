@@ -293,7 +293,7 @@ O(n) + \sum_{i=0}^{n-1} \Theta(\log n) &= O(n) + \Theta(n\log n)\\
 \subsection{Quick Sort}
 The quick sort algorithm works by having one function which selects the optimal pivot point, moving elements such that all items left of the pivot are smaller and vice-versa, then recursing on each side.
 
-\subsubsection{Selection}
+\subsubsection{Selecting}
 Given an array $A$, we want to find the $k$th smallest (or largest) element. We do this by recursively taking the first element (the {\bf pivot}), then sorting the elements such that any elements smaller than the pivot are on its left (and vice versa). This continues until there are fewer than $k$ elements on the requested side.
 
 \begin{verbatim}
