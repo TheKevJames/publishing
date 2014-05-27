@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,parskip,custom}
-\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,parskip,qtree,custom}
+\usepackage[margin=.8in]{geometry}
 \begin{document}
 
 \title{CS 240 --- Data Structures and Data Management}
@@ -30,35 +30,53 @@ An idealized implementation uses a {\bf Random Access Machine (RAM)} model. RAM 
 
 We can also generally use {\bf order notation} to compare multiple algorithms. For the most part, we compare assuming $n$ is very large, since for small values of $n$ the runtime will be miniscule regardless of algorithm.
 
-We denote the runtime of a function as $T(f(x))$, for example: $T(3 \times 4)$ may be equal to $0.8ns = 8\text{ops}$. The return value is the number of operations required in the worst-case scenario.
+A timing function is a function $T_A$ such that $T_A : \{Q\} \to \mathbb{R} > 0$. We denote the runtime of a function as $T(f(x))$, for example: $T(3 \times 4)$ may be equal to $0.8ns = 8\text{ops}$. The return value is the number of operations required in the worst-case scenario.
 
 Example: given $T_A(n) = 1 000 000n + 2 000 000 000$ and $T_B(n) = 0.01n^2$, which is `better'? For $n < 100 000 000$, algorithm $B$ is better. Since we only care about large inputs, though, we say $A$ is better overall.
 
 \begin{example}
-Prove that $2010n^2 + 1388 = \mathbb{O}(n^3)$.
-\end{example}
+Prove that $2010n^2 + 1388 = O(n^3)$.
 
 \begin{proof}
-$\forall c > 0$, $2010 n^2 + 1388 \leq cn^3$\\
-$n > 1388 \implies 2010n^2 + 1388 \leq 2011n^2 \leq cn^3$\\
-$2011n^2 \leq cn^3 \iff 2011 \leq cn$\\
-$n > \frac{2011}{c} = n_0$
+We want to prove that for all positive $c \in \mathbb{Z}$, there exists some $n_0$ such that for all $n > n_0$, $2010 n^2 + 1388 \leq cn^3$. So for $n > 1388$ we have $2010n^2 + 1388 \leq 2011n^2 \leq cn^3$ which in turn gives us $2011n^2 \leq cn^3 \iff 2011 \leq cn$. Then this holds given $n_0 = 2010$.
 \end{proof}
+\end{example}
 
 \begin{definition}
-$f(n) = \mathbb{O}(g(n))$ if there exists a positive real number $c$ and an integer $n_0 > 0$ such that $\forall n \geq n_0$, $f(n) \leq cg(n)$.
+$f(n) = O(g(n))$ if there exists a positive real number $c$ and an integer $n_0 > 0$ such that $\forall n \geq n_0$, $f(n) \leq cg(n)$.
 \end{definition}
 
-More concretely, we can say that $f(n) = \mathbb{O}(af(n))$ and $a^\prime f(n) = \mathbb{O}(f(n))$. It's also worth noting that order notation is transitive (e.g.\ $f(n) = \mathbb{O}(g(n))$ and $g(n) = \mathbb{O}(h(n))$ implies $f(n) = \mathbb{O}(h(n))$).
+More concretely, we can say that $f(n) = O(af(n))$ and $b f(n) = O(f(n))$. It's also worth noting that order notation is transitive (e.g.\ $f(n) = O(g(n))$ and $g(n) = O(h(n))$ implies $f(n) = O(h(n))$).
 
 We use five different symbols to denote order notation:
 \begin{itemize}
 \item $o$ denotes a function \emph{always less} than a given order
-\item $\mathbb{O}$ denotes a function \emph{less than or equal} to a given order
+\item $O$ denotes a function \emph{less than or equal} to a given order
 \item $\Theta$ denotes a function \emph{exactly equal} to a given order
 \item $\Omega$ denotes a function \emph{greater than or equal} to a given order
 \item $\omega$ denotes a function \emph{always greater} than a given order
 \end{itemize}
+
+More concretely, we have the formulae
+\begin{definition}[$o$]
+$f(n) = o(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) < c \cdot g(n)$ for all $n \geq n_0$.
+\end{definition}
+
+\begin{definition}[$O$]
+$f(n) = O(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \leq c \cdot g(n)$ for all $n \geq n_0$.
+\end{definition}
+
+\begin{definition}[$\Theta$]
+$f(n) = \Theta(g(n))$ if there exists constants $c_1, c_2 > 0$ such that $c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$.
+\end{definition}
+
+\begin{definition}[$\Omega$]
+$f(n) = \Omega(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \geq c \cdot g(n)$ for all $n \geq n_0$.
+\end{definition}
+
+\begin{definition}[$\omega$]
+$f(n) = \omega(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) > c \cdot g(n)$ for all $n \geq n_0$.
+\end{definition}
 
 \begin{example}
 For the psuedo-function
@@ -78,31 +96,8 @@ we find the order equation
 &= \Theta(1) \sum_{i=1}^n (n-i+1)\\
 &= \Theta(1) \bigg( \sum_{i=1}^n n - \sum_{i=1}^n i + \sum_{i=1}^n 1 \bigg)\\
 &= \Theta(1) \bigl( n^2 + i^n + n \bigl)\\
-&= \Theta(n^2) + \Theta(i^n) + \Theta(n)
-\end{align*}
-\end{example}
-
-\begin{example}
-For the psuedo-function
-\begin{verbatim}
-function(A,n):
-    max = 0
-    for i=1 to n:
-        for j=i to n:
-        sum = 0
-        for k=1 to j:
-        	sum = A[k]
-        	if sum > max:
-        		max = sum
-    return max
-\end{verbatim}
-we find the order equation
-\begin{align*}
-&= \sum_{i=1}^n \sum_{j=i}^n \bigl( 1 + \sum_{k=i}^j c \bigl)\\
-&= \sum_{i=1}^n \sum_{j=i}^n c(j-i+1)\\
-&= \sum_{i=1}^n \sum_{j=1}^{n-i+1} j\\
-&= \sum_{i=1}^n \Theta(n-i+1)\\
-&= \sum_{i=1}^n \Theta(i)
+&= \Theta(n^2) + \Theta(i^n) + \Theta(n)\\
+&= \Theta(i^n)
 \end{align*}
 \end{example}
 
@@ -112,10 +107,10 @@ For the psuedo-function
 function(n):
     sum = 0
     for i=1 to n:
-    	j = i
+        j = i
         while j >= 1:
-        	sum = sum + i/j
-        	j = j/2
+            sum = sum + i/j
+            j = j/2
     return sum
 \end{verbatim}
 we find the order equation
@@ -123,23 +118,69 @@ we find the order equation
 \sum_{i=1}^n \sum_{j=1}^{\log_2 i} c &= \sum_{i=1}^n (c \log_2 i)\\
 &= c\bigl(\log 1 + \log 2 + \log 3 + \cdots + \log n\bigl)\\
 \text{all }n\text{ of our terms are below }\log n &\hspace{40pt} \text{half of our }n\text{ terms are above }\frac{n}{2}\\
-= \mathbb{O}(n\log n) &\hspace{40pt}= \Omega(\frac{n}{2}\log\frac{n}{2})\\
+= O(n\log n) &\hspace{40pt}= \Omega(\frac{n}{2}\log\frac{n}{2})\\
 &\hspace{40pt}= \Omega(n\log n)\\
 &= \Theta(n\log n)
 \end{align*}
 \end{example}
 
 \section{Data Types}
-\subsection{Dynamic Arrays}
-Linked lists support $\mathbb{O}(1)$ insertion and deletion, $\mathbb{O}(n)$ accessing. Arrays are vice-versa.
+\subsection{Stacks}
+A {\bf stack} is a collection of items which supports the operations \code{push} (insert an item), \code{pop} (remove the most recently inserted item), \code{peek} (view the last item), and \code{isEmpty}.
 
-{\bf Dynamic arrays} offer a compromise: $\mathbb{O}(1)$ for both, but can only insert or delete from the end of the list.
+The most common ways to implement a stack are as a
+\begin{itemize}
+\item {\bf linked list}: a pointer to the top of the stack is maintained and is moved whenever an item is inserted or removed, or an
+\item {\bf array}: the last item is easy to access, though sometimes resizing the array will be necessary
+\end{itemize}
 
-% BEGIN OTHER LECTURER
+\subsubsection{Dynamic Arrays}
+Linked lists support $O(1)$ insertion and deletion, $O(n)$ accessing. Arrays are vice-versa. {\bf Dynamic arrays} offer a compromise: $O(1)$ for both, but can only insert or delete from the end of the list.
+
+\subsection{Queues}
+A {\bf queue} is a data structure where you \code{insert} at the end of the list and \code{dequeue} from the front. Implementations are the same as a stack: either an array or a linked list may be used, though a pointer or reference to the first item is necessary.
+
+\subsubsection{Priority Queues}
+A {\bf priority queue} is similar to a queue, but each element has a priority attached to it (a numerical ``score''). The elementes are dequeue'd in order of priority. A priority queue supports
+\begin{itemize}
+\item \code{insert(x, p)}: inserts an element $x$ with priority $p$
+\item \code{delete()}: deletes the element with the highest priority $p$
+\item \code{peek()}: views the top element
+\end{itemize}
+
+One of the most useful applications of priority queues is for sorting: by inserting all elements from an array and then deleting them, we will have the elements returned in a correctly sorted order. Then we simply need to examine the runtime efficiency of \code{insert} and \code{delete} to determine the speed of our sorting algorithm.
+
+There are two common implementations of priority queues: unsorted arrays and heaps.
+
+In an {\bf unsorted array}, insertion takes $O(1)$ time, since the element is simply placed at the end of the array. Deletion must walk the array, then replace the deleted (read: smallest it has seen as it walked) with the last element in the array. Thus, this is $O(n) + O(1) = O(n)$ time. Sorting, then, takes $O(n^2)$ time.
+
+A better method is to use heaps.
+
 \subsection{Heaps}
-Given a binary tree such that all levels are filled except for the lowest ({\bf heap structure property}) where all nodes have a lower value than that of their parent ({\bf heap ordering property}), we have the size of the heap $h$ given by $\log(n+1) - 1 \leq h \leq \log h$ or $h=\lfloor\log n\rfloor$.
+A {\bf heap} is a \emph{complete} binary tree with the \emph{heap property}. To have a complete binary tree, the tree must be structured such that for each node in the tree that mode must have zero or two children, unless that node is the rightmost leaf in the bottom level (in which case it may have only one). Furthermore, deeper leaves must be leftmost in the tree and all the leaves in the bottom two levels must be consecutive.
 
-Note that we do not implement tree-like data structures as such, but rather as arrays.
+The {\bf heap property} is the principle such that all nodes have a lower priority than that of their parent. In the case of multiple elements with the same priority, arbitrary element positioning is possible.
+
+\begin{figure}[ht]
+\Tree
+[.5
+    [.10
+        [.12 ] [.14 ]
+    ]
+    [.7
+        [.13 ] []
+    ]
+]
+\caption{\label{fig:minPQheap} A min-PQ tree that satisfies the heap properties}
+\end{figure}
+
+This is not a binary search tree, since the larger element does not need to be on the right. In fact, there is no relationship of any kind with a node's siblings---the only relationship is with its parent.
+
+When we remove an item from a heap, we must replace that item with the current lowest element. This will guarantee that the tree remains in a complete form (that all holes are filled). After replacing it with this element, the newly moved element must be sorted: recursively compare its priority with that of its children; if any children have a higher priority, it should swap with its parent. Otherwise, stop recursing.
+
+When inserting, we use the opposite process: the new element is placed at the base of the tree, then it is recursively compared and potentially swapped with its parent until it is in a valid position.
+
+Note that we do not implement tree-like data structures as such, but rather as arrays. The array follows ta format such that the tree represented in figure~\ref{fig:minPQheap} would be placed in an array as $[5, 10, 7, 12, 14, 13]$. More concretely: the parent of a node at index $n$ is at index $\lfloor \frac{n-1}{2} \rfloor$. Its children are located at indices $2n + 1$ and $2n + 2$.
 
 Heap functions have worst case running times bounded as follows
 \begin{itemize}
@@ -213,14 +254,20 @@ Since our swaps can now be made in the opposite direction, our lowest level of t
 
 More concretely, the total number of swaps we can perform is equal to
 \begin{align*}
-\sum_{i=0}^h i2^{h-i} < n\sum_{i=0}^\infty \frac{i}{2^i}\\
+\sum_{i=0}^h i2^{h-i} &< n\sum_{i=0}^\infty \frac{i}{2^i}\\
 &< 2n
 \end{align*}
 and thus we have the upper bound of $O(n)$.
 
 The lower bound is at least $\Omega(n)$ (since we must run our heap creation on $n$ elements), thus we have an overall runtime complexity of $\Theta(n)$.
 
-\subsubsection{Heap Sort}
+\section{Sorting}
+\subsection{PQ Sort}
+As mentioned above, we can sort data using a priority queue. Both \code{insert} and \code{delete} take $O(\log n)$ time, as does recursively sorting any newly moved elements. Thus, for sorting $n$ elements we see that PQ sort will take $O(n\log n)$ time, which is the same as mergesort.
+
+\subsection{Heap Sort}
+Heap sort is a specialized PQ sort.
+
 The heap sort algorithm is
 \begin{verbatim}
 heapSort(A, n):
@@ -242,7 +289,68 @@ which gives us a complexity of
 O(n) + \sum_{i=0}^{n-1} \Theta(\log n) &= O(n) + \Theta(n\log n)\\
 &= \Theta(n\log n)
 \end{align*}
-% END OTHER LECTURER
+
+\subsection{Quick Sort}
+The quick sort algorithm works by having one function which selects the optimal pivot point, moving elements such that all items left of the pivot are smaller and vice-versa, then recursing on each side.
+
+\subsubsection{Selection}
+Given an array $A$, we want to find the $k$th smallest (or largest) element. We do this by recursively taking the first element (the {\bf pivot}), then sorting the elements such that any elements smaller than the pivot are on its left (and vice versa). This continues until there are fewer than $k$ elements on the requested side.
+
+\begin{verbatim}
+quickSelect(A, k):
+    p = randomPivot(A)
+    i = partition(A, p)
+    if k < i:
+        quickSelect(A[0, i-1], k)
+    elif k > i:
+        quickSelect(A[i+1, n-1], k - i - 1)
+    else:
+        return p
+\end{verbatim}
+
+When selecting, it is only required that we recurse on one side of the pivot (i.e.\ the side which contains the element we are searching for).
+
+The partition function is defined thusly
+\begin{verbatim}
+partition(A, p):
+    swap(A[0], A[p])
+    i = 1
+    j = n - 1
+    while true:
+        while i < n and A[i] < A[0]:
+            i = i + 1
+        while j >= 1 and A[j] > A[0]:
+            j = j - 1
+        if j < i:
+            break
+        else:
+            swap(A[i], A[j])
+\end{verbatim}
+
+In the \emph{worst case}, we have $\Theta(n^2)$ time. This would occur if the selected pivot is always $\max(A)$ and we are searching for the smallest element, for example in the array $[n, n-1, n-2, \cdots, 3, 2, 1]$.
+
+In the \emph{average case}, the probability of selecting a ``good'' pivot is $50\%$. After $r$ recursive calls, this means the array was halved approximately $\frac{r}{2}$ times. After $4\log n$ calls, we must be left with an array of size $1$. Thus we have
+\begin{align*}
+f(n) &\leq \half T(n) + \half T\bigg(\frac{3n}{4}\bigg) + cn\\
+&\leq 2cn + 2cn\bigg(\frac{3n}{4}\bigg) + 2c\bigg(\frac{9n}{16}\bigg) + \cdots + T(1)\\
+&\leq \half \bigg[\half T(n) + \half T\bigg(\frac{3n}{4}\bigg) + cn\bigg] + \half \bigg[\half T\bigg(\frac{3n}{4}\bigg) + \half T\bigg(\frac{9n}{16}\bigg) + c \frac{3n}{4}\bigg]\\
+&\leq \quarter T(n) + \half T\bigg(\frac{3n}{4}\bigg) + \half cn + \quarter T\bigg(\frac{9n}{16}\bigg) + c\frac{3n}{8}+ cn\\
+&\leq T(1) + 2cn\displaystyle\sum_{i=0}^\infty {\bigg(\frac{3}{4}\bigg)}^i\\
+&= \Theta(n)
+\end{align*}
+
+\subsubsection{Sorting}
+The general quick sort algorithm is
+\begin{verbatim}
+quickSort(A, n):
+    if n == 0:
+        return
+    p = randomPivot(A)
+    i = partition(A, p)
+    quickSort(A[0, i-1])
+    quickSort(A[i+1, n])
+\end{verbatim}
+
+The worst case is $\Theta(n^2)$ and the best case is $\Theta(n\log n)$. Fortunately, the worst case is extremely unlikely and the average case is also $\Theta(n\log n)$.
 
 \end{document}
-
