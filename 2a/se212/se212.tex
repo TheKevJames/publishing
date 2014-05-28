@@ -10,9 +10,9 @@
 \maketitle\HRule
 
 \section*{Elements of a Logic}
-A logic consists of \define{syntax}{a format for inscribing the logic} \define{semantics}{the definition of validity within the logic} and \define{proof theories}{methods of determining validity}
+A logic consists of {\bf syntax} (a format for inscribing the logic), {\bf semantics} (the definition of validity within the logic), and {\bf proof theories} (methods of determining validity).
 
-The syntax defines a "well-formed formula" (wff). The semantics tells us which of these wffs are true or valid. Valid formulas are given the symbol $\vdash$, and non-valid formulas are marked as $\not\vdash$. When we describe a formula as being proven by theory, we use "$\vDash$"; if this is a natural deduction, we use \vDashnd.
+The syntax defines a ``well-formed formula'' (wff). The semantics tells us which of these wffs are true or valid. Valid formulas are given the symbol $\vdash$, and non-valid formulas are marked as $\not\vdash$. When we describe a formula as being proven by theory, we use ``$\vDash$''; if this is a natural deduction, we use \vDashnd.
 
 Proof theories do mechanical manipulations on strings or symbols. It does not make use of the meanings of characters, but simply uses them as strings of characters. Semantics and proof theories are related by soundness and completeness.
 
@@ -62,7 +62,7 @@ c & !s
 \end{verbatim}
 
 \subsubsection*{Ambiguity}
-The English language is notorious for {\bf ambiguity}. When formalizing sentences, we must be sure to reduce the ambiguity as much as possible. The use of logical connectives, particularly, is often incorrect in English. For example, "and" in English is not always commutative and must be sometimes treated temporally.
+The English language is notorious for {\bf ambiguity}. When formalizing sentences, we must be sure to reduce the ambiguity as much as possible. The use of logical connectives, particularly, is often incorrect in English. For example, ``and'' in English is not always commutative and must be sometimes treated temporally.
 
 \subsection*{Semantics}
 Semantics are about giving our propositions meaning by relating words. They provide the interpretation of expressions in one world in terms of values in another world. The often act as a fucntion which converts between the two. The semantics define the limits of how a proof theory can transform a logical formula.
@@ -71,7 +71,7 @@ The syntax of our logic is the {\bf domain} of the semantic function.
 
 Classical logic is two-valued: \true and \false are the only possibilities for truth values. These are not a part of the syntax of propositional logic. The {\bf range} of a logic is the set of its truth values.
 
-The semantics are described using \define{boolean valuations}{a function in propositional logic which maps from the set of formulas to the range} We can define these boolean valuations with truth tables. For example, we can map $\true \land \false$ to $\false$.
+The semantics are described using {\bf boolean valuations} (functions in propositional logic which map from the set of formulas to the range). We can define these boolean valuations with truth tables. For example, we can map $\true \land \false$ to $\false$.
 
 The truth value of a formula is uniquely determined by the truth values of the prime propositions. When describing a boolean function, we must only describe the relation of truth values.
 
@@ -92,7 +92,7 @@ We can also generalize this over a set of functions with $p_0, p_1, ... p_n \vda
 
 A formula is a {\bf contradiction} or {\bf falsehood} if it is false for all possible input values. If a formula is neither tautology nor contradiction, then it is a {\bf contingent formula}.
 
-Two formulas are {\bf logically equivalent} if they have the same truth values. For example $p \lor q \leftrightarrow q \lor p$. A {\bf material equivalence} uses the symbol $\Leftrightarrow$, which expresses the "if and only if" idea.
+Two formulas are {\bf logically equivalent} if they have the same truth values. For example $p \lor q \leftrightarrow q \lor p$. A {\bf material equivalence} uses the symbol $\Leftrightarrow$, which expresses the ``if and only if'' idea.
 
 Though any formula can be proven with truth tables, these can sometimes be ungainly. A more concise method of determining whether a formula is a tautology is to use a {\bf proof theory} (so long as the theory is sound).
 
@@ -108,7 +108,7 @@ p \land \false &\LeftRightarrow \false\\
 
 Common transformations include commutativity, associativity, distributivity, contradiction, the law of the excluded middle, double negation, simplification, DeMorgan's law, contrapositives, equivalence, implications, and idempotents ($p \land p \implies p$).
 
-We implicitely use the \define{rule of substitution}{substituting equivalent formulas for sub-formulas} and the \define{rule of transistivity}{all lines are equivalent, not just the closest two}
+We implicitely use the {\bf rule of substitution} (substituting equivalent formulas for sub-formulas) and the {\bf rule of transistivity} (all lines are equivalent, not just the closest two).
 
 Examples:
 \begin{align*}

@@ -15,15 +15,15 @@ Sequential programs are procedurally driven programs which only use a single pro
 These programs can be written in machine language, assembly, higher-level languages... whatever. Since each is an abstraction of a lower level to which we can build a compiler, all of them will give us the same final result.
 
 \section*{Data Representation}
-A computer sees a string such as "10000011" as a sequence of bits, without regards to any sort of encoding. This could be binary, hexadecimal, decimal, ascii... pretty much everything, but the computer can not know which.
+A computer sees a string such as ``10000011'' as a sequence of bits, without regards to any sort of encoding. This could be binary, hexadecimal, decimal, ascii... pretty much everything, but the computer can not know which.
 
 \subsection*{Hexadecimal Representation}
-Hexadecimal is represented with the characters "01234567899ABCDEF". We tend to write them in the form $0x2A$, which is equal to 42 in decimal.
+Hexadecimal is represented with the characters ``01234567899ABCDEF''. We tend to write them in the form $0x2A$, which is equal to 42 in decimal.
 
 \subsection*{Negative Numbers}
-With $n$ bits, we can represent $2^n$ numbers in binary. To represent negative numbers we can use the \define{sign and magnitude}{use the first bit as an indicator of sign and the remaining bits as magnitude} method, though this is subject to some weirdness. We will end up with both a positive and a negative zero and will need specialized hardware for both addition and subtraction.
+With $n$ bits, we can represent $2^n$ numbers in binary. To represent negative numbers we can use the {\bf sign and magnitude} (use the first bit as an indicator of sign and the remaining bits as magnitude) method, though this is subject to some weirdness. We will end up with both a positive and a negative zero and will need specialized hardware for both addition and subtraction.
 
-A better method is to use \define{two's complement}{uses the congruences of numbers to represent their negatives} We can convert a number into two's complement form by the following method:
+A better method is to use {\bf two's complement} (uses the congruences of numbers to represent their negatives). We can convert a number into two's complement form by the following method:
 
 -6 can be converted by taking the absolute value in binary ($0110$), then flipping all of its bits ($1001$) and adding 1 ($1010$). Obviously this method can be used backwards: subtract 1, flip the bits, and add a negative number.
 
@@ -81,9 +81,9 @@ Which can be used to assign a register to any value of your choice.
 \section*{Assembly Language}
 There is a one-to-one correspondance between each assembly and machine instruction. The assembly can be converted directly into machine language with an {\bf assembler}.
 
-An assembler will read in a file and scan through it, recognizing each line to be a discrete instruction. It will remove comments and divide the instructions into {\bf words} and {\bf tokens}. This first step is referred to as \define{scanning}{taking the sequence of characters and outputting a sequence of tokens} This is also refered to as lexial analysis or tokenization.
+An assembler will read in a file and scan through it, recognizing each line to be a discrete instruction. It will remove comments and divide the instructions into {\bf words} and {\bf tokens}. This first step is referred to as {\bf scanning} (taking the sequence of characters and outputting a sequence of tokens). This is also refered to as lexial analysis or tokenization.
 
-There are multiple types of tokens, for example: opcode (ID), register (REG), comma. These tokens will also be associated with what we refer to as a \define{lexene}{the string which was recognized as a given token} For example, the lexene of a REG token may be \code{\$29}.
+There are multiple types of tokens, for example: opcode (ID), register (REG), comma. These tokens will also be associated with what we refer to as a {\bf lexene} (the string which was recognized as a given token). For example, the lexene of a REG token may be \code{\$29}.
 
 \section*{Loading}
 A {\bf loader} is a program that places a file into RAM. For $N$ instructions, we do:

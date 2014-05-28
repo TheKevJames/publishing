@@ -150,7 +150,7 @@ if(n)
 Much nicer, more convenient, and safer than char*. We only use char when dealing with legacy C compatibility. Need to include string.
 
 \begin{verbatim}
-#include 
+#include
 int main( ... ) {
   string fruit = "apple";
   string tree = "pine";
@@ -277,7 +277,7 @@ int main(int agrc; char* argv[]) {
   ofstream pass("passes");
   ofstream fail("fails");
   // should check errors here
-  
+
   int grade;
   string name;
   while(is_raw_grades >> grade >> names) {
@@ -287,11 +287,11 @@ int main(int agrc; char* argv[]) {
       fail << grade << " " << name << endl;
     }
   }
-  
+
   is_raw_grades.close();
   pass.close();
   fail.close();
-  
+
   return 0;
 }
 \end{verbatim}
@@ -426,16 +426,16 @@ int main(...) {
   coord a;      // static
   a.x = 3;
   a.y = 5;
-  
+
   coord *b = new coord;
   b->x = 3;
   b->y = 5;
-  
+
   coord *c = &a;
-  
+
   delete b;
   delete c;
-  
+
   return;
 }
 \end{verbatim}
@@ -574,14 +574,14 @@ We can implement a queue with the following:
 #include<cassert>
 
 struct Node {
-  string val; 
-  Node * next; 
-} 
+  string val;
+  Node * next;
+}
 
 struct Queue {
-  Node *first; 
-  Node *last; 
-} 
+  Node *first;
+  Node *last;
+}
 
 Queue initQ() {
   Queue q;
@@ -625,7 +625,7 @@ Queue leave(Queue q) {
   } else {
     q.first = q.first->next;
   }
-  
+
   if(NULL == q.first) {
     q.last=NULL;
   }
@@ -766,7 +766,7 @@ struct Node {
 \end{verbatim}
 
 \subsection*{Binary Trees}
-A binary tree is a special construct such that each node has a value and up to two children nodes (i.e. "left" and "right"). There exists a special "root" node which has no parents. 
+A binary tree is a special construct such that each node has a value and up to two children nodes (i.e. "left" and "right"). There exists a special "root" node which has no parents.
 
 A common subset is the {\bf binary search tree (BST)}, which has the properties such that the left child has a value less than or equal to both the node's value and the right child's value. This is true recursively (i.e. the value of {\it all} left descendants is less than or equal to the value of the node...).
 
@@ -886,12 +886,12 @@ int main() {
 Recursion is simpler, more elegant, and easier to read, though it can sometimes be innefficient.
 
 \section*{Priority Queues}
-A priority queue is a queue for which each element has both a vlue and a non-negative integer priority. \code{leave} means "remove the element of highest/lowest priority, if there are several of the same priority then remove the oldest". This is often used in network routing, since some types of data have higher priority (e.g. streaming video, VoIP, paid QoS).
+A priority queue is a queue for which each element has both a value and a non-negative integer priority. \code{leave} means ``remove the element of highest/lowest priority, if there are several of the same priority then remove the oldest''. This is often used in network routing, since some types of data have higher priority (e.g. streaming video, VoIP, paid QoS).
 
 C++ provides an STL container class called priority-queue. Alternatively, we can implement our own by using a linked list.
 
 \section*{Object-Oriented Programming (OOP)}
-OOP involves \define{declarations}{"this is what it looks like"} and \define{definitions}{"this is what it means"} These can either occur together or the declaration can occur first.
+OOP involves {\bf declarations} (``this is what it looks like'') and {\bf definitions} (``this is what it means''). These can either occur together or the declaration can occur first.
 
 For example, {\bf classes} can be implemented in the following fashion:
 
