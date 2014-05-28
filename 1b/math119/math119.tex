@@ -275,7 +275,7 @@ When dealing with error, you may realize we may sometimes end up with $\O{x^2} +
 We have the equation for a tangent plane from our general Taylor Series equation given as \[ f(x,y) \approx f(P) + f_x(P)h + f_y(P)k \] though it is generally expressed in its differential form. We take $\Delta f = f(x,y) - f(x_0,y_0), \Delta x = x - x_0$, and $\Delta y = y - y_0$ to get \[ \Delta f \approx f_x(P) \Delta x + f_y(P) \Delta y \] or in a more exact and concise form \[ \dd f = f_x \dd x + f_y \dd y \] which is referred to as the {\bf total differential of $f$}.
 
 \subsection*{Parametric Equations}
-The parametric equation for a circle of radius $a$ is $x(t) = a\cos t, y(t) = a\sin t$. Note that this has the added benefit of defining the two functions without relying on each other, and of adding a time variable. We can combine these functions and write them as a vector function $\vec{r} = (x,y) = (a\cos t, a\sin t),$ $t in [0,2\pi]$. $\vec{r(t)}$ gives both the path (direction, speed, start and end points) and the curve (the line in $\R{2}$).
+The parametric equation for a circle of radius $a$ is $x(t) = a\cos t, y(t) = a\sin t$. Note that this has the added benefit of defining the two functions without relying on each other, and of adding a time variable. We can combine these functions and write them as a vector function $\vec{r} = (x,y) = (a\cos t, a\sin t),$ $t in [0,2\pi]$. $\vec{r(t)}$ gives both the path (direction, speed, start and end points) and the curve (the line in $\mathbb{R}^2$).
 
 \subsubsection*{Chain Rule}
 The chain rule is a visualization of the reliance of variables on one another. When we transform scalar functions in a vector function, we change what each function relies on. For example, we maybe end up with $z$ relying on $x$ and $y$, each relying on their own $s$ and $t$.
@@ -285,13 +285,13 @@ Suppose we may write either $z = f(x,y)$ or $z = g(t)$. Then we have $\dd f = \f
 If $f$ depends on multiple variables, we can write this as $\frac{\partial z}{\partial t} = \frac{\partial z}{\partial x} \frac{\partial x}{\partial t} + \frac{\partial z}{\partial y} \frac{\partial y}{\partial t}$, $\frac{\partial z}{\partial s} = \frac{\partial z}{\partial x} \frac{\partial x}{\partial s} + \frac{\partial z}{\partial y} \frac{\partial y}{\partial s}$. This {\bf Non-Standard Chain Rule} is useful whenever our chain is non-uniform. For example, if $f$ relies on $x$ and $y$, $x$ relies on $s$ and $t$, and $y$ relies only on $s$.
 
 \subsection*{Gradient Vector}
-Since any function $f: \R{2} \to \mathbb{R}$ has two derivatives which are usually paired together, we write \[ \nabla f = (f_x, f_y) \] This notation allows us to rewrite a few of our formulaes
+Since any function $f: \mathbb{R}^2 \to \mathbb{R}$ has two derivatives which are usually paired together, we write \[ \nabla f = (f_x, f_y) \] This notation allows us to rewrite a few of our formulaes
 \begin{itemize}
 \item The linear approximation of $f(x,y) \approx f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b)$ can be written as $f(\vec{r}) = f(\vec{a}) + \nabla f(\vec{a})(\vec{r} - \vec{a})$
 \item The chain rule $\frac{\dd z}{\dd t} = \frac{\partial z}{\partial x} \frac{\dd x}{\dd t} + \frac{\partial z}{\partial y} \frac{\dd y}{\dd t}$ can be written as $\nabla f(\vec{r}(t)) \vec{r}^\prime (t)$
 \end{itemize}
 
-Basically, the gradient vector acts as the "complete" derivative (since it's comprised of the \emph{partial} derivatives).
+Basically, the gradient vector acts as the ``complete'' derivative (since it's comprised of the \emph{partial} derivatives).
 
 \subsection*{Directional Derivatives}
 \definition The directional derivative of $f(x,y)$ in the direction of a unit vector $\vec{u} = (u_0, u_1)$ at the point $a = (a,b)$ is denoted by $D_{\vec{u}} f(a,b)$ and defined as \[ D_{\vec{u}} f(a,b) = \lim_{h\to 0} \frac{f(a + hu_0, b + hu_1) - f(a,b)}{h} \] Note that $\inint{D_{\vec{u}} f(a,b)}{f} = f(a + hu_0, b + hu_1)$. We can also find \[ D_{\vec{u}} f(a,b) = \nabla f(x,y) \cdot \vec{u} \]
