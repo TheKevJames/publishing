@@ -220,29 +220,29 @@ There are four extremely useful functions to remember, which can be used as the 
 \end{itemize}
 
 \section*{Big-O Order Symbol}
-\definition Given two function $f$ and $g$, we say that ``$f$ is of order $g$ as $x \to x_0$'' and write $f(x) = \O{g(x)}$ as $x \to x_0$ if there exists a constant $A$ greater than 0 such that $|f(x)| \leq A |g(x)|$ on some interval around (but not necessarily including) $x_0$.
+\definition Given two function $f$ and $g$, we say that ``$f$ is of order $g$ as $x \to x_0$'' and write $f(x) = O(g(x))$ as $x \to x_0$ if there exists a constant $A$ greater than 0 such that $|f(x)| \leq A |g(x)|$ on some interval around (but not necessarily including) $x_0$.
 
-This allows us to say things like $\sin x = \O x$ and $\frac{\sin x}{x} = \O x$, though it could be argued that this is a terrible misuse of the equals sign, and that $\epsilon$ should be used instead.
+This allows us to say things like $\sin x = O(x)$ and $\frac{\sin x}{x} = O(x)$, though it could be argued that this is a terrible misuse of the equals sign, and that $\epsilon$ should be used instead.
 
 \subsection*{Order Notation and Taylor's Inequality}
-We can change our definition of Taylor's Inequality to use Big-O notation with \[ f(x) = P_{n,x_0} (x) + \O{(x-x_0)^{n+1}} \]
+We can change our definition of Taylor's Inequality to use Big-O notation with \[ f(x) = P_{n,x_0} (x) + O((x-x_0)^{n+1}) \]
 
-This gives us the ability to do things like this: since $\sqrt{1 + x} = 1 + \frac{x}{2} + \O{x^2}$ and $\sin x = x + \O{x^3}$, we have $\sqrt{1+x} + \sin x = 1 + \frac{3x}{2} + \O{x^2} + \O{x^3}$, which can be simplified further as $\O{x^2} + \O{x^3} = \O{x^2}$ (i.e. only the minimum term matters).
+This gives us the ability to do things like this: since $\sqrt{1 + x} = 1 + \frac{x}{2} + O(x^2)$ and $\sin x = x + O(x^3)$, we have $\sqrt{1+x} + \sin x = 1 + \frac{3x}{2} + O(x^2) + O(x^3)$, which can be simplified further as $O(x^2) + O(x^3) = O(x^2)$ (i.e. only the minimum term matters).
 
-Note that substitution works ``normally'' ($\sqrt{1 + u^4} = 1 + \frac{u^4}{2} + \O{u^8}$), as does multiplication, (long) division, etc.
+Note that substitution works ``normally'' ($\sqrt{1 + u^4} = 1 + \frac{u^4}{2} + O(u^8)$), as does multiplication, (long) division, etc.
 
 Generally, the Big-O notation can be thought of as a placeholder for all the omitted terms in out series. Alternatively, we have
 \begin{itemize}
-\item $C \O{x^n} = \O{x^n}$
-\item $\O{x^m} + \O{x^n} = \O{x^{\min(m,n)}}$
-\item $\O{x^m} \O{x^n} = \O{x^{m+n}}$
-\item $\O{x^m}^n = \O{x^{mn}}$
-\item $\frac{\O{x^m}}{x^n} = \O{x^{m-n}}$
+\item $C O(x^n) = O(x^n)$
+\item $O(x^m) + O(x^n) = O(x^{\min(m,n)})$
+\item $O(x^m)(x^n) = O(x^{m+n})$
+\item $O^n(x^m) = O(x^{mn})$
+\item $\frac{O(x^m)}{x^n} = O(x^{m-n})$
 \end{itemize}
-Note that there is no general rule for simplifying $\frac{\O{x^m}}{\O{x^n}}$, since we cannot determine what the lowest value of $n$ is.
+Note that there is no general rule for simplifying $\frac{O(x^m)}{O(x^n)}$, since we cannot determine what the lowest value of $n$ is.
 
 \subsubsection*{Limit Evaluation}
-We can use Big-O notation to help us evaluate certain limits. For example \[ \lim_{x\to\infty} \frac{\sin x}{x} = \lim_{x\to\infty} \frac{x+\O{x^3}}{x} = \lim_{x\to\infty} 1 + \O{x^2} = 1 \]
+We can use Big-O notation to help us evaluate certain limits. For example \[ \lim_{x\to\infty} \frac{\sin x}{x} = \lim_{x\to\infty} \frac{x+O(x^3)}{x} = \lim_{x\to\infty} 1 + O(x^2) = 1 \]
 
 \section*{Multivariate Calculus}
 While so far we have dealt only with functions of one variable, we can also have a function dependant on multiple variables. Note that if we are attempting to draw graphs of these, we must either draw in three-or-more dimensions or use contour plots.
@@ -269,7 +269,7 @@ In single-variable calculus, the most basic application of the derivative is the
 
 The Taylor series for two variables is given as $f(x,y) = f(x_0,y_0) + f_x(x_0,y_0)(x-x_0) + f_y(x_0,y_0)(y-y_0) + \frac{1}{2!}f_{xx}(x_0,y_0)(x-x_0)^2 + \frac{1}{2!}f_{xy}(x_0,y_0)(x-x_0)(y-y_0) + f_{yy}(x_0,y_0)(y-y_0)^2 + ...$ If we let $P = (x_0, y_0)$, $h = (x-x_0)$, and $k = (y-y_0)$, we have the slightly more legible \[ f(x,y) = \bigg( f(P) \bigg) + \bigg( f_x(P)h + f_y(P)k \bigg) + \frac{1}{2!} \bigg( f_{xx}(P)h^2 + 2f_{xy}(P)hk + f_{yy}(P)k^2 \bigg) + ... \] where each set of terms has coefficients given by Pascal's Triangle.
 
-When dealing with error, you may realize we may sometimes end up with $\O{x^2} + \O y$ etc. We commonly assume that $y$ is of order $x$ and thus write this simply as $\O x$.
+When dealing with error, you may realize we may sometimes end up with $O(x^2) + O(y)$ etc. We commonly assume that $y$ is of order $x$ and thus write this simply as $O(x)$.
 
 \subsection*{Tangent Plane and Differentials}
 We have the equation for a tangent plane from our general Taylor Series equation given as \[ f(x,y) \approx f(P) + f_x(P)h + f_y(P)k \] though it is generally expressed in its differential form. We take $\Delta f = f(x,y) - f(x_0,y_0), \Delta x = x - x_0$, and $\Delta y = y - y_0$ to get \[ \Delta f \approx f_x(P) \Delta x + f_y(P) \Delta y \] or in a more exact and concise form \[ \dd f = f_x \dd x + f_y \dd y \] which is referred to as the {\bf total differential of $f$}.
