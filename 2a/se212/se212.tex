@@ -3,6 +3,7 @@
 \usepackage[margin=.6in]{geometry}
 
 \newcommand{\implied}{\Longleftarrow}
+\newcommand{\trans}{\ensuremath{\Lleftarrow\!\Rrightarrow}}
 
 \begin{document}
 
@@ -102,10 +103,10 @@ Though any formula can be proven with truth tables, these can sometimes be ungai
 \subsection*{Transformational Proof}
 {\bf Transformational Proof} is the act of using substitutions to prove a formula. For example
 \begin{align*}
-(p \land q) \land \neg q &\LeftRightarrow \emph{false}\\
-p \land (q \land \neg q) &\LeftRightarrow \emph{false}\\
-p \land \emph{false} &\LeftRightarrow \emph{false}\\
-\emph{false} &\LeftRightarrow \emph{false}
+(p \land q) \land \neg q &\trans \emph{false}\\
+p \land (q \land \neg q) &\trans \emph{false}\\
+p \land \emph{false} &\trans \emph{false}\\
+\emph{false} &\trans \emph{false}
 \end{align*}
 
 Common transformations include commutativity, associativity, distributivity, contradiction, the law of the excluded middle, double negation, simplification, DeMorgan's law, contrapositives, equivalence, implications, and idempotents ($p \land p \implies p$).
@@ -114,20 +115,20 @@ We implicitely use the {\bf rule of substitution} (substituting equivalent formu
 
 Examples:
 \begin{align*}
-\neg ( ( p \land q ) \implies p ) &\LeftRightarrow \emph{false}\\
-\neg ( \neg ( p \land q ) \lor p ) &\LeftRightarrow \emph{false}\\
-\neg ( \neg p \lor \neg q \lor p ) &\LeftRightarrow \emph{false}\\
-(p \land q) \land \neg p &\LeftRightarrow \emph{false}\\
-(p \land \neg p) \land q &\LeftRightarrow \emph{false}\\
-\emph{false} \land q &\LeftRightarrow \emph{false}\\
-\emph{false} &\LeftRightarrow \emph{false}\\\\
-x &\LeftRightarrow x \land (y \implies x)\\
-x &\LeftRightarrow x \land ( \neg y \lor x)\\
-x &\LeftRightarrow x\\\\
-\neg \emph{true} &\LeftRightarrow \emph{false}\\
-\neg (p \lor \neg p) &\LeftRightarrow \emph{false}\\
-\neg p \land p &\LeftRightarrow \emph{false}\\
-\emph{false} &\LeftRightarrow \emph{false}\\
+\neg ( ( p \land q ) \implies p ) &\trans \emph{false}\\
+\neg ( \neg ( p \land q ) \lor p ) &\trans \emph{false}\\
+\neg ( \neg p \lor \neg q \lor p ) &\trans \emph{false}\\
+(p \land q) \land \neg p &\trans \emph{false}\\
+(p \land \neg p) \land q &\trans \emph{false}\\
+\emph{false} \land q &\trans \emph{false}\\
+\emph{false} &\trans \emph{false}\\\\
+x &\trans x \land (y \implies x)\\
+x &\trans x \land ( \neg y \lor x)\\
+x &\trans x\\\\
+\neg \emph{true} &\trans \emph{false}\\
+\neg (p \lor \neg p) &\trans \emph{false}\\
+\neg p \land p &\trans \emph{false}\\
+\emph{false} &\trans \emph{false}\\
 \end{align*}
 
 \subsection*{Natural Deduction}
@@ -168,7 +169,7 @@ The {\bf active} formulas at any stage of a proof are those which do NOT occur i
 \section*{Predicate Logic}
 Predicate logic is a method of formalizing an English sentence. A sentence expressed in predicate logic looks like the following:
 
-"Rich actors collect some valuables" becomes $\forall x \cdot rich(x) \land actor(x) \implies \exists y \cdot collects(x,y) \land valuable(y)$. "Not everyone in Louisiana speaks French, but everyone in Louisiana knows someone in Louisiana who speaks French" becomes $\neg (\forall x \cdot inL(x) \implies speaks(x, French)) \land (\forall c \cdot inL(x) \implies \exists y \cdot knows(x,y) \land inL(speaks(y, French)))$.
+``Rich actors collect some valuables'' becomes $\forall x \cdot rich(x) \land actor(x) \implies \exists y \cdot collects(x,y) \land valuable(y)$. ``Not everyone in Louisiana speaks French, but everyone in Louisiana knows someone in Louisiana who speaks French'' becomes $\neg (\forall x \cdot inL(x) \implies speaks(x, French)) \land (\forall c \cdot inL(x) \implies \exists y \cdot knows(x,y) \land inL(speaks(y, French)))$.
 
 \subsection*{Types}
 A type is a set of objects describing the possible values of a variable. We assume types to be non-empty. Any unary predicates are interchangeable with the type of the object they describe.
