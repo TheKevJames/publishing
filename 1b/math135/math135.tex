@@ -57,10 +57,10 @@ A set is a collection of objects. We use the notation $e in S$ for element $e$ i
 
 If $S$ and $T$ are sets, the {\bf cartesian product} of $S$ and $T$ is \[ S \times T = \{ (a,b) \suchthat a in S, b in T \} \] The order of elements within each pair does matter.
 
-For a finite set $S$, the {\bf cordinality} of $S$ is the number of elements in $S$, denoted $\abs{S}$. Note that $\abs{S \times T} = \abs{S}\abs{T}$. The empty set is the only one with a cordinality of 0.
+For a finite set $S$, the {\bf cordinality} of $S$ is the number of elements in $S$, denoted $|S|$. Note that $|S \times T| = |S||T|$. The empty set is the only one with a cordinality of 0.
 
 \subsection*{Operations}
-Note that we use $\land$, $\lor$, and $\neg$ to denote "and", "or", and "not".
+Note that we use $\land$, $\lor$, and $\neg$ to denote ``and'', ``or'', and ``not''.
 \begin{enumerate}
 \item Union: $S \cup T = \{ x \suchthat x in S \lor x in T \}$
 \item Intersection: $S \cap T = \{ x \suchthat x in S \land x in T \}$
@@ -79,7 +79,7 @@ Note that we use $\land$, $\lor$, and $\neg$ to denote "and", "or", and "not".
 
 For a set $S$, the {\bf power set} is the set of all possible subsets of $S$, denoted by $\power{S}$ or $2^S$
 
-Example: for $S = \{ 1,2 \}$, $\power{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \power{S}$ but $2 \isnotin \power{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \power{S}$. $\abs{\power{S}} = 4$, or $\abs{\power{n}} = 2^{\abs{n}}$
+Example: for $S = \{ 1,2 \}$, $\power{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \power{S}$ but $2 \isnotin \power{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \power{S}$. $|\power{S}| = 4$, or $|\power{n}| = 2^{|n|}$
 
 \subsection*{Equality}
 $A = B$ if and only if for every $x in \R{}$, $(x in A \iff x in B)$. From the definitions of a subset, we also have $A = B \iff A \subseteq B$ and $B \subseteq A$.
@@ -95,7 +95,7 @@ If $x in U$, $x in S \cap U$.\\
 Therefore, $x in (S \cap T) \cup (S \cap U)$.}
 
 \section*{Quantifiers}
-The {\bf universal quantifier} $\forall$ means "for all" and the {\bf existential quantifier} $\exists$ means "there exists".
+The {\bf universal quantifier} $\forall$ means ``for all'' and the {\bf existential quantifier} $\exists$ means ``there exists''.
 
 Examples:
 
@@ -297,11 +297,11 @@ Since $a \divides b \land a \divides c$, there exists $k, l in \mathbb{Z}$ such 
 Then $bx + cy = kax + lay = a(kx + ly)$. Since $kx + ly in \mathbb{Z}, a \divides bx + cy$.}
 
 \proposition{Bounds by Divisibility\\
-Let $a, b in \mathbb{Z}. a \divides b \land b \neq 0 \implies \abs{a} \leq \abs{b}$}
+Let $a, b in \mathbb{Z}. a \divides b \land b \neq 0 \implies |a| \leq |b|$}
 
 \proof{
 Since $a \divides b$, there exist $k in \mathbb{Z}$ such that $b = ka$.\\
-Then $\abs{b} = \abs{ka} = \abs{k}\abs{a} \geq \abs{a}$.}
+Then $|b| = |ka| = |k||a| \geq |a|$.}
 
 \subsubsection*{Division Algorithm}
 \proposition{Let $a in \mathbb{Z} \land b in \mathbb{N}$. Then there exist unique integers $q, r$ such that $a = qb + r$ where $0 \leq r < b$}
@@ -438,16 +438,16 @@ While technically valid, this method takes $2\log_2 (n)$ steps. One possible opt
 \subsection*{Complex Numbers}
 The set of complex numbers is defined as $\mathbb{C} = \{ a + bi \suchthat a, b in \mathbb{R} \}$. The standard form of one such number is $z = a + bi$, where $a$ is the {\bf real part} and $bi$ is the {\bf imaginary part}.
 
-We also define the conjugate $\overline{a + bi} = a - bi$ and the modulus $\abs{a + bi} = \sqrt{a^2 + b^2}$.
+We also define the conjugate $\overline{a + bi} = a - bi$ and the modulus $|a + bi| = \sqrt{a^2 + b^2}$.
 
 Complex numbers are commutative and distributive under addition and multiplication. The additive identity is 0 and the additive inverse of $a = bi$ is $-a - bi$. The multiplicative idnetity is 1 and the multiplicative inverse of $a + bi$ is $\frac{a-bi}{a^2 + b^2}$.
 
 \subsubsection*{Properties of Complex Numbers}
 \begin{enumerate}
-\item $\abs{z} = 0 \iff z = 0$
-\item $z \cdot \overline{z} = \abs{z}^2$
-\item $\abs{zw} = \abs{z} \cdot \abs{w}$
-\item $\abs{z + w} \leq \abs{z} + \abs{w}$ \emph{(this is the triangle inequality for complex numbers)}
+\item $|z| = 0 \iff z = 0$
+\item $z \cdot \overline{z} = {|z|}^2$
+\item $|zw| = |z| |w|$
+\item $|z + w| \leq |z| + |w|$ \emph{(this is the triangle inequality for complex numbers)}
 \end{enumerate}
 
 \subsubsection*{Complex Angles}
@@ -519,13 +519,13 @@ This implies simultaneous congruence, and by CRT we have $M^{ed} \equiv M \pmod{
 \newpage
 
 \section*{Propositions}
-This section is a summary of all "important" propositons covered in this course. For an exhaustive list, see the next pages.
+This section is a summary of all ``important'' propositons covered in this course. For an exhaustive list, see the next pages.
 
 \propositionlist{Transitivity of Divisibility (TD)}{For $a, b in \mathbb{Z}$, $a \divides b \land b \divides c \implies a \divides c$}
 
 \propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a \divides b \land a \divides c \implies a \divides bx + cy$.}
 
-\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies \abs{a} \leq \abs{b}$.}
+\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies |a| \leq |b|$.}
 
 \propositionlist{Division Algorithm (DA)}{For $a,b in \mathbb{Z}$ and $b > 0$, $\exists q,r \suchthat a = qb + r \land 0 \leq r < b$.}
 
@@ -547,11 +547,11 @@ This section is a summary of all "important" propositons covered in this course.
 
 \propositionlist{RSA}{If $p$ and $q$ are distinct primes, $n = pq$, $e$ and $d$ are positive integers such that $ed \equiv 1 \pmod {(p-1)(q-1)}$, $0 \leq M < n$, $M^e \equiv C \pmod n$, and $C^d \equiv R \pmod n$ where $0 \leq R < n$, then $R = M$.}
 
-\propositionlist{Cardinality of Disjoint Sets (CDS)}{If $S$ and $T$ are disjoint finite sets, then $\abs{S \cup T} = \abs{S} + \abs{T}$}
+\propositionlist{Cardinality of Disjoint Sets (CDS)}{If $S$ and $T$ are disjoint finite sets, then $|S \cup T| = |S| + |T|$}
 
-\propositionlist{Cardinality of Intersecting Sets (CIS)}{If $S$ and $T$ are any finite sets, then $\abs{S \cup T} = \abs{S} + \abs{T} - \abs{S \cap T}$}
+\propositionlist{Cardinality of Intersecting Sets (CIS)}{If $S$ and $T$ are any finite sets, then $|S \cup T| = |S| + |T| - |S \cap T|$}
 
-\propositionlist{Cardinality of Subsets of Finite Sets (CSFS)}{If $S$ and $T$ are finite sets and $S \subset T$, then $\abs{S} < \abs{T}$}
+\propositionlist{Cardinality of Subsets of Finite Sets (CSFS)}{If $S$ and $T$ are finite sets and $S \subset T$, then $|S| < |T|$}
 
 \newpage
 
@@ -561,7 +561,7 @@ This section is a summary of all "important" propositons covered in this course.
 
 \propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a \divides b \land a \divides c \implies a \divides bx + cy$.}
 
-\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies \abs{a} \leq \abs{b}$.}
+\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies |a| \leq |b|$.}
 
 \propositionlist{Division Algorithm (DA)}{For $a,b in \mathbb{Z}$ and $b > 0$, $\exists q,r \suchthat a = qb + r \land 0 \leq r < b$.}
 
@@ -607,7 +607,7 @@ This section is a summary of all "important" propositons covered in this course.
 
 \propositionlist{Properties of Conjugates (PC)}{If $z$ and $w$ are complex numbers, then $\overline{z + w} = \overline{z} + \overline{w}$, $\overline{zw} = \overline{z}\overline{w}$, $\overline{\overline{z}} = z$, $z + \overline{z} = 2Re(z)$, $z - \overline{z} = 2Im(z)$}
 
-\propositionlist{Properties of Modulus (PM)}{If $z, w in \mathbb{C}$, then $\abs{z} = 0 \iff z = 0$, $\abs{z} = \abs{\overline{z}}$, $\abs{z}^2 = z\overline{z}$, $\abs{zw} = \abs{z}\abs{w}$, $\abs{z + w} \leq \abs{z} + \abs{w}$}
+\propositionlist{Properties of Modulus (PM)}{If $z, w in \mathbb{C}$, then $|z| = 0 \iff z = 0$, $|z| = |\overline{z}|$, ${|z|}^2 = z\overline{z}$, $|zw| = |z||w|$, $|z+w| \leq |z| + |w|$}
 
 \propositionlist{DeMoivre's Theorem (DMT)}{For any $\theta in \mathbb{R}$ and $n in \mathbb{Z}$, $(\cos\theta + i\sin\theta)^n = \cos n\theta + i\sin n\theta$}
 

@@ -544,14 +544,14 @@ Example:
 \inint{\frac{x^2}{x^2+2x-3}}{x} &= \inint{1}{x} + \inint{\frac{4-2x}{x^2+2x-3}}{x}\\
 &= x + \inint{\frac{4-2x}{(x+3)(x-1)}}{x}\\
 &= x + \inint{\frac{\frac{-5}{2}}{x+3}}{x} + \inint{\frac{\frac{1}{2}}{x-1}}{x}\\
-&= x - \frac{5}{2}\ln\abs{x+3} + \frac{1}{2}\ln\abs{x-1} + C
+&= x - \frac{5}{2}\ln|x+3| + \frac{1}{2}\ln|x-1| + C
 \end{align*}
 
 \subsection*{Integration Summary}
 The goal is to rewrite the integrand into one of the following forms
 \begin{itemize}
 \item $\inint{x^n}{x} = \frac{x^{n+1}}{n+1} + C$, for $n \neq 1$
-\item $\inint{\frac{dx}{x}}{x} = \ln\abs{x} + C$
+\item $\inint{\frac{dx}{x}}{x} = \ln|x| + C$
 \item $\inint{a^x}{x} = \frac{a^x}{\ln a} + C$
 \item $\inint{\cos x}{x} = \sin x + C$
 \item $\inint{\sin x}{x} = -\cos x + C$
@@ -574,14 +574,14 @@ by using any of
 \subsection*{Some Common Integrals}
 \begin{itemize}
 \item $\inint{\ln x}{x} = x(\ln x - 1) + C$ through {\bf partial fraction decomposition}
-\item $\inint{\tan x}{x} = -\ln \abs{\cos x} + C = \ln \abs{\sec x} + C$ through {\bf substitution}
-\item $\inint{\sec x}{x} = \ln \abs{\sec x + \tan x} + C$ through {\bf hell if I know}
+\item $\inint{\tan x}{x} = -\ln |\cos x| + C = \ln |\sec x| + C$ through {\bf substitution}
+\item $\inint{\sec x}{x} = \ln |\sec x + \tan x| + C$ through {\bf hell if I know}
 \end{itemize}
 
 \subsection*{Applications of Integration}
 \textit{Definition:} The {\bf mean value} of a function $f(x)$ over the interval $[a,b]$ is \[ f_{av} = \frac{1}{b-a}\dint{a}{b}{f(x)}{x} \]
 
-\textit{Definition:} The {\bf area between curves} $f(x)$ an $g(x)$ we essentially create rectangles that fit between $f(x)$ an $g(x)$. The base of each rectangle is still dx, but the height is $\abs{f(x) - g(x)}$
+\textit{Definition:} The {\bf area between curves} $f(x)$ an $g(x)$ we essentially create rectangles that fit between $f(x)$ an $g(x)$. The base of each rectangle is still dx, but the height is $|f(x) - g(x)|$
 
 The area is then calculated as \[ \dint{a}{b}{f(x)-g(x)}{x} \] where $f(x)$ is the upper function.
 
@@ -591,14 +591,14 @@ Example: find the area between $y = x$ and $y = \frac{2}{x} - 1$ that is above t
 
 Using the {\bf $x$-axis} as the integration variable, we have
 \begin{align*}
-\dint{0}{1}{x}{x} + \dint{1}{2}{\frac{2}{x} - 1}{x} &= \frac{x^2}{2}\bigg|_0^1 + (2\ln\abs{x} - x)\bigg|_1^2\\
+\dint{0}{1}{x}{x} + \dint{1}{2}{\frac{2}{x} - 1}{x} &= \frac{x^2}{2}\bigg|_0^1 + (2\ln|x| - x)\bigg|_1^2\\
 &= \frac{1}{2} - 0 + (2\ln 2 - 2) - (2\ln 1 - 1)\\
 &= 2\ln 2 - \frac{1}{2}
 \end{align*}
 
 Using the {\bf $y$-axis} as the integration variable, we get
 \begin{align*}
-\dint{0}{1}{\frac{2}{y+1} - y}{y} &= \bigg(2\ln\abs{y+1} - \frac{y^2}{2}\bigg)\bigg|_0^1\\
+\dint{0}{1}{\frac{2}{y+1} - y}{y} &= \bigg(2\ln|y+1| - \frac{y^2}{2}\bigg)\bigg|_0^1\\
 &= 2\ln 2 - \frac{1}{2}
 \end{align*}
 
@@ -614,8 +614,8 @@ Example: find $y$ if $\frac{{\rm dy}}{{\rm dx}} = 2yx$
 
 \begin{align*}
 \inint{\frac{1}{2y}}{y} &= \inint{x}{x}\\
-ln\abs{y} &= x^2 + C\\
-\abs{y} &= e^{x^2 + C}\\
+ln|y| &= x^2 + C\\
+|y| &= e^{x^2 + C}\\
 y &= \pm e^{x^2}e^C \text{ let $A = \pm e^C$}\\
 y &= Ae^{x^2}
 \end{align*}
@@ -663,7 +663,7 @@ so the improper integral converges.
 On the other hand
 \begin{align*}
 \dint{1}{\infty}{\frac{1}{x}}{x} &= \lim_{t\to\infty} \dint{1}{t}{\frac{1}{x}}{x}\\
-&= \lim_{t\to\infty} \ln\abs{x} \bigg|_1^t\\
+&= \lim_{t\to\infty} \ln|x| \bigg|_1^t\\
 &= \infty
 \end{align*}
 so this improper integral diverges.
@@ -713,7 +713,7 @@ So we draw them as if they were positive, then rotate.
 \section*{Complex Numbers}
 The equation $x^2 + 1 = 0$ used to be impossible to solve. Now, we know that \[ i^2 = -1 \] If $z = a + bi$, then the conjugate $z^* = a - bi$.
 
-It is also common to write {\bf complex numbers} in polar form. So, if $z = a + bi$, we have \[ z = r(\cos\theta + i\sin\theta) \] $r$ is called the {\it modulus} of $z$, and is written as $\abs{z}$. $\theta$ is the {\it argument} of $z$.
+It is also common to write {\bf complex numbers} in polar form. So, if $z = a + bi$, we have \[ z = r(\cos\theta + i\sin\theta) \] $r$ is called the {\it modulus} of $z$, and is written as $|z|$. $\theta$ is the {\it argument} of $z$.
 
 In polar form, multiplication is simplified: let $z_1 = r_1(\cos\theta_1 + j\sin\theta_1)$ and $z_2 = r_2(\cos\theta_2 + j\sin\theta_2)$, then \[ z_1z_2 = r_1r_2\bigl(\cos(\theta_1+\theta_2) + \sin(\theta_1+\theta_2)i\bigl) \]
 

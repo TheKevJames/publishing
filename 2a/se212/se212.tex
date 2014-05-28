@@ -344,9 +344,9 @@ We define the {\bf inverse} of $R$ as $R^\ttilde = \{ (b,a) \suchthat (a,b) \in 
 
 We define {\bf iteration} over a relation as $R^n = R; R^{n-1}$, where $R^0 = id\ A$. Iterations obey the following rules: $R^{m+n} == R^m; R^n$ and $R^{mn} == (R^m)^n$.
 
-The {\bf relative image} of $S$ through $R$ is $R(\abs{S}) == \{ y : B \suchthat \exists x : D \cdot (x,y) \in R \land x \in S \}$. Basically, the relative image is the set of elements that are the second element of any pair in $R$ who's first element is in $S$.
+The {\bf relative image} of $S$ through $R$ is $R(|S|) == \{ y : B \suchthat \exists x : D \cdot (x,y) \in R \land x \in S \}$. Basically, the relative image is the set of elements that are the second element of any pair in $R$ who's first element is in $S$.
 
-We can use the following rules when dealing with relative images: $R(\abs{D \cup B}) == R(\abs{D}) \cup R(\abs{B})$, $R(\abs{D \cap B}) \subseteq R(\abs{D}) \cap R(\abs{B})$, and $R(\abs{dom\ R}) == ran\ R$.
+We can use the following rules when dealing with relative images: $R(|D \cup B|) == R(|D|) \cup R(|B|)$, $R(|D \cap B|) \subseteq R(|D|) \cap R(|B|)$, and $R(|dom\ R|) == ran\ R$.
 
 \subsubsection*{Derived Laws}
 For two relations $S : D \leftrightarrow B$ and $T : D \leftrightarrow B$, we have
