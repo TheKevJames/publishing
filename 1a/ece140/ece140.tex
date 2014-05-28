@@ -402,7 +402,7 @@ Usually, we have $v(-\infty) = 0$, so $v(t) = \frac{1}{C} \dint{-\infty}{t}{i(\t
 Since the integration of the current over any time interval is the charge accumulated in that period on the capacitor plate into which the current is flowing, we have \[ q(t) = Cv(t) \]
 
 \subsubsection*{Energy Storage}
-The power delivered to a capacitor is \[ P = v(t)\ C\ \fracd{v(t)}{t} \] and thus the change in {\bf energy stored} in its electric field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \frac{1}{2}C\bigl[v^2(t) - v^2(t_0)\bigl] \]
+The power delivered to a capacitor is \[ P = v(t)\ C\ \fracd{v(t)}{t} \] and thus the change in {\bf energy stored} in its electric field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half C\bigl[v^2(t) - v^2(t_0)\bigl] \]
 
 \subsubsection*{Practical Capacitor Model}
 A practical capacitor can be {\bf modelled} as a capacitor in parallel with a resistor.
@@ -427,7 +427,7 @@ We can find \[ i(t) = \frac{1}{L} \dint{t_0}{t}{v(\tau)}{\tau} + i(t_0) \] which
 Usually, we have $i(-\infty) = 0$, so $i(t) = \frac{1}{L} \dint{-\infty}{t}{v(\tau)}{\tau}$
 
 \subsubsection*{Energy Storage}
-The power delivered to an inductor is \[ P = i(t)\ L\ \fracd{i(t)}{t} \] and thus the change in {\bf energy stored} in its magnetic field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \frac{1}{2}L\bigl[i^2(t) - i^2(t_0)\bigl] \]
+The power delivered to an inductor is \[ P = i(t)\ L\ \fracd{i(t)}{t} \] and thus the change in {\bf energy stored} in its magnetic field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half L\bigl[i^2(t) - i^2(t_0)\bigl] \]
 
 \subsubsection*{Practical Capacitor Model}
 A practical inductor can be {\bf modelled} as an inductor in series with a (usually very small) resistor.
@@ -461,7 +461,7 @@ Note: $A * A^* = a^2 + b^2 = {|A|}^2$
 
 The conjugate of Euler's Identity is \[ e^{-j\theta} = \cos\theta - j\sin\theta \]
 
-We can also manipulate this to get \[ \cos\theta = \frac{1}{2}\bigl(e^{j\theta} + e^{-j\theta}\bigl) \] and \[ \sin\theta = \frac{1}{2j}\bigl(e^{j\theta} - e^{-j\theta}\bigl) \]
+We can also manipulate this to get \[ \cos\theta = \half \bigl(e^{j\theta} + e^{-j\theta}\bigl) \] and \[ \sin\theta = \frac{1}{2j}\bigl(e^{j\theta} - e^{-j\theta}\bigl) \]
 
 \subsection*{Alternate Forms of Complex Numbers}
 We can represent complex numbers in a variety of ways, each of which has different uses. The form $a + jb$ is called {\bf rectangular form}.
@@ -611,7 +611,7 @@ For periodic functions with period $T$, we can integrate over one period, or any
 For the sinusoidal case in steady state where $v(t) = V_m\cos(\omega t _ \theta)$ and $i(t) = I_m\cos(\omega t + \phi)$ we have \[ P = \frac{V_mI_m}{2}\cos(\theta - \phi) \]
 
 \subsubsection*{Resistors}
-Becase resistors are always in phase, we have \[ P = \frac{V_mI_m}{2} = \frac{1}{2}\frac{V_m^2}{R} = \frac{1}{2}I_m^2R \]
+Becase resistors are always in phase, we have \[ P = \frac{V_mI_m}{2} = \half \frac{V_m^2}{R} = \half I_m^2R \]
 
 \subsubsection*{Purely Reactive Elements}
 For inductors or capacitors, which are always $\frac{\pi}{2}$ out of phase, we have \[ P = 0 \]

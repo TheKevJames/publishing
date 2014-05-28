@@ -112,7 +112,7 @@ We can introduce error into this as $e^u = P_{2,0}(u) + R_2(u)$ where $R$ is giv
 
 To find an upper bound for this, we have $|f^3(u)| = e^u \leq e^{.25} < 2$. This can be used for our value of $K$, thus giving us $|R_2(u)| \leq 2\frac{|u|^3}{3!}$ on our interval. With substitution, we get $|R_2(u)| \leq \frac{1}{3}t^6$ and our absolute error is less than $\frac{1}{27}x^7$.
 
-In summary, we have found $\dint{0}{x}{e^{t^2}}{t} = x + \frac{x^3}{3} + \frac{x^5}{10} \pm \frac{x^7}{21}$ for $x in [-\frac{1}{2},\frac{1}{2}]$. Given some specific value fo $x$, we can find this value numerically.
+In summary, we have found $\dint{0}{x}{e^{t^2}}{t} = x + \frac{x^3}{3} + \frac{x^5}{10} \pm \frac{x^7}{21}$ for $x in [-\half ,\half ]$. Given some specific value fo $x$, we can find this value numerically.
 
 \section*{Infinite Series}
 Assume we take the limit of some error term. If this limit approaches zero, we can see that by adding more terms to our polynomial, we increase the accuracy of our approximation to perfection. Based on this, we can see that some functions can expressed as {\bf infinite sums}, which are technically the limit of sums, not a sum itself.

@@ -188,7 +188,7 @@ y &= \arcsin x
 
 $y$ is the angle between $-\frac{\pi}{2}$ and $\frac{\pi}{2}$ whose sine is $x$
 \begin{align*}
-\sin(\arcsin\bigg(\frac{1}{2}\bigg)) &= \frac{1}{2}\\
+\sin(\arcsin\bigg(\half \bigg)) &= \half \\
 \sin(\arcsin\bigg(\frac{5\pi}{6}\bigg)) &= \frac{\pi}{6}
 \end{align*}
 
@@ -241,7 +241,7 @@ You can always change the index without changing the sequence as long as you als
 \end{align*}
 
 \subsection*{Convergence}
-Consider the sequence $\{a_n\} = \{\frac{n}{n+1}\}_{n=1}^\infty$ which is $\{\frac{1}{2},\frac{2}{3},\frac{3}{4},...\}$. It is clear that the sequence is increasing, $a_{n+1} > a_n$. It should also be clear that $a_n < 1$. Since the terms get closer and closer to 1 as $n$ increases, we say that this sequence {\bf converges} to 1 and write \[ \{a_n\}\to 1 \text{as} n\to\infty \] or \[ \displaystyle\lim_{n\to\infty}a_n = 1 \]
+Consider the sequence $\{a_n\} = \{\frac{n}{n+1}\}_{n=1}^\infty$ which is $\{\half ,\frac{2}{3},\frac{3}{4},...\}$. It is clear that the sequence is increasing, $a_{n+1} > a_n$. It should also be clear that $a_n < 1$. Since the terms get closer and closer to 1 as $n$ increases, we say that this sequence {\bf converges} to 1 and write \[ \{a_n\}\to 1 \text{as} n\to\infty \] or \[ \displaystyle\lim_{n\to\infty}a_n = 1 \]
 
 \subsection*{The Precise Definition of a Limit}
 A sequence $\{a_n\}$ converges to the limit $L$ if no matter how small we choose a positive number $\varepsilon$ there is an integer $N$ such that \[ |a_n-L| < \varepsilon \text{wherever} n > N \] The number $N$ will often depend on $\varepsilon$
@@ -544,12 +544,12 @@ Every proper rational function has an antiderivative that is some combination of
 \subsection*{Eight Methods/Examples of Integration}
 \begin{enumerate}
 \item $\inint{\frac{1}{x+2}}{x} = \ln|x+2| + C$
-\item $\inint{\frac{1}{(x-1)^3}}{x} = -\frac{1}{2}(x-1)^{-2} + C$
-\item $\inint{\frac{1}{x^2-1}}{x} = \inint{\frac{A}{x-1}+\frac{B}{x+1}}{x} = \frac{1}{2}\ln\bigg|\frac{x-1}{x+1}\bigg| + C$
+\item $\inint{\frac{1}{(x-1)^3}}{x} = -\half (x-1)^{-2} + C$
+\item $\inint{\frac{1}{x^2-1}}{x} = \inint{\frac{A}{x-1}+\frac{B}{x+1}}{x} = \half \ln\bigg|\frac{x-1}{x+1}\bigg| + C$
 \item $\inint{\frac{1}{x^2+9}}{x} = \frac{1}{9}\inint{\frac{1}{(\frac{x}{3})^2+1}}{x} = \frac{1}{3}\arctan\bigg(\frac{x}{3}\bigg) + C$
 \item $\inint{\frac{3x}{x^2+5}}{x} = \inint{\frac{3}{2u}}{u} = \frac{3}{2}\ln|x^2+5| + C$
 \item $\inint{\frac{2x+5}{x^2+5x+10}}{x} = \inint{\frac{1}{u}}{u} = \ln|x^2+5x+10| + C$
-\item $\inint{\frac{1}{x^2-2x+5}}{x} = \frac{1}{4}\inint{\frac{1}{\big(\frac{x-1}{2}\big)^2+1}}{x} = \frac{1}{2}\arctan\big(\frac{x-1}{2}\big) + C$
+\item $\inint{\frac{1}{x^2-2x+5}}{x} = \quarter \inint{\frac{1}{\big(\frac{x-1}{2}\big)^2+1}}{x} = \half \arctan\big(\frac{x-1}{2}\big) + C$
 \item $\inint{\frac{3x}{x^2-2x+5}}{x} = \frac{3}{4}\inint{\frac{x}{\big(\frac{x-1}{2}\big)^2+1}}{x} = \frac{3}{2}\inint{\frac{2u+1}{u^2+1}}{u} = \frac{3}{2}\bigg(\ln\big|\big(\frac{x-1}{2}\big)^2 + 1\big| + \arctan\big(\frac{x-1}{2}\big)\bigg) + C$
 \end{enumerate}
 
@@ -559,8 +559,8 @@ Example:
 \begin{align*}
 \inint{\frac{x^2}{x^2+2x-3}}{x} &= \inint{1}{x} + \inint{\frac{4-2x}{x^2+2x-3}}{x}\\
 &= x + \inint{\frac{4-2x}{(x+3)(x-1)}}{x}\\
-&= x + \inint{\frac{\frac{-5}{2}}{x+3}}{x} + \inint{\frac{\frac{1}{2}}{x-1}}{x}\\
-&= x - \frac{5}{2}\ln|x+3| + \frac{1}{2}\ln|x-1| + C
+&= x + \inint{\frac{\frac{-5}{2}}{x+3}}{x} + \inint{\frac{\half }{x-1}}{x}\\
+&= x - \frac{5}{2}\ln|x+3| + \half \ln|x-1| + C
 \end{align*}
 
 \subsection*{Integration Summary}
@@ -608,14 +608,14 @@ Example: find the area between $y = x$ and $y = \frac{2}{x} - 1$ that is above t
 Using the {\bf $x$-axis} as the integration variable, we have
 \begin{align*}
 \dint{0}{1}{x}{x} + \dint{1}{2}{\frac{2}{x} - 1}{x} &= \frac{x^2}{2}\bigg|_0^1 + (2\ln|x| - x)\bigg|_1^2\\
-&= \frac{1}{2} - 0 + (2\ln 2 - 2) - (2\ln 1 - 1)\\
-&= 2\ln 2 - \frac{1}{2}
+&= \half - 0 + (2\ln 2 - 2) - (2\ln 1 - 1)\\
+&= 2\ln 2 - \half
 \end{align*}
 
 Using the {\bf $y$-axis} as the integration variable, we get
 \begin{align*}
 \dint{0}{1}{\frac{2}{y+1} - y}{y} &= \bigg(2\ln|y+1| - \frac{y^2}{2}\bigg)\bigg|_0^1\\
-&= 2\ln 2 - \frac{1}{2}
+&= 2\ln 2 - \half
 \end{align*}
 
 \section*{Solving Separable Differential Equations}
@@ -698,7 +698,7 @@ Example:
 \begin{align*}
 \dint{1}{4}{\frac{1}{(t-2)^2}}{t} &= \lim_{s\to 2^-} \dint{1}{s}{\frac{1}{(t-2)^2}}{x} + \lim_{t\to 2^+} \dint{t}{4}{\frac{1}{(t-2)^2}}{x}\\
 &= \lim_{s\to 2^-} -\frac{1}{t-2} \bigg|_1^s - \lim_{t\to 2^+} \frac{1}{t-2} \bigg|_t^4\\
-&= \infty - 1 - \frac{1}{2} + \infty\\
+&= \infty - 1 - \half + \infty\\
 &= \infty
 \end{align*}
 so this integral diverges.

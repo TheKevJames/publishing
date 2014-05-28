@@ -346,11 +346,11 @@ If $f(t) = e^{j\omega t}$ (for the previous example), we can apply the second me
 
 If we instead have $f(t) = e^{-j\omega t}$, we set \[ y_p(t) = \frac{1}{50-j\omega}e^{-j\omega t} \]
 
-So if $f(t) = \cos\omega t$, then, by linearity, we can take \[ y_p(t) = \frac{1}{2} \bigg(\frac{1}{50+j\omega}e^{j\omega t} + \frac{1}{50-j\omega} e^{-j\omega t}\bigg) \] If we let $k = \frac{1}{50 + j\omega}$, then we can write
+So if $f(t) = \cos\omega t$, then, by linearity, we can take \[ y_p(t) = \half \bigg(\frac{1}{50+j\omega}e^{j\omega t} + \frac{1}{50-j\omega} e^{-j\omega t}\bigg) \] If we let $k = \frac{1}{50 + j\omega}$, then we can write
 \begin{align*}
-y_p(t) &= \frac{1}{2} \bigg(ke^{j\omega t} + k^* e^{-j\omega t}\bigg)\\
-&= \frac{1}{2} \bigg( |k|e^{j\angle k}e^{j\omega t} + |k|e^{-j\angle k}e^{-j\omega t}\bigg)\\
-&= |k|\frac{1}{2} \bigg(e^{j(\omega t+ \angle k)} + e^{-j(\omega t + \angle k)}\bigg)\\
+y_p(t) &= \half \bigg(ke^{j\omega t} + k^* e^{-j\omega t}\bigg)\\
+&= \half \bigg( |k|e^{j\angle k}e^{j\omega t} + |k|e^{-j\angle k}e^{-j\omega t}\bigg)\\
+&= |k|\half \bigg(e^{j(\omega t+ \angle k)} + e^{-j(\omega t + \angle k)}\bigg)\\
 &= |k| \cos(\omega t + \angle k)
 \end{align*}
 
