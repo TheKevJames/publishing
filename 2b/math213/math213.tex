@@ -95,7 +95,7 @@ f &= \pm \frac{n}{2L} \sqrt\frac{T}{\rho}
 \end{align*}
 where $n = 1$ implies a fundamental frequency and $n \geq 2$ implies a harmonic frequency.
 
-\subsection{Linear Differential Equations}
+\section{Linear Differential Equations}
 A {\bf linear differential equation} has the form: \[ a_n(t)\nderiv{y(t)}{t}{n} + a_{n-1}(t)\nderiv{y(t)}{t}{n-1} + \cdots + a_0(t) y(t) = b_n(t)\nderiv{f(t)}{t}{n} + b_{n-1}(t)\nderiv{f(t)}{t}{n-1} + \cdots + b_0(t) f(t) \]
 
 In this equation, we have two dependant variables: $f$ and $y$. The `classical' approach is to assume $f(t)$ is given, then solve for $y(t)$.
@@ -266,7 +266,7 @@ or in other words, if $y(t_0)$ and $\dot y(t_0)$ are real-valued, $c_2$ is the c
 It thus follows that \[ y = 2 |c_1| \cos\bigg(\sqrt\frac{k}{M} t_0 + \angle c_1\bigg) \]
 \end{example}
 
-\section{Finding Particular Solutions}
+\subsection{Finding Particular Solutions}
 The {\bf method of undetermined coefficients} works for functions $f(t)$ of the form of a polynomial, exponential, or a sum of the them. The main idea is to ``guess'' the form of a particular solution. Generally, this solution is of the same form as $f(t)$.
 
 \begin{example}
@@ -356,5 +356,95 @@ y_p(t) &= \frac{1}{2} \bigg(ke^{j\omega t} + k^* e^{-j\omega t}\bigg)\\
 
 Note: because $|k| \to 0$ as $\omega \to \infty$, $|k| = \frac{1}{\sqrt{50^2 + \omega^2}} \to $ ``low-pass filter''
 \end{example}
+
+\begin{example}
+Suppose $f(t) = \sin 2t = \frac{e^{j2t} - e^{-j2t}}{2j}$. What is a particular solution?
+
+\begin{proof}
+% MISSING y_c
+It suffices to find a particular solution for $f(t) = e^{\pm j2t}$ and then apply superposition.
+
+We have
+\begin{align*}
+f(t) &= e^{j2t}\\
+y_p(t) &= ke^{j2t}\\
+Dy_p(t) &= wkje^{j2t}\\
+D^2y_p(t) &= -4ke^{j2t}
+\end{align*}
+
+We substitute this into
+\begin{align*}
+\bigg(D^2 + \frac{3}{2}D + \quarter\bigg) y = f &= e^{j2t}\\
+\bigg(-4 + 3j + \quarter\bigg) ke^{j2t} &= e^{j2t}\\
+\bigg(\frac{-15}{4} + 3j\bigg) ke^{j2t} &= e^{j2t}
+\end{align*}
+so $k$ is the inverse
+\begin{align*}
+k &= \frac{1}{(\frac{-15}{4}) + 3j} \frac{(\frac{-15}{4}) + 3j}{(\frac{-15}{4}) + 3j}\\
+&= \frac{(\frac{-15}{4}) + 3j}{{(\frac{15}{4})}^2 + 3^2}\\
+&= \frac{-20 -16j}{123}
+\end{align*}
+so we have a particular solution \[ y_p(t) = \frac{-20-16j}{123}e^{j2t} \]
+
+We can also write
+\begin{align*}
+k &= \frac{-20 - 16j}{123}\\
+&= \frac{\sqrt{656}}{123} e^{-j2.47}\\
+&= \frac{4}{3\sqrt{41}} e^{-j2.47}\\
+&= |k|e^{j\angle k}
+\end{align*}
+so
+\begin{align*}
+y_p(t) &= \frac{4}{3\sqrt{41}} e^{-j2.47}e^{j2t}\\
+&= \frac{4}{3\sqrt{41}} e^{j(2t-2.47)}
+\end{align*}
+
+Then if $f(t) = e^{-j2t}$ we get a particular solution
+\begin{align*}
+y_p(t) &= k^* e^{-j2t}\\
+&= |k^*| e^{-j(2t-\angle k^*)}\\
+&= |k| e^{-j(2t+\angle k)}
+\end{align*}
+i.e.\ \[ y_p(t) = \frac{4}{3\sqrt{41} e^{-j(2t - 2.47)}} \]
+
+So if $f(t) = \sin 2t = \frac{e^{j2t} - e^{-j2t}}{2j}$, then a particular solution is \[ y_p(t) = \frac{|k|e^{j(2t+\angle k)} - |k|e^{-j(2t+\angle k)}}{2j} \] i.e.\
+\begin{align*}
+y_p(t) &= \frac{4}{3\sqrt{41}} \frac{e^{j(2t-2.47)} - e^{-j(2t-2.47)}}{2j}\\
+&= \frac{4}{3\sqrt{41}} \sin(2t-2.47)\\
+&= |k|\sin (2t + \angle k)
+\end{align*}
+
+So the general solution of $Q(D) \tilde y = f$ is \[ \tilde y = c_1 e^{(-\frac{3}{4} + \frac{\sqrt{5}}{4})t} + c_2 e^{(-\frac{3}{4} - \frac{\sqrt{5}}{4})t} + \frac{4}{3\sqrt{41}} \sin(2t-2.47) \]
+
+So then the general solution of $Q(D)y = P(D)f$ is
+\begin{align*}
+y &= P(D)\tilde y\\
+&= (D+1)\tilde y\\
+&= \bigg(\quarter + \frac{\sqrt{5}}{4}\bigg) c_1 e^{(-\frac{3}{4} + \frac{\sqrt{5}}{4})t} + \bigg(\quarter - \frac{\sqrt{5}}{4}\bigg) c_2 e^{(-\frac{3}{4} - \frac{\sqrt{5}}{4})t} + \frac{4}{3}\sqrt{\frac{5}{41}} \bigg(\frac{1}{\sqrt{5}} \sin(2t - 2.47) + \frac{2}{\sqrt{5}} \cos(2t-2.47) \bigg)
+\end{align*}
+
+So since
+\begin{align*}
+&= \frac{1}{\sqrt{5}} \sin(2t-2.47) + \frac{2}{\sqrt{5}} \cos(2t-2.47)\\
+&= \sin 0.47\sin(2t-2.47) + \cos 0.47\cos(2t-2.47)\\
+&= \sin(2t-2.47+0.47)\\
+&= \sin(2t-2)
+\end{align*}
+we have \[ y = c_3 e^{(\frac{-3}{4} + \frac{\sqrt{5}}{4})t} + c_4 e^{(\frac{-3}{4} - \frac{\sqrt{5}}{4})t} + \frac{4}{3} \sqrt{\frac{5}{41}} \sin(2t-2) \]
+\end{proof}
+
+If we were given initial conditions (e.g.\ $y(0)$ and $\dot y(0)$), we could evaluate $c_3$ and $c_4$.
+\end{example}
+
+\subsection{Laplace Transforms}
+A {\bf Laplace transform} simplifies the process of solving a linear differential equation by ``converting'' it to a standard linear algebra problem.
+
+For example, if all of our functions were exponentials $y = e^{st}$, we would have $Dy = sy$.
+
+Since not all of our functions are exponentials, we follow the process of decomposing our functions into \emph{weighted sums} of exponential equations, then applying standard algebraic practices to these sums. By recomposing these equations afterward, we can find solutions to differential equations with a minimal of effort.
+
+More formally, a Laplace transform is denoted by \[ F(s) := \mathcal{L} \{f(t)\} = \int_{-\infty}^\infty f(t) e^{-st} \dd t \] where $s$ is complex-valued. To ensure convergence, suppose that for some real $\alpha$, the integral \[ \int_{-\infty}^{\infty} |f(t)| e^{-\alpha t} \dd t \] converges for some $s$.
+
+The transform can be inverted by means of the following {\bf inversion integral}: \[ f(t) = \frac{1}{2\pi j} \int_{\sigma-j\infty}^{\sigma+j\infty} F(s) e^{st} \dd s \] This is the {\bf contour integral} which is carried out within the area of the complex plain in which the Laplace transform converges (the ``region of convergence'' of $F(s)$).
 
 \end{document}
