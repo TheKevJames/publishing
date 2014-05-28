@@ -2,6 +2,14 @@
 \usepackage{amsmath,amssymb,parskip,booktabs,custom}
 \usepackage[margin=1in]{geometry}
 
+\newcommand{\truthone}[3]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{c|c}x & f \\ \hline 0 & #2 \\ 1 & #3 \\\end{tabular}\end{table}}
+\newcommand{\truthtwo}[5]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{cc|c}x & y & f \\ \hline 0 & 0 & #2 \\ 0 & 1 & #3 \\ 1 & 0 & #4 \\ 1 & 1 & #5 \\\end{tabular}\end{table}}
+\newcommand{\truththree}[9]{\begin{table}[ht]\centering\caption{#1}\begin{tabular}{ccc|c}x & y & z & f \\ \hline 0 & 0 & 0 & #2 \\ 0 & 0 & 1 & #3 \\ 0 & 1 & 0 & #4 \\ 0 & 1 & 1 & #5 \\ 1 & 0 & 0 & #6\\ 1 & 0 & 1 & #7\\ 1 & 1 & 0 & #8\\ 1 & 1 & 1 & #9\\\end{tabular}\end{table}}
+\newcommand{\truththreen}[8]{\begin{table}[ht]\centering\begin{tabular}{ccc|c}x & y & z & f \\ \hline 0 & 0 & 0 & #1 \\ 0 & 0 & 1 & #2 \\ 0 & 1 & 0 & #3 \\ 0 & 1 & 1 & #4 \\ 1 & 0 & 0 & #5\\ 1 & 0 & 1 & #6\\ 1 & 1 & 0 & #7\\ 1 & 1 & 1 & #8\\\end{tabular}\end{table}}
+\newcommand{\truth}[4]{\begin{table}[ht]\centering\begin{tabular}{cc|c}x & y & f \\ \hline 0 & 0 & #1 \\ 0 & 1 & #2 \\ 1 & 0 & #3 \\ 1 & 1 & #4 \\\end{tabular}\end{table}}
+\newcommand{\kmaptwo}[4]{\begin{table}[ht]\centering\begin{tabular}{c|cc}& 0 & 1\\ \hline0 & #1 & #2\\1 & #3 & #4 \\\end{tabular}\end{table}}
+\newcommand{\kmapthree}[8]{\begin{table}[ht]\centering\begin{tabular}{c|cccc}& 00 & 01 & 11 & 10 \\\hline 0 & #1 & #3 & #7 & #5 \\1 & #2 & #4 & #8 & #6 \\\end{tabular}\end{table}}
+
 \begin{document}
 
 \title{ECE 124 - Digital Circuits and Systems}
@@ -144,13 +152,13 @@ Denoted as a triangle, a buffer does nothing to the function. It amplifies the s
 \subsection*{Karnough Maps}
 A {\bf K-Map} is a different graphical representation of a logic function equivalent to a truth table (i.e. it holds the same value). It's not tabular, but is drawn much like a matrix. Note that it only works for up to five inputs, beyond that it becomes ungainly and useless.
 
-It is useful because we it allows us to do logic optimization / simplification graphically. 
+It is useful because we it allows us to do logic optimization / simplification graphically.
 
 For a two-input function \truth{1}{1}{0}{1}
 
 we have \kmaptwo{1}{0}{1}{1}
 
-By "drawing" rectangles on this chart (over top of the true values), we can find an equation for the function. Note that these rectangles can "wrap around" the chart or overlap each other, and that we can also go backwards to generate the table based on an equation (especially simplified equations).
+By ``drawing'' rectangles on this chart (over top of the true values), we can find an equation for the function. Note that these rectangles can ``wrap around'' the chart or overlap each other, and that we can also go backwards to generate the table based on an equation (especially simplified equations).
 
 Each rectangle gives an ANDed function, and the rectangles can then be ORed. Longer rectangles cover more possibilities. All rectangles must have dimensions equal to $2^n$ for any integer $n$.
 
@@ -167,7 +175,7 @@ Note that the $xy$ values are not strictly increasing. This is because the diffe
 Four-variable maps have dimensions four by four. Five-variable ones can be represented as two four-variable maps.
 
 \subsection*{"Don't Cares"}
-Sometimes the value of $f$ doesn't matter, and we can exploit this face when minimizing: these cases are "don't cares". You can chose to set these values as either 0 or 1, whatever makes the logic simpler. For K-Maps, we simply include these in any rectangles which could be "improved" by their inclusion.
+Sometimes the value of $f$ doesn't matter, and we can exploit this face when minimizing: these cases are ``don't cares''. You can chose to set these values as either 0 or 1, whatever makes the logic simpler. For K-Maps, we simply include these in any rectangles which could be ``improved'' by their inclusion.
 
 \section*{General Circuitry}
 \subsection*{Multiple Output Functions}
