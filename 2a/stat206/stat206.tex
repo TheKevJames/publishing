@@ -119,7 +119,13 @@ The {\bf mean} or {\bf expected value} of a random variable $X$ is defined as \[
 \subsection*{Bernoulli Distributions}
 A Bernoulli distribution will be formed when an experiment is repeated several times. The outcomes of each tril must be independant though the probability of any given outcome must be identical over all experiments. Results must be binary.
 
-We say that $X$ follows a Bernoulli distribution ($X \ttilde Bernoulli(p)$), where $p$ is the probablity of success, if \[ f(x) = \twocases{p}{x = 1}{1-p}{x = 0} \] Note that for all Bernoulli distributions $E(X) = p$ and $Var(X) = p(1-p)$.
+We say that $X$ follows a Bernoulli distribution ($X \ttilde Bernoulli(p)$), where $p$ is the probablity of success, if
+\[ f(x) =
+    \begin{cases}
+    p & x = 1\\
+    1-p & x = 0
+    \end{cases}
+\] Note that for all Bernoulli distributions $E(X) = p$ and $Var(X) = p(1-p)$.
 
 Let $X$ be the number of successes obtained from a sequence of $n$ Bernoulli trials. $X$ follows a {\bf Binomial distribution} ($X \ttilde Bino(n; p)$) if \[ P(X = x) = f(x) = \comb{n}{x} p^x (1-p)^{n-x} \] We also have $E(X) = np$ and $Var(X) = np(1-p)$.
 

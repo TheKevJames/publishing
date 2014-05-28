@@ -85,18 +85,23 @@ A function $f(t)$ is {\bf periodic} with period $P$ if \[ f(t + nP) = f(t),\ n\ 
 Any function which exists only over a finite interval can be extended as an even or odd periodic function.
 
 \subsection*{Absolute Values}
-\[ |x| = \twocases{x}{x > 0}{-x}{x < 0} \]
+\[ |x| =
+    \begin{cases}
+    x & x > 0\\
+    -x & x < 0
+    \end{cases}
+\]
 Alternatively, we can use $|x| = \sqrt{x^2}$. Note: $\sqrt{x^2}\neq x$. Note 2: $(\sqrt{x})^2 = x$
 
 Geometrically, $|x|$ is the distance between $x$ and $0$ on the number line. Similarly, $|x-a|$ is the distance between $x$ and $a$ on the number line.
 
 \subsection*{Heavyside Function}
 \begin{align*}
-H(t) &= \twocases{0}{t < 0}{1}{t \geq 0}\\
-H(t-a) &= \twocases{0}{t < a}{1}{t \geq a}
+H(t) &= \begin{cases}0 & t < 0\\ 1 & t \geq 0\end{cases}\\
+H(t-a) &= \begin{cases}0 & t < a\\ 1 & t \geq a\end{cases}
 \end{align*}
 
-Multiplying a function by $H(t-a)$ is like a switch which "turns the function on" at $t = a$. We can combine multiple Heavyside functions to "activate" certain functions in a specified region.
+Multiplying a function by $H(t-a)$ is like a switch which ``turns the function on'' at $t = a$. We can combine multiple Heavyside functions to ``activate'' certain functions in a specified region.
 
 Example: $f(t) = t + (2-t)H(t+2) + (t^2+1)H(t) + (2-t-t^2)H(t-1)$
 \[ f(t) =
@@ -110,7 +115,13 @@ Example: $f(t) = t + (2-t)H(t+2) + (t^2+1)H(t) + (2-t-t^2)H(t-1)$
 
 How do we do this in reverse? ie: take a piecewise function and definite it in terms of $H(t-a)$?
 \begin{enumerate}
-\item Use the fact that (for $a < b$) \[ H(t-a) - H(t-b) = \begin{cases}0 & \text{if } t < a\\1 & \text{if } a \leq t < b\\0 & \text{if } t \geq b\end{cases} \] makes an on/off switch. So does \[ 1 - H(t-a) = \twocases{1}{t < a}{0}{t \geq a} \]
+\item Use the fact that (for $a < b$) \[ H(t-a) - H(t-b) = \begin{cases}0 & \text{if } t < a\\1 & \text{if } a \leq t < b\\0 & \text{if } t \geq b\end{cases} \] makes an on/off switch. So does
+\[ 1 - H(t-a) =
+    \begin{cases}
+    1 & t < a\\
+    0 & t \geq a
+    \end{cases}
+\]
 \item When a new function is turned on, subtract the previous one.
 \end{enumerate}
 
@@ -324,16 +335,21 @@ If $f(x)$ and $g(x)$ are continuous, the following are as well
 
 Most of the functions we encounter will be continuous except where they are undefined. Continuity will usually come into quetion for piecewise-defined functions.
 
-Defining \[ f(x) = \twocases{\frac{\sin{x}}{x}}{x \neq 0}{1}{x = 0} \] gives a continuous function on all of $\mathbb{R}$.
+Defining \[ f(x) =
+    \begin{cases}
+    \frac{\sin{x}}{x} & x \neq 0\\
+    1 & x = 0
+    \end{cases}
+\] gives a continuous function on all of $\mathbb{R}$.
 
-Note: this is called a removable discontinuity, as it can be removed by defining the value at one point. We also distinguish between "infinite discontinuities" and "jump discontinuities".
+Note: this is called a removable discontinuity, as it can be removed by defining the value at one point. We also distinguish between ``infinite discontinuities'' and ``jump discontinuities''.
 
 \subsection*{Three Theorems That Seem Obvious}
 \subsubsection*{Intermediate Value Theorem}
 If $f(x)$ is continuous on an interval $[a,b]$ and $f(a) < c$ while $f(b) > c$, then there exists a point $x\ \epsilon\ (a,b)$ such that $f(x) = c$
 
 \subsubsection*{Boundedness Theorem}
-If $f$ is continuous on a closed interval $[a,b]$, then $f$ is "bounded" about and below. That is, there exists numbers $n_0$ and $n_1$ such that $n_0 < f(x) < n_1$ when $x\ \epsilon\ [a,b]$
+If $f$ is continuous on a closed interval $[a,b]$, then $f$ is ``bounded'' about and below. That is, there exists numbers $n_0$ and $n_1$ such that $n_0 < f(x) < n_1$ when $x\ \epsilon\ [a,b]$
 
 \subsubsection*{Extreme Value Theorem}
 If $f$ is continuous on a closed interval $[a,b]$, then $f$ attains a maximum and minimum value on $[a,b]$. Note the importance of continuity and closedness, and that these are required for a function to attain a max and a min value.
