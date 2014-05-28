@@ -41,7 +41,7 @@ Logic is concerned with the structure of an argument, particularly valid ones. W
 Our goal is to formalize all the details found in an English sentence while matching the form of the sentence as closely as possible. We do this by selecting the smallest statements without connectives about which we can can determine validity. Using propositional letters to stand for each of these sentences, we construct our statement by connecting them with connectives.
 
 \subsubsection*{George}
-"It is cold but not snowing" can by entered into George with
+``It is cold but not snowing'' can by entered into George with
 
 \begin{verbatim}
 #u kevin
@@ -239,7 +239,9 @@ Note that the seventh axiom is the basis for mathematical induction.
 \section*{Set Theory}
 A set is a collection of elements or numbers. They have no order and may or may not be infinite. All elements are distinct, i.e. no set contains more than one of the same element.
 
-We define $x$ as being a member of $S$ with $x \in S$ and its converse with $x \not\in S$. Note that $x \not\in S \leftrightarrow \neg(x \in S)$.
+We define $x$ as being a member of $S$ with $x \in S$ and its converse with $x
+otin S$. Note that $x
+otin S \leftrightarrow \neg(x \in S)$.
 
 In addition to defining exactly which members are in a set, we can use set construction notation as follows \[ S = \{ 2x \cdot x : \mathbb{N} \suchthat (5 < x) \land (x < 10) \} \] for the set of all even numbers between five and ten.
 
@@ -298,7 +300,8 @@ Two sets $A$ and $B$ are {\bf disjoint} if their intersection is empty (i.e. $A 
 
 Note: $\#(A \cup B) = \#A + \#B − \#(A \cap B)$
 
-We can also take the {\bf absolute complement} of a set with $A' = \{ x \suchthat x \in U \land \neg(x \in A) \}$ and the {\bf relative complement}, or set difference, with $A - B = \{ x \suchthat x \in A \land x \not\in B \}$.
+We can also take the {\bf absolute complement} of a set with $A' = \{ x \suchthat x \in U \land \neg(x \in A) \}$ and the {\bf relative complement}, or set difference, with $A - B = \{ x \suchthat x \in A \land x
+otin B \}$.
 
 \subsubsection*{Derived Laws}
 These laws can be derived from our axioms:

@@ -64,11 +64,11 @@ Note that we use $\land$, $\lor$, and $\neg$ to denote ``and'', ``or'', and ``no
 \begin{enumerate}
 \item Union: $S \cup T = \{ x \suchthat x in S \lor x in T \}$
 \item Intersection: $S \cap T = \{ x \suchthat x in S \land x in T \}$
-\item Complement: $S^c = \{ x \suchthat x \isnotin S \}$. Note that $S^{c^c} = S$.
+\item Complement: $S^c = \{ x \suchthat x \notin S \}$. Note that $S^{c^c} = S$.
 \begin{itemize}
 \item Complements are transitive, ie $(A \cap B)^c = A^c \cap B^c$.
 \end{itemize}
-\item Difference (relative complement of $B$ in $A$): $S \setminus T = \{ x \suchthat x in S \land x \isnotin T \}$. In other words, $S \setminus T = S \cap B^c$.
+\item Difference (relative complement of $B$ in $A$): $S \setminus T = \{ x \suchthat x in S \land x \notin T \}$. In other words, $S \setminus T = S \cap B^c$.
 \begin{itemize}
 \item Relative complements are inversely transitive, ie $X \setminus (A \cap B) = (X \setminus A) \cup (X \setminus B)$.
 \end{itemize}
@@ -79,7 +79,7 @@ Note that we use $\land$, $\lor$, and $\neg$ to denote ``and'', ``or'', and ``no
 
 For a set $S$, the {\bf power set} is the set of all possible subsets of $S$, denoted by $\power{S}$ or $2^S$
 
-Example: for $S = \{ 1,2 \}$, $\power{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \power{S}$ but $2 \isnotin \power{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \power{S}$. $|\power{S}| = 4$, or $|\power{n}| = 2^{|n|}$
+Example: for $S = \{ 1,2 \}$, $\power{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \power{S}$ but $2 \notin \power{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \power{S}$. $|\power{S}| = 4$, or $|\power{n}| = 2^{|n|}$
 
 \subsection*{Equality}
 $A = B$ if and only if for every $x in \R{}$, $(x in A \iff x in B)$. From the definitions of a subset, we also have $A = B \iff A \subseteq B$ and $B \subseteq A$.
@@ -126,7 +126,7 @@ but
 If such a $y$ exists, then $x = y$ does not satisfy $y < x$.\\
 This is a contradiction, thus the proposition is false.}
 
-\proposition{$\forall x in \power{\mathbb{N}}, x \isnotin\!\!\{\} \implies \exists y in x, \forall z in x \suchthat y < z$}
+\proposition{$\forall x in \power{\mathbb{N}}, x \notin\!\!\{\} \implies \exists y in x, \forall z in x \suchthat y < z$}
 
 \proof{
 Can be accepted logically.}
