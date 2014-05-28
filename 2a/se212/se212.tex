@@ -36,7 +36,7 @@ With ands, the constants are conjuncts; with ors, they are disjuncts. Not that d
 
 {\bf Prime propositions} are declarative sentences which can be either true or false. The primeness is based on the lack of connectives. Propositions with connectives are called {\bf compound propositions}. Sentences that are interogative (questions) or imperative (commands) are not propositions.
 
-Logic is concerned with the structure of an argument, particularly valid ones. We encode sentences in symbols to give us a better understanding of the structure. Avoid using $t$ or $f$, since those tend to confuse us with \true and \false .
+Logic is concerned with the structure of an argument, particularly valid ones. We encode sentences in symbols to give us a better understanding of the structure. Avoid using $t$ or $f$, since those tend to confuse us with \emph{true} and \emph{false} .
 
 Our goal is to formalize all the details found in an English sentence while matching the form of the sentence as closely as possible. We do this by selecting the smallest statements without connectives about which we can can determine validity. Using propositional letters to stand for each of these sentences, we construct our statement by connecting them with connectives.
 
@@ -69,22 +69,22 @@ Semantics are about giving our propositions meaning by relating words. They prov
 
 The syntax of our logic is the {\bf domain} of the semantic function.
 
-Classical logic is two-valued: \true and \false are the only possibilities for truth values. These are not a part of the syntax of propositional logic. The {\bf range} of a logic is the set of its truth values.
+Classical logic is two-valued: \emph{true} and \emph{false} are the only possibilities for truth values. These are not a part of the syntax of propositional logic. The {\bf range} of a logic is the set of its truth values.
 
-The semantics are described using {\bf boolean valuations} (functions in propositional logic which map from the set of formulas to the range). We can define these boolean valuations with truth tables. For example, we can map $\true \land \false$ to $\false$.
+The semantics are described using {\bf boolean valuations} (functions in propositional logic which map from the set of formulas to the range). We can define these boolean valuations with truth tables. For example, we can map $\emph{true} \land \emph{false}$ to $\emph{false}$.
 
 The truth value of a formula is uniquely determined by the truth values of the prime propositions. When describing a boolean function, we must only describe the relation of truth values.
 
-For example: $(p \implies q) \land r$ where $v(p) = \true, v(q) = \false, v(r) = \false$ gives
+For example: $(p \implies q) \land r$ where $v(p) = \emph{true}, v(q) = \emph{false}, v(r) = \emph{false}$ gives
 \begin{align*}
 v((p \implies q) \land r) &= v(p \implies q) \land v(r)\\
                           &= (v(p) \implies v(q)) \land v(r)\\
-                          &= (\true \implies \false) \land \false\\
-                          &= \false \land \false\\
-                          &= \false
+                          &= (\emph{true} \implies \emph{false}) \land \emph{false}\\
+                          &= \emph{false} \land \emph{false}\\
+                          &= \emph{false}
 \end{align*}
 
-We define a function as {\bf satisfiable} if there is some combination of input values which will make the outcome \true . If the formula is true for all possible input values, that formula is {\bf valid} and can be referred to as a {\bf tautology}. A tautology is written as $\vdash p \land \neg p$.
+We define a function as {\bf satisfiable} if there is some combination of input values which will make the outcome \emph{true} . If the formula is true for all possible input values, that formula is {\bf valid} and can be referred to as a {\bf tautology}. A tautology is written as $\vdash p \land \neg p$.
 
 A formula $p$ {\bf logically implies} another formula $q$ if and only if for all possible boolean value $v(p) \vdash v(q)$. This can be represented as a tautology with $\vdash p \implies q$. Note that we sometimes use $\Rrightarrow$
 
@@ -100,10 +100,10 @@ Though any formula can be proven with truth tables, these can sometimes be ungai
 \subsection*{Transformational Proof}
 {\bf Transformational Proof} is the act of using substitutions to prove a formula. For example
 \begin{align*}
-(p \land q) \land \neg q &\LeftRightarrow \false\\
-p \land (q \land \neg q) &\LeftRightarrow \false\\
-p \land \false &\LeftRightarrow \false\\
-\false &\LeftRightarrow \false
+(p \land q) \land \neg q &\LeftRightarrow \emph{false}\\
+p \land (q \land \neg q) &\LeftRightarrow \emph{false}\\
+p \land \emph{false} &\LeftRightarrow \emph{false}\\
+\emph{false} &\LeftRightarrow \emph{false}
 \end{align*}
 
 Common transformations include commutativity, associativity, distributivity, contradiction, the law of the excluded middle, double negation, simplification, DeMorgan's law, contrapositives, equivalence, implications, and idempotents ($p \land p \implies p$).
@@ -112,20 +112,20 @@ We implicitely use the {\bf rule of substitution} (substituting equivalent formu
 
 Examples:
 \begin{align*}
-\neg ( ( p \land q ) \implies p ) &\LeftRightarrow \false\\
-\neg ( \neg ( p \land q ) \lor p ) &\LeftRightarrow \false\\
-\neg ( \neg p \lor \neg q \lor p ) &\LeftRightarrow \false\\
-(p \land q) \land \neg p &\LeftRightarrow \false\\
-(p \land \neg p) \land q &\LeftRightarrow \false\\
-\false \land q &\LeftRightarrow \false\\
-\false &\LeftRightarrow \false\\\\
+\neg ( ( p \land q ) \implies p ) &\LeftRightarrow \emph{false}\\
+\neg ( \neg ( p \land q ) \lor p ) &\LeftRightarrow \emph{false}\\
+\neg ( \neg p \lor \neg q \lor p ) &\LeftRightarrow \emph{false}\\
+(p \land q) \land \neg p &\LeftRightarrow \emph{false}\\
+(p \land \neg p) \land q &\LeftRightarrow \emph{false}\\
+\emph{false} \land q &\LeftRightarrow \emph{false}\\
+\emph{false} &\LeftRightarrow \emph{false}\\\\
 x &\LeftRightarrow x \land (y \implies x)\\
 x &\LeftRightarrow x \land ( \neg y \lor x)\\
 x &\LeftRightarrow x\\\\
-\neg \true &\LeftRightarrow \false\\
-\neg (p \lor \neg p) &\LeftRightarrow \false\\
-\neg p \land p &\LeftRightarrow \false\\
-\false &\LeftRightarrow \false\\
+\neg \emph{true} &\LeftRightarrow \emph{false}\\
+\neg (p \lor \neg p) &\LeftRightarrow \emph{false}\\
+\neg p \land p &\LeftRightarrow \emph{false}\\
+\emph{false} &\LeftRightarrow \emph{false}\\
 \end{align*}
 
 \subsection*{Natural Deduction}
@@ -144,7 +144,7 @@ We use a horizontal line to divide our premises from our conclusion, and write t
 \section*{Normal Forms}
 A literal is a proposition letter or its negation. A formula is in {\bf conjunctive normal form} if it is a conjunction of clauses, where a clause is a disjunction of literals or a single literal. A formula is in {\bf disjunctive normal form} if it is a disjunction of clauses, where a clause is a conjunction of literals or a single literal.
 
-There are no repeated literals in a clause and no clause contains \true or \false. No two clauses should contain the same literals. Note that \true and \false by themselves are in CNF and DNF.
+There are no repeated literals in a clause and no clause contains \emph{true} or \emph{false}. No two clauses should contain the same literals. Note that \emph{true} and \emph{false} by themselves are in CNF and DNF.
 
 Every formula has an equivalent formula in CNF and DNF.
 
@@ -153,7 +153,7 @@ We can convert our formula to CNF with the following methodology:
 \item Remove all $\rightarrow$ and $\implies$ using implication and equivalence laws
 \item Use the negation law or DeMorgan's theorem to remove any negated compound subformulas
 \item Use distributivity to reduce the scope
-\item Simplify so there are no repeated literals in a clause and no clause contains \true or \false
+\item Simplify so there are no repeated literals in a clause and no clause contains \emph{true} or \emph{false}
 \end{enumerate}
 
 \section*{Subproofs}
