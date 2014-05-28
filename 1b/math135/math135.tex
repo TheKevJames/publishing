@@ -2,9 +2,10 @@
 \usepackage{amsmath,amssymb,parskip,custom}
 \usepackage[margin=1in]{geometry}
 
-\newcommand{\R}[1]{\mathbb{R}^{#1}}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\proposition}[1]{{\bf Proposition: \textit{#1}}}
 \newcommand{\propositionlist}[2]{{\bf Proposition} (#1). \emph{#2}}
+\newcommand{\R}[1]{\mathbb{R}^{#1}}
 
 \begin{document}
 
@@ -79,9 +80,9 @@ Note that we use $\land$, $\lor$, and $\neg$ to denote ``and'', ``or'', and ``no
 \subsection*{Subsets}
 \definition $S$ is a {\bf subset} of $T$ $(S \subseteq T)$ if and only if for every $x in \R{}$, $x in S \implies x in T$. Note that $S \subseteq S$ and the zero set is a subset of every other set.
 
-For a set $S$, the {\bf power set} is the set of all possible subsets of $S$, denoted by $\power{S}$ or $2^S$
+For a set $S$, the {\bf power set} is the set of all possible subsets of $S$, denoted by $\powerset{S}$ or $2^S$
 
-Example: for $S = \{ 1,2 \}$, $\power{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \power{S}$ but $2 \notin \power{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \power{S}$. $|\power{S}| = 4$, or $|\power{n}| = 2^{|n|}$
+Example: for $S = \{ 1,2 \}$, $\powerset{S} = \bigl\{ \{\}, \{1\}, \{2\}, \{1,2\} \bigl\}$ thus $\{2\} in \powerset{S}$ but $2 \notin \powerset{S}$ so $\bigl\{ \{2\} \bigl\} \subseteq \powerset{S}$. $|\powerset{S}| = 4$, or $|\powerset{n}| = 2^{|n|}$
 
 \subsection*{Equality}
 $A = B$ if and only if for every $x in \R{}$, $(x in A \iff x in B)$. From the definitions of a subset, we also have $A = B \iff A \subseteq B$ and $B \subseteq A$.
@@ -128,7 +129,7 @@ but
 If such a $y$ exists, then $x = y$ does not satisfy $y < x$.\\
 This is a contradiction, thus the proposition is false.}
 
-\proposition{$\forall x in \power{\mathbb{N}}, x \notin\!\!\{\} \implies \exists y in x, \forall z in x \suchthat y < z$}
+\proposition{$\forall x in \powerset{\mathbb{N}}, x \notin\!\!\{\} \implies \exists y in x, \forall z in x \suchthat y < z$}
 
 \proof{
 Can be accepted logically.}
@@ -136,7 +137,7 @@ Can be accepted logically.}
 \section*{Binary Relations}
 Let $X$ be a set. A {\bf binary relation} on $X$ is a two-variable predicate \relation defined on $X$ (ie for $\{ (x,y) in X$ x $X \}, \relation (x,y)$ may be either true or false). When $\relation (x,y)$ holds, we say \emph{$x$ is \relation -related to $y$} and write $x \relation y$.
 
-Equality, ordering, and divisibility are all examples of relations. We also have \[ A \subseteq B \iff \forall x in S, (x in A \implies x in B) \] and for any $A, B in \power{S}$ the disjointedness relation \[ A \perp B \iff A \cap B = \{ \} \]
+Equality, ordering, and divisibility are all examples of relations. We also have \[ A \subseteq B \iff \forall x in S, (x in A \implies x in B) \] and for any $A, B in \powerset{S}$ the disjointedness relation \[ A \perp B \iff A \cap B = \{ \} \]
 
 For a binary relation on set $X$, the relation is
 \begin{itemize}
