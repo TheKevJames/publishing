@@ -86,7 +86,7 @@ The classical model would suggest that for a sample set $S = \{ a, b, c \}$, eac
 \subsection*{Permutations and Combinations}
 A common problem requires we create an arrangement using $r$ of $n$ objects. In such a set, the number of {\bf permutations} is equal to \[ n^{(r)} = \frac{n!}{(n-r)!} \]
 
-If we don't care about the order of the arrangement, we can use the formula for a {\bf combination}. The way to find $r$ of $n$ items is \[ \begin{pmatrix}n\\r\end{pmatrix} = \frac{n!}{r!(n-r)!} \]
+If we don't care about the order of the arrangement, we can use the formula for a {\bf combination}. The way to find $r$ of $n$ items is \[ {n \choose r} = \frac{n!}{r!(n-r)!} \]
 
 \subsection*{Set Operations}
 $A \cap B$ is the {\bf intersection} of two events, event A and event B. In other words, this is the probability that both events will occur. It is also written as $AB$. Note that if $P(A \cap B) = 0$, the two events are mututally exclusive.
@@ -127,12 +127,12 @@ We say that $X$ follows a Bernoulli distribution ($X \ttilde Bernoulli(p)$), whe
     \end{cases}
 \] Note that for all Bernoulli distributions $E(X) = p$ and $Var(X) = p(1-p)$.
 
-Let $X$ be the number of successes obtained from a sequence of $n$ Bernoulli trials. $X$ follows a {\bf Binomial distribution} ($X \ttilde Bino(n; p)$) if \[ P(X = x) = f(x) = \comb{n}{x} p^x (1-p)^{n-x} \] We also have $E(X) = np$ and $Var(X) = np(1-p)$.
+Let $X$ be the number of successes obtained from a sequence of $n$ Bernoulli trials. $X$ follows a {\bf Binomial distribution} ($X \ttilde Bino(n; p)$) if \[ P(X = x) = f(x) = {n \choose x} p^x (1-p)^{n-x} \] We also have $E(X) = np$ and $Var(X) = np(1-p)$.
 
 When solving for a Bernoulli distribution, we may find that we give ourselves artificial boundaries. For example, if we have $n = 24$, we can not solve for $p > 24$. In this case, we can use limits to find the correct answer (i.e. $n = 24z$, $p = \frac{p_1}{z}$).
 
 \subsection*{Binomial Theorem}
-For any positive integer $n$ and real numbers $a,b$, \[ (a+b)^n = \sum_{x=0}^n \comb{n}{x} a^xb^{n-x} \]
+For any positive integer $n$ and real numbers $a,b$, \[ (a+b)^n = \sum_{x=0}^n {n \choose x} a^xb^{n-x} \]
 
 \subsection*{Poisson Process}
 In a Poisson Process, events occur randomly in time or space according to the following conditions:
@@ -149,7 +149,7 @@ We can also define $E(X) = Var(X) = \lambda t$.
 \subsection*{Hypergeometric Distribution}
 If we have a collection of $N$ objects which can be sorted into two distinct types (success and failure), there exist $r$ successes and $N - r$ failures. Assume we select a sample of $n$ objects without replacements.
 
-Then let $X$ be the number of successes selected. $X$ is said to follow a hypergeometric distribution $X \ttilde Hyper(N, r, n)$ if \[ f(x) = \frac{\comb{r}{x} \comb{N-r}{n-x}}{\comb{N}{n}} \] for any $x = 0, 1, \cdots, \min(r,n)$. We can also define $E(X) = \frac{nr}{N}$ and $Var(X) = \frac{nr(N - r)(N - n)}{N^2(N - 1)}$.
+Then let $X$ be the number of successes selected. $X$ is said to follow a hypergeometric distribution $X \ttilde Hyper(N, r, n)$ if \[ f(x) = \frac{{r \choose x}{N-r \choose n-x}}{{N \choose n}} \] for any $x = 0, 1, \cdots, \min(r,n)$. We can also define $E(X) = \frac{nr}{N}$ and $Var(X) = \frac{nr(N - r)(N - n)}{N^2(N - 1)}$.
 
 \subsection*{Geometric Distribution}
 In this case, Bernoulli trials are repeated until the first success. For $X$ is the number of independant $Bernoulli(p)$ until the first success, then $X \ttilde Geometric(p)$ if \[ f(x) = p(1-p)^{x-1} \] for any $x = 1, 2, 3, \cdots$
@@ -339,7 +339,7 @@ A sequence of $n$ independent Bernoulli trials.
 
 For distribution $X$ with $n$ trials $x$ each with probability $p$:
 \begin{align*}
-X \ttilde \text{Bino}(n, p)  &\implies f(x) = \comb{n}{x} p^x (1-p)^{n-x}\\
+X \ttilde \text{Bino}(n, p)  &\implies f(x) = {n \choose x} p^x (1-p)^{n-x}\\
                              &\implies E(X) = np\\
                              &\implies \text{Var}(X) = np(1-p)
 \end{align*}
@@ -357,7 +357,7 @@ X \ttilde \text{Poisson}(\lambda, t) &\implies f(x) = \frac{e^{-\lambda t} (\lam
 \subsection*{Hypergeometric}
 For a collection of $N$ binary objects with $r$ successes where $n$ values are selected without replacement:
 \begin{align*}
-X \ttilde \text{Hyper}(N, r, n) &\implies f(x) = \frac{\comb{r}{x} \comb{N-r}{n-x}}{\comb{N}{n}}\\
+X \ttilde \text{Hyper}(N, r, n) &\implies f(x) = \frac{{r \choose x} {N-r \choose n-x}}{{N \choose n}}\\
                                 &\implies E(X) = \frac{nr}{N}\\
                                 &\implies \text{Var}(X) = \frac{nr(N-r)(N-n)}{N^2(N-1)}
 \end{align*}
