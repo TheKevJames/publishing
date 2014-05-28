@@ -67,11 +67,11 @@ Deriving from the {\bf cosine law} $c^2 = a^2 + b^2 - 2ab\cos\theta$, we get
 \subsection*{Lines}
 In $\R{2}, y = mx + b$, but in $\R{n}$ we must two vectors to represent a line. The equation for a line in $\R{n}$ follows the same forms as in $\R{2}$, but uses any vector on the line as its intercept, and any vector parallel to the line as its slope.
 
-Example: \[ \vec{x} = (3,1,4,1) + t(2,0,3,2), t\isin\mathbb{R} \]
+Example: \[ \vec{x} = (3,1,4,1) + t(2,0,3,2), tin\mathbb{R} \]
 
 \subsubsection*{Parametric Form}
 In {\bf parametric form}, we solve for the values of each variable in the resulting vector. For the above equation we have
-\[ \vec{x} = 
+\[ \vec{x} =
   \begin{cases}
    x_0 = 3 + 2t\\
    x_1 = 1\\
@@ -79,7 +79,7 @@ In {\bf parametric form}, we solve for the values of each variable in the result
    x_3 = 1 + 2t
   \end{cases}
 \]
-where $t\isin\mathbb{R}$
+where $tin\mathbb{R}$
 
 \subsection*{Planes (In $\R{3}$ only)}
 Every plane in $\R{3}$ has a {\bf normal vector} orthogonal to the plane. $\vec{n}$ must be orthogonal to $\vec{PX}$, where $P$ and $X$ are both points on the plane, so \[ \vec{n}\circ\vec{PX}=0 \]
@@ -108,16 +108,16 @@ Example: The shortest distance between the point $P$ and the line $\vec{QR}$ is 
 For a point $P$ and a plane containing point $Q$, the {\bf projection} onto that plane is \[ \perpp{QP}{n} \]
 
 \section*{Vector Algebra}
-The definition of $\R{n}$ is $\{(a_0,\dots a_n)\suchthat a_0,\dots a_n\isin\mathbb{R}\}$
+The definition of $\R{n}$ is $\{(a_0,\dots a_n)\suchthat a_0,\dots a_nin\mathbb{R}\}$
 
-There are 10 properties of $\R{n}$. For any $\vec{x}, \vec{y}, \vec{z}\isin\R{n}$. $s,t\isin\mathbb{R}$
+There are 10 properties of $\R{n}$. For any $\vec{x}, \vec{y}, \vec{z}in\R{n}$. $s,tin\mathbb{R}$
 \begin{enumerate}
-\item $\vec{x} + \vec{y}\isin\R{n} \leftarrow$ {\bf closure of addition}
+\item $\vec{x} + \vec{y}in\R{n} \leftarrow$ {\bf closure of addition}
 \item $\vec{x} + \vec{y} = \vec{y} + \vec{x} \leftarrow$ {\bf commutivity}
 \item $(\vec{x} + \vec{y}) + \vec{z} = \vec{x} + (\vec{y} + \vec{z}) \leftarrow {\bf associativity}$
-\item There exists $\vec{0}\isin\R{n}$ such that $\vec{0} + \vec{x} = \vec{x}$
-\item For every $\vec{x}\isin\R{n}$, there exists $-\vec{x}\isin\R{n}$ such that $\vec{x} + (-\vec{x} = \vec{0})$
-\item $t\vec{x}\isin\R{n} \leftarrow$ {\bf closure under scalar multiplication}
+\item There exists $\vec{0}in\R{n}$ such that $\vec{0} + \vec{x} = \vec{x}$
+\item For every $\vec{x}in\R{n}$, there exists $-\vec{x}in\R{n}$ such that $\vec{x} + (-\vec{x} = \vec{0})$
+\item $t\vec{x}in\R{n} \leftarrow$ {\bf closure under scalar multiplication}
 \item $s(t\vec{x}) = (st)\vec{x}$
 \item $(s+t)\vec{x} = s\vec{x} + t\vec{x}$
 \item $t(\vec{x} + \vec{y}) = t\vec{x} + t\vec{y}$
@@ -128,22 +128,22 @@ Any algebraic structure that satisfies these 10 properties will "act" like $\R{n
 \subsection*{Subspaces}
 Subspaces are vector spaces within $\R{n}$. To check if a subset of $\R{n}$ is a {\bf subspace}, we only need to check properties 1, 4, and 6; the other properties are inherited.
 
-\textit{Definition:} A non-empty subset $S$ of $\R{n}$ is a subspace of $\R{n}$ if for all $\vec{x},\vec{y}\isin S, t\isin\mathbb{R}$ \[ \vec{x}+\vec{y}\isin S \text{ and } t\vec{x}\isin S \] Property 4 follows from the fact that the set is non-empty.
+\textit{Definition:} A non-empty subset $S$ of $\R{n}$ is a subspace of $\R{n}$ if for all $\vec{x},\vec{y}in S, tin\mathbb{R}$ \[ \vec{x}+\vec{y}in S \text{ and } t\vec{x}in S \] Property 4 follows from the fact that the set is non-empty.
 
 Generally, any line containing $\vec{0}$ is a subspace and any line that does not contain $\vec{0}$ is not a subspace (not closed under scalar multiplication). Generally, any plane through the origin is a subspace.
 
 \subsection*{Spanning Sets}
 Recall: every element of $\R{n}$ in a plane can be written as a linear combination of $\{\vectwo{1}{0},\vectwo{0}{1}\}$
 
-\textit{Definition:} the {\bf span} of $\{\vec{v_0},\dots \vec{v_k}\}$ is denoted $\spanv{\vec{v_0},\dots \vec{v_k}}$ is the set of all linear combinations of $\vec{v_0},\dots \vec{v_k}$ \[\spanv{\vec{v_0},\dots \vec{v_k}} = \{a_0\vec{v_0},\dots a_k\vec{v_k}\suchthat a_0,\dots a_k\isin\mathbb{R}\} \]
+\textit{Definition:} the {\bf span} of $\{\vec{v_0},\dots \vec{v_k}\}$ is denoted $\spanv{\vec{v_0},\dots \vec{v_k}}$ is the set of all linear combinations of $\vec{v_0},\dots \vec{v_k}$ \[\spanv{\vec{v_0},\dots \vec{v_k}} = \{a_0\vec{v_0},\dots a_k\vec{v_k}\suchthat a_0,\dots a_kin\mathbb{R}\} \]
 
-$\spanv{\vectwo{1}{2}}$ is the line through $0$ with distance $\vectwo{1}{2}$. If $\vec{x}\isin\spanv{\vectwo{1}{2}}$, then $\vec{x} = a_0\vectwo{1}{2}, a_0\isin\mathbb{R}$
+$\spanv{\vectwo{1}{2}}$ is the line through $0$ with distance $\vectwo{1}{2}$. If $\vec{x}in\spanv{\vectwo{1}{2}}$, then $\vec{x} = a_0\vectwo{1}{2}, a_0in\mathbb{R}$
 
-\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}\isin\R{n}$, then $\spanv{\vec{v_0},\dots \vec{v_k}}$ is a subspace of $\R{n}$}
+\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}in\R{n}$, then $\spanv{\vec{v_0},\dots \vec{v_k}}$ is a subspace of $\R{n}$}
 
 In $\R{2}$ we have $\R{2} = \spanv{\vectwo{1}{0},\vectwo{0}{1},\vectwo{1}{1}} = \spanv{\vectwo{1}{0},\vectwo{0}{1}}$ because $\vectwo{1}{1}$ is a linear combination of the other two vectors, and is thus redundant.
 
-\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}\isin\R{n}$ and $\vec{v_k}$ is a linear combination of $\vec{v_0},\dots \vec{v_{k-1}}$, then $\spanv{\vec{v_0},\dots \vec{v_k}} = \spanv{\vec{v_0},\dots \vec{v_{k-1}}}$}
+\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}in\R{n}$ and $\vec{v_k}$ is a linear combination of $\vec{v_0},\dots \vec{v_{k-1}}$, then $\spanv{\vec{v_0},\dots \vec{v_k}} = \spanv{\vec{v_0},\dots \vec{v_{k-1}}}$}
 
 \subsection*{Linear Independence}
 \textit{Definition:} The set $\{\vec{v_0},\dots \vec{v_k}\}$ is {\bf linearly dependent} if there exists $a_0,\dots a_k$ not all zero such that $a_0\vec{v_0} + \dots + a_k\vec{v_k} = \vec{0}$. Otherwise (ie, if $a_0,\dots a_k$ are all zero) the set is {\bf linearly independent}.
@@ -152,7 +152,7 @@ In $\R{2}$ we have $\R{2} = \spanv{\vectwo{1}{0},\vectwo{0}{1},\vectwo{1}{1}} = 
 \textit{Definition:} A {\bf basis} $B$ of a subspace $S$ is a linearly independent subset of $S$ such that $S = \spanv{B}$
 
 \section*{Systems of Linear Equations}
-A linear equation is in the form \[ a_0x_0 + \dots + a_nx_n = b \] where \[ a_1,\dots a_n, b\isin\mathbb{R} \text{ and } x_0,\dots x_n\isin\R{n} \]
+A linear equation is in the form \[ a_0x_0 + \dots + a_nx_n = b \] where \[ a_1,\dots a_n, bin\mathbb{R} \text{ and } x_0,\dots x_nin\R{n} \]
 
 A solution is a vector $\vec{x}$ that satisfies the equation.
 
@@ -254,13 +254,13 @@ Cencellation law: If $AC = BC$, $A \neq B$
 \end{enumerate}
 
 \subsection*{Linear Mappings}
-A function is a {\bf linear mapping} if for any $\vec{x}, \vec{y}\isin\R{m}$, $f(\vec{x})\isin\R{n}$ and $t\isin\mathbb{R}$
+A function is a {\bf linear mapping} if for any $\vec{x}, \vec{y}in\R{m}$, $f(\vec{x})in\R{n}$ and $tin\mathbb{R}$
 \begin{enumerate}
 \item $f(\vec{x} + \vec{y}) = f(\vec{x}) + f(\vec{y})$
 \item $f(t\vec{x}) = tf(\vec{x})$
 \end{enumerate}
 
-A function $f(\vec{x}) = [f]\vec{x}$ is a {\bf matrix mapping} if for any $\vec{x}\isin\R{m}$, $[f]_{m\text{x}n}$, and $f(\vec{x})\isin\R{m}$. All matrix mappings are linear mappings and vice-versa.
+A function $f(\vec{x}) = [f]\vec{x}$ is a {\bf matrix mapping} if for any $\vec{x}in\R{m}$, $[f]_{m\text{x}n}$, and $f(\vec{x})in\R{m}$. All matrix mappings are linear mappings and vice-versa.
 
 \subsubsection*{Solving Mappings}
 \begin{align*}
@@ -276,7 +276,7 @@ If $f: \R{n} \to \R{m}$ is linear, $f$ is an $m$ x $n$ matrix.
 \subsubsection*{Linear Combinations}
 \textit{Definition:} let $f, g: \R{n} \to \R{m}$ be linear. We define $f + g : \R{n} \to \R{m}$ by \[ (f + g)(\vec{x}) = f(\vec{x}) + g(\vec{x}) \]
 
-\textit{Definition:} if $t\isin\mathbb{R}$, we define $tf: \R{n} \to \R{m}$ by \[ (tf)(\vec{x}) = tf(\vec{x}) \]
+\textit{Definition:} if $tin\mathbb{R}$, we define $tf: \R{n} \to \R{m}$ by \[ (tf)(\vec{x}) = tf(\vec{x}) \]
 
 Note: the set of all linear mappings $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ forms a vector space.
 
@@ -314,7 +314,7 @@ For any subspace $S$ of dimension $k$, any set of $k$ linearly independant vecto
 
 Example: in the plane $P: x + y + x = 0$, which has a dimension of 2, two random linear independant vectors are $\vecthree{3}{1}{-4},\vecthree{0}{5}{-5}$. These vectors form a basis .
 
-\textit{Proof:} if $\{\vec{v_1},\dots \vec{v_k}\}\isin S$ is linearly independant, but not a basis, there must be some $\vec{w}\isin S$ not in $\spanv{\vec{v_1},\dots \vec{v_k}}$. Then $\spanv{\vec{v_1},\dots \vec{v_k}, \vec{w}}$ is linearly dependant because it contains more then $k$ vectors. However, since $\vec{w}$ is not in the $\spanv{\vec{v_1},\dots \vec{v_k}}$, we know that $\spanv{\vec{v_1},\dots \vec{v_k}, \vec{w}}$ is linearly independant. As this is a contradiction, $\vec{w}$ must not exist, and $\{\vec{v_1},\dots \vec{v_k}\}\isin S$ must be a basis.
+\textit{Proof:} if $\{\vec{v_1},\dots \vec{v_k}\}in S$ is linearly independant, but not a basis, there must be some $\vec{w}in S$ not in $\spanv{\vec{v_1},\dots \vec{v_k}}$. Then $\spanv{\vec{v_1},\dots \vec{v_k}, \vec{w}}$ is linearly dependant because it contains more then $k$ vectors. However, since $\vec{w}$ is not in the $\spanv{\vec{v_1},\dots \vec{v_k}}$, we know that $\spanv{\vec{v_1},\dots \vec{v_k}, \vec{w}}$ is linearly independant. As this is a contradiction, $\vec{w}$ must not exist, and $\{\vec{v_1},\dots \vec{v_k}\}in S$ must be a basis.
 
 \section*{Inverses}
 \textit{Definition:} let $A$ be a square matrix and $B$ be the {\bf inverse} of $A$ such that $BA = I$ and $AB = I$.where $AB = I$, $BA = I$, and $B$ is a unique matrix.
@@ -331,7 +331,7 @@ Note: This means that if $A$ can be row-reduced to I, then $A^{-1}$ exists.
 \subsection*{Properties of an Invertible Matrix}
 $A$ is invertible if and ony if $A$ has rank $n$ (where $A$ is $n$x$n$). If $A$ is invertible, then $A^{-1}$ is invertible and $(A^{-1})^{-1} = A$
 
-If $A, B$ are $n$x$n$ invertible matrices and $t\isin\mathbb{R}$, then
+If $A, B$ are $n$x$n$ invertible matrices and $tin\mathbb{R}$, then
 \begin{itemize}
 \item $(tA)^{-1} = \frac{1}{t}A^{-1}$
 \item $(AB)^{-1} = B^{-1}A^{-1}$
@@ -436,7 +436,7 @@ Example: the standard basis is an orthogonal set, ie. $\bigg\{\vecthree{1}{0}{0}
 
 If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal set that does not include $\vec{0}$, then it is linearly independant.
 
-Suppose $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal basis for a subspace $S$. Let $\vec{x}\isin S$. So $\vec{x} = a_1\vec{v_1} + \dots + a_k\vec{v_k}$ for some $a_i$'s. For some $i$, take the dot product of $\vec{v_i}$ on both sides to get \[ x\vec{v_i} = a_1\vec{v_1}\circ\vec{v_i} + \dots + a_i\vec{v_i}\circ\vec{v_i} + \dots + a_k\vec{v_k}\circ\vec{v_i} \] \[ a_i = \frac{x\vec{v_i}}{\magv{v_i}^2} \] \[ \vec{x} = \frac{xa_1}{\magv{a_1}^2}\vec{v_1} + \dots + \frac{xa_k}{\magv{a_k}^2}\vec{v_k} \]
+Suppose $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal basis for a subspace $S$. Let $\vec{x}in S$. So $\vec{x} = a_1\vec{v_1} + \dots + a_k\vec{v_k}$ for some $a_i$'s. For some $i$, take the dot product of $\vec{v_i}$ on both sides to get \[ x\vec{v_i} = a_1\vec{v_1}\circ\vec{v_i} + \dots + a_i\vec{v_i}\circ\vec{v_i} + \dots + a_k\vec{v_k}\circ\vec{v_i} \] \[ a_i = \frac{x\vec{v_i}}{\magv{v_i}^2} \] \[ \vec{x} = \frac{xa_1}{\magv{a_1}^2}\vec{v_1} + \dots + \frac{xa_k}{\magv{a_k}^2}\vec{v_k} \]
 
 Example: for $\bigg\{\vectwo{1}{1},\vectwo{1}{-1}\bigg\}$
 
@@ -445,7 +445,7 @@ Example: for $\bigg\{\vectwo{1}{1},\vectwo{1}{-1}\bigg\}$
 \textit{Definition:} A set $\{\vec{v_1}, \dots \vec{v_k}\}$ is {\bf orthonormal} if it is orthogonal and $\magv{v_i} = 1$ for each $i$ (ie. any orthogonal set where each vector has been normalized)
 
 % This theorem may be incorrect or incomplete
-\theorem{Theorem: If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthonormal basis for a subspace $S$ and $\vec{k}\isin S$, then \[ \vec{x} = (x\vec{v_1})\vec{v_1} + \dots + (x\vec{v_k})\vec{v_k} = kx \]}
+\theorem{Theorem: If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthonormal basis for a subspace $S$ and $\vec{k}in S$, then \[ \vec{x} = (x\vec{v_1})\vec{v_1} + \dots + (x\vec{v_k})\vec{v_k} = kx \]}
 
 \subsection*{Orthogonal Matrices}
 A matrix is {\bf orthogonal} if $A^{-1} = A^T$, or $A^TA = I$. Along it's diagonal, $\magv{v_i} = 1$, for each $i$.
@@ -454,7 +454,7 @@ If $A$ is orthogonal, so is $A^T$. Also, each of its rows and columns are {\bf o
 
 
 \subsection*{Orthogonal Complements}
-\textit{Definiton:} let $S$ be the subspace of $\R{n}$. The {\bf orthogonal complement} of $S$, denoted $S^\perp$, is the set of all vectors orthogonal to every vector in $S$. \[ S^\perp = \bigg\{\frac{1}{x}\isin\R{n}\suchthat \vec{x}\vec{v} = 0 \text{ for all } \vec{v}\isin S\bigg\} \]
+\textit{Definiton:} let $S$ be the subspace of $\R{n}$. The {\bf orthogonal complement} of $S$, denoted $S^\perp$, is the set of all vectors orthogonal to every vector in $S$. \[ S^\perp = \bigg\{\frac{1}{x}in\R{n}\suchthat \vec{x}\vec{v} = 0 \text{ for all } \vec{v}in S\bigg\} \]
 
 Example: if $P$ is a plane through the origin \[ P^\perp = \spanv{\vecthree{0}{0}{0}} \]
 
@@ -462,7 +462,7 @@ $S\cap S^\perp = \{\vec{0}\}$, ie the only vector in both $S$ and $S^\perp$ is $
 
 Example: let $S = \spanv{\begin{bmatrix}1\\1\\-1\\-1\\1\end{bmatrix},\begin{bmatrix}1\\-1\\1\\-1\\-1\end{bmatrix}}$, find $S^\perp$. For $S \neq S^\perp$ \[ \begin{bmatrix}1&1&-1&-1&1\\1&-1&1&-1&-1\end{bmatrix} = \begin{bmatrix}1&0&0&-1&0\\0&1&-1&0&1\end{bmatrix} \] \[ S^\perp = \spanv{s\begin{bmatrix}0\\1\\1\\0\\0\end{bmatrix} + t\begin{bmatrix}1\\0\\0\\1\\0\end{bmatrix} + u\begin{bmatrix}0\\-1\\0\\0\\-1\end{bmatrix}} \]
 
-\subsubsection*{Properties of $S^\perp$, $S\isin\R{n}$}
+\subsubsection*{Properties of $S^\perp$, $Sin\R{n}$}
 \begin{enumerate}
 \item $S^\perp$ is a subspace (solution set of a homogeneous system)
 \item $(S^\perp)^\perp = S$
@@ -473,7 +473,7 @@ Example: let $S = \spanv{\begin{bmatrix}1\\1\\-1\\-1\\1\end{bmatrix},\begin{bmat
 \section*{Projection onto Subspaces}
 \[ \vec{x} = \proj{x}{S} + \perpp{x}{S^\perp} \]
 
-\textit{Definition:} let $\{v_1,\dots v_k\}$ be an orthonormal basis of the subspace $S\isin\R{n}$. Then \[ \proj{x}{s} = \vec{x}\vec{v_1}\vec{v_1} + \dots + \vec{x}\vec{v_k}\vec{v_k} \]
+\textit{Definition:} let $\{v_1,\dots v_k\}$ be an orthonormal basis of the subspace $Sin\R{n}$. Then \[ \proj{x}{s} = \vec{x}\vec{v_1}\vec{v_1} + \dots + \vec{x}\vec{v_k}\vec{v_k} \]
 
 If $\{\vec{v_1},\dots \vec{v_k}\}$ is orthogonal, then \[ \proj{x}{s} = \frac{\vec{x}\vec{v_1}}{\magv{v_1}^2}\vec{v_1} + \dots + \frac{\vec{x}\vec{v_k}}{\magv{v_k}^2}\vec{v_k} \]
 
@@ -481,7 +481,7 @@ Example: find $P = x -2y + 3z = 0$ projected onto $\vec{x} = \vecthree{3}{1}{2}$
 
 An orthogonal basis is $\vec{v} = \bigg\{ \vecthree{1}{-1}{-1},\vecthree{5}{4}{1} \bigg\}$ thus \[ \proj{x}{p} = \frac{\vec{x}\vec{v_1}}{\magv{v_1}^2}\vec{v_1} = \frac{\vec{x}\vec{v_2}}{\magv{v_2}^2}\vec{v_2} \]
 
-\theorem{Theorem: let $S$ be a subspace of $\R{n}$ and $\vec{x}$ be a vector in $\R{n}$. There exists a unique vector $\vec{s}\isin S$ such that we can find the minimum of $\mags{\vec{x}-\vec{s}}$, and that vector is \[ \vec{s} = \proj{x}{s} \]}
+\theorem{Theorem: let $S$ be a subspace of $\R{n}$ and $\vec{x}$ be a vector in $\R{n}$. There exists a unique vector $\vec{s}in S$ such that we can find the minimum of $\mags{\vec{x}-\vec{s}}$, and that vector is \[ \vec{s} = \proj{x}{s} \]}
 
 \subsection*{Gram-Schmidts Procedure}
 Given a basis $\{w_1,\dots w_k\}$ for a subspace $S$, {\bf Gram-Schmidtz produce} an orthogonal basis $\{v_1,\dots v_k\}$ for $S_i$ where for each $i$ \[ \spanv{w_1,\dots w_i} = \spanv{v_1,\dots v_i}S_i \]
@@ -490,7 +490,7 @@ Suppose $\{w_1,\dots w_k\}$ is a basis for $S$. We define $S_i = \spanv{w_1,\dot
 \begin{enumerate}
 \item $\vec{v_1} = \vec{w_1}$
 \item $\vec{v_n} = \perpp{w_n}{S_n}$ where $\perpp{w_n}{S_n} = \perpp{w_n}{v_n-1} - \dots - \perpp{w_n}{v_1}$
-\item if $\vec{v}\isin S$, $\vec{v}$ is an orthogonal basis
+\item if $\vec{v}in S$, $\vec{v}$ is an orthogonal basis
 \end{enumerate}
 
 \textit{Application:} Line fitting, curve fitting
@@ -569,18 +569,18 @@ Example {\bf vector spaces} (sets obeying the 10 required properties):
 \end{itemize}
 
 \subsection*{Subspaces of Vector Spaces}
-\textit{Definition:} Let $\mathbb{V}$ be a vector space. A non-empty subset $S$ of $\mathbb{V}$ is a {\bf subspace} if for any $\vec{x}, \vec{y} \isin S, t \isin \mathbb{R}$
+\textit{Definition:} Let $\mathbb{V}$ be a vector space. A non-empty subset $S$ of $\mathbb{V}$ is a {\bf subspace} if for any $\vec{x}, \vec{y} in S, t in \mathbb{R}$
 \begin{enumerate}
-\item $\vec{x} + \vec{y} \isin S$
-\item $t\vec{x} \isin S$
+\item $\vec{x} + \vec{y} in S$
+\item $t\vec{x} in S$
 \end{enumerate}
 
 Subspaces are vector spaces.
 
-\theorem{Theorem: Let $\mathbb{V}$ be a vector space and let $\{v_1,\dots v_k\} \isin \mathbb{V}$. Then the span $\{v_1,\dots v_k\}$ is a subspace of $\mathbb{V}$}
+\theorem{Theorem: Let $\mathbb{V}$ be a vector space and let $\{v_1,\dots v_k\} in \mathbb{V}$. Then the span $\{v_1,\dots v_k\}$ is a subspace of $\mathbb{V}$}
 
 \subsection*{Linear Independence}
-\textit{Definition:} Let $\mathbb{V}$ be a vector space, let $\vec{v_1},\dots \vec{v_k} \isin \mathbb{V}$. Then $\{\vec{v_1},\dots \vec{v_k}\}$ is {\bf linearly independent} if the only solution to \[ a_1\vec{v_1} + \dots + a_k\vec{v_k} = 0 \] is the trivial solution.
+\textit{Definition:} Let $\mathbb{V}$ be a vector space, let $\vec{v_1},\dots \vec{v_k} in \mathbb{V}$. Then $\{\vec{v_1},\dots \vec{v_k}\}$ is {\bf linearly independent} if the only solution to \[ a_1\vec{v_1} + \dots + a_k\vec{v_k} = 0 \] is the trivial solution.
 
 \subsection*{Basis and Dimension}
 \textit{Definition:} Let $\mathbb{V}$ be a vector space. Then a {\bf basis} is a linearly independant set that spans $\mathbb{V}$.
@@ -611,7 +611,7 @@ Usually, we can consider adding vectors from the standard basis.
 \subsection*{Inner Products}
 A dot product in $\R{n}$ gives us the vector's length and orthogonality.
 
-For $C[a,b]$, the {\bf inner product} is $f, g \isin [a,b]$ and \[ <f,g> = \dint{a}{b}{f(x)g(x)}{x} \]
+For $C[a,b]$, the {\bf inner product} is $f, g in [a,b]$ and \[ <f,g> = \dint{a}{b}{f(x)g(x)}{x} \]
 
 If $<f,g> = 0$, $f$ and $g$ are orthogonal.
 
@@ -620,11 +620,11 @@ If $<f,g> = 0$, $f$ and $g$ are orthogonal.
 To project $f(x)$ onto $\{\sin x,\cos x\}$ we have \[ \frac{<f(x),\sin x>}{\magv{\sin x}^2}\sin x + \frac{<f(x),\cos x>}{\magv{\cos x}^2}\cos x \]
 
 \section*{Complex Numbers}
-\theorem{Fundamental Theorem of Algebra: The polynomial equation \[ a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0 = 0  \] where each $a_i \isin \mathbb{C}$, $a_n \neq 0$ has at least one root in $\mathbb{C}$}
+\theorem{Fundamental Theorem of Algebra: The polynomial equation \[ a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0 = 0  \] where each $a_i in \mathbb{C}$, $a_n \neq 0$ has at least one root in $\mathbb{C}$}
 
-\textit{Definition:} A {\bf complex number} $z$ in standard form is $z = a + bi$ where $a, b \isin \mathbb{R}$. The set of all complex numbers is $\mathbb{C} = \{a + bi \suchthat a, b \isin \mathbb{R}\}$
+\textit{Definition:} A {\bf complex number} $z$ in standard form is $z = a + bi$ where $a, b in \mathbb{R}$. The set of all complex numbers is $\mathbb{C} = \{a + bi \suchthat a, b in \mathbb{R}\}$
 
-The real part of $z$ is $a$ and the imaginary part is $b$, thus $\mathbb{R} \isin \mathbb{C}$.
+The real part of $z$ is $a$ and the imaginary part is $b$, thus $\mathbb{R} in \mathbb{C}$.
 
 We define two operations:
 \begin{enumerate}
@@ -688,7 +688,7 @@ f^\prime(\theta) &= (-\sin\theta + i\cos\theta)e^{-i\theta} + (\cos\theta + i\si
 Thus $f(\theta) = C$ for some constant $C$. $f(0) = 1$, thus $C = 1$ and \[ \cos\theta + i\sin\theta = e^{i\theta} \] we can reduce this to Euler's Formula \[ e^{i\pi} = -1 \]
 
 \subsection*{Roots of Complex Numbers}
-$z^n = a$ where $a \isin \mathbb{C}$ has $n$ roots (Fundamental Theorem of Algebra states that every polynomial of degree $n \geq 1$ has at least 1 root in $\mathbb{C}$).
+$z^n = a$ where $a in \mathbb{C}$ has $n$ roots (Fundamental Theorem of Algebra states that every polynomial of degree $n \geq 1$ has at least 1 root in $\mathbb{C}$).
 
 Example:
 \begin{align*}

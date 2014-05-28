@@ -54,7 +54,7 @@ The mathematical models used for circuit analysis are only approximations. They 
 \begin{table}[ht]
 \centering
   \begin{tabular}{clc}
-  Relationship Between $v$ and $i$ & Element \\ \hline 
+  Relationship Between $v$ and $i$ & Element \\ \hline
   $v \propto i$ & Resistor \\
   $v \propto \fracd{i}{t}$ & Inductor \\
   $v \propto \inint{i(t)}{t}$ & Capacitor \\
@@ -601,12 +601,12 @@ In DC circuits, $v$, $i$, and $P = vi$ are constant with respect to time. For {\
 \subsection*{Instantaneous Power}
 When following the passive sign convention, we have $p(t) = v(t) * i(t)$
 
-So for a resistor we have $p(t) = i^2(t)R$, for an inductor we have $p(t) = \frac{1}{L}\ v(t)\dint{-\infty}{t}{v(\tau)}{\tau}$ (assuming $v(-\infty) = 0$, and for a capacitor we have $p(t) = \frac{1}{C}\ i(t)\dint{-\infty}{t}{i(\tau)}{\tau}$ (assuming $v(-\infty) = 0$
+So for a resistor we have $p(t) = i^2(t)R$, for an inductor we have $p(t) = \frac{1}{L}\ v(t)\dint{-\infty}{t}{v(\tau)}{\tau}$ (assuming $v(-\infty) = 0$), and for a capacitor we have $p(t) = \frac{1}{C}\ i(t)\dint{-\infty}{t}{i(\tau)}{\tau}$ (assuming $v(-\infty) = 0$).
 
 \subsection*{Average Power}
 To find the {\bf average power} we have \[ P = \lim_{\tau\to\infty} \frac{1}{\tau} \dint{-\frac{\tau}{2}}{\frac{\tau}{2}}{p(t)}{t} \]
 
-For periodic functions with period $T$, we can integrate over one period, or any integral number of periods $nT$ where $n \isin \mathbb{Z}$. Thus we have \[ P = \frac{1}{nT} \dint{t_0}{t_0+nT}{p(t)}{t} \]
+For periodic functions with period $T$, we can integrate over one period, or any integral number of periods $nT$ where $n in \mathbb{Z}$. Thus we have \[ P = \frac{1}{nT} \dint{t_0}{t_0+nT}{p(t)}{t} \]
 
 For the sinusoidal case in steady state where $v(t) = V_m\cos(\omega t _ \theta)$ and $i(t) = I_m\cos(\omega t + \phi)$ we have \[ P = \frac{V_mI_m}{2}\cos(\theta - \phi) \]
 
@@ -626,7 +626,7 @@ For the following circuit
 \includegraphics[width=0.5\textwidth]{impedance.png}
 \end{figure}
 
-to transfer the maximum amount of power, $Z_L = Z_{{\rm th}}^*$. 
+to transfer the maximum amount of power, $Z_L = Z_{{\rm th}}^*$.
 
 \subsection*{Effective Values of $I$ and $V$}
 Definition: \textit{The effectiveness of any periodic current is equal to the value of the DC which, flowing through an R-ohm resistor, delivers the same average power to the resistor as does the periodic current.}
