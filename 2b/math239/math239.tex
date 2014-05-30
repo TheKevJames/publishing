@@ -407,7 +407,7 @@ The rest of this proof is the same as the above.
 \end{proof}
 \end{example}
 
-\section{}
+\section{Binary Strings}
 A binary string (e.g.\ $011010$) has length 6. We write $\ell(a)$ for the length of a binary string $a$. For nearly all counting problems we will do, $\ell(a)$ will be our weight function on the set of binary strings.
 
 `Multiplication' of binary strings is concatentation, e.g.\ for $a = 101$ and $b = 0011$, $a^2b = aab = 1011010011$.
@@ -415,5 +415,11 @@ A binary string (e.g.\ $011010$) has length 6. We write $\ell(a)$ for the length
 If $A$ and $B$ are sets of binary strings, then $AB := \{ab: a \in A, b \in B\}$. Note that we do not necessarily have $|AB| = |A||B|$, since this function is not required to produce unique outputs $ab$.
 
 We write $A^2$ for $AA$, $A^3$ for $AAA$, etc, and $A^* = \{\varepsilon\} \cup A \cup A^2 \cup \dots = \displaystyle\bigcup_{i\geq 0} A^i$.
+
+A {\bf substring} of a string $s$ is a string $b$ such that $s = abc$ for some $a$ and $c$. A {\bf block} of $s$ is a maximal substring of solely ones or zeros.
+
+This decomposition of $s$ is unambiguous---that is, every string in $S$ can be uniquely expressed as a concatenation of ones and zeros.
+
+This is not always the case: when we have $|AB| \neq |A| \times |B|$, some decompositions are ambiguous.
 
 \end{document}
