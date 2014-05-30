@@ -208,8 +208,6 @@ public:
 % HOW TO COMPILE AND LINK
 
 \section{Exceptions}
-% Messiness of robust code
-
 An {\bf exception} is an unusual event or situtation which prevents a function from completing normally. In C++, we handle exceptions in a separate section from our normal code: risky and risk-free code is separated, different areas of our program can handle exceptions in a different manner, and errors can not be silently ignored.
 
 We handle errors in a block of code with
@@ -229,5 +227,25 @@ try {
 \end{verbatim}
 
 An exception is handled by the ``nearest'' handler whose argument matches its type. A {\bf local exception} is one which is handled in the same routine as it is thrown (e.g.\ through an alternative computatino or return value). Otherwise, the exception is caught by the dynamically nearest matching catch-clause whose try-block encloses the throw. If there is no matching handler, the program aborts.
+
+A function may declare a {\bf throw list} of potential exceptions it can throw. An empty list implies it does not throw errors, a missing list implies it may or may not throw. If a function throws an error not in its throw list (if it has one), that exception is considered \code{unspecified} and will crash the program (unless the \code{unspecified()} function has been overloaded).
+
+In order to fully support blind inheritance and allow libraries to change, it is best practice not to use throw lists.
+
+\section{Resource Acquistion is Initialization (RAII)}
+The {\bf RAII} idiom equates resource management with object lifetimes. The resource is allocated in the objects constructor and deallocated in its destructor. The standard function signatures are \code{resourceType* allocate(...)} and \code{void release(resourceType*)}
+
+\subsection{Smart Pointers}
+A {\bf smart pointer} is an ADT which simulates a pointer while using RAII to provide automatic deallocation. In C99, the \code{auto\_ptr<type>} object is used for this. In C++11, we have \code{unique\_ptr<type>} for single-owner transferable references and \code{shared\_ptr<type>} for multiple-owner automatic deallocation upon lack of references.
+
+An \code{auto\_ptr} is not a substitute for a standard pointer.
+\begin{itemize}
+\item the \code{operator=} is different
+\item we cannot assign an \code{auto\_ptr} to a non-\code{auto\_ptr}
+\item we cannot pass an \code{auto\_ptr} to a function parameter that is not an \code{auto\_ptr}
+\item we cannot use \code{auto\_ptr}s in STL containers
+\end{itemize}
+
+% GET NOTES FROM LARA
 
 \end{document}

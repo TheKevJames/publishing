@@ -124,6 +124,10 @@ we find the order equation
 \end{align*}
 \end{example}
 
+Since it is too hard to describe the runtime for every possible input, we decide to only describe the worst case behaviour. The worst case gives us a \emph{guarantee} for required completion time and tends to describe most cases.
+
+More formally, we take \[ \max_{I} \{T_A(I)\} \]
+
 \section{Data Types}
 \subsection{Stacks}
 A {\bf stack} is a collection of items which supports the operations \code{push} (insert an item), \code{pop} (remove the most recently inserted item), \code{peek} (view the last item), and \code{isEmpty}.
@@ -352,5 +356,75 @@ quickSort(A, n):
 \end{verbatim}
 
 The worst case is $\Theta(n^2)$ and the best case is $\Theta(n\log n)$. Fortunately, the worst case is extremely unlikely and the average case is also $\Theta(n\log n)$.
+
+\subsection{Counting Sort}
+Assume each element $e$ in an array satisfies $0 \leq e \leq k-1$ for some known value $k$. Then we can use the {\bf counting sort} algorithm on this array, implemented as follows:
+\begin{verbatim}
+countingSort(A[1..n], k):
+    C = [0]*k
+    for i = 0 to n-1:
+        C[A[i]]++
+    for i = 1 to k-1:
+        C[i] += C[i-1]
+    B = copy(A)
+    for i = reverse(0 to n-1):
+        C[B[i]]--
+        A[C[B[i]]] = B[i]
+\end{verbatim}
+
+Counting sort has time complexity $\Theta(n+k)$, space complexity $\Theta(n+k)$, and is a {\bf stable} algorithm (equal items are not reordered).
+
+\subsection{Radix Sort}
+Assume we have a set of (probably) unique integers.  Then we can use the {\bf radix sort} algorithm on this set, implemented as follows:
+\begin{verbatim}
+radixSort(A[1..n], d, k):
+    for i = 0 to d - 1:
+        countingSort(A, k) //with each x_i as the key
+\end{verbatim}
+
+Radix sort has time complexity $\Theta\bigl(d(n+k)\bigl)$ and space complexity $\Theta(n+k)$.
+
+\section{Dictionary}
+A {\bf dictionary} is a collection of items, each of which contain a {\bf key} and some {\bf data} and is referred to as a {\bf key-value pair}. Keys can be compared and are (typically) unique.
+
+We define the following functions for a dictionary:
+\begin{itemize}
+\item \code{search(k)}
+\item \code{insert(k, v)}
+\item \code{delete(k)}
+\item and optionally: \code{join}, \code{isEmpty}, \code{size}, \dots
+\end{itemize}
+
+We can implement a dictionary in several ways
+\begin{itemize}
+\item as an unordered array: has $\Theta(n)$ search and deletion time and $\Theta(1)$ insertion time
+\item as a sorted array: has $\Theta(\log n)$ search time and $\Theta(n)$ insertion and deletion time
+\item as a linked list: has $\Theta(n)$ search and deletion time and $\Theta(1)$ insertion time
+\end{itemize}
+
+\section{Search Trees}
+\subsection{Binary Search Trees}
+A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child BST. Every key $k_L$ in $T.left$ is less than the root key, every key $k_R$ in $T.right$ is greater. These properties are recursive.
+
+\begin{figure}[ht]
+\Tree
+[.15
+    [.6
+        []
+        [.10
+            [.8 ] [.14 ]
+        ]
+    ]
+    [.25
+        [.23 ]
+        [.29
+            [.27 ] [.50 ]
+        ]
+    ]
+]
+\caption{\label{fig:binaryTree} A sample binary search tree}
+\end{figure}
+
+\code{search}, \code{insert} and \code{delete} all have time complexities $\Theta(h)$, where $h$ is the height of the tree. $h$ has a best-case value of $\log n$ and a worst-case value of $n$.
 
 \end{document}
