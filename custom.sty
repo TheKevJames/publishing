@@ -4,8 +4,10 @@
 
 
 % Style
-\newcommand{\suchthat}{\ |\ }
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\renewcommand{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand{\Im}{\operatorname{\mathfrak{Im}}}
+\newcommand{\suchthat}{\ |\ }
 
 % Coding
 \newcommand{\code}[1]{\ttfamily{#1}\rmfamily{}}
@@ -15,6 +17,7 @@
 \newcommand{\deriv}[2]{\frac{{\rm d} #1}{{\rm d} #2}}
 \newcommand{\dderiv}[2]{\frac{{\rm d}^2 #1}{{\rm d} #2^2}}
 \newcommand{\nderiv}[3]{\frac{{\rm d}^{#3} #1}{{\rm d} #2^{#3}}}
+\newcommand{\limit}[2]{\ensuremath{\Bigg|_{#1}^{#2}}}
 
 % Environments
 \newtheorem{theorem}{Theorem}[section]

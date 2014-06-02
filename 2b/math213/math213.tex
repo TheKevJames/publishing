@@ -1,7 +1,13 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,parskip,custom}
+\usepackage{amsmath,amssymb,hyperref,mathtools,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 \begin{document}
 
@@ -9,6 +15,9 @@
 \author{Kevin James}
 \date{\vspace{-2ex}Spring 2014}
 \maketitle\HRule
+
+\tableofcontents
+\newpage
 
 \section{Differential Equations}
 {\bf Differential equations} are equations involving derivatives with respect to some independant variable. For example, Newton's Law states \[ M \ddot x = F \] or \[ M \dderiv{x}{t} = F \]
@@ -446,5 +455,77 @@ Since not all of our functions are exponentials, we follow the process of decomp
 More formally, a Laplace transform is denoted by \[ F(s) := \mathcal{L} \{f(t)\} = \int_{-\infty}^\infty f(t) e^{-st} \dd t \] where $s$ is complex-valued. To ensure convergence, suppose that for some real $\alpha$, the integral \[ \int_{-\infty}^{\infty} |f(t)| e^{-\alpha t} \dd t \] converges for some $s$.
 
 The transform can be inverted by means of the following {\bf inversion integral}: \[ f(t) = \frac{1}{2\pi j} \int_{\sigma-j\infty}^{\sigma+j\infty} F(s) e^{st} \dd s \] This is the {\bf contour integral} which is carried out within the area of the complex plain in which the Laplace transform converges (the ``region of convergence'' of $F(s)$).
+
+\begin{example}
+Let $f(t) = 1, \forall t$. Then we can suppose $s = \alpha + j\beta$ for some $\alpha, \beta \in \mathbb{R}$. Thus \[ \int_{-\infty}^\infty f(t)e^{-st} \dd t = \int_{-\infty}^\infty e^{-\alpha t} e^{-j\beta t} \dd t \] does not exist for any value of $\alpha$.
+\end{example}
+
+\begin{example}
+Let $f(t) = u_{-1}(t)$, where $u$ denotes the unit step function $u(t) =
+\begin{dcases*}
+1 & if $t \geq 0$\\
+0 & otherwise
+\end{dcases*}$. Then \[ \int_{-\infty}^\infty f(t)e^{-(\alpha + j\beta)t} \dd t = \int_{-\infty}^\infty e^{-\alpha t} e^{-j\beta t} \dd t \] converges for any $\alpha > 0$.
+
+So we have
+\begin{align*}
+F(s) &= \int_{-\infty}^\infty f(t) e^{-st} \dd t\\
+&= \int_0^\infty e^{-st} \dd t\\
+&= \bigg(\frac{-1}{s}\bigg)e^{-st} \limit{0}{\infty}\\
+&= 0 - \bigg(\frac{-1}{s}\bigg)
+\end{align*}
+so \[ F(s) = \frac{1}{s} \text{, given }\Re(s) > 0 \]
+\end{example}
+
+\begin{example}
+Let
+\begin{align*}
+f(t) &=
+\begin{dcases*}
+e^{\alpha t} & if $t \geq 0$\\
+0 & otherwise
+\end{dcases*}\\
+&= e^{\alpha t}u_{-1}(t)
+\end{align*}
+
+Then we have
+\begin{align*}
+F(s) &= \int_0^\infty e^{\alpha t} e^{-st} \dd t\\
+&= \int_0^\infty e^{-(s-\alpha)t} \dd t
+\end{align*}
+
+So \[ F(s) = \frac{1}{s-\alpha} \text{, given }\Re(s-\alpha) > 0 \iff \Re(s) > \Re(\alpha) \]
+\end{example}
+
+\begin{example}
+Suppose $f(t) = t u_{-1}(t)$. Then
+\begin{align*}
+F(s) &= \int_0^\infty t e^{-st} \dd t\\
+&= -\frac{1}{s}t e^{-st} \limit{0}{\infty} - \int_0^\infty \bigg(\frac{-1}{s}\bigg) e^{-st} \dd t\\
+&= 0 - 0 + \frac{1}{s} \int_0^\infty e^{-st} \dd t\\
+&= \frac{1}{s^2} \text{, given }\Re(s) > 0
+\end{align*}
+\end{example}
+
+We'll deal mainly with ``one-sided'' functions $F(t)$ for which $F(t) = 0, \forall t < 0$. We'll therefore often use the ``one-sided'' Laplace transform \[ F(s) = \int_{0^-}^\infty f(t) e^{-st} \dd t = \lim_{m\uparrow 0} \int_m^\infty f(t) e^{-st} \dd t \]
+
+\begin{example}
+Suppose $f(t) = \sin(\omega t) e_{-1}(t), \omega \in \mathbb{R}$. Then $\sin{\omega t} = \frac{e^{j\omega t} - e^{-j\omega t}}{2j}$ and so
+\begin{align*}
+F(s) &= \frac{1}{2j} \bigg[\frac{1}{s-j\omega} - \frac{1}{s+j\omega}\bigg]\\
+&= \frac{1}{2j} \bigg[\frac{(s+j\omega) - (s - j\omega)}{(s-j\omega)(s + j\omega)}\bigg]\\
+&= \frac{\omega}{s^2 + \omega^2}\text{, given }\Re(s) > 0
+\end{align*}
+\end{example}
+
+The Laplace transformation obeys the following key properties:
+\begin{itemize}
+\item Linearity: $\mathcal{L} \{ \alpha f(t) + \beta g(t) \} = \alpha F(s) + \beta G(s)$
+\item Time-Scaling: $\mathcal{L} \{f(ct)\} = \frac{1}{c}F(\frac{s}{c})$
+\item Exponential Modulation: $\mathcal{L} \{e^{\alpha t} f(t)\} = F(s-\alpha)$
+\item Time Shifting: Suppose $F(s) = \mathcal(L) \{ f(t) u_{-1}(t) \}$ and let $g(t) = f(t - T)u_{-1}(t - T)$. Then $G(S) = \mathcal{L} \{g(t)\} = e^{-sT} F(s)$
+\item Multiplication by $t$: $\mathcal{L} \{ tf(t) \} = -\frac{\dd}{\dd s} F(s)$
+\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms. Then we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
+\end{itemize}
 
 \end{document}
