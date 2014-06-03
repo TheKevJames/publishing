@@ -1,12 +1,23 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,parskip,qtree,custom}
+\usepackage{amsmath,amssymb,hyperref,parskip,qtree,custom}
 \usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 \begin{document}
 
 \title{CS 240 --- Data Structures and Data Management}
 \author{Kevin James}
 \date{\vspace{-2ex}Spring 2014}
 \maketitle\HRule
+
+\tableofcontents
+\newpage
 
 \section{Algorithms}
 An {\bf algorithm} is a step-by-step process for carrying out a set of operations given an arbitrary problem instance. An algorithm {\bf solves} a problem if, for every instance of the problem, the algorithm finds a valid solution in finite time.
@@ -266,6 +277,25 @@ and thus we have the upper bound of $O(n)$.
 The lower bound is at least $\Omega(n)$ (since we must run our heap creation on $n$ elements), thus we have an overall runtime complexity of $\Theta(n)$.
 
 \section{Sorting}
+There exist many sorting algorithms:
+\begin{table}[ht]
+\centering
+  \begin{tabular}{|l|c|}
+  \hline
+  Algorithm & Complexity \\
+  \hline
+  \hline
+  Selection Sort & $\Theta(n^2)$ \\
+  Insertion Sort & $\Theta(n^2)$ \\
+  Merge Sort & $\Theta(n\log n)$ \\
+  Heap Sort & $\Theta(n\log n)$ \\
+  Quick Sort & $\Theta(n\log n)$ \\
+  \hline
+  \end{tabular}
+\end{table}
+
+For a comparison-based algorithm, we have a lower bound of $\Omega(n\log n)$. For non-comparison-based algorithms, we can achieve $O(n)$.
+
 \subsection{PQ Sort}
 As mentioned above, we can sort data using a priority queue. Both \code{insert} and \code{delete} take $O(\log n)$ time, as does recursively sorting any newly moved elements. Thus, for sorting $n$ elements we see that PQ sort will take $O(n\log n)$ time, which is the same as mergesort.
 
@@ -382,6 +412,8 @@ radixSort(A[1..n], d, k):
         countingSort(A, k) //with each x_i as the key
 \end{verbatim}
 
+We can perform radix-sort from either the left or right sides (LSD vs.\ MSD). The MSD-Radix sort, though, can only be performed if all integers have the same number of digits (or are padded with zeroes).
+
 Radix sort has time complexity $\Theta\bigl(d(n+k)\bigl)$ and space complexity $\Theta(n+k)$.
 
 \section{Dictionary}
@@ -426,5 +458,110 @@ A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child B
 \end{figure}
 
 \code{search}, \code{insert} and \code{delete} all have time complexities $\Theta(h)$, where $h$ is the height of the tree. $h$ has a best-case value of $\log n$ and a worst-case value of $n$.
+
+\subsection{AVL Trees}
+An {\bf AVL tree} is a BST with an additional structural property: the heights of the left and right subtree must differ by no more than one (where an empty tree is defined to have a height of $-1$).
+
+At each non-empty node, we store $\text{height}{R} - \text{height}(L) \in \{-1, 0, 1\}$: $-1$ means the tree is left-heavy, $1$ means the tree is right-heavy, and $0$ means the tree is balanced. We could store the actual height, but storing the balances is simpler and more convenient.
+
+\begin{figure}[ht]
+\Tree
+[.z
+    [.y
+        [.x
+            [.A ] [.B ]
+        ]
+        [.C ]
+    ]
+    [.D ]
+]
+\caption{\label{fig:avlTreeUnbalanced} An inbalanced AVL tree.}
+\end{figure}
+
+An AVL tree can perform {\bf rotations} to rebalance itself.
+
+\begin{figure}[ht]
+\Tree
+[.y
+    [.x
+        [.A ] [.B ]
+    ]
+    [.z
+        [.C ] [.D ]
+    ]
+]
+\caption{\label{fig:avlTreeBalanced} A balanced AVL tree (after rotating right).}
+\end{figure}
+
+This function can be represented as
+\begin{verbatim}
+rotate_right(T):
+    newroot = T.left
+    T.left = newroot.right
+    newroot.right = T
+    return newroot
+
+rotate_left(T):
+    newroot = T.right
+    T.right = newroot.left
+    newroot.left = T
+\end{verbatim}
+
+We can also perform {\bf double rotations}, which may be either two of the same rotation operation or one of each.
+
+\begin{figure}[ht]
+\Tree
+[.z
+    [.y
+        [.A ]
+        [.x
+            [.B ] [.C ]
+        ]
+    ]
+    [.D ]
+]
+\caption{\label{fig:avlTreeUnbalancedTwo} An inbalanced AVL tree requiring two rotations (left then right).}
+\end{figure}
+
+The \code{search} operation is the same as a BST and is in $\Theta(h)$ time. The \code{insert} uses rotations and will thus be $\Theta(h)$. Finally, the \code{delete} operation swaps then applies fixes (rotations) and is thus $\Theta(h)$.
+
+We define $N(h)$ to be the least number of nodes in an AVL with height $h$. One subtree must have height of at least $h-1$, the other at least $h-2$. Then we have \[ N(h) =
+\begin{cases}
+1 + N(h-1) + N(h-2) & h \geq 1\\
+1 & h = 0\\
+0 & h = -1
+\end{cases}\]
+
+\subsection{Red-Black Trees}
+\subsection{Leftist Trees}
+\subsection{AA-Trees}
+\subsection{2-3 Trees}
+A {\bf 2-3 tree} is a BST with additional structural properties:
+\begin{itemize}
+\item every node either contains one KVP and two children or two KVPS and three children.
+\item all the leaves (nodes without children) are at the same level
+\end{itemize}
+
+Searching through a 1-node is the same as a BST, but we must examine both keys in a 2-node to determine the most accurate path.
+
+\begin{figure}[ht]
+\Tree
+[.a
+    [.b|c
+        [.A ] [.B ] [.C ]
+    ]
+    [.d|e
+        [.D ] [.E ] [.F ]
+    ]
+]
+\caption{\label{fig:23TreeBalanced} A balanced 2-3 tree.}
+\end{figure}
+
+To insert into a 2-3 tree, we first search to find the leaf where the key belongs. If the leaf has a single KVP, we simply add the new key and make a 3-node. Otherwise, we sort the keys, split the left-most and right-most into two 1-nodes, and recursively insert the middle key into the parent (along with the link).
+
+To delete, we first swap the KVP with its successor so we are always deleting from a leaf. If the target node is a 2-node, we simply delete the key. Otherwise, if the target node has an immediate 2-node sibling we perform a {\bf transfer} (put the intermediate KVP in the parent between the two nodes into the target node and replace it with the adjacent KVP in the sibling node). Otherwise, we {\bf merge} the target node and a 1-node sibling by removing the target node and recursively deleting the intermediate KVP in the parent and adding it the the sibling node.
+
+\subsection{B Trees}
+A 2-3 tree is a specific type of {\bf B tree}.
 
 \end{document}

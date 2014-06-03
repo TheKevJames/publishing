@@ -1,12 +1,23 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,parskip,custom}
+\usepackage{amsmath,amssymb,hyperref,parskip,custom}
 \usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 \begin{document}
 
 \title{CS 247 --- Software Engineering Principles}
 \author{Kevin James}
 \date{\vspace{-2ex}Spring 2014}
 \maketitle\HRule
+
+\tableofcontents
+\newpage
 
 \section{Object-Orientation}
 Code which follows {\bf object-oriented} patterns has better affinity between user-defined types and real-world types, can be more easily reused (inheritance, composition, as-is, polymorphism), allows for encapsulation and information hiding, decomposes extremely effectively (and thus seperates concerns), and allows for abstraction through ADTs (Abstract data types), interfaces, etc.
@@ -247,5 +258,35 @@ An \code{auto\_ptr} is not a substitute for a standard pointer.
 \end{itemize}
 
 % GET NOTES FROM LARA
+
+\section{Development Practices}
+There are many problem areas in program development: code ownership, testing, managing complex requirements, \dots
+
+\subsection{Waterfall Model}
+The waterfall model imitates standard engineering procedures: the requirements are developed, then a design plan is created, development is completed, and finally the system is tested. This model is commonly accepted to be flawed: writing software is not the same as architecting a building.
+
+\subsection{Agile Programming}
+There are several methodologies which can be described as agile programming: {\bf scrum}, {\bf extreme}, \dots
+
+\subsubsection{Extreme Programming}
+{\bf eXtreme Programming (XP)} is a modern software development process models which allows the programmer to lead the process. The goal is to produce high-quality software by ``keeping programming fun''. Though the name suggest high-risk and haphazard development, the opposite is true.
+
+XP encompasses several business ideas, but the main three are pair programming, {\bf design simplicity}, and {\bf automated testing}.
+
+The basic rule of {\bf pair programming} is ``code is never written or modified unless two people are sitting side-by-side in front of one computer''. Programming becomes a dialogue: only one person types, but both people analye, design, program, and test. Pairing is not a long-term commitment; groups only need to remain together for the duration of a single task.
+
+Design cimplicity ensures that a short-term pairing can be productive. By establishing coding standards and writing test code together, the pair can avoid trivial misunderstandings and reach a common understanding.
+
+Pair programming also fosters collective ownership. Any programmer may change any portion of the code at any given time. System integration takes place as often as possible to identify conflicting changes. A working version always exists.
+
+The basic rule of {\bf design simplicity} is ``build the simplest thing that works''. Simple deigns lead to code that can easily be modified or replaced as requirements evolve. ``Embrace change'' is the motto of XP.
+
+Pair programming forces an immediate ``simplicity check'' as design ideas are explained to the second programmer. Automated testing gives programmers the confidence that design changes have been correctly implemented. An overall system metaphor guides the design process.
+
+A simple design has no duplicated code or logic. {\bf Refactoring} is the process of simplifying code to avoid or eliminate duplication. For example: code may be refactored to combine two similar classes or to extend them from the same base class.
+
+The baseic rule of {\bf automated testing} is ``write the tests first''. Automated tests should become an integral component of the program, which can be allowed to self-test at any time. System integration takes place as often as possible. Automated testing ensures that a working version of the program always exists.
+
+Design simplicity makes it easy to write tests. Each programmer thinks of ways to test their partner's ideas. A successful test provides the gratification which programmers crave.
 
 \end{document}
