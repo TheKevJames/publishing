@@ -613,11 +613,11 @@ Usually, we can consider adding vectors from the standard basis.
 \subsection*{Inner Products}
 A dot product in $\R{n}$ gives us the vector's length and orthogonality.
 
-For $C[a,b]$, the {\bf inner product} is $f, g in [a,b]$ and \[ <f,g> = \dint{a}{b}{f(x)g(x)}{x} \]
+For $C[a,b]$, the {\bf inner product} is $f, g in [a,b]$ and \[ <f,g> = \int_a^b f(x)g(x) \dd x \]
 
 If $<f,g> = 0$, $f$ and $g$ are orthogonal.
 
-\[ \magv{f}^2 = <f,f> = \dint{a}{b}{f^2(x)}{x} \]
+\[ \magv{f}^2 = <f,f> = \int_a^b f^2(x) \dd x \]
 
 To project $f(x)$ onto $\{\sin x,\cos x\}$ we have \[ \frac{<f(x),\sin x>}{\magv{\sin x}^2}\sin x + \frac{<f(x),\cos x>}{\magv{\cos x}^2}\cos x \]
 

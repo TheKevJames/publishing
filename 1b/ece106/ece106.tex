@@ -51,12 +51,12 @@ This gives \[ \dd E = \frac{k \rho}{r^2}\ \dd V \] and \[ E = \inint{\frac{k \rh
 
 For a charge distributed evenly over a disk of radius $r$ \[ \rho = \frac{Q}{\pi r^2} \] and \[ \dd Q = \rho 2\pi r \dd r \]
 
-The disk would create an electric field such that \[ \dd E = \frac{k \dd Q}{4\pi \varepsilon (r^2 + z^2)^{\frac{3}{2}}} \] and \[ E = \dint{0}{r}{\frac{\dd \rho\ 2\pi r\ z}{4\pi \varepsilon (r^2 + z^2)^{\frac{3}{2}}}}{r} \] which is \[ E = \frac{2\pi \rho z}{4\pi \varepsilon} \bigg[\half * \frac{1}{\sqrt{r^2 + z^2}} \bigg] = \frac{\rho z}{4\varepsilon \sqrt{r^2 + z^2}} \]
+The disk would create an electric field such that \[ \dd E = \frac{k \dd Q}{4\pi \varepsilon (r^2 + z^2)^{\frac{3}{2}}} \] and \[ E = \int_0^r \frac{\dd \rho\ 2\pi r\ z}{4\pi \varepsilon (r^2 + z^2)^{\frac{3}{2}}} \dd r \] which is \[ E = \frac{2\pi \rho z}{4\pi \varepsilon} \bigg[\half * \frac{1}{\sqrt{r^2 + z^2}} \bigg] = \frac{\rho z}{4\varepsilon \sqrt{r^2 + z^2}} \]
 
 \subsubsection*{Superposition}
 Superposition is basically a simple concept: in electromagnetism, forces add. In a given system with $N$ charges, the force extered on one of them is \[ F = \sum_{i = 1}^{N} \frac{kq_0q_1}{r^2} \]
 
-Given charge density, we can integrate this sum to find \[ F = \sum_{i = 1}^{N} \frac{kq\rho \Delta V}{r^2} \] given $N$ chunks of volume $\Delta V$ and charge $\rho \Delta V$. Technically, this formula is an approximation, but we can use integrals to determine the exact answer with \[ F = \dint{V}{}{\frac{kq\rho}{r^2}}{V} \]
+Given charge density, we can integrate this sum to find \[ F = \sum_{i = 1}^{N} \frac{kq\rho \Delta V}{r^2} \] given $N$ chunks of volume $\Delta V$ and charge $\rho \Delta V$. Technically, this formula is an approximation, but we can use integrals to determine the exact answer with \[ F = \int_V \frac{kq\rho}{r^2} \dd V \]
 
 \subsection*{Uniformly Distributed Charge}
 For any point on an object with uniformly distributed charge, we can give it a width of $\dd y$ thus giving us
@@ -65,13 +65,13 @@ For any point on an object with uniformly distributed charge, we can give it a w
       &= \frac{k \rho\ \dd y}{r^2 + y^2}
 \end{align*}
 
-So we have a general equation of the form \[ E = \dint{0}{L}{}{E} \] where $L$ is the length of the object. Note that this is a vectorial integral: as such, the direction of the field will always be perpendicular to the object (ie symmetrical along the horizontal axis).
+So we have a general equation of the form \[ E = \int_0^L \dd E \] where $L$ is the length of the object. Note that this is a vectorial integral: as such, the direction of the field will always be perpendicular to the object (ie symmetrical along the horizontal axis).
 
 Because this integral is symmetrical, we can integrate only along the axis, thus giving us
 \begin{align*}
-E &= \dint{-\frac{L}{2}}{\frac{L}{2}}{}{E}\\
-  &= \dint{-\frac{L}{2}}{\frac{L}{2}}{\frac{k \rho r}{r_1^3}}{y}\\
-  &= \dint{-\frac{L}{2}}{\frac{L}{2}}{\frac{k \rho r}{(r^2 + y^2)^{\frac{3}{2}}}}{y}\\
+E &= \int_{-\frac{L}{2}}^{\frac{L}{2}} \dd E\\
+  &= \int_{-\frac{L}{2}}^{\frac{L}{2}} \frac{k \rho r}{r_1^3} \dd y\\
+  &= \int_{-\frac{L}{2}}^{\frac{L}{2}} \frac{k \rho r}{(r^2 + y^2)^{\frac{3}{2}}} \dd y\\
   &= \frac{k \rho L}{r\sqrt{r^2 + \frac{L^2}{4}}}
 \end{align*}
 Thus as $L \to \infty$, $E \propto \frac{1}{r}$
@@ -105,7 +105,7 @@ Example: suppose we have a spherical distribution of charge with density $\rho(r
 
 Enclose this distribution within a spherical surface $S$ of radius $r$. Gauss' Law gives \[ \Phi_E = \frac{q_{within}}{\varepsilon_0} \] Since the field is spherically symmetric, $E$ must point radially and be proportional to $r$. It can only depend on r, which means it is constant over any spherical surface. Thus we have the integral \[ \Phi_E = \frac{1}{\varepsilon_0} r^2 E(r) \]
 
-The charge within $S$ is given by integrating the charge density over the volume of $S$ \[ q = \dint{V}{}{\rho(r)}{V} \] so \[ E(r) = \frac{\dint{V}{}{\rho(r)}{V}}{\varepsilon_0 r^2} = \frac{q(r)}{\varepsilon_0 r^2} \]
+The charge within $S$ is given by integrating the charge density over the volume of $S$ \[ q = \int_V \rho(r) \dd V \] so \[ E(r) = \frac{\int_V \rho(r) \dd V}{\varepsilon_0 r^2} = \frac{q(r)}{\varepsilon_0 r^2} \]
 
 Note that outside of the sphere there is no charge ($\rho$ is constant), so we have
 \begin{align*}
@@ -120,7 +120,7 @@ Or in other words: the electric field grows linearly with $d$ inside the sphere,
 Work is a measure of the force exerted to move a charge from one location to another. It is given by \[ W = \inint{F}{r} \] where $F$ is the opposite of the force exerted upon that charge. This gives
 \begin{align*}
 W(r_0 \to r_1) &= \inint{F}{r}\\
-               &= - \dint{r_1}{r_0}{\frac{kq_0q_1}{r^2}}{r}\\
+               &= -\int_{r_1}^{r_0} \frac{kq_0q_1}{r^2} \dd r\\
                &= \frac{kq_0q_1}{r_0} - \frac{kq_0q_1}{r_1}
 \end{align*}
 An important fact to note is that the path travelled does not make a difference to the amount of work done; the only things which matter are the start and end positions.
@@ -133,14 +133,14 @@ We can use this quantity to help us calculate work done with \[ \dd W = F \dd r 
 In essence, this gives us ``We had to put$\dd W = $ (energy density)$\dd V$ amount of work into the system \emph{to create} that field.''
 
 \subsection*{Potential Difference}
-Potential difference is the measure of work which would have to be done to move a unit of charge from one location to another \emph{per unit of charge}. It is given by \[ \phi_{ba} = - \dint{a}{b}{E}{s} \] which can be derived by solving for the amount of work, then dividing out the charge (since work done is proportional to the charge). It can also be repesented by a $V$.
+Potential difference is the measure of work which would have to be done to move a unit of charge from one location to another \emph{per unit of charge}. It is given by \[ \phi_{ba} = - \int_a^b E \dd s \] which can be derived by solving for the amount of work, then dividing out the charge (since work done is proportional to the charge). It can also be repesented by a $V$.
 
 \subsubsection*{Potential}
-The electric potential of an object is its potential difference with respect to some fixed point. Though this point is generally infinity, that is not always the case. When it is we have \[ \phi(r) = - \dint{\infty}{r}{E}{s} \]
+The electric potential of an object is its potential difference with respect to some fixed point. Though this point is generally infinity, that is not always the case. When it is we have \[ \phi(r) = - \int_\infty^r E \dd s \]
 
 We can also redefine potential difference in terms of potential (yes, this will be as painfully obvious as it sounds). Given $a$ and $b$, the potential difference between them is equal to \[ \phi_{ba} = \phi(b) - \phi(a) \]
 
-If we suppose our field is created from a point charge $q$ at the origin we have \[ \phi(r) = - \dint{\infty}{r}{\frac{kq}{r^2}}{r} = \frac{kq}{r} \] which gives us a formula we can use to generalize this. Given superposition, we have the potential at some point $P$ from $N$ contributing charges as \[ \phi(P) = \sum_{i = 1}^N \frac{kq_i}{r_i} \] this can then be further generalized to account for continuous distributions with \[ \phi(P) = \dint{V}{}{\frac{k \rho}{r}}{V} \]
+If we suppose our field is created from a point charge $q$ at the origin we have \[ \phi(r) = - \int_\infty^r \frac{kq}{r^2} \dd r = \frac{kq}{r} \] which gives us a formula we can use to generalize this. Given superposition, we have the potential at some point $P$ from $N$ contributing charges as \[ \phi(P) = \sum_{i = 1}^N \frac{kq_i}{r_i} \] this can then be further generalized to account for continuous distributions with \[ \phi(P) = \int_V \frac{k \rho}{r} \dd V \]
 
 Obviously, these equations are only useful if we \emph{can} set the reference point to infinity. This, in turn, is only possible if the charge distribution is of a finite size. If the distribution is infinitely large, we will find the equation to diverge as the reference point approaches infinity. In such a case, simply pick a different reference point.
 
@@ -242,7 +242,7 @@ This field is generated by electric currents in the liquid outer core of the pla
 \subsubsection*{Biot-Savart Law}
 The Biot-Savart Law gives the relationship between a constant current and the magnetic flux density it generates with \[ \dd B = \bigg( \frac{\mu_0}{4\pi} \bigg) \frac{I \dd l \times \vec{r}}{r^2} \] where $\vec{r}$ is the directional vector (i.e. it could be replaced by $\sin\theta$, given the proper manipulations to the equation) and the {\bf permeability of free space} $\mu_0 = 4\pi$ x $10^{-7}$ T m/A.
 
-Note that the direction never changes with this integral (ie $\intone{B}$), only the amplitude changes. This allows us to integrate it with a minimum of effort.
+Note that the direction never changes with this integral (ie $\int \dd B$), only the amplitude changes. This allows us to integrate it with a minimum of effort.
 
 We can find the force exerted by this field as $\dd F = I_1 \dd l_1 \bigl( \frac{\mu_0}{4\pi} \bigl) \frac{I_0 \dd l_0 \times \vec{r}}{r^2}$, or, more concisely, \[ \dd F = \dd B I \dd l \]
 
@@ -254,12 +254,12 @@ This equation is only useful if the current density is given in place of the cur
 Note that we also have $J = qv$, for an object with some total charge and velocity. This can be useful in sistuations where we have charged objects with no current.
 
 \subsubsection*{Ampere's Law}
-The $B$-fields around a wire will exist concentrically and will point clock-wise (assuming we look in the direction the current is traveling. We can determine its strength with \[ B = \frac{\mu_0 I}{2\pi r} \] Note that technically $2\pi r$ is given by $\intone{l}$, but we can virtually always make this simplification.
+The $B$-fields around a wire will exist concentrically and will point clock-wise (assuming we look in the direction the current is traveling. We can determine its strength with \[ B = \frac{\mu_0 I}{2\pi r} \] Note that technically $2\pi r$ is given by $\int \dd l$, but we can virtually always make this simplification.
 
 Note that its strength decreases directly proportionally to distance.
 
 \subsubsection*{Law for Circuits}
-For a circuit with multiple components, we can use \[ \inint{B}{l} = \mu_0 I \] Note that we can derive the general form of Ampere's law from this given $B$ is constant and $\intone{l} = 2\pi r$.
+For a circuit with multiple components, we can use \[ \inint{B}{l} = \mu_0 I \] Note that we can derive the general form of Ampere's law from this given $B$ is constant and $\int \dd l = 2\pi r$.
 
 We can also use this law to determine the effect of two parallel wires upon each other per unit of length as \[ \frac{F}{l} = \frac{\mu_0 I_0 I_1}{2\pi r} \] This force is attractive if the currents are in the same direction.
 

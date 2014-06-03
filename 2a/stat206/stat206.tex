@@ -161,15 +161,15 @@ The sample space for continuous probability is all open intervals. In effect, th
 
 Note that since ranges have probability (e.g. in total range $100$, the sub-range $1-8$ has probability $\frac{8-1}{100} = .07$), individual elements must have $0$ probability.
 
-The {\bf probablity density function} of a continuous random variable $X$ describes the probability that $X$ takes on a value in the range $(a,b)$ \[\dint{a}{b}{f(x)}{x} = P(a < X < b) \]
+The {\bf probablity density function} of a continuous random variable $X$ describes the probability that $X$ takes on a value in the range $(a,b)$ \[\int_a^b f(x) \dd x = P(a < X < b) \]
 
 The {\bf cumulative density function} is the probability that $X < x$, or $F(x) = P(X < x)$.
 
 Note that these two density functions are related in the following way:
 \begin{align*}
-\dint{a}{b}{f(x)}{x} &= P(a < X < b)\\
-                     &= P(X < b) - P(X < a)\\
-                     &= F(b) - F(a)
+\int_a^b f(x) \dd x &= P(a < X < b)\\
+                    &= P(X < b) - P(X < a)\\
+                    &= F(b) - F(a)
 \end{align*}
 
 or in other words: $pdf(a,b) = cdf(b) - cdf(a)$.
@@ -376,7 +376,7 @@ The {\bf cdf} is the probablity that $\overline{X}$ (a continuous random variabl
 
 The cdf is the integral of the {\bf pdf}, i.e. \[ \text{cdf}(x) = \int{\text{pdf}(x)} \]
 
-Any continuous random variable has \[ E(X) = \dint{x}{}{f(x)}{x} = \mu \] and \[ \text{Var}(x) = E(x^2) - (E(x))^2 \]
+Any continuous random variable has \[ E(X) = \int_x f(x) \dd x = \mu \] and \[ \text{Var}(x) = E(x^2) - (E(x))^2 \]
 
 \subsection*{Uniform Distribution}
 The probability of any subinterval on the range is proportional to its length.

@@ -26,7 +26,7 @@ A proton or electron has a charge of $\pm 1.602 * 10^{-19}$
 \subsubsection*{Current}
 Moving charges create an {\bf electrical current}. In moving charges from one place to another, we may also transfer energy. By changing the current (with respect to time), we can transfer information. Current, then, is the rate at which the charges are moving past a given reference point in a specific direction.
 
-The charge transfered between times $t_0$ and $t_1$ can be expressed as \[ \dint{t_0}{t_1}{}{q(\tau)} = \dint{t_0}{t_1}{i(\tau)}{\tau} \] and the total charge transfered is given by \[ q(t_1) = q(t_0) + \dint{t_0}{t_1}{i(\tau)}{\tau} \]
+The charge transfered between times $t_0$ and $t_1$ can be expressed as \[ \int_{t_0}^{t_1} \dd q(\tau) = \int_{t_0}^{t_1} i(\tau) \dd\tau \] and the total charge transfered is given by \[ q(t_1) = q(t_0) + \int_{t_0}^{t_1} i(\tau) \dd\tau \]
 
 \subsubsection*{Voltage}
 Let a general 2-terminal circuit element have two terminals (ie. resistors, inductors, batteries...). There are thus two paths by which the current may enter or leave the element. If you want to push charges through a circuit element, you have to expend some energy. The energy used to push charge through an element is defined as the {\bf voltage} between the two terminals, or the potential difference.
@@ -395,9 +395,9 @@ Important properties of a capactior
 \end{itemize}
 
 \subsubsection*{Integral Voltage-Current Relationships}
-For $i(t) = C\ \fracd{v(t)}{t}$, we can find \[ v(t) = \frac{1}{C} \dint{t_0}{t}{i(\tau)}{\tau} + v(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ v(t) = \frac{1}{C} \inint{i(t)}{t} + k \]
+For $i(t) = C\ \fracd{v(t)}{t}$, we can find \[ v(t) = \frac{1}{C} \int_{t_0}^t i(\tau) \dd\tau + v(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ v(t) = \frac{1}{C} \inint{i(t)}{t} + k \]
 
-Usually, we have $v(-\infty) = 0$, so $v(t) = \frac{1}{C} \dint{-\infty}{t}{i(\tau)}{\tau}$
+Usually, we have $v(-\infty) = 0$, so $v(t) = \frac{1}{C} \int_{-\infty}^t i(\tau) \dd\tau$
 
 Since the integration of the current over any time interval is the charge accumulated in that period on the capacitor plate into which the current is flowing, we have \[ q(t) = Cv(t) \]
 
@@ -422,9 +422,9 @@ Important properties of an inductor
 \end{itemize}
 
 \subsubsection*{Integral Voltage-Current Relationships}
-We can find \[ i(t) = \frac{1}{L} \dint{t_0}{t}{v(\tau)}{\tau} + i(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ i(t) = \frac{1}{L} \inint{v(t)}{t} + k \]
+We can find \[ i(t) = \frac{1}{L} \int_{t_0}^t v(\tau) \dd\tau + i(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ i(t) = \frac{1}{L} \inint{v(t)}{t} + k \]
 
-Usually, we have $i(-\infty) = 0$, so $i(t) = \frac{1}{L} \dint{-\infty}{t}{v(\tau)}{\tau}$
+Usually, we have $i(-\infty) = 0$, so $i(t) = \frac{1}{L} \int_{-\infty}^t v(\tau) \dd\tau$
 
 \subsubsection*{Energy Storage}
 The power delivered to an inductor is \[ P = i(t)\ L\ \fracd{i(t)}{t} \] and thus the change in {\bf energy stored} in its magnetic field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half L\bigl[i^2(t) - i^2(t_0)\bigl] \]
@@ -601,12 +601,12 @@ In DC circuits, $v$, $i$, and $P = vi$ are constant with respect to time. For {\
 \subsection*{Instantaneous Power}
 When following the passive sign convention, we have $p(t) = v(t) * i(t)$
 
-So for a resistor we have $p(t) = i^2(t)R$, for an inductor we have $p(t) = \frac{1}{L}\ v(t)\dint{-\infty}{t}{v(\tau)}{\tau}$ (assuming $v(-\infty) = 0$), and for a capacitor we have $p(t) = \frac{1}{C}\ i(t)\dint{-\infty}{t}{i(\tau)}{\tau}$ (assuming $v(-\infty) = 0$).
+So for a resistor we have $p(t) = i^2(t)R$, for an inductor we have $p(t) = \frac{1}{L}\ v(t)\int_{-\infty}^t v(\tau) \dd\tau$ (assuming $v(-\infty) = 0$), and for a capacitor we have $p(t) = \frac{1}{C}\ i(t)\int_{-\infty}^t i(\tau) \dd\tau$ (assuming $v(-\infty) = 0$).
 
 \subsection*{Average Power}
-To find the {\bf average power} we have \[ P = \lim_{\tau\to\infty} \frac{1}{\tau} \dint{-\frac{\tau}{2}}{\frac{\tau}{2}}{p(t)}{t} \]
+To find the {\bf average power} we have \[ P = \lim_{\tau\to\infty} \frac{1}{\tau} \int_{-\frac{\tau}{2}}^{\frac{\tau}{2}} p(t) \dd t \]
 
-For periodic functions with period $T$, we can integrate over one period, or any integral number of periods $nT$ where $n in \mathbb{Z}$. Thus we have \[ P = \frac{1}{nT} \dint{t_0}{t_0+nT}{p(t)}{t} \]
+For periodic functions with period $T$, we can integrate over one period, or any integral number of periods $nT$ where $n in \mathbb{Z}$. Thus we have \[ P = \frac{1}{nT} \int_{t_0}^{t_0+nT} p(t) \dd t \]
 
 For the sinusoidal case in steady state where $v(t) = V_m\cos(\omega t _ \theta)$ and $i(t) = I_m\cos(\omega t + \phi)$ we have \[ P = \frac{V_mI_m}{2}\cos(\theta - \phi) \]
 
@@ -631,7 +631,7 @@ to transfer the maximum amount of power, $Z_L = Z_{{\rm th}}^*$.
 \subsection*{Effective Values of $I$ and $V$}
 Definition: \textit{The effectiveness of any periodic current is equal to the value of the DC which, flowing through an R-ohm resistor, delivers the same average power to the resistor as does the periodic current.}
 
-\[ I_{{\rm eff}} = I_{{\rm rms}} = \sqrt{\frac{1}{T}\dint{0}{T}{i^2(t)}{t}} \] and \[ V_{{\rm eff}} = V_{{\rm rms}} = \sqrt{\frac{1}{T}\dint{0}{T}{v^2(t)}{t}} \]
+\[ I_{{\rm eff}} = I_{{\rm rms}} = \sqrt{\frac{1}{T}\int_0^T i^2(t) \dd t} \] and \[ V_{{\rm eff}} = V_{{\rm rms}} = \sqrt{\frac{1}{T}\int_0^T v^2(t) \dd t} \]
 
 For sinusoidal values, we can simplify this as \[ I_{{\rm rms}} = \frac{I_m}{\sqrt{2}} \] and \[ V_{{\rm rms}} = \frac{V_m}{\sqrt{2}} \]
 

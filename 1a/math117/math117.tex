@@ -451,36 +451,36 @@ y &= Ce^{-2x} + \frac{3}{4}(2x-1)
 Differential equations are the most important type of equations in applied math/physics. They describe the behaviour of systems. It is usually difficult, if not impossible, to solve them. Computers can approximate solutions. Coming up with differential equations in the first place is often difficult enough.
 
 \section*{Definite Integral}
-The definite integral of $f$ from $a$ to $b$ is \[ \dint{a}{b}{f(x)}{x} = \lim_{n\to\infty}\sum_{i=1}^n f(x_i^\star)\Delta x \] where $x_i^\star\ \epsilon\ [x_{i+j}, ..., x_{i}]$ and $\Delta x = \frac{b-a}{n}$
+The definite integral of $f$ from $a$ to $b$ is \[ \int_a^b f(x) \dd x = \lim_{n\to\infty}\sum_{i=1}^n f(x_i^\star)\Delta x \] where $x_i^\star\ \epsilon\ [x_{i+j}, ..., x_{i}]$ and $\Delta x = \frac{b-a}{n}$
 
 The integral sign and the differential also act as brackets.
 
-The definition of $\dint{a}{b}{f(x)}{x}$ is purely a mathematical concept. There is no area requirement anywhere. Area is just a nice way to think about it when $f$ is positive.
+The definition of $\int_a^b f(x) \dd x$ is purely a mathematical concept. There is no area requirement anywhere. Area is just a nice way to think about it when $f$ is positive.
 
-Since $\dint{a}{b}{f(x)}{x}$ yields a number, $x$ is called a dummy variable (ie. you can use anything).
+Since $\int_a^b f(x) \dd x$ yields a number, $x$ is called a dummy variable (ie. you can use anything).
 
 \subsection*{Properties of the Definite Integral}
 If $f$ and $g$ are intergrable on $[a,b]$, then
 \begin{enumerate}
-\item $\dint{a}{b}{k}{x} = k(b-a)$
-\item $\dint{a}{a}{f(x)}{x} = 0$
-\item $\dint{a}{b}{f(x)\pm g(x)}{x} = \dint{a}{b}{f(x)}{x} \pm \dint{a}{b}{g(x)}{x}$
-\item $\dint{a}{b}{cf(x)}{x} = c\dint{a}{b}{f(x)}{x}$
-\item $\dint{a}{b}{f(x)}{x} = -\dint{b}{a}{f(x)}{x}$
-\item $\dint{a}{b}{f(x)}{x} = \dint{a}{c}{f(x)}{x} + \dint{c}{b}{f(x)}{x}$
-\item if $f(x) \geq g(x)$ then $\dint{a}{b}{f(x)}{x} \geq \dint{a}{b}{g(x)}{x}$
+\item $\int_a^b k \dd x = k(b-a)$
+\item $\int_a^a f(x) \dd x = 0$
+\item $\int_a^b f(x)\pm g(x) \dd x = \int_a^b f(x) \dd x \pm \int_a^b g(x) \dd x$
+\item $\int_a^b cf(x) \dd x = c\int_a^b f(x) \dd x$
+\item $\int_a^b f(x) \dd x = -\int_b^a f(x) \dd x$
+\item $\int_a^b f(x) \dd x = \int_a^c f(x) \dd x + \int_c^b f(x) \dd x$
+\item if $f(x) \geq g(x)$ then $\int_a^b f(x) \dd x \geq \int_a^b g(x) \dd x$
 \end{enumerate}
 
 \subsection*{Where Derivatives Meet Integrals}
-Calculating \[ \dint{a}{b}{f(x)}{x} \] from first principles is worse than bronchitis. As it turns out, there is an easy way to compute it.
+Calculating \[ \int_a^b f(x) \dd x \] from first principles is worse than bronchitis. As it turns out, there is an easy way to compute it.
 
 \subsection*{Fundamental Theorem of Calculus I}
-If $f$ is continuous on $[a,b]$ and $a \leq x \leq b$, then the function \[ g(x) = \dint{a}{x}{f(t)}{t} \] is differentiable on $(x,b)$ and its derivative is \[ g^\prime(x) = f(x) \]
+If $f$ is continuous on $[a,b]$ and $a \leq x \leq b$, then the function \[ g(x) = \int_a^x f(t) \dd t \] is differentiable on $(x,b)$ and its derivative is \[ g^\prime(x) = f(x) \]
 
-What this means is in order to calculate \[ \dint{a}{b}{f(x)}{x} \] we need to find a function whose derivative is equal to $f(x)$. Basically, we're going backwards from differentiation. The function $g(x)$ is called the antiderivative of $f(x)$.
+What this means is in order to calculate \[ \int_a^b f(x) \dd x \] we need to find a function whose derivative is equal to $f(x)$. Basically, we're going backwards from differentiation. The function $g(x)$ is called the antiderivative of $f(x)$.
 
 \subsubsection*{Why Does This Work?}
-Define $A(x)$ to be the "area" under the curve $f(x)$ up to $x$. That is \[ A(x) = \dint{a}{x}{f(t)}{t} \] If we add a small quantity $\Delta x$ to $x$, we get an extra rectangular area which we can compute exactly as \[ A(x+\Delta x) - A(x) \] or approximate it as \[ \Delta xf(x) \] thus we have
+Define $A(x)$ to be the ``area'' under the curve $f(x)$ up to $x$. That is \[ A(x) = \int_a^x f(t) \dd t \] If we add a small quantity $\Delta x$ to $x$, we get an extra rectangular area which we can compute exactly as \[ A(x+\Delta x) - A(x) \] or approximate it as \[ \Delta xf(x) \] thus we have
 \begin{align*}
 A(x+\Delta x) - A(x) &\approx \Delta xf(x)\\
 \frac{A(x+\Delta x) - A(x)}{\Delta x} &\approx f(x)
@@ -488,14 +488,14 @@ A(x+\Delta x) - A(x) &\approx \Delta xf(x)\\
 
 Take $\displaystyle\lim_{x\to 0}$ and the approximation becomes exact and we have \[ \frac{d}{dx}A(x) = f(x) \]
 
-Replacing $A(x)$ with its definition gives \[ \frac{d}{dx}\dint{a}{x}{f(t)}{t} = f(x) \]
+Replacing $A(x)$ with its definition gives \[ \frac{d}{dx}\int_a^x f(t) \dd t = f(x) \]
 
 \subsection*{Fundamental Theorem of Calculus II}
-If $F(x)$ is an antiderivative of $f(x)$, then \[ \dint{a}{b}{f(t)}{t} = F(b) - F(a) \]
+If $F(x)$ is an antiderivative of $f(x)$, then \[ \int_a^b f(t) \dd t = F(b) - F(a) \]
 
 Note that if $F(x)$ is an antiderivate, then so is $F(x) + C$, for any constant $C$
 
-\[ \dint{3}{5}{2x}{x} = x^2\ \bigg|_3^5 \]
+\[ \int_3^5 2x \dd x = x^2\ \bigg|_3^5 \]
 
 \section*{Indefinite Integrals}
 An indefinite integral of $f$ is written as \[ \inint{f(x)}{x} \]
@@ -519,7 +519,7 @@ Often, an educated guess based on your knowledge of derivatives will be the only
 The trick is to look out for functions within the function to be integrated, assign them to variables, and integrate those. Ex, let $u = f(x)$ so that $\frac{d}{dx}u = f^\prime(x)$ thus we can write $du = f^\prime(x)dx$
 
 \section*{Method of Solving Definite Integrals}
-When solving definite integrals by substitution, you must be careful to change the limits of the integration. \[ \dint{1}{3}{2x(x^2+1)}{x} \neq \dint{1}{3}{u}{u} \] \[ \dint{1}{3}{2x(x^2+1)}{x} = \dint{2}{10}{u}{u} \]
+When solving definite integrals by substitution, you must be careful to change the limits of the integration. \[ \int_1^3 2x(x^2+1) \dd x \neq \int_1^3 u \dd u \] \[ \int_1^3 2x(x^2+1) \dd x = \int_2^{10} u \dd u \]
 
 \subsection*{Integration by Parts}
 Now it's time to reverse the product rule. Recall that \[ \frac{d}{dx} h\circ g = h^\prime g + hg^\prime \]
@@ -595,11 +595,11 @@ by using any of
 \end{itemize}
 
 \subsection*{Applications of Integration}
-\textit{Definition:} The {\bf mean value} of a function $f(x)$ over the interval $[a,b]$ is \[ f_{av} = \frac{1}{b-a}\dint{a}{b}{f(x)}{x} \]
+\textit{Definition:} The {\bf mean value} of a function $f(x)$ over the interval $[a,b]$ is \[ f_{av} = \frac{1}{b-a}\int_a^b f(x) \dd x \]
 
 \textit{Definition:} The {\bf area between curves} $f(x)$ an $g(x)$ we essentially create rectangles that fit between $f(x)$ an $g(x)$. The base of each rectangle is still dx, but the height is $|f(x) - g(x)|$
 
-The area is then calculated as \[ \dint{a}{b}{f(x)-g(x)}{x} \] where $f(x)$ is the upper function.
+The area is then calculated as \[ \int_a^b f(x)-g(x) \dd x \] where $f(x)$ is the upper function.
 
 Note: often, we will be require to find points of intersection of the functions. It sometimes may be easier to integrate up the $y$-axis.
 
@@ -607,14 +607,14 @@ Example: find the area between $y = x$ and $y = \frac{2}{x} - 1$ that is above t
 
 Using the {\bf $x$-axis} as the integration variable, we have
 \begin{align*}
-\dint{0}{1}{x}{x} + \dint{1}{2}{\frac{2}{x} - 1}{x} &= \frac{x^2}{2}\bigg|_0^1 + (2\ln|x| - x)\bigg|_1^2\\
+\int_0^1 x \dd x + \int_1^2 \frac{2}{x} - 1 \dd x &= \frac{x^2}{2}\bigg|_0^1 + (2\ln|x| - x)\bigg|_1^2\\
 &= \half - 0 + (2\ln 2 - 2) - (2\ln 1 - 1)\\
 &= 2\ln 2 - \half
 \end{align*}
 
 Using the {\bf $y$-axis} as the integration variable, we get
 \begin{align*}
-\dint{0}{1}{\frac{2}{y+1} - y}{y} &= \bigg(2\ln|y+1| - \frac{y^2}{2}\bigg)\bigg|_0^1\\
+\int_0^1 \frac{2}{y+1} - y \dd y &= \bigg(2\ln|y+1| - \frac{y^2}{2}\bigg)\bigg|_0^1\\
 &= 2\ln 2 - \half
 \end{align*}
 
@@ -648,29 +648,29 @@ To find the length of a curve $f(x)$ between $a$ and $b$, the trick is to break 
 now, taking $\displaystyle\lim_{n\to\infty}$ gives us the definition of an integral gives us \[ \Delta x \to {\rm dx\ as\ } \frac{\Delta y}{\Delta x} \to \frac{{\rm dy}}{{\rm dx}} \]
 
 \subsubsection*{Arclength Formula}
-The length of the curve $f(x)$ from $a$ to $b$ is given by \[ L = \dint{a}{b}{\sqrt{1+\bigl(\frac{{\rm dy}}{{\rm dx}}\bigl)^2}}{x} \] where $y = f(x)$
+The length of the curve $f(x)$ from $a$ to $b$ is given by \[ L = \int_a^b \sqrt{1+\bigl(\frac{{\rm dy}}{{\rm dx}}\bigl)^2} \dd x \] where $y = f(x)$
 
 Example: consider the curve $y = \frac{2}{3}x^{\frac{3}{2}}$. Find its length for $xin [0,3]$
 
 \begin{align*}
 \frac{{\rm dy}}{{\rm dx}} &= \sqrt{x}\\
-L &= \dint{0}{3}{\sqrt{1+x}}{x}\\
+L &= \int_0^3 \sqrt{1+x} \dd x\\
 &= \frac{(x+1)^{\frac{3}{2}}}{\frac{3}{2}} \bigg|_0^3\\
 &= \frac{16}{3} - \frac{2}{3} = \frac{14}{3}
 \end{align*}
 
 \section*{Improper Integrals}
-Consider the curve $f(x) = \frac{1}{x^2}$. The area under $f$ from $x = 1$ to $x = t$ is given by \[ A(t) = \dint{1}{t}{\frac{1}{x^2}}{x} \]
+Consider the curve $f(x) = \frac{1}{x^2}$. The area under $f$ from $x = 1$ to $x = t$ is given by \[ A(t) = \int_1^t \frac{1}{x^2} \dd x \]
 
 The bigger $t$ gets, the closer the area is to 1. This notion is helpful in understanding the following:
 
-\textit{Definition:} If $f$ is continuous on $[a,\infty)$ then the {\bf improper integral} $\dint{a}{\infty}{f(x)}{x}$ is defined by \[ \dint{a}{\infty}{f(x)}{x} = \lim_{t\to\infty} \dint{a}{t}{f(x)}{x} \]
+\textit{Definition:} If $f$ is continuous on $[a,\infty)$ then the {\bf improper integral} $\int_a^\infty f(x) \dd x$ is defined by \[ \int_a^\infty f(x) \dd x = \lim_{t\to\infty} \int_a^t f(x) \dd x \]
 
 If the limit exists, the integral is said to converge. Otherwise, the function diverges.
 
 Example:
 \begin{align*}
-\dint{1}{\infty}{\frac{1}{x^2}}{x} &= \lim_{t\to\infty} \dint{1}{t}{\frac{1}{x^2}}{x}\\
+\int_1^\infty \frac{1}{x^2} \dd x &= \lim_{t\to\infty} \int_1^t \frac{1}{x^2} \dd x\\
 &= \lim_{t\to\infty} 1-\frac{1}{t}\\
 &= 1
 \end{align*}
@@ -678,25 +678,25 @@ so the improper integral converges.
 
 On the other hand
 \begin{align*}
-\dint{1}{\infty}{\frac{1}{x}}{x} &= \lim_{t\to\infty} \dint{1}{t}{\frac{1}{x}}{x}\\
+\int_1^\infty \frac{1}{x} \dd x &= \lim_{t\to\infty} \int_1^t \frac{1}{x} \dd x\\
 &= \lim_{t\to\infty} \ln|x| \bigg|_1^t\\
 &= \infty
 \end{align*}
 so this improper integral diverges.
 
-\textit{Definition:} If $f(x)$ is continuous at every point in $[a,b]$ except at $a$ then we define \[ \dint{a}{b}{f(x)}{x} = \lim_{t\to\ a^+} \dint{t}{b}{f(x)}{x} \]
+\textit{Definition:} If $f(x)$ is continuous at every point in $[a,b]$ except at $a$ then we define \[ \int_a^b f(x) \dd x = \lim_{t\to\ a^+} \int_t^b f(x) \dd x \]
 
-\textit{Definition:} Similarly, if $f$ is discontinuous at $b$ instead, we define \[ \dint{a}{b}{f(x)}{x} = \lim_{t\to\ b^-} \dint{a}{t}{f(x)}{x} \]
+\textit{Definition:} Similarly, if $f$ is discontinuous at $b$ instead, we define \[ \int_a^b f(x) \dd x = \lim_{t\to\ b^-} \int_a^t f(x) \dd x \]
 
 Finally, if there is a discontinuity between $a$ and $b$, at point $c$, just break the integral into two pieces
 \begin{align*}
-\dint{a}{b}{f(x)}{x} &= \dint{a}{c}{f(x)}{x} + \dint{c}{b}{f(x)}{x}\\
-&= \lim_{s\to c^-} \dint{a}{s}{f(x)}{x} + \lim_{t\to c^+} \dint{t}{b}{f(x)}{x}
+\int_a^b f(x) \dd x &= \int_a^c f(x) \dd x + \int_c^b f(x) \dd x\\
+&= \lim_{s\to c^-} \int_a^s f(x) \dd x + \lim_{t\to c^+} \int_t^b f(x) \dd x
 \end{align*}
 
 Example:
 \begin{align*}
-\dint{1}{4}{\frac{1}{(t-2)^2}}{t} &= \lim_{s\to 2^-} \dint{1}{s}{\frac{1}{(t-2)^2}}{x} + \lim_{t\to 2^+} \dint{t}{4}{\frac{1}{(t-2)^2}}{x}\\
+\int_1^4 \frac{1}{(t-2)^2} \dd t &= \lim_{s\to 2^-} \int_1^s \frac{1}{(t-2)^2} \dd x + \lim_{t\to 2^+} \int_t^4 \frac{1}{(t-2)^2} \dd x\\
 &= \lim_{s\to 2^-} -\frac{1}{t-2} \bigg|_1^s - \lim_{t\to 2^+} \frac{1}{t-2} \bigg|_t^4\\
 &= \infty - 1 - \half + \infty\\
 &= \infty

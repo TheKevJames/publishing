@@ -90,29 +90,29 @@ Since MacLaurin derived Taylor Polynomials centered at 0, we refer to such a pol
 \subsubsection*{Taylor's Theorem with Integral Remainders}
 It's important to determine how accurate our approximations are. We can find the magnitude of the error as $|f(x) - P_{n,x_0}(x_0)|$, but since we do not know the value of $f(x)$, we cannot calculate this exactly. As such, we'll find the upper bound of the error.
 
-If $f(x)$ has $n + 1$ derivatives at $x_0$, then \[ f(x) = \sum_{k=0}^n f^k(x_0)(x - x_0)^k + R_{n,x_0}(x) \] where \[ R_{n,x_0}(x) = \dint{x_0}{x}{\frac{(x-t)^n}{n!}f^{n+1}(t)}{t} \]
+If $f(x)$ has $n + 1$ derivatives at $x_0$, then \[ f(x) = \sum_{k=0}^n f^k(x_0)(x - x_0)^k + R_{n,x_0}(x) \] where \[ R_{n,x_0}(x) = \int_{x_0}^x \frac{(x-t)^n}{n!}f^{n+1}(t) \dd t \]
 
 Unfortunately, we can't evaluate this! As such, we will find an upper bound for the error, which may or may not be approximately equal to the error. If we can bound \[ |f^{n+1}(t)| \leq K \] for all $t$ between $x$ and $x_0$ then we can find {\bf Taylor's Inequality} by
 \begin{align*}
 E &= |f(t) - P_{n,x_0}(x)|\\
   &= |R_n(x)|\\
-  &= \bigg|\dint{x_0}{x}{\frac{(x-t)^n}{n!}f^{n+1}(t)}{t}\bigg|\\
-  &\leq \dint{x_0}{x}{|\frac{(x-t)^n}{n!}f^{n+1}(t)}}{t}|\\
-  &\leq \dint{x_0}{x}{\frac{{|x-t|}^n}{n!}|f^{n+1}(t)|}{t}\\
-  &\leq K\dint{x_0}{x}{\frac{{|x-t|}^n}{n!}}{t}\\
+  &= \bigg|\int_{x_0}^x \frac{(x-t)^n}{n!}f^{n+1}(t) \dd t\bigg|\\
+  &\leq \int_{x_0}^x |\frac{(x-t)^n}{n!}f^{n+1}(t) \dd t|\\
+  &\leq \int_{x_0}^x \frac{{|x-t|}^n}{n!}|f^{n+1}(t)| \dd t\\
+  &\leq K\int_{x_0}^x \frac{{|x-t|}^n}{n!} \dd t\\
   &\leq K\frac{{|x-t|}^{n+1}}{(n+1)!}\ \bigg|_{x_0}^x\\
   &\leq K\frac{{|x-x_0|}^{n+1}}{(n+1)!}\\
 E = |R_n(x)| &\leq K\frac{{|x-x_0|}^{n+1}}{(n+1)!}
 \end{align*}
 
 \subsubsection*{Approximation of Integrals with Taylor Polynomials}
-When we're dealing with integrals, it turns out we can use subsitution to simplify our work. For example, given the integral $\dint{0}{x}{e^{t^2}}{t}$, we can let $u = t^2$ and find the Taylor Polynomial for that. $P_{2,0} (u) = 1 + u + u^2$, so $P_{2,0}(t^2) = 1 + t^2 + t^4$. Thus we can approximate $\dint{0}{x}{e^{t^2}}{t} = \dint{0}{x}{1 + t^2 + t^4}{t}$ which is easy to evaluate.
+When we're dealing with integrals, it turns out we can use subsitution to simplify our work. For example, given the integral $\int_0^x e^{t^2} \dd t$, we can let $u = t^2$ and find the Taylor Polynomial for that. $P_{2,0} (u) = 1 + u + u^2$, so $P_{2,0}(t^2) = 1 + t^2 + t^4$. Thus we can approximate $\int_0^x e^{t^2} \dd t = \int_0^x 1 + t^2 + t^4 \dd t$ which is easy to evaluate.
 
 We can introduce error into this as $e^u = P_{2,0}(u) + R_2(u)$ where $R$ is given by $R_2(u) \leq K \frac{|u|^3}{3!}$ where $|f^3(q)| \leq K$ for any $q$ between 0 and $u$.  Since $f(u) = e^u$, we have $|f^3(q)| = e^q$. We must bound this function, so we chose values approximately close to our desired answer. In this case, if we want to have $x = .5$, we must have $u in [0, .25]$.
 
 To find an upper bound for this, we have $|f^3(u)| = e^u \leq e^{.25} < 2$. This can be used for our value of $K$, thus giving us $|R_2(u)| \leq 2\frac{|u|^3}{3!}$ on our interval. With substitution, we get $|R_2(u)| \leq \frac{1}{3}t^6$ and our absolute error is less than $\frac{1}{27}x^7$.
 
-In summary, we have found $\dint{0}{x}{e^{t^2}}{t} = x + \frac{x^3}{3} + \frac{x^5}{10} \pm \frac{x^7}{21}$ for $x in [-\half ,\half ]$. Given some specific value fo $x$, we can find this value numerically.
+In summary, we have found $\int_0^x e^{t^2} \dd t = x + \frac{x^3}{3} + \frac{x^5}{10} \pm \frac{x^7}{21}$ for $x in [-\half ,\half ]$. Given some specific value fo $x$, we can find this value numerically.
 
 \section*{Infinite Series}
 Assume we take the limit of some error term. If this limit approaches zero, we can see that by adding more terms to our polynomial, we increase the accuracy of our approximation to perfection. Based on this, we can see that some functions can expressed as {\bf infinite sums}, which are technically the limit of sums, not a sum itself.
@@ -144,7 +144,7 @@ We also note that a series can diverge even if $\displaystyle\lim_{k\to\infty} a
 Since $\sum a_k$ can only converge if $\displaystyle\lim_{k\to\infty} = 0$, we can say that if $\displaystyle\lim_{k\to\infty} a_k \neq 0$ then $\sum a_k$ diverges. We can use this test to determine whether a series will diverge, but not whether it will converge (i.e. the converse may or may not be true).
 
 \subsubsection*{Integral Test}
-$\displaystyle\sum_{k=k_0}^\infty a_k$ converges if and only if $\dint{k_0}{\infty}{f(x)}{x}$ converges, where $f(x) = a_k > 0$. For this test, we must chose $f$ carefully: it must be continuous and positive, with $f \to \infty$ as $x \to \infty$.
+$\displaystyle\sum_{k=k_0}^\infty a_k$ converges if and only if $\int_{k_0}^\infty f(x) \dd x$ converges, where $f(x) = a_k > 0$. For this test, we must chose $f$ carefully: it must be continuous and positive, with $f \to \infty$ as $x \to \infty$.
 
 \subsubsection*{P-Series}
 $\sum \frac{1}{k^p}$ converges if $p > 1$ and otherwise diverges. Note that the harmonic series is a (diverging) p-series.
@@ -330,29 +330,29 @@ A constrained optimization is one in which we attempt to find the local extrema 
 To solve these, we use the {\bf Method of Lestrange}: we solve for the values of $x$ and $y$ in the system of equations $\nabla f = \lambda \nabla g$ and $g(x,y) = K$. Note that though this method works with any number of inputs, it merely locates the critical points but does not classify them.
 
 \subsection*{Iterated Integrals}
-When integrating in multiple dimensions, it can sometimes be beneficial to integrate multiple times. For example, the volume of a solid is \[ \dintd{c}{d}{a}{b}{f(x,y)}{x}{y} \]
+When integrating in multiple dimensions, it can sometimes be beneficial to integrate multiple times. For example, the volume of a solid is \[ \int_c^d \int_a^b f(x,y) \dd x \dd y \]
 
-We call this an iterated integral, and evaluate our integrals one at a time. Since it is easier, we evaluate from the inside out, though, geometrically speaking, the order of evaluating our integrals does not matter. From this, we see that \[ \dintd{c}{d}{a}{b}{f(x,y)}{x}{y} = \dintd{a}{b}{c}{d}{f(x,y)}{y}{x} \]
+We call this an iterated integral, and evaluate our integrals one at a time. Since it is easier, we evaluate from the inside out, though, geometrically speaking, the order of evaluating our integrals does not matter. From this, we see that \[ \int_c^d \int_a^b f(x,y) \dd x \dd y = \int_a^b \int_c^d f(x,y) \dd y \dd x \]
 
-It is also possible to factor our integrals, assuming we can create single-variable functions from our $f$. With this, we have \[ \dintd{c}{d}{a}{b}{g(x)h(y)}{x}{y} = \dint{a}{b}{g(x)}{x} \dint{c}{d}{h(y)}{y} \]
+It is also possible to factor our integrals, assuming we can create single-variable functions from our $f$. With this, we have \[ \int_c^d \int_a^b g(x)h(y) \dd x \dd y = \int_a^b g(x) \dd x \int_c^d h(y) \dd y \]
 
 In practice, our integrals tend to be slightly more convoluted than this: at the very least, the limits of integration of the inner integral tend to be functions rather than integers. This can sometimes make it difficult to change the order of integration. We must always have constants as our bound for the outermost integral, since otherwise our integral will be indefinite.
 
 Example: find the volume of the solid bounded by $z = xy$, $y = x$, and $y = \sqrt{x}$.
 
-We have two options in this case: $\dint{R}{}{xy}{A} = \dintd{0}{1}{x}{\sqrt{x}}{xy}{y}{x} = \dintd{0}{1}{y^2}{y}{xy}{x}{y}$.
+We have two options in this case: $\int_R xy \dd A = \int_0^1 \int_x^{\sqrt{x}} xy \dd y \dd x = \int_0^1 \int_{y^2}^y xy \dd x \dd y$.
 
-Example: evaluate $\dintd{0}{2}{x^2}{4}{x^3\sin(y^3)}{y}{x}$.
+Example: evaluate $\int_0^2 \int_{x^2}^4 x^3\sin(y^3) \dd y \dd x$.
 
-It is impossible to calculate $\inint{\sin(y^3)}{y}$, thus we must change the order of integration. We can see that the original domain is $x = (0,2), y = (x^2,4)$, thus we can see our new domain is $y = (0,4), x = (0, \sqrt{y})$. From this we have $\dintd{0}{2}{x^2}{4}{x^3\sin(y^3)}{y}{x} = \dintd{0}{4}{0}{\sqrt{y}}{x^3\sin(y^3)}{x}{y}$ which is easy to evaluate.
+It is impossible to calculate $\inint{\sin(y^3)}{y}$, thus we must change the order of integration. We can see that the original domain is $x = (0,2), y = (x^2,4)$, thus we can see our new domain is $y = (0,4), x = (0, \sqrt{y})$. From this we have $\int_0^2 \int_{x^2}^4 x^3\sin(y^3) \dd y \dd x = \int_0^4 \int_0^{\sqrt{y}} x^3\sin(y^3) \dd x \dd y$ which is easy to evaluate.
 
 \subsubsection*{Double Integrals in Polar Coordinates}
-Sometimes, it is easier to evaluate a function if it is expressed in the polar coordinate system. By translating our coordinates, we can see that \[ \inintd{f(x,y)}{x}{y} = \inintd{f(r\cos\theta, r\sin\theta)\cdot r}{r}{\theta} \]
+Sometimes, it is easier to evaluate a function if it is expressed in the polar coordinate system. By translating our coordinates, we can see that \[ \int \int f(x,y) \dd x \dd y = \int \int f(r\cos\theta, r\sin\theta)\cdot r \dd r \dd\theta \]
 
 \subsubsection*{The Change-of-Variable Formula}
 Since it can be sometimes be beneficial to use axes other that $(x,y)$ or $(r,\theta)$, we can see how a generalized formula would be beneficial (for example, if our volume is bounded by such curves as $xy = 5, xy = 10, \frac{y}{x} = 1$, and $\frac{y}{x} = 2$, we could see how defining $u = xy, v = \frac{y}{x}$ and solving on $(u,v)$ could be useful).
 
-This equation is generalized with \[ \inintd{f(x,y)}{x}{y} = \inintd{f[x(u,v),y(u,v)] \bigg|\frac{\partial (x,y)}{\partial (u,v)}\bigg|}{u}{v} \] where the {\bf Jacobian} of the transformation $J$ is \[ \frac{\partial (x,y)}{\partial (u,v)} = \begin{vmatrix}\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}\end{vmatrix} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} \] Note that $\bigg|\frac{\partial (x,y)}{\partial (u,v)}\bigg|$ is the \emph{absolute value} of the determinant of the matrix of partial derivatives. We can think of the Jacobian as a necessary factor which compensates for the distortion of the domain which occurs when we move from one coordinate system to another.
+This equation is generalized with \[ \int \int f(x,y) \dd x \dd y = \int \int f[x(u,v),y(u,v)] \bigg|\frac{\partial (x,y)}{\partial (u,v)}\bigg| \dd u \dd v \] where the {\bf Jacobian} of the transformation $J$ is \[ \frac{\partial (x,y)}{\partial (u,v)} = \begin{vmatrix}\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}\end{vmatrix} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} \] Note that $\bigg|\frac{\partial (x,y)}{\partial (u,v)}\bigg|$ is the \emph{absolute value} of the determinant of the matrix of partial derivatives. We can think of the Jacobian as a necessary factor which compensates for the distortion of the domain which occurs when we move from one coordinate system to another.
 
 One important restriction to this is that the transformation must be invertible on the domain of integration, or, in other words, we must not have $J = 0$ at any point within our integration domain.
 
@@ -360,10 +360,10 @@ All of the above-mentioned ideas can be applied to more-than-double integration.
 
 Obviously, a spherical coordinate system would be the most valuable tool for this. We have
 \begin{align*}
-V &= \int\!\!\!\!\int\!\!\!\!\intone{V}\\
-  &= \int\!\!\!\!\int\!\!\!\!\inint{\rho^2 \sin\phi}{\rho}{\rm d}\theta{\rm d}\phi\\
-  &= \int_0^\pi\!\! \int_0^{2\pi}\!\! \dint{0}{r}{\rho^2 \sin\phi}{\rho}{\rm d}\theta{\rm d}\phi\\
-  &= \dint{0}{\pi}{\sin\phi}{\phi} \displaystyle\int_0^{2\pi} \theta \dint{0}{r}{\rho^2}{\rho}\\
+V &= \int \int \int \dd V\\
+  &= \int \int \int_{\rho^2 \sin\phi}^\rho \dd\theta \dd\phi\\
+  &= \int_0^\pi\!\! \int_0^{2\pi}\!\! \int_0^r \rho^2 \sin\phi \dd\rho \dd\theta \dd\phi\\
+  &= \int_0^\pi \sin\phi \dd \phi \displaystyle\int_0^{2\pi} \theta \int_0^r \rho^2 \dd\rho\\
   &= \bigl(2\bigl) \bigl(2\pi\bigl) \bigg(\frac{r^3}{3}\bigg) = \frac{4\pi r^3}{3}
 \end{align*}
 \end{document}
