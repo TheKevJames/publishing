@@ -525,7 +525,28 @@ The Laplace transformation obeys the following key properties:
 \item Exponential Modulation: $\mathcal{L} \{e^{\alpha t} f(t)\} = F(s-\alpha)$
 \item Time Shifting: Suppose $F(s) = \mathcal(L) \{ f(t) u_{-1}(t) \}$ and let $g(t) = f(t - T)u_{-1}(t - T)$. Then $G(S) = \mathcal{L} \{g(t)\} = e^{-sT} F(s)$
 \item Multiplication by $t$: $\mathcal{L} \{ tf(t) \} = -\frac{\dd}{\dd s} F(s)$
-\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms. Then we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
+\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms and we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
 \end{itemize}
+
+\subsubsection{Solving Differential Equations with Laplace Transforms}
+To solve a differential equation, we may simply take the Laplace transform of each side of the equation, solve for the value of $F(s)$, and then perform the inverse Laplace transformation on each side.
+
+\begin{example}
+Assume we have $\dot y + y = t + e^t$ with the initial condition $y(0^-) = 1$.
+
+If we take the Laplace transform of each side of this equation, we have \[ sY(s) - y(0^-) + Y(s) = \frac{1}{s^2} + \frac{1}{s-1} \]
+
+This is a much simpler equation to solve, and can in fact be solved using only standard algebra techniques.
+
+We have
+\begin{align*}
+sY(s) - y(0^-) + Y(s) &= \frac{1}{s^2} + \frac{1}{s-1}\\
+sY(s) - 1 + Y(s) &= \frac{1}{s^2} + \frac{1}{s-1}\\
+(s+1)Y(S) &= 1 + \frac{1}{s^2} + \frac{1}{s-1}\\
+Y(s) &= \frac{1}{s+1} + \frac{1}{s^2(s+1)} + \frac{1}{(s-1)(s+1)}\\
+&= \frac{\frac{3}{2}}{s+1} + \frac{1}{s^2} - \frac{1}{s} + \frac{\frac{1}{2}}{s-1}\\
+y(t) &= \frac{3}{2}e^{-t} + t - 1 + \half e^t \text{, given }t \geq 0
+\end{align*}
+\end{example}
 
 \end{document}
