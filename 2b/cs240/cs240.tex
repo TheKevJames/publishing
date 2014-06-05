@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,hyperref,parskip,qtree,custom}
+\usepackage{amsmath,amssymb,bookmark,parskip,qtree,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -195,7 +195,7 @@ When we remove an item from a heap, we must replace that item with the current l
 
 When inserting, we use the opposite process: the new element is placed at the base of the tree, then it is recursively compared and potentially swapped with its parent until it is in a valid position.
 
-Note that we do not implement tree-like data structures as such, but rather as arrays. The array follows ta format such that the tree represented in figure~\ref{fig:minPQheap} would be placed in an array as $[5, 10, 7, 12, 14, 13]$. More concretely: the parent of a node at index $n$ is at index $\lfloor \frac{n-1}{2} \rfloor$. Its children are located at indices $2n + 1$ and $2n + 2$.
+Note that we do not implement tree-like data structures as such, but rather as arrays. The array follows the format such that the tree represented in figure~\ref{fig:minPQheap} would be placed in an array as $[5, 10, 7, 12, 14, 13]$. More concretely: the parent of a node at index $n$ is at index $\lfloor \frac{n-1}{2} \rfloor$. Its children are located at indices $2n + 1$ and $2n + 2$.
 
 Heap functions have worst case running times bounded as follows
 \begin{itemize}
@@ -416,8 +416,8 @@ We can perform radix-sort from either the left or right sides (LSD vs.\ MSD). Th
 
 Radix sort has time complexity $\Theta\bigl(d(n+k)\bigl)$ and space complexity $\Theta(n+k)$.
 
-\section{Dictionary}
-A {\bf dictionary} is a collection of items, each of which contain a {\bf key} and some {\bf data} and is referred to as a {\bf key-value pair}. Keys can be compared and are (typically) unique.
+\section{Dictionaries}
+A {\bf dictionary} (``associative array'') is a collection of items, each of which contain a {\bf key} and some {\bf data} and is referred to as a {\bf key-value pair}. Keys can be compared and are (typically) unique.
 
 We define the following functions for a dictionary:
 \begin{itemize}
@@ -434,8 +434,11 @@ We can implement a dictionary in several ways
 \item as a linked list: has $\Theta(n)$ search and deletion time and $\Theta(1)$ insertion time
 \end{itemize}
 
-\section{Search Trees}
-\subsection{Binary Search Trees}
+\section{Trees}
+\subsection{Binary Trees}
+Binary trees are the most common tree structure. Their defining factor is nodes with a single value.
+
+\subsubsection{Binary Search Trees}
 A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child BST. Every key $k_L$ in $T.left$ is less than the root key, every key $k_R$ in $T.right$ is greater. These properties are recursive.
 
 \begin{figure}[ht]
@@ -459,7 +462,14 @@ A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child B
 
 \code{search}, \code{insert} and \code{delete} all have time complexities $\Theta(h)$, where $h$ is the height of the tree. $h$ has a best-case value of $\log n$ and a worst-case value of $n$.
 
-\subsection{AVL Trees}
+There exist the following BST variations:
+\begin{itemize}
+\item Randomized BST
+\item Self-Balancing BST
+\item Threaded BST
+\end{itemize}
+
+\subsubsection{AVL Trees}
 An {\bf AVL tree} is a BST with an additional structural property: the heights of the left and right subtree must differ by no more than one (where an empty tree is defined to have a height of $-1$).
 
 At each non-empty node, we store $\text{height}{R} - \text{height}(L) \in \{-1, 0, 1\}$: $-1$ means the tree is left-heavy, $1$ means the tree is right-heavy, and $0$ means the tree is balanced. We could store the actual height, but storing the balances is simpler and more convenient.
@@ -532,10 +542,37 @@ We define $N(h)$ to be the least number of nodes in an AVL with height $h$. One 
 0 & h = -1
 \end{cases}\]
 
-\subsection{Red-Black Trees}
-\subsection{Leftist Trees}
-\subsection{AA-Trees}
-\subsection{2-3 Trees}
+Red-black trees are another binary tree implementation which is somewhat similar to AVL trees.
+
+There also exist the following other binary tree implementations:
+\begin{itemize}
+\item AA Trees
+\item Cartesian Trees
+\item Pagoda
+\item Rope
+\item Scapegoat Trees
+\item Splay Trees
+\item T Trees
+\item Tango Trees
+\item Top Trees
+\item Treap
+\item Weight-Balanced Trees
+\end{itemize}
+
+\subsection{B Trees}
+A {\bf B tree} is a classification of trees which have a more generalized structure than BSTs. Instead of each node having a single value, B tree nodes have multiple values. All B tree leaves must be at the same level.
+
+A {\bf B tree of minsize $d$} is a B tree with each node containing at most $2d$ values and each non-root node containing at least $d$ values. A B tree of minsize $d$ is typically also refered to as a B tree of order $(2d+1)$, or (even more specifically) a $(d+1)$-$(2d+1)$ tree. For example, a 2-3 tree (introduced below) has $d = 1$.
+
+The most representative implementations of B trees are:
+\begin{itemize}
+\item B Trees
+\item B* Trees
+\item B+ Trees
+\item B\# Trees
+\end{itemize}
+
+\subsubsection{2-3 Trees}
 A {\bf 2-3 tree} is a BST with additional structural properties:
 \begin{itemize}
 \item every node either contains one KVP and two children or two KVPS and three children.
@@ -561,7 +598,35 @@ To insert into a 2-3 tree, we first search to find the leaf where the key belong
 
 To delete, we first swap the KVP with its successor so we are always deleting from a leaf. If the target node is a 2-node, we simply delete the key. Otherwise, if the target node has an immediate 2-node sibling we perform a {\bf transfer} (put the intermediate KVP in the parent between the two nodes into the target node and replace it with the adjacent KVP in the sibling node). Otherwise, we {\bf merge} the target node and a 1-node sibling by removing the target node and recursively deleting the intermediate KVP in the parent and adding it the the sibling node.
 
-\subsection{B Trees}
-A 2-3 tree is a specific type of {\bf B tree}.
+Note that the 2-3 tree \code{search}, \code{insert}, and \code{delete} implementations defined above are the same for all B tree implementations.
+
+We also have the following other B tree implementations:
+\begin{itemize}
+\item 2-3-4 Trees
+\item BX Trees
+\item Dancing Trees
+\item Fusion Trees
+\item Queap
+\end{itemize}
+
+\subsection{Multiway Trees}
+Multiway trees are trees which can have more than two children, as well as multiple values per node. We refer to multiway trees with a maximum of $m$ children as {\bf multiway trees of order $m$}.
+
+There exist the following standard multiway tree implementations:
+\begin{itemize}
+\item (a,b) Trees
+\item And-Or Trees
+\item Disjoint-Set Data Structure
+\item Enfilade
+\item Exponential Trees
+\item Fenwick Trees
+\item Fusion Trees
+\item K-ary Trees
+\item Link/cut Trees
+\item Spaghetti Stack
+\item SPQR Trees
+\item Ternary Trees
+\item Van Emde Boas Trees
+\end{itemize}
 
 \end{document}

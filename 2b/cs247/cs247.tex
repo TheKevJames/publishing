@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,hyperref,parskip,custom}
+\usepackage{amsmath,amssymb,hyperref,listings,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -10,6 +10,7 @@
 }
 
 \begin{document}
+\lstset{language=C++}
 
 \title{CS 247 --- Software Engineering Principles}
 \author{Kevin James}
@@ -65,7 +66,7 @@ When having an instance of a base class doesn't make sense, we can make a {\bf p
 The {\bf friend} command allows us to declare a class or function which can access the private members of the class containing the friend declaration.
 
 For example:
-\begin{verbatim}
+\begin{lstlisting}
 class Base {
     int priv;
 public:
@@ -75,7 +76,7 @@ public:
 void print (Base esab) {
     cout << esab.priv << endl;
 }
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Helper Functions}
 The best practice is to hide helper functions as \code{private} methods or within a namespace. Helper functions modularize our code, but should not pollute the gloal namespace.
@@ -87,7 +88,7 @@ An operation on an entity object should reflect a real-world event: copying is n
 
 \subsection{Singleton Design Pattern}
 The {\bf Singleton Design Pattern} ensures that only one object of our ADT exists. By using a structure of the form
-\begin{verbatim}
+\begin{lstlisting}
 class ADT {
     static ADT a;
     ADT() {}
@@ -97,7 +98,7 @@ public:
         return &a;
     }
 };
-\end{verbatim}
+\end{lstlisting}
 we can ensure that the singleton is created the first time, then \emph{referenced} every time thereafter.
 
 \subsection{Essential Methods}
@@ -139,19 +140,19 @@ The deconstructor is similar since it uses {\bf memberwise destruction}
 Entity objects are {\bf mutable}, that is, their objects can change via mutators or other functions. Value objects, though, are often {\bf immutable}: their objects can not change value, a new object must be created instead.
 
 It is possible, though, to design a mutable value-based ADT:\@
-\begin{verbatim}
+\begin{lstlisting}
 Person myPerson("David", new Date(1, "May", 1990));
 cout << myPerson.DOB;
 
 Date myDate = myPerson.DOB;
 myDate.monthIs(myDate + 1);
 cout << myPerson.DOB;
-\end{verbatim}
+\end{lstlisting}
 This is generally a bad design: this ADT has a mutable date field if and only if the constructor did not create a {\bf deep copy} of the input date and the accessor did not return a deep copy. If either of these do not create a copy, the original, mutable object continues to be accessible externally.
 
 \subsubsection{Copy Types}
 A deep copy creates an entirely new instance of an object.
-\begin{verbatim}
+\begin{lstlisting}
 class ADT {
     Date d;
 public:
@@ -159,10 +160,10 @@ public:
         d = new Date(din);
     }
 }
-\end{verbatim}
+\end{lstlisting}
 
 A {\bf shallow copy} simply creates a pointer to the copied object.
-\begin{verbatim}
+\begin{lstlisting}
 class ADT {
     Date d;
 public:
@@ -170,7 +171,7 @@ public:
         d = din;
     }
 }
-\end{verbatim}
+\end{lstlisting}
 
 \section{Polymorphism}
 The compiled byte code contains executable code for every function and method definition. The compiler can see at compile time which method should be executed. When we add virtual functions, each class with such a function will have a {\bf vtable} of pointers to these functions and a pointer to its vtable. This allows us to call the same functions from multiple subclasses without reimplementing them.
@@ -178,13 +179,13 @@ The compiled byte code contains executable code for every function and method de
 The general convention as to whether a public function is to be made virtual is made for the class as a whole instead of for each individual function. This is generally based on whether the class should be polymorphic or not.
 
 We can use the assignment operator to assign derived class instances to base class instances.
-\begin{verbatim}
+\begin{lstlisting}
 int main (void) {
     Base b(42, 'x');
     Derived d(10, 'c', 8.1);
     b = d;
 }
-\end{verbatim}
+\end{lstlisting}
 This assignment will not copy the derived class' extra data members or vpointers. We call this {\bf object slicing}.
 
 If there exists any virtual function, the class is polymorphic and should thus have a virtual destructor. If we do not implement this manually, the compiler will default to creating a non-virtual constructor.
@@ -196,15 +197,15 @@ In order to print a polymorphic function, we generally
 \end{itemize}
 
 The overloaded streaming operator generally looks similar to
-\begin{verbatim}
+\begin{lstlisting}
 std::ostream& operator<<(std::ostream& os, const ADT& adt) {
     adt.print(os);
     return os;
 }
-\end{verbatim}
+\end{lstlisting}
 
 In general, we have
-\begin{verbatim}
+\begin{lstlisting}
 class ADT {
 public:
     ADT();
@@ -214,15 +215,112 @@ public:
     virtual bool operator==(ADT& adt);
     virtual void print(std::ostream& os);
 }
+\end{lstlisting}
+
+\section{Compilation}
+We use {\bf header files} to contain our declarations and {\bf code files} to contain their implementations. Header files may be \code{\#include}'d by other modules so that they can use the interface without relying on a specific implementation.
+
+To ensure that header files are not included multiple times, we use the following {\bf header guard}:
+
+For the file \code{sample.h}, we do:
+\begin{lstlisting}
+#ifndef SAMPLE_H
+#define SAMPLE_H
+
+// contents of header file
+
+#endif
+\end{lstlisting}
+
+We can use a similar process within files when we need to reference \code{class A} from \code{class B} and vice-versa. To avoid a circular dependency, we can use {\bf forward declarations} as such
+\begin{lstlisting}
+// A.h
+class B;
+
+class A {
+    // declarations involving B
+}
+\end{lstlisting}
+and
+\begin{lstlisting}
+// B.h
+class A;
+
+class B {
+    // declarations involving A
+}
+\end{lstlisting}
+
+Since compiling and linking in C++ are seperate operations, we can compile each file seperately. This allows us to recompile only those files that have changed.
+
+Note that if a file changes, we need to recompile it as well as all other files which depend on it. This would be much easier with an automated build system.
+
+\subsection{Make, an Automated Build System}
+\code{make} is a UNIX command which uses build instructions and file dependencies provided in a \code{Makefile} as well as file timestamps to ensure it only recompiles changed files and their children.
+
+We can create Makefiles with macros, implicit rule, and automatic dependency derivations.
+
+\begin{verbatim}
+CXX_FLAGS=-g -Wall
+
+GTEST_DIR=~/gtest
+GTEST_FLAGS=-isystem $(GTEST_DIR)/include -pthread
+GTEST_LIBS=$(GTEST_DIR)/lib/*
+
+
+.SUFFIXES:
+.SUFFIXES: .o .cpp
+
+.cpp.o:
+    ${CXX} $(CXX_FLAGS) -c $<
+
+
+all: program1 program2
+
+test: program1_test program2_test
+
+
+program1: Program1.o Program1Dependency.o Common.o
+    ${CXX} $(CXX_FLAGS) $^ -o $@
+
+program1_test: Program1Test.cpp Program1.o Program1Dependency.o Common.o
+    ${CXX} $(GTEST_FLAGS) $(CXX_FLAGS) $^ $(GTEST_LIBS) -o $@;
+    ./$@
+
+program2: Program2.o Program2Dependency.o Common.o
+    ${CXX} $(CXX_FLAGS) $^ -o $@
+
+program2_test: Program2Test.cpp Program2.o Program2Dependency.o Common.o
+    ${CXX} $(GTEST_FLAGS) $(CXX_FLAGS) $^ $(GTEST_LIBS) -o $@;
+    ./$@
+
+
+clean:
+    rm -f *.o
+    rm -f program1 program1_test
+    rm -f program2 program2_test
 \end{verbatim}
 
-% HOW TO COMPILE AND LINK
+This reasonably complicated Makefile should be named \code{Makefile} (no extension) and placed in the development directory. It assumes we are uses \code{gtest} as a test suite and have the following files in the current folder: \code{Program1.cpp}, \code{Program1.h}, \code{Program1Dependency.cpp}, \code{Program1Dependency.h}, \code{Program1Test.cpp}, \code{Program2.cpp}, \code{Program2.h}, \code{Program2Dependency.cpp}, \code{Program2Dependency.h}, \code{Program2Test.cpp}, \code{Common.cpp}, \code{Common.h}
+.
+
+It relies on the \code{CXX} environment variable which {\bf SHOULD NOT BE OVERRIDEN IN A MAKEFILE} since it is defined for each user by the specific compiler they use for C++ files (e.g.\ g++, clang++, \dots).
+
+It has defined the \code{.cpp.o} suffix, which auto-creates non-existing or out-of-date object files from their particular source file. This will be called implicitely by declaring object files as dependencies to various targets (e.g.\ \code{all}, \code{test}, \code{clean}, \code{program1}, \dots).
+
+\code{all} is the standard name given to the set of commands which should be run by default. It should be responsible for compiling and linking all program components and will be run by default by calling \code{make} on the command-line.
+
+\code{test} is the standard for running a test-suite during development. \code{check} should be used for self-testing once a program is installable (which should be with the \code{install} target).
+
+\code{clean} should be used to remove all files generated by the Makefile, i.e.\ files which can be rebuilt.
+
+Further standard targets can be found at \url{http://bit.ly/1nSOZPG}.
 
 \section{Exceptions}
 An {\bf exception} is an unusual event or situtation which prevents a function from completing normally. In C++, we handle exceptions in a separate section from our normal code: risky and risk-free code is separated, different areas of our program can handle exceptions in a different manner, and errors can not be silently ignored.
 
 We handle errors in a block of code with
-\begin{verbatim}
+\begin{lstlisting}
 try {
     // risky code
 } catch(exceptionType1& e) {
@@ -235,7 +333,7 @@ try {
     std::cout << "Generated unspecified exception" << std::endl;
     throw;
 }
-\end{verbatim}
+\end{lstlisting}
 
 An exception is handled by the ``nearest'' handler whose argument matches its type. A {\bf local exception} is one which is handled in the same routine as it is thrown (e.g.\ through an alternative computatino or return value). Otherwise, the exception is caught by the dynamically nearest matching catch-clause whose try-block encloses the throw. If there is no matching handler, the program aborts.
 
@@ -288,5 +386,30 @@ A simple design has no duplicated code or logic. {\bf Refactoring} is the proces
 The baseic rule of {\bf automated testing} is ``write the tests first''. Automated tests should become an integral component of the program, which can be allowed to self-test at any time. System integration takes place as often as possible. Automated testing ensures that a working version of the program always exists.
 
 Design simplicity makes it easy to write tests. Each programmer thinks of ways to test their partner's ideas. A successful test provides the gratification which programmers crave.
+
+\section{Design Patterns}
+{\bf Design patterns} are codified solutions that put design principles into practice to improve the modularity and flexibility of our code.
+
+\subsection{Template Method Pattern}
+{\bf Problem:} duplicate code. Multiple sublcass methods have simila algotihm structure.
+
+{\bf Solution:} localize duplicate code structure in abstract class. Abstract class defines a template method (of common code) that calls pure virtual subroutines. Subclasses override the subroutines.
+
+Alternatively, a template method is a bse-class method that defines a common code structure but includes primitive operations (holes) to be defined by subclass methods. It is essential that the template method be nonvirtual and the primitive operations be virtual functions in the base class.
+
+\subsection{Adaptor Pattern}
+{\bf Problem:} interface mismatch between two modules. If you want to reuse an existing class though its interface does not match what is needed. Alternatively, if the interface of one of our modules changes and we don't want to make major changes to the existing code.
+
+{\bf Solution:} define an adaptor class that maps one interface to another.
+
+\subsection{Facade Pattern}
+{\bf Problem:} complex interface. Client of a subsystem interacts with multiple complex classes.
+
+{\bf Solution:} create a single, simplified interface (class). Restrict, simplify client's interactions with subsystems' classes.
+
+\subsection{Strategy Pattern}
+{\bf Problem:} want to vary an algorithm at runtime.
+
+{\bf Solution:} encapsulate the algorithm decision. Define algorithm to a component object and use subclassing to specialize the algorithm in different ways.
 
 \end{document}
