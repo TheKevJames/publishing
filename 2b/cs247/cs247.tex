@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,hyperref,listings,parskip,custom}
+\usepackage{amsmath,amssymb,bookmark,listings,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -306,7 +306,16 @@ This reasonably complicated Makefile should be named \code{Makefile} (no extensi
 
 It relies on the \code{CXX} environment variable which {\bf SHOULD NOT BE OVERRIDEN IN A MAKEFILE} since it is defined for each user by the specific compiler they use for C++ files (e.g.\ g++, clang++, \dots).
 
-It has defined the \code{.cpp.o} suffix, which auto-creates non-existing or out-of-date object files from their particular source file. This will be called implicitely by declaring object files as dependencies to various targets (e.g.\ \code{all}, \code{test}, \code{clean}, \code{program1}, \dots).
+It has defined the \code{.cpp.o} suffix, which auto-creates non-existing or out-of-date object files from their particular source file. This will be called implicitely by declaring object files as dependencies to various targets (e.g.\ \code{all}, \code{test}, \code{clean}, \code{program1}, \dots). Note that I have not defined the dependencies for each object file (e.g.\ \code{Common.o} is based on \code{Common.cpp} and \code{Common.h}, but I have not explicitely declared this). Any object file will by default be built from a file of the same name with the \code{cpp} extension. If we want to change these dependencies, we can do so with
+\begin{verbatim}
+...
+.cpp.o:
+    ${CXX} $(CXX_FLAGS) -c $<
+
+Common.o: Common.cpp First.cpp Second.cpp
+
+...
+\end{verbatim}
 
 \code{all} is the standard name given to the set of commands which should be run by default. It should be responsible for compiling and linking all program components and will be run by default by calling \code{make} on the command-line.
 
@@ -355,7 +364,23 @@ An \code{auto\_ptr} is not a substitute for a standard pointer.
 \item we cannot use \code{auto\_ptr}s in STL containers
 \end{itemize}
 
-% GET NOTES FROM LARA
+To use an \code{auto\_ptr}, we must \code{\#include <memory>}
+
+An \code{auto\_ptr} requires less explicit management by the programmer, since all standard tasks are dealt with automatically. However, since only one \code{auto\_ptr} can refer to any unique object, the \code{auto\_ptr} may not always be useable.
+
+We can use an \code{auto\_ptr} as follows
+\begin{lstlisting}
+#include <memory>
+
+std::auto_ptr<int> pointer;
+
+std::cout << *pointer.get() << std::endl;
+// prints ``0''
+
+pointer.reset(42);
+std::cout << *pointer.get() << std::endl;
+// prints ``42''
+\end{lstlisting}
 
 \section{Development Practices}
 There are many problem areas in program development: code ownership, testing, managing complex requirements, \dots
