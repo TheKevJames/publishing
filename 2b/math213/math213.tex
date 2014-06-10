@@ -525,7 +525,7 @@ The Laplace transformation obeys the following key properties:
 \item Exponential Modulation: $\mathcal{L} \{e^{\alpha t} f(t)\} = F(s-\alpha)$
 \item Time Shifting: Suppose $F(s) = \mathcal(L) \{ f(t) u_{-1}(t) \}$ and let $g(t) = f(t - T)u_{-1}(t - T)$. Then $G(S) = \mathcal{L} \{g(t)\} = e^{-sT} F(s)$
 \item Multiplication by $t$: $\mathcal{L} \{ tf(t) \} = -\frac{\dd}{\dd s} F(s)$
-\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms and we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
+\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f^\prime(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms and we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
 \end{itemize}
 
 \subsubsection{Solving Differential Equations with Laplace Transforms}
