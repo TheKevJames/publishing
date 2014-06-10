@@ -549,4 +549,25 @@ y(t) &= \frac{3}{2}e^{-t} + t - 1 + \half e^t \text{, given }t \geq 0
 \end{align*}
 \end{example}
 
+\subsubsection{Inversion Integral}
+We know that $\mathcal{L} ^{-1} \{ F(s) + G(s) \} = f(t) + g(t)$. Thus we have \[ \mathcal{L}^{-1} \{ F(s)G(s) \} = (f * g)(t) = \int_{-\infty}^\infty f(\tau)g(t-\tau) \dd\tau \] which is the {\bf convolution} of $f$ and $g$. Given $u = t - \tau$, we can see that this operation is commutative (e.g.\ the convolution of $f$ and $g$ is equivalent to the convolution of $g$ and $f$).
+
+Consider two ``discrete-time'' functions $f,g : \mathbb{Z} \to \mathbb{C}$ that are nonzero only for a finite number of nonnegative integers. We can think of $f$ and $g$ as representations of two polynomials \[ p(x) = \sum_{n=-\infty}^\infty f(n)x^n \] and \[ q(x) = \sum_{n=-\infty}^\infty g(n) x^n \]
+
+Then the convolution $f * g$ represents the product of $p$ and $q$.
+
+Suppose that, for some real $\alpha, \beta$, the integrals \[ \int_{-\infty}^\infty |f(t)| e^{-\alpha t} \dd t \] and \[ \int_{-\infty}^\infty |g(t)| e^{-\beta t} \dd t \] converge. We'll show that this means that $(f * g)(t)$ has a transform \[ \mathcal{L} \{ (f*g)(t) \} = F(s)G(s) \]
+
+Suppose that $\gamma \geq \alpha, \beta$ and consider the product of the two integrals
+\begin{align*}
+&\int_{-\infty}^\infty |f(t)| e^{-\gamma t} \dd t \int_{-\infty}^\infty |g(\tau)| e^{-\gamma \tau} \dd \tau\\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty |f(t)|e^{-\gamma t} |g(\tau)|e^{-\gamma \tau} \dd t \dd \tau\\
+&= \int_{-\infty}^\infty\int_{-\infty}^\infty |f(u-\tau)|e^{-\gamma(u-\tau)} |g(\tau)|e^{-\gamma \tau} \dd u \dd \tau\\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty |f(u-\tau)|e^{-\gamma(u-\tau)} |g(\tau)| e^{-\gamma \tau} \dd \tau \dd u\\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty |f(u-\tau)| |g(\tau)| \dd \tau e^{-\gamma t} \dd u \\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty |f(u-\tau) g(\tau)| \dd \tau e^{-\gamma u} \dd u\\
+&\geq \int_{-\infty}^\infty \bigg| \int_{-\infty}^\infty f(u-\tau)g(\tau) \dd \tau \bigg| e^{-\gamma u} \dd u
+\end{align*}
+so the last integral converges and $(f * g)$ has a Laplace transform.
+
 \end{document}
