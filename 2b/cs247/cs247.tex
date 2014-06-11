@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,bookmark,listings,parskip,custom}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -10,7 +10,6 @@
 }
 
 \begin{document}
-\lstset{language=C++}
 
 \title{CS 247 --- Software Engineering Principles}
 \author{Kevin James}
@@ -66,7 +65,7 @@ When having an instance of a base class doesn't make sense, we can make a {\bf p
 The {\bf friend} command allows us to declare a class or function which can access the private members of the class containing the friend declaration.
 
 For example:
-\begin{lstlisting}
+\begin{verbatim}
 class Base {
     int priv;
 public:
@@ -76,7 +75,7 @@ public:
 void print (Base esab) {
     cout << esab.priv << endl;
 }
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Helper Functions}
 The best practice is to hide helper functions as \code{private} methods or within a namespace. Helper functions modularize our code, but should not pollute the gloal namespace.
@@ -88,7 +87,7 @@ An operation on an entity object should reflect a real-world event: copying is n
 
 \subsection{Singleton Design Pattern}
 The {\bf Singleton Design Pattern} ensures that only one object of our ADT exists. By using a structure of the form
-\begin{lstlisting}
+\begin{verbatim}
 class ADT {
     static ADT a;
     ADT() {}
@@ -98,7 +97,7 @@ public:
         return &a;
     }
 };
-\end{lstlisting}
+\end{verbatim}
 we can ensure that the singleton is created the first time, then \emph{referenced} every time thereafter.
 
 \subsection{Essential Methods}
@@ -140,19 +139,19 @@ The deconstructor is similar since it uses {\bf memberwise destruction}
 Entity objects are {\bf mutable}, that is, their objects can change via mutators or other functions. Value objects, though, are often {\bf immutable}: their objects can not change value, a new object must be created instead.
 
 It is possible, though, to design a mutable value-based ADT:\@
-\begin{lstlisting}
+\begin{verbatim}
 Person myPerson("David", new Date(1, "May", 1990));
 cout << myPerson.DOB;
 
 Date myDate = myPerson.DOB;
 myDate.monthIs(myDate + 1);
 cout << myPerson.DOB;
-\end{lstlisting}
+\end{verbatim}
 This is generally a bad design: this ADT has a mutable date field if and only if the constructor did not create a {\bf deep copy} of the input date and the accessor did not return a deep copy. If either of these do not create a copy, the original, mutable object continues to be accessible externally.
 
 \subsubsection{Copy Types}
 A deep copy creates an entirely new instance of an object.
-\begin{lstlisting}
+\begin{verbatim}
 class ADT {
     Date d;
 public:
@@ -160,10 +159,10 @@ public:
         d = new Date(din);
     }
 }
-\end{lstlisting}
+\end{verbatim}
 
 A {\bf shallow copy} simply creates a pointer to the copied object.
-\begin{lstlisting}
+\begin{verbatim}
 class ADT {
     Date d;
 public:
@@ -171,7 +170,7 @@ public:
         d = din;
     }
 }
-\end{lstlisting}
+\end{verbatim}
 
 \section{Polymorphism}
 The compiled byte code contains executable code for every function and method definition. The compiler can see at compile time which method should be executed. When we add virtual functions, each class with such a function will have a {\bf vtable} of pointers to these functions and a pointer to its vtable. This allows us to call the same functions from multiple subclasses without reimplementing them.
@@ -179,13 +178,13 @@ The compiled byte code contains executable code for every function and method de
 The general convention as to whether a public function is to be made virtual is made for the class as a whole instead of for each individual function. This is generally based on whether the class should be polymorphic or not.
 
 We can use the assignment operator to assign derived class instances to base class instances.
-\begin{lstlisting}
+\begin{verbatim}
 int main (void) {
     Base b(42, 'x');
     Derived d(10, 'c', 8.1);
     b = d;
 }
-\end{lstlisting}
+\end{verbatim}
 This assignment will not copy the derived class' extra data members or vpointers. We call this {\bf object slicing}.
 
 If there exists any virtual function, the class is polymorphic and should thus have a virtual destructor. If we do not implement this manually, the compiler will default to creating a non-virtual constructor.
@@ -197,15 +196,15 @@ In order to print a polymorphic function, we generally
 \end{itemize}
 
 The overloaded streaming operator generally looks similar to
-\begin{lstlisting}
+\begin{verbatim}
 std::ostream& operator<<(std::ostream& os, const ADT& adt) {
     adt.print(os);
     return os;
 }
-\end{lstlisting}
+\end{verbatim}
 
 In general, we have
-\begin{lstlisting}
+\begin{verbatim}
 class ADT {
 public:
     ADT();
@@ -215,7 +214,7 @@ public:
     virtual bool operator==(ADT& adt);
     virtual void print(std::ostream& os);
 }
-\end{lstlisting}
+\end{verbatim}
 
 \section{Compilation}
 We use {\bf header files} to contain our declarations and {\bf code files} to contain their implementations. Header files may be \code{\#include}'d by other modules so that they can use the interface without relying on a specific implementation.
@@ -223,33 +222,33 @@ We use {\bf header files} to contain our declarations and {\bf code files} to co
 To ensure that header files are not included multiple times, we use the following {\bf header guard}:
 
 For the file \code{sample.h}, we do:
-\begin{lstlisting}
+\begin{verbatim}
 #ifndef SAMPLE_H
 #define SAMPLE_H
 
 // contents of header file
 
 #endif
-\end{lstlisting}
+\end{verbatim}
 
 We can use a similar process within files when we need to reference \code{class A} from \code{class B} and vice-versa. To avoid a circular dependency, we can use {\bf forward declarations} as such
-\begin{lstlisting}
+\begin{verbatim}
 // A.h
 class B;
 
 class A {
     // declarations involving B
 }
-\end{lstlisting}
+\end{verbatim}
 and
-\begin{lstlisting}
+\begin{verbatim}
 // B.h
 class A;
 
 class B {
     // declarations involving A
 }
-\end{lstlisting}
+\end{verbatim}
 
 Since compiling and linking in C++ are seperate operations, we can compile each file seperately. This allows us to recompile only those files that have changed.
 
@@ -329,7 +328,7 @@ Further standard targets can be found at \url{http://bit.ly/1nSOZPG}.
 An {\bf exception} is an unusual event or situtation which prevents a function from completing normally. In C++, we handle exceptions in a separate section from our normal code: risky and risk-free code is separated, different areas of our program can handle exceptions in a different manner, and errors can not be silently ignored.
 
 We handle errors in a block of code with
-\begin{lstlisting}
+\begin{verbatim}
 try {
     // risky code
 } catch(exceptionType1& e) {
@@ -342,7 +341,7 @@ try {
     std::cout << "Generated unspecified exception" << std::endl;
     throw;
 }
-\end{lstlisting}
+\end{verbatim}
 
 An exception is handled by the ``nearest'' handler whose argument matches its type. A {\bf local exception} is one which is handled in the same routine as it is thrown (e.g.\ through an alternative computatino or return value). Otherwise, the exception is caught by the dynamically nearest matching catch-clause whose try-block encloses the throw. If there is no matching handler, the program aborts.
 
@@ -351,7 +350,7 @@ A function may declare a {\bf throw list} of potential exceptions it can throw. 
 In order to fully support blind inheritance and allow libraries to change, it is best practice not to use throw lists.
 
 \section{Resource Acquistion is Initialization (RAII)}
-The {\bf RAII} idiom equates resource management with object lifetimes. The resource is allocated in the objects constructor and deallocated in its destructor. The standard function signatures are \code{resourceType* allocate(...)} and \code{void release(resourceType*)}
+The {\bf RAII} idiom equates resource management with object lifetimes. The resource is allocated in the objects constructor and deallocated in its destructor. The standard function signatures are \code{resourceType* allocate(\dots)} and \code{void release(resourceType*)}
 
 \subsection{Smart Pointers}
 A {\bf smart pointer} is an ADT which simulates a pointer while using RAII to provide automatic deallocation. In C99, the \code{auto\_ptr<type>} object is used for this. In C++11, we have \code{unique\_ptr<type>} for single-owner transferable references and \code{shared\_ptr<type>} for multiple-owner automatic deallocation upon lack of references.
@@ -369,7 +368,7 @@ To use an \code{auto\_ptr}, we must \code{\#include <memory>}
 An \code{auto\_ptr} requires less explicit management by the programmer, since all standard tasks are dealt with automatically. However, since only one \code{auto\_ptr} can refer to any unique object, the \code{auto\_ptr} may not always be useable.
 
 We can use an \code{auto\_ptr} as follows
-\begin{lstlisting}
+\begin{verbatim}
 #include <memory>
 
 std::auto_ptr<int> pointer;
@@ -380,7 +379,7 @@ std::cout << *pointer.get() << std::endl;
 pointer.reset(42);
 std::cout << *pointer.get() << std::endl;
 // prints ``42''
-\end{lstlisting}
+\end{verbatim}
 
 \section{Development Practices}
 There are many problem areas in program development: code ownership, testing, managing complex requirements, \dots
@@ -402,7 +401,7 @@ Design cimplicity ensures that a short-term pairing can be productive. By establ
 
 Pair programming also fosters collective ownership. Any programmer may change any portion of the code at any given time. System integration takes place as often as possible to identify conflicting changes. A working version always exists.
 
-The basic rule of {\bf design simplicity} is ``build the simplest thing that works''. Simple deigns lead to code that can easily be modified or replaced as requirements evolve. ``Embrace change'' is the motto of XP.
+The basic rule of {\bf design simplicity} is ``build the simplest thing that works''. Simple deigns lead to code that can easily be modified or replaced as requirements evolve. ``Embrace change'' is the motto of XP.\@
 
 Pair programming forces an immediate ``simplicity check'' as design ideas are explained to the second programmer. Automated testing gives programmers the confidence that design changes have been correctly implemented. An overall system metaphor guides the design process.
 
@@ -436,5 +435,44 @@ Alternatively, a template method is a bse-class method that defines a common cod
 {\bf Problem:} want to vary an algorithm at runtime.
 
 {\bf Solution:} encapsulate the algorithm decision. Define algorithm to a component object and use subclassing to specialize the algorithm in different ways.
+
+\section{UML Modelling}
+A model is an abstraction of something for the purpose of understanding it before building it, communicating it to others, and answering questions about it.
+
+{\bf Unified Modelling Language} is a collection of notations for representing different views of a software design.
+
+Structural Diagrams:
+\begin{itemize}
+\item class diagram
+\item component diagram
+\item composite structure diagram
+\item deployment diagram
+\item object diagram
+\item package diagram
+\item profile diagram
+\end{itemize}
+
+Behaviour Diagrams:
+\begin{itemize}
+\item activity diagram
+\item communication diagram
+\item interaction overview diagram
+\item sequence diagram
+\item state diagram
+\item timing diagram
+\item use case diagram
+\end{itemize}
+
+\subsection{UML Class Diagrams}
+A box represents a class and defines the class name, the set of attributes and initial values, and the set of operations and signatures. These can be expressed at different levels of abstraction: just the name, the name and public attributes, or everything along with their individual private/public/virtual etc.\ status.
+
+An {\bf association} between two classes indicates that there exists a physical or conceptual link between objects of those classes.
+
+{\bf Multiplicity} annotations constrain the number of allowable links in association. We can either give specific values (\code{x}), ranges of values (\code{x\dots
+ y}), or ``greater-than'' values (\code{x\dots *})---note that we can use \code{*} to denote ``any number''. If we have no annotation, the multiplicity is unspecified.
+
+A class association represents link attributes: properties of the link which cannot be attributed to either object. A composition is a stronger ``part of'' relation between a composite object and its components. A part does not exist without its composite (and belongs to at most one composite) and the composite is responsible for creating and destroying members.
+
+The UML uses the term {\bf generalization} for the subtype relationship between a base class and its derived classes. Every member of a derived class is a member of its base class. Attributes and associations of the base class are attributes and associations of the derived class.
 
 \end{document}

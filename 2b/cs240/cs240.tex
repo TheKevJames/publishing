@@ -434,12 +434,48 @@ We can implement a dictionary in several ways
 \item as a linked list: has $\Theta(n)$ search and deletion time and $\Theta(1)$ insertion time
 \end{itemize}
 
+\subsection{Hashing}
+One problem with dictionaries is that we can only address directly if the keys are integers. If we use a {\bf hashing function} $h: U \to \{0, 1, \dots, M-1\}$ (assuming all keys come from some universe $U$), we find $M$ unique keys which we can use for addressing. Unfortunately, $h$ is not injective and we may have many keys mapping to the same integer.
+
+A {\bf hash table dictionary} has an array $T$ of size $M$ (the hash table). An item with key $k$ is stored in $T[h(k)]$, and we can have \code{search}, \code{insert}, and \code{delete} all cost $O(1)$. The challenges to this approach are selecting a good hashing algorithm and dealing with {\bf collisions} (when $h(k_1) = h(k_2)$).
+
+There are two common hashing functions (assuming all keys are integers or can be mapped to integers):
+\begin{itemize}
+\item the {\bf division method} $h(k) = k \pmod M$ where $M$ is a prime not close to a power of two, and
+\item the {\bf multiplication method} $h(k) = \lfloor M(kA - \lfloor kA \rfloor)\rfloor$ from some constant floating-point number $0 < A < 1$. Knuth suggests $A = \frac{\sqrt{5} - 1}{2}$.
+\end{itemize}
+
+Even the best functions may have collisioins. There are two basic strategies for dealing with the case where we are attempting to insert an item into an already existing location. We could allow multiple items at each location (buckets) or allow each item to go into multiple locations (open addressing). The average cost of collision operations is denoted by the {\bf load factor} $\alpha = \frac{n}{M}$ and we will generally want to rebuild our entire hash table (i.e.\ rehash) when the load factor gets either too large or too small. This should cost roughly $\Theta(n + M)$.
+
+\subsubsection{Chaining}
+To use {\bf chaining} to solve our collisions, each table entry must be a bucket containing zero or more KVPs. This could be implemented with any dictionary (or recursive hashtable). The simplest approach is an unsorted linked list in each bucket.
+
+Assuming we have a uniform hashing function, the average size of each bucket is $\alpha = \frac{n}{M}$. Then we have
+\begin{itemize}
+\item \code{search} has $\Theta(1+\alpha)$ average-case time and $\Theta(n)$ worst-case time
+\item \code{insert} has $O(1)$ worst-case time
+\item \code{delete} has $\Theta(1+\alpha)$ average-case time and $\Theta(n)$ worst-case time
+\end{itemize}
+
+If we maintain $M \in \Theta(n)$, the average cost for each of these functions is $O(1)$. This can be accomplished by rehashing when $n < c_0M$ or $n > c_1M$ for some $0 < c_0 < c_1$.
+
+\subsubsection{Open Addressing}
+We can also use {\bf open addressing} to solve our collision problems. In this case, each hash table entry holds only one item but any key $k$ can be placed in multiple locations. \code{search} and \code{insert} follow a {\bf probe sequence} of possible locations for key $k$: $h(k,0), h(k,1), h(k,2), \dots$. \code{delete} becomes problematic: we must distinguish between \emph{empty} and \emph{deleted} locations. The simplest idea is lineary probing: $h(k,i) = (h(k) + i) \pmod M$.
+
+\subsubsection{Double Hashing}
+Suppose we have two hash functions $h_1$ and $h_2$ and that these functions are independant. Then we can define $h(k,i) = h_1(k) + ih_2(k) \pmod m$. Our three standard functions work in the same way as linear probing, but follow this different probe sequence.
+
+In this case, we avoid creating large islands of numbers which must be repeatedly walked through.
+
+\subsubsection{Cuckoo Hashing}
+The Cuckoo hashing algorithm also uses two hashing algorithms: the idea, though, is to always insert a new item into $h_1(k)$. If this overwrites another element, we simply re-insert the old element into its alternate position.
+
 \section{Trees}
 \subsection{Binary Trees}
 Binary trees are the most common tree structure. Their defining factor is nodes with a single value.
 
 \subsubsection{Binary Search Trees}
-A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child BST. Every key $k_L$ in $T.left$ is less than the root key, every key $k_R$ in $T.right$ is greater. These properties are recursive.
+A {\bf BST} is either empty or contains a KVP, left-child BST, and right-child BST.\@ Every key $k_L$ in $T.left$ is less than the root key, every key $k_R$ in $T.right$ is greater. These properties are recursive.
 
 \begin{figure}[ht]
 \Tree
@@ -542,7 +578,7 @@ We define $N(h)$ to be the least number of nodes in an AVL with height $h$. One 
 0 & h = -1
 \end{cases}\]
 
-Red-black trees are another binary tree implementation which is somewhat similar to AVL trees.
+Red-black trees are another binary tree implementation which is somewhat similar to AVL trees. They have a minsize 1 and a maxsize 3, but represent 2- or 3-nodes as two or three distinct binary nodes with a color (i.e.\ ``red'' or ``black'').
 
 There also exist the following other binary tree implementations:
 \begin{itemize}
@@ -563,14 +599,6 @@ There also exist the following other binary tree implementations:
 A {\bf B tree} is a classification of trees which have a more generalized structure than BSTs. Instead of each node having a single value, B tree nodes have multiple values. All B tree leaves must be at the same level.
 
 A {\bf B tree of minsize $d$} is a B tree with each node containing at most $2d$ values and each non-root node containing at least $d$ values. A B tree of minsize $d$ is typically also refered to as a B tree of order $(2d+1)$, or (even more specifically) a $(d+1)$-$(2d+1)$ tree. For example, a 2-3 tree (introduced below) has $d = 1$.
-
-The most representative implementations of B trees are:
-\begin{itemize}
-\item B Trees
-\item B* Trees
-\item B+ Trees
-\item B\# Trees
-\end{itemize}
 
 \subsubsection{2-3 Trees}
 A {\bf 2-3 tree} is a BST with additional structural properties:
@@ -609,6 +637,14 @@ We also have the following other B tree implementations:
 \item Queap
 \end{itemize}
 
+Each implementation of a B tree has the following variations
+\begin{itemize}
+\item B Trees: standard implementation
+\item B+ Trees: all data stored in leaves (nodes are only used for determining which path to follow)
+\item B\# Trees: all data stored in leaves, rotation operation is only defined for siblings
+\item B* Trees: all data stored in leaves, nodes are kept $\frac{2}{3}$ full by redistributing to three binary children leaves (two with data, one without)
+\end{itemize}
+
 \subsection{Multiway Trees}
 Multiway trees are trees which can have more than two children, as well as multiple values per node. We refer to multiway trees with a maximum of $m$ children as {\bf multiway trees of order $m$}.
 
@@ -628,5 +664,7 @@ There exist the following standard multiway tree implementations:
 \item Ternary Trees
 \item Van Emde Boas Trees
 \end{itemize}
+
+
 
 \end{document}
