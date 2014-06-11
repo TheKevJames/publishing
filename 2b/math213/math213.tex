@@ -570,4 +570,55 @@ Suppose that $\gamma \geq \alpha, \beta$ and consider the product of the two int
 \end{align*}
 so the last integral converges and $(f * g)$ has a Laplace transform.
 
+\subsubsection{Initial-Value Theorem}
+
+\begin{definition}
+A function $f(t)$ is piecewise-continuous on an interval $[a,b] (\{t: a \leq t \leq b \})$ if $f$ is continuous and bounded everywhere in this interval, except possibly at some finite number of points.
+
+Moreover, at any discontinuity $t_0$, the limits \[ f(t_0^-) = \lim_{t\uparrow t_0} f(t) \] and \[ f(t_0^+) = \lim_{t\downarrow t_0} f(t) \] must exist.
+
+If $f$ is piecewise-continuous in all such intervals, then $f$ is piecewise-continuous.
+\end{definition}
+
+\begin{theorem}[The Initial-Value Theorem]
+If $f$ is piecewise-continuous and there exists a real $\alpha$ such that \[ \int_{-\infty}^\infty |f(t)| e^{-\alpha t} \dd t\] converges, then \[ f(0^+) = \lim_{s\to\infty} sF(s) \]
+
+This gives a means of finding $f(0^+)$ from $F(s)$ withouts inverting the transform.
+\end{theorem}
+
+This limit shows us that the real part of $s$ trends to $+\infty$.
+
+\begin{proof}
+\begin{align*}
+\lim_{s\to\infty} sF(s) &= \lim_{s\to\infty} s\int_{0^-}^\infty f(t) e^{-st} \dd t\\
+&= \lim_{s\to\infty} s\int_{0^-}^\epsilon f(t) e^{-st} \dd t + \lim_{s\to\infty} s\int_\epsilon^\infty f(t) e^{-st} \dd t\\
+&= \lim_{s\to\infty} s\int_{0^-}^\epsilon f(t) e^{-st} \dd t + \lim_{s\to\infty} \int_\epsilon^\infty f(t) se^{-st} \dd t\\
+&= \lim_{s\to\infty} s\int_{0^-}^\epsilon f(t) e^{-st} \dd t + \int_\epsilon^\infty \lim_{s\to\infty} f(t) se^{-st} \dd t\\
+&= \lim_{s\to\infty} s\int_{0^-}^\epsilon f(t) e^{-st} \dd t
+\end{align*}
+As $\epsilon$ approaches zero, this approaches
+\begin{align*}
+&= \lim_{s\to\infty} s\int_{0^-}^\epsilon f(0^+) e^{-st} \dd t\\
+&= \lim_{s\to\infty} s f(0^+) \bigg[ \frac{1-e^{-s\epsilon}}{s} \bigg]\\
+&= \lim_{s\to\infty} f(0^+) (1-e^{-s\epsilon})\\
+&= f(0^+)
+\end{align*}
+\end{proof}
+
+\subsubsection{Rational Functions}
+Many of the Laplace transforms we've seen are rational functions (functions represented as ratios of polynomials). As with rational numbers, we generally cancel out common factors in the numerator and denominator.
+
+Moreover, just as the rational numbers extend the integers to a field, so too do the rational functions extend the polynomials to a field.
+
+The roots of the numerator are called the (finite) zeroes of the function; those of the denominator are the (finite) poles.
+
+A function which has no finite zeroes such as $\frac{1}{s^2}$ is said to have zeroes at infinity, since in the theory of functions of a complex variable they tend to zero as $s\to\infty$. The reciprocal of this type of function is said to have poles at infinity.
+
+If we don't specify finite or infinite, we tend to be refering to finite functions.
+
+A rational function is {\bf proper} if the degree of the numerator is no greater than that of the denominator. If the degree of the numerator is strictly less than that of the denominator, the funtion is strictly proper.
+
+\subsubsection{Final-Value Theorem}
+Let $F(s)$ be a proper rational functions, all of whose poles have real parts that are strictly negative, with the possible expection of a single pole at $s = 0$. Alternatively, $F(s)$ may consist of such a function multiplied by an exponential. Then \[ \lim_{s\to\infty} f(t) = \lim_{s\to\infty} sF(s) \] Moreover, if the poles of $F(s)$ do not satisfy the above assumption, then the limit on the left side does not exist.
+
 \end{document}
