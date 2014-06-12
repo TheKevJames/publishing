@@ -436,6 +436,41 @@ Alternatively, a template method is a bse-class method that defines a common cod
 
 {\bf Solution:} encapsulate the algorithm decision. Define algorithm to a component object and use subclassing to specialize the algorithm in different ways.
 
+\subsection{Observer Pattern}
+{\bf Problem:} we have a set of data which we want to display or use in multiple places.
+
+One way to solve this would be to create a \code{updateAll()} function. However, having to maintain a dependency chart within a member function is generally not a good idea: we would need to change code in multiple places to add new data and all state-changing operations would have to call this update function. Furthermore, changes at runtime may not be properly propogated.
+
+{\bf Solution:} alternatively, we could ensure that all classes relying on our changed data (``Observers'') are within a collection in the data (``Subject'') class and derive from a base class with an \code{update(state)} method. Then, the Subject class simply needs to iterate through this collection and call the \code{update()} method on each of them.
+
+We can extend this second option by adding member functions to the Subject class which will add and remove displays from the collection. Traditionally, we use the Subject member functions \code{subscribe()}, \code{unsubscribe()}, and \code{change()}.
+
+Any classes derived from the Subject class may provide methods for getting and settings state information; these, of course, must call the \code{change()} method of the base class. Any clases derived from the Observer class must simply reimplement the \code{update(state)} function.
+
+The observer pattern described above is the {\bf push} form: data is pushed along with the \code{update} call to each observer. Instead, we can send empty \code{update} method calls and instead have each observer access the data from our Subject class upon update. This can be useful when various observers care about different state information.
+
+Either implementation of the observer pattern minimizes coupling between Subjects and Observers: the resulting classes are thus easier to reuse and the Observers can easily change at runtime.
+
+\subsection{Model-View-Controller Pattern}
+The {\bf MVC} design pattern is a collection of design patterns which decouple UI code from application code. The Model is our backend application code, the View is the frontend UI code, and the Controller is the interface between the two which takes in user input and translates that to an application code call.
+
+MVC makes heavy use of observers (the view is an observer of the model), strategies (the controller varies the model), and composites (throughout).
+
+The main function for a MVC program (more specifically, for a GTK-based project) would be written as
+\begin{verbatim}
+int main(int argc, char *argv[]) {
+    Gtk::main kit(argc, argv);
+
+    Model model;
+    Controller controller(&model);
+    View view(&controller, &model);
+
+    Gtk::main::run(view);
+
+    return 0;
+}
+\end{verbatim}
+
 \section{UML Modelling}
 A model is an abstraction of something for the purpose of understanding it before building it, communicating it to others, and answering questions about it.
 
@@ -468,11 +503,18 @@ A box represents a class and defines the class name, the set of attributes and i
 
 An {\bf association} between two classes indicates that there exists a physical or conceptual link between objects of those classes.
 
-{\bf Multiplicity} annotations constrain the number of allowable links in association. We can either give specific values (\code{x}), ranges of values (\code{x\dots
- y}), or ``greater-than'' values (\code{x\dots *})---note that we can use \code{*} to denote ``any number''. If we have no annotation, the multiplicity is unspecified.
+{\bf Multiplicity} annotations constrain the number of allowable links in association. We can either give specific values (\code{x}), ranges of values (\code{x\dots y}), or ``greater-than'' values (\code{x\dots *})---note that we can use \code{*} to denote ``any number''. If we have no annotation, the multiplicity is unspecified.
 
 A class association represents link attributes: properties of the link which cannot be attributed to either object. A composition is a stronger ``part of'' relation between a composite object and its components. A part does not exist without its composite (and belongs to at most one composite) and the composite is responsible for creating and destroying members.
 
 The UML uses the term {\bf generalization} for the subtype relationship between a base class and its derived classes. Every member of a derived class is a member of its base class. Attributes and associations of the base class are attributes and associations of the derived class.
+
+\subsection{UML Object Models}
+An {\bf object model} is a runtime instance of a class model: every object is an instantiation of a specific class and every link between two objects is an instantiation of a specific association.
+
+The value of each assigned data member is represented, which allows us to easily analyse the program state.
+
+\subsection{UML Sequence Diagram}
+A {\bf UML Sequence Diagram} is a graphical model of communication events between objects, as exhibitied in one execution trace. It is similar to a timeline view of your program specific to several classes / functions.
 
 \end{document}

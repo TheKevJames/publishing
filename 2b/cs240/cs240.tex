@@ -445,7 +445,9 @@ There are two common hashing functions (assuming all keys are integers or can be
 \item the {\bf multiplication method} $h(k) = \lfloor M(kA - \lfloor kA \rfloor)\rfloor$ from some constant floating-point number $0 < A < 1$. Knuth suggests $A = \frac{\sqrt{5} - 1}{2}$.
 \end{itemize}
 
-Even the best functions may have collisioins. There are two basic strategies for dealing with the case where we are attempting to insert an item into an already existing location. We could allow multiple items at each location (buckets) or allow each item to go into multiple locations (open addressing). The average cost of collision operations is denoted by the {\bf load factor} $\alpha = \frac{n}{M}$ and we will generally want to rebuild our entire hash table (i.e.\ rehash) when the load factor gets either too large or too small. This should cost roughly $\Theta(n + M)$.
+Even the best functions may have collisions. There are two basic strategies for dealing with the case where we are attempting to insert an item into an already existing location. We could allow multiple items at each location (buckets) or allow each item to go into multiple locations (open addressing). The average cost of collision operations is denoted by the {\bf load factor} $\alpha = \frac{n}{M}$ and we will generally want to rebuild our entire hash table (i.e.\ rehash) when the load factor gets either too large or too small. This should cost roughly $\Theta(n + M)$.
+
+The expected time of the first collision is after $\sqrt{\frac{\pi M}{2}}$ insertions, where $M$ is the size of the table. $M H_M$ items must be inserted before each slot in the table must have at least one item, where $H_M$ is roughly $\log M$.
 
 \subsubsection{Chaining}
 To use {\bf chaining} to solve our collisions, each table entry must be a bucket containing zero or more KVPs. This could be implemented with any dictionary (or recursive hashtable). The simplest approach is an unsorted linked list in each bucket.
@@ -462,10 +464,22 @@ If we maintain $M \in \Theta(n)$, the average cost for each of these functions i
 \subsubsection{Open Addressing}
 We can also use {\bf open addressing} to solve our collision problems. In this case, each hash table entry holds only one item but any key $k$ can be placed in multiple locations. \code{search} and \code{insert} follow a {\bf probe sequence} of possible locations for key $k$: $h(k,0), h(k,1), h(k,2), \dots$. \code{delete} becomes problematic: we must distinguish between \emph{empty} and \emph{deleted} locations. The simplest idea is lineary probing: $h(k,i) = (h(k) + i) \pmod M$.
 
+\begin{theorem}
+With linear probing, the average number of probess required to search in a hash table of size $M$ with $\alpha$ load factor $[n = \alpha M$ keys$]$ is \half $\bigl(1 + \frac{1}{1-\alpha}\bigl)$ when successful and \half $\bigl(1 + \frac{1}{{(1-\alpha)}^2}\bigl)$ when unsuccessful.
+
+If the average cost of searches is $t$, then for we set $\alpha < 1 - \frac{1}{\sqrt{t}}$.
+\end{theorem}
+
 \subsubsection{Double Hashing}
 Suppose we have two hash functions $h_1$ and $h_2$ and that these functions are independant. Then we can define $h(k,i) = h_1(k) + ih_2(k) \pmod m$. Our three standard functions work in the same way as linear probing, but follow this different probe sequence.
 
 In this case, we avoid creating large islands of numbers which must be repeatedly walked through.
+
+\begin{theorem}
+With double hashing, the average number of probess required to search in a hash table of size $M$ with $\alpha$ load factor $[n = \alpha M$ keys$]$ is $\frac{1}{\alpha} \ln \bigl(\frac{1}{1-\alpha}\bigl)$ when successful and $\frac{1}{1-\alpha}$ when unsuccessful.
+
+If the average cost of searches is $t$, then for we set $\alpha < 1 - \frac{1}{t}$.
+\end{theorem}
 
 \subsubsection{Cuckoo Hashing}
 The Cuckoo hashing algorithm also uses two hashing algorithms: the idea, though, is to always insert a new item into $h_1(k)$. If this overwrites another element, we simply re-insert the old element into its alternate position.
