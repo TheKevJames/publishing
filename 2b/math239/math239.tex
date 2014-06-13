@@ -401,9 +401,9 @@ The base case is obvious: there exists only one composition of one and one compo
 
 Let $S_n^\prime = \{\text{compositions in }S_n\text{ with last part }1\}$ and $S_n^{\prime\prime} = \{\text{compositions in }S_n\text{ with last part }2\}$. Then we have a bijection from $S_n^{prime}$ to $S_{n-1}$ and from $S-n^{\prime\prime}$ to $S_{n-2}$ by removing the last element in each composition.
 
-For $(a_1, a_2, \cdots, a_k) \in S_n$, let $f(a_1, a_2, \cdots a_k) = (a_1, a_2, \cdots, a_{k-1})$. If $(a_1, \cdots, a_k) \in S_n^\prime$, then $a_k = 1$ so $f(a_1, a_2, \cdots, a_k) \in S_{n-1}$. Moreover, `adding back' a 1 to $f(a_1, \cdots, a_k)$ gives $(a_1, \cdots, a_k)$ so $f: S_n^\prime \to S_{n-1}$ is invertible and is thus a bijection, so $|S_n^\prime| = |S_{n-1}|$.
+For $(a_1, a_2, \ldots, a_k) \in S_n$, let $f(a_1, a_2, \cdots a_k) = (a_1, a_2, \ldots, a_{k-1})$. If $(a_1, \ldots, a_k) \in S_n^\prime$, then $a_k = 1$ so $f(a_1, a_2, \ldots, a_k) \in S_{n-1}$. Moreover, `adding back' a 1 to $f(a_1, \ldots, a_k)$ gives $(a_1, \ldots, a_k)$ so $f: S_n^\prime \to S_{n-1}$ is invertible and is thus a bijection, so $|S_n^\prime| = |S_{n-1}|$.
 
-Similarly, if $(a_1, \cdots, a_k) \in S_n^{\prime\prime}$, then $a_k = 2$ so $f(a_1, \cdots, a_k) \in S_{n-2}$. Again, $f: S_n^{\prime\prime} \to S_{n-2}$ is invertible, so $|S_n^{\prime\prime}| = |S_{n-2}|$.
+Similarly, if $(a_1, \ldots, a_k) \in S_n^{\prime\prime}$, then $a_k = 2$ so $f(a_1, \ldots, a_k) \in S_{n-2}$. Again, $f: S_n^{\prime\prime} \to S_{n-2}$ is invertible, so $|S_n^{\prime\prime}| = |S_{n-2}|$.
 
 Thus $|S_n| = |S_n^\prime| + |S_n^{\prime\prime}| = |S_{n-1}| + |S_{n-2}|$, as required.
 \end{proof}
@@ -474,9 +474,24 @@ So, by our decomposition rules
 
 % Get someone's Monday notes
 
-\subsubsection{Recurences with Repeated Roots}
+\subsection{Recurences with Repeated Roots}
 \begin{theorem}
 If $(a_n: n \geq 0)$ is a sequence defined by a recursion with characteristic polynomial $f(x) = {(x-\theta_1)}^{m_1} {(x-\theta_2)}^{m_2} \dots {(x-\theta_k)}^{m_k}$, then $a_n = p_1(n)\theta_1^n + p_2(n) \theta_2^n + \cdots + p_k(n) \theta_k^n$, for some polynomials $p_1(n), \dots p_k(n)$ where each $p_i$ has degree $< m_i$.
+\end{theorem}
+
+\section{Graph Theory}
+A {\bf graph} is a pair $(V,E)$ where $V$ is a finaite set of `vertices' and $E$ is a finite set of unordered pairs of distinct elements of $V$ (two-element subset of $V$) called `edges'.
+
+If two vertices are connected by an edge, they are considered adjacent. Otherwise, they are non-adjacent. The edge between two vertices is incident to each of those vertices and the vertices adjacent to another vertex are its neighbours.
+
+We say that two graphs are isomorphic (``equivalent'') if they can be drawn identically. More rigorously, we can prove that if there exists some function $f$ such that $f$ is a bijection between the vertices of each of two graphs and performing this bijection also causes the set of edges to become equivalent, then those graphs are isomorphic. This bijection must maintain adjacency, etc.
+
+Foramlly, we have: $G_1$ and $G_2$ are isomorphic if there exists a bijection $\varphi : V_1 \to V_2$ such that $x$ and $y$ are adjacent in $G-1$ if and only if $\varphi(x)$ and $\varphi(y)$ are adjacent in $G_2$.
+
+Note that there is a differnce between being isomorphic and being ``the same graph''. If two graph drawings have the same vertex labels and edge connections, not only are they isomorphic (all graphs are isomorphic to themselves), they are also equivalent (i.e.\ they are the same graph).
+
+\begin{theorem}[The Handshake Theorem]
+$\displaystyle\sum_{v\in V} \deg(v) = 2|E|$
 \end{theorem}
 
 \end{document}
