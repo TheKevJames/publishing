@@ -494,4 +494,22 @@ Note that there is a differnce between being isomorphic and being ``the same gra
 $\displaystyle\sum_{v\in V} \deg(v) = 2|E|$
 \end{theorem}
 
+Corollary: every graph has an even number of vertices of odd degree.
+
+A graph is {\bf regular} if all vertices have the same degree. It is $d$-regular if every vertex has degree $d$. A graph whose vertex set $V$ has a partition $(A,B)$ such that every edge is incident with a vertex $A$ and a vertex in $B$ is said to be a {\bf bipartite} graph. $(A,B)$ is a {\bf bipartition} of $G$.
+
+We define a {\bf cycle} as a graph $G$ with vertex set $\{v_1, v_2, \dots, v_n\}$ and edge set $\{v_1v_2, v_2v_3, \dots, v_n v_1\}$.
+
+\begin{lemma}
+A cycle $C$ is bipartite if and only if the number of vertices is even.
+\end{lemma}
+
+\begin{proof}
+If $n$ is even, $(\{v_1, v_3, \dots, v_{n-1}\}, \{v_2, v_4, \dots, v_n\})$ is a bipartition. Thus $C$ is bipartite.
+
+If $n$ is odd, we let $(A,B)$ be a bipartition where $v_1 \in A$. Since $v_2$ is adjacent to $v_1$, $v_2$ must be in $B$. Similarly, $v_3$ is in $A$. By an inductive argument, $v_i \in A$ if and only if $i$ is odd. So $v_n \in A$, but since $v_1$ we have $v_1 v_n$ is an edge between two vertices in $A$. Thus, we have a contradiction and $n$ cannot be odd.
+\end{proof}
+
+A graph in which all vertices are connected to each other is a {\bf complete} graph (also called a {\bf clique}). A complete graph $K_n$ has vertex set $\{v_1, v_2, \dots, v_n\}$ and edge set $\{v_i v_j : 1 \leq i \leq j \leq n\}$. $K_n$ has $n$ vertices and ${n \choose 2}$ edges. Only $K_2$ is a bipartite, all other complete graphs are not.
+
 \end{document}

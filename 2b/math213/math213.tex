@@ -619,6 +619,23 @@ If we don't specify finite or infinite, we tend to be refering to finite functio
 A rational function is {\bf proper} if the degree of the numerator is no greater than that of the denominator. If the degree of the numerator is strictly less than that of the denominator, the funtion is strictly proper.
 
 \subsubsection{Final-Value Theorem}
-Let $F(s)$ be a proper rational functions, all of whose poles have real parts that are strictly negative, with the possible expection of a single pole at $s = 0$. Alternatively, $F(s)$ may consist of such a function multiplied by an exponential. Then \[ \lim_{s\to\infty} f(t) = \lim_{s\to\infty} sF(s) \] Moreover, if the poles of $F(s)$ do not satisfy the above assumption, then the limit on the left side does not exist.
+Let $F(s)$ be a proper rational function, all of whose finite poles have real parts that are strictly negative, with the possible expection of a single pole at $s = 0$. Alternatively, $F(s)$ may consist of such a function multiplied by a complex exponential. Then \[ \lim_{s\to\infty} f(t) = \lim_{s\to\infty} sF(s) \] Moreover, if the poles of $F(s)$ do not satisfy the above assumption, then the limit on the left side does not exist.
+
+\begin{proof}
+Think of inverting $F(s)$ by means of partial-fractions decomposition. Then
+\begin{align*}
+F(s) &= \frac{\text{polynomial}}{s{(s-p_1)}^m{(s-p_2)}^k\dots}\\
+&= \frac{A}{s} + \frac{B_{11}}{(s-p_1)} + \frac{B_{12}}{{(s-p_1)}^2} + \cdots + \frac{B_{1m}}{{(s-p_1)}^m} + \frac{B_{21}}{(s-p_2)} + \cdots\\
+\end{align*}
+so \[ f(t) = Au_{-1}(t) + B_{11}e^{p_1 t} u_{-1}t + \dots \] and since $\Re(p_j) < 0, \forall j$ we have \[ \lim_{t\to\infty} f(t) = A \]
+
+By heavyside coverup we have $A = \lim_{s\to 0} sF(s)$, so $\lim_{t\to\infty} f(t) = \lim_{s\to 0} sF(s)$.
+
+If $G(s) = e^{sT}F(s)$ then $g(t) = f(t-T)$ so we have $\lim_{t\to\infty} g(t) = \lim_{t\to\infty} f(t)$ and $\lim_{s\to 0} sG(s) = \lim_{s\to 0} se^{sT} F(s) = \lim_{s\to 0} sF(s)$.
+
+Suppose that $F(s)$ has a pole $p$ with $\Re(p) \geq 0$ and $p \neq 0$. Then the decomposition of $F(s)$ has a term $\frac{B}{s-p}$ whose inverse transform is $Be^{pt} u_{-1}(t)$ and $\lim_{t\to\infty} f(t)$ does not exit.
+
+Finally, if $F(s)$ has $k > 1$ poles at $s = 0$, then the decomposition of $F(s)$ has a term \[ \frac{A_k}{s^k} \] where the inverse transform is proportional to $t^{k-1} u_{-1}(t)$ (where $k > 1$), so $\lim_{t\to\infty} f(t)$ does not exist.
+\end{proof}
 
 \end{document}
