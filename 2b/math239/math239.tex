@@ -512,4 +512,18 @@ If $n$ is odd, we let $(A,B)$ be a bipartition where $v_1 \in A$. Since $v_2$ is
 
 A graph in which all vertices are connected to each other is a {\bf complete} graph (also called a {\bf clique}). A complete graph $K_n$ has vertex set $\{v_1, v_2, \dots, v_n\}$ and edge set $\{v_i v_j : 1 \leq i \leq j \leq n\}$. $K_n$ has $n$ vertices and ${n \choose 2}$ edges. Only $K_2$ is a bipartite, all other complete graphs are not.
 
+\begin{lemma}
+Every graph on two or more vertices has two vertices of the same degree.
+\end{lemma}
+
+A {\bf complete bipartite} graph is a graph $K_{mn}$ with vertex set $\{u_1, u_2, \dots u_m, v_1, v_2, \dots v_n\}$ and edge set $E = \{ u_i v_j : 1 \leq i \leq m, 1 \leq j \leq n \}$. This graph is regular if and only if $m = n$.
+
+An {\bf n-cube} is a graph with a vector set of the binary string of length $n$ such that two vertices are adjacent if and only if the differ in exactly one position. By definition, we know that an n-cube is bipartite. Each vertex of an $n$-cube has degree $n$. By the handshake theorem $|E| = n2^{n-1}$.
+
+The n-cube can be recursively constructed from the $(n-1)$-cube by taking two copies and joining the pairs of corresponding vertices.
+
+A {\bf subgraph} of $G = (V,E)$ is a graph $G^\prime = (v^\prime, E^\prime)$ where $V^\prime \in V$ and $E^\prime \in E$.
+
+A {\bf walk} in a graph is a seqeunce which alternates between vertices and edges in such a way that each edge is incident to the vertices preceeding and following it. A walk must begin and end with vertices and is defined to have a length equal to the number of edges.
+
 \end{document}
