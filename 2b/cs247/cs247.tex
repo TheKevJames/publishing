@@ -517,4 +517,26 @@ The value of each assigned data member is represented, which allows us to easily
 \subsection{UML Sequence Diagram}
 A {\bf UML Sequence Diagram} is a graphical model of communication events between objects, as exhibitied in one execution trace. It is similar to a timeline view of your program specific to several classes / functions.
 
+\section{Object Oriented Design Principles}
+Object Oreitned Design Principles are a set of guidelines which improves program quality and modularity.
+
+\subsection{Open-Closed Principle}
+A module should be open for extension but closed to modification. For example, we prefer to have client code depend on an abstract class (which could be extended) rather than a concrete one.
+
+It is possible to inherit both interfaces or implementations. The abstract class designer determines which parts of a member function the dervied class inherits: the interface, the interface and default implementation, or the interface and non-overridable implementation.
+
+\subsection{Inheritance vs Composition}
+When defining a new class that includes attributes and capailities of an existing class, should our new class inherit for the base class or include the class as a complex attribute? In generally, we prefer composition: composition can change at run-time (rather than being a static relationship between classes) and can not break encapsulation; we only prefer inheritance when we are subtyping or using an entire interface. Basically, composition is black box reuse where inheritance is white box reuse.
+
+\subsection{Delegation}
+Delegation in object composition stimulates inheritance-based object method reuse. The composite object delegates to the component object and can pass itself as a parameter to let the delegated operation refer to the composite object.
+
+The benefits of composition are maximized when the component is an abstract type which can be concretized in multiple ways.
+
+\subsection{Dependency Inversion}
+High-level modules should depend on abstractions rather than on concrete classes. If we change the standard inheritance paradigm (``client extends server'') to ``client and server both inherit from a common interface'', we can ensure that the two modules never have any problems interfacing with each other.
+
+\subsection{Single Responsibility Principle}
+Encapsulate each changeable design decision in a seperate module. The {\bf single-responsibility principle} offers guidance on how to decompose our program into cohesive modules.
+
 \end{document}

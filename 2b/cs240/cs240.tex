@@ -484,6 +484,48 @@ If the average cost of searches is $t$, then for we set $\alpha < 1 - \frac{1}{t
 \subsubsection{Cuckoo Hashing}
 The Cuckoo hashing algorithm also uses two hashing algorithms: the idea, though, is to always insert a new item into $h_1(k)$. If this overwrites another element, we simply re-insert the old element into its alternate position.
 
+The ``alternate position'' is defined as follows: the two hash functions are used to create two completely seperate hash tables. Thus, each element can exist in any one of two possible {\bf nests}.
+
+This gives us $O(1)$ search and deletion as well as amortized $O(1)$ insertion, though it does require mostly random hash functions.
+
+\subsection{Memory Usage}
+If we have a very large dictionary which must be stored in external memory, we want to minimize the number of page read/writes and faults.
+
+Linear probing generally requires each hash table to be on the same page; thus, each $\alpha$ must be small and we find ourselves wasting space. We also find ourselves commonly rehashing an entire table.
+
+\subsubsection{Extendible Hashing}
+If external memory is stored in blocks of size $S$, our goal should be to access as few as possible. Similar to a B tree of height $1$ and max leaf-size $S$, we can do the following:
+
+We store the {\bf directory} (root node) in internal memory. This directory contains a hashtable of size $2^d$, where $d$ is the order. Each directory points to a block stored in external memory containing at most $S$ items, sorted by hash value.
+
+To search for a key $k$ in the dictionary, we find block $B$ with the first $d$ bits of $H(k)$ as such: $\lfloor \frac{h(k)}{2^{L-d}} \rfloor$. Then, we simply perform a binary search in block $B$ for our hash value. This algorithm is $\Theta(\log S)$ and generates one page fault.
+
+To insert into this dictionary, we search for $h(k)$ to find the proper block for insertion. IF the block has space, we insert our key. Otherwise, we perform a {\bf block split}: we seperate $B$ into $B_0$ and $B_1$ where the items are split by the $k_B$th bit, then update our dictionary references. Note that if our dictionary does not have enough space for a split, we must first double its size and update references accordingly (this is called a {\bf dictionary grow}).
+
+To delete from this dictionary, we perform the reverse operation from insertion: we search for block $B$ and remove $k$ from it. If $n_B$ is too small, we perform a {\bf block merge}, and if every block $B$ has local depth $k_B \leq d - 1$, we perform a {\bf dictionary shrink}.
+
+Both insertion and deletion can be performed in $\Theta(S)$ time, though a dictionary grow/shrink takes $\Theta(2^d)$ time. These operations generate one or two page faults, depending on whether there is a block split/merge.
+
+\subsection{Balanced Search Trees}
+We can use either hash tables or balanced search trees for these types of operations. The advantages are as follows:
+
+{\bf BSTs}:
+\begin{itemize}
+\item $O(\log n)$ worst-case time
+\item no assumptions, special functions, or known input proportions
+\item no wasted space
+\item never need to rebuild entire structure
+\end{itemize}
+
+{\bf Hash Tables}:
+\begin{itemize}
+\item $O(1)$ average cost
+\item flexible load factor parameters
+\item Cuckoo hashing achieves $O(1)$ worst-case for search and delete
+\end{itemize}
+
+Note that both approaches can be adapted to minimize page faults.
+
 \section{Trees}
 \subsection{Binary Trees}
 Binary trees are the most common tree structure. Their defining factor is nodes with a single value.
