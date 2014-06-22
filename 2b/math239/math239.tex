@@ -524,6 +524,43 @@ The n-cube can be recursively constructed from the $(n-1)$-cube by taking two co
 
 A {\bf subgraph} of $G = (V,E)$ is a graph $G^\prime = (v^\prime, E^\prime)$ where $V^\prime \in V$ and $E^\prime \in E$.
 
-A {\bf walk} in a graph is a seqeunce which alternates between vertices and edges in such a way that each edge is incident to the vertices preceeding and following it. A walk must begin and end with vertices and is defined to have a length equal to the number of edges.
+A {\bf walk} in a graph is a seqeunce which alternates between vertices and edges in such a way that each edge is incident to the vertices preceeding and following it. A walk must begin and end with vertices and is defined to have a length equal to the number of edges. If the first and last vertex in the walk are the same, the walk is considered {\bf closed}. Note that a walk can pass through a vertex any number of times, whether or not it is closed.
+
+A {\bf path} is a walk with no repeated vertices. A closed walk with no repeated vertices (except the first and last) is a {\bf cycle}.
+
+\begin{lemma}
+\label{walkToPath}
+If there is a walk between two vertices $u$ and $v$ in a graph $G$, then there is a path between $u$ and $v$ in $G$.
+\end{lemma}
+
+\begin{proof}
+Let $u= v_0, v_1, v_2, \dots, v_k = v$ be a {\bf shortest} walk between $u$ and $v$ (use as few edges as possible). If this walk is not a path, then $v_i = v_j$ for some $0 \leq i \leq j \leq k$. But then $v_0, v_1, \dots, v_i, v_{j+1}, \dots v_k$ is a shorter walk---which is a contradiction.
+\end{proof}
+
+\begin{lemma}
+If $u,v,w$ are vertices of $G$ and there is a path from $u$ to $v$ and a path from $v$ to $w$, then thre is a path from $u$ to $w$.
+\end{lemma}
+
+\begin{proof}
+Putting there two paths together, we get a walk (not necessarily a path) from $u$ to $w$. By lemma~\ref{walkToPath}, there is a path from $u$ to $w$.
+\end{proof}
+
+\begin{lemma}
+If every vertex in $G$ has degree $d \geq 2$, then $G$ has a cycle.
+\end{lemma}
+
+\begin{proof}
+Let $v_0, v_1, v_2, \dots v_k$ be a longest path in $G$. Since the path is longest, each number of $v_k$ is in the path and since $\deg(v_k) \geq 2$, $v_k$ has a neighbour $v_i \neq v_{k-1}$. Now $v_i, v_{i+1}, \dots, v_k, v_i$ is a cycle.
+\end{proof}
+
+\begin{theorem}[Dirac]
+If $G$ is a graph on $n \geq 3$ vertices where every vertex has degree $d \geq \frac{n}{2}$, then $G$ has a cycle containing every vertex (a {\bf Hamiltonian Cycle}).
+\end{theorem}
+
+\begin{proof}
+Let $P = (v_0, v_1, \dots v_k)$ be a longest path of $G$. We claim that there is a cycle $C$ with vertex set $\{v_0, v_1, \dots v_k\}$ and that every vertex is in $C$. We know that each of $v_0, v_k$ has $\geq \frac{n}{2}$ neighbours; by maximality of $P$, each such neighbour is in $P$.
+
+Now let $I$ be the set of vertices in $P$ adjacent to $v_0$ and $J$ be the vertices in $P$ that are one to the right of a neighbour of $v_k$.
+\end{proof}
 
 \end{document}
