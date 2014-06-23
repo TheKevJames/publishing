@@ -9,6 +9,8 @@
     urlcolor=black
 }
 
+\newcommand{\laplace}[1]{\ensuremath{\mathcal{L} \{#1\}}}
+
 \begin{document}
 
 \title{MATH 213 --- Advanced Mathematics for Software Engineers}
@@ -452,7 +454,7 @@ For example, if all of our functions were exponentials $y = e^{st}$, we would ha
 
 Since not all of our functions are exponentials, we follow the process of decomposing our functions into \emph{weighted sums} of exponential equations, then applying standard algebraic practices to these sums. By recomposing these equations afterward, we can find solutions to differential equations with a minimal of effort.
 
-More formally, a Laplace transform is denoted by \[ F(s) := \mathcal{L} \{f(t)\} = \int_{-\infty}^\infty f(t) e^{-st} \dd t \] where $s$ is complex-valued. To ensure convergence, suppose that for some real $\alpha$, the integral \[ \int_{-\infty}^{\infty} |f(t)| e^{-\alpha t} \dd t \] converges for some $s$.
+More formally, a Laplace transform is denoted by \[ F(s) := \laplace{f(t)} = \int_{-\infty}^\infty f(t) e^{-st} \dd t \] where $s$ is complex-valued. To ensure convergence, suppose that for some real $\alpha$, the integral \[ \int_{-\infty}^{\infty} |f(t)| e^{-\alpha t} \dd t \] converges for some $s$.
 
 The transform can be inverted by means of the following {\bf inversion integral}: \[ f(t) = \frac{1}{2\pi j} \int_{\sigma-j\infty}^{\sigma+j\infty} F(s) e^{st} \dd s \] This is the {\bf contour integral} which is carried out within the area of the complex plain in which the Laplace transform converges (the ``region of convergence'' of $F(s)$).
 
@@ -520,12 +522,12 @@ F(s) &= \frac{1}{2j} \bigg[\frac{1}{s-j\omega} - \frac{1}{s+j\omega}\bigg]\\
 
 The Laplace transformation obeys the following key properties:
 \begin{itemize}
-\item Linearity: $\mathcal{L} \{ \alpha f(t) + \beta g(t) \} = \alpha F(s) + \beta G(s)$
-\item Time-Scaling: $\mathcal{L} \{f(ct)\} = \frac{1}{c}F(\frac{s}{c})$
-\item Exponential Modulation: $\mathcal{L} \{e^{\alpha t} f(t)\} = F(s-\alpha)$
-\item Time Shifting: Suppose $F(s) = \mathcal(L) \{ f(t) u_{-1}(t) \}$ and let $g(t) = f(t - T)u_{-1}(t - T)$. Then $G(S) = \mathcal{L} \{g(t)\} = e^{-sT} F(s)$
-\item Multiplication by $t$: $\mathcal{L} \{ tf(t) \} = -\frac{\dd}{\dd s} F(s)$
-\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f^\prime(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms and we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \mathcal{L} \{f^\prime(t) \}$ or $\mathcal{L} \{ f^\prime(t) \} = sF(s) - f(0^-)$
+\item Linearity: $\laplace{ \alpha f(t) + \beta g(t)} = \alpha F(s) + \beta G(s)$
+\item Time-Scaling: $\laplace{f(ct)} = \frac{1}{c}F(\frac{s}{c})$
+\item Exponential Modulation: $\laplace{e^{\alpha t} f(t)} = F(s-\alpha)$
+\item Time Shifting: Suppose $F(s) = \laplace{f(t) u_{-1}(t)}$ and let $g(t) = f(t - T)u_{-1}(t - T)$. Then $G(S) = \laplace{g(t)} = e^{-sT} F(s)$
+\item Multiplication by $t$: $\laplace{tf(t)} = -\frac{\dd}{\dd s} F(s)$
+\item Differentiation/Integration: Suppose that there exists a real $\alpha$ such that $\displaystyle\int_{0^-}^\infty |f(t)| e^{-\alpha t} \dd t$ converges. Suppose also that there exists a function $f^\prime(t)$ such that $f(t) = f(0^-) + \displaystyle\int_{0^-}^\infty f^\prime(\tau) \dd \tau, \forall t \geq 0$ and that $\displaystyle\int_{0^-}^\infty |f^\prime(t)| e^{-\beta t} \dd t$ converges for some real $\beta$. Then both $f$ and $F^\prime$ have one-sided Laplace transforms and we have $F(s) = \frac{1}{s}f(0^-) + \frac{1}{s} \laplace{f^\prime(t)}$ or $\laplace{f^\prime(t)} = sF(s) - f(0^-)$
 \end{itemize}
 
 \subsubsection{Solving Differential Equations with Laplace Transforms}
@@ -550,13 +552,13 @@ y(t) &= \frac{3}{2}e^{-t} + t - 1 + \half e^t \text{, given }t \geq 0
 \end{example}
 
 \subsubsection{Inversion Integral}
-We know that $\mathcal{L} ^{-1} \{ F(s) + G(s) \} = f(t) + g(t)$. Thus we have \[ \mathcal{L}^{-1} \{ F(s)G(s) \} = (f * g)(t) = \int_{-\infty}^\infty f(\tau)g(t-\tau) \dd\tau \] which is the {\bf convolution} of $f$ and $g$. Given $u = t - \tau$, we can see that this operation is commutative (e.g.\ the convolution of $f$ and $g$ is equivalent to the convolution of $g$ and $f$).
+We know that $\mathcal{L}^{-1} \{ F(s) + G(s) \} = f(t) + g(t)$. Thus we have \[ \mathcal{L}^{-1} \{ F(s)G(s) \} = (f * g)(t) = \int_{-\infty}^\infty f(\tau)g(t-\tau) \dd\tau \] which is the {\bf convolution} of $f$ and $g$. Given $u = t - \tau$, we can see that this operation is commutative (e.g.\ the convolution of $f$ and $g$ is equivalent to the convolution of $g$ and $f$).
 
 Consider two ``discrete-time'' functions $f,g : \mathbb{Z} \to \mathbb{C}$ that are nonzero only for a finite number of nonnegative integers. We can think of $f$ and $g$ as representations of two polynomials \[ p(x) = \sum_{n=-\infty}^\infty f(n)x^n \] and \[ q(x) = \sum_{n=-\infty}^\infty g(n) x^n \]
 
 Then the convolution $f * g$ represents the product of $p$ and $q$.
 
-Suppose that, for some real $\alpha, \beta$, the integrals \[ \int_{-\infty}^\infty |f(t)| e^{-\alpha t} \dd t \] and \[ \int_{-\infty}^\infty |g(t)| e^{-\beta t} \dd t \] converge. We'll show that this means that $(f * g)(t)$ has a transform \[ \mathcal{L} \{ (f*g)(t) \} = F(s)G(s) \]
+Suppose that, for some real $\alpha, \beta$, the integrals \[ \int_{-\infty}^\infty |f(t)| e^{-\alpha t} \dd t \] and \[ \int_{-\infty}^\infty |g(t)| e^{-\beta t} \dd t \] converge. We'll show that this means that $(f * g)(t)$ has a transform \[ \laplace{(f*g)(t)} = F(s)G(s) \]
 
 Suppose that $\gamma \geq \alpha, \beta$ and consider the product of the two integrals
 \begin{align*}
@@ -648,7 +650,7 @@ A system is CT, DT, or hybrid if its inputs are CT, DT, or both, respectively. C
 A CT system might be modelled by means of a differential equation(s). A DT system is more likely to be modelled by {\bf difference equations}: $\nabla y[k] = y[k] - y[k-1], \nabla^2 y[k] = \nabla y[k] - \nabla y[k-1]$. Even more likely, we could model a CT system as a recurrence equation: $y[k] + a_1y[k-1] + a_2y[k-2] + \cdots + a_n y[k-n] = b_0f[k] + b_1f[k-1] + \cdots + b_m f[k-m]$. In place of initial conditions, values $y[0], y[1], \dots, y[n-1]$ might be given (though these tend to be refered to as initial conditions, regardless).
 
 \subsection{System Properties}
-Systems can be either {\bf memoryless} or {\bf dynamic}. In a memoryless system, the value of $y(t)$ depends only on $f(t)$ for any given $t\in\mathbb{R}$. In a dynamic system, the value of $y(t)$ is related to more than simply $f(t)$. For example, $m \ddot y = f \iff y(t) = \frac{1}{m} \int_{-\infty}^t \int_{-\infty}^\tau f(u) \dd u \dd \tau$.
+Systems can be either {\bf memory-less} or {\bf dynamic}. In a memory-less system, the value of $y(t)$ depends only on $f(t)$ for any given $t\in\mathbb{R}$. In a dynamic system, the value of $y(t)$ is related to more than simply $f(t)$. For example, $m \ddot y = f \iff y(t) = \frac{1}{m} \int_{-\infty}^t \int_{-\infty}^\tau f(u) \dd u \dd \tau$.
 
 A system $S$ is {\bf causal} if for a given $t$, $y(t) = (Sf)(t)$ depends only on present and past values of $f(t)$, i.e.\ only on $\{ f(\tau) : \tau \leq t \}$. Mathematically, if a system is causal then if $y_1 = Sf_1 \land y_2 = Sf_2$ and $f_1(\tau) = f_2(\tau), \forall \tau < t$ we must have $y_1(\tau) = y_2(\tau), \forall \tau < t$.
 
@@ -656,8 +658,37 @@ A system can also be either {\bf scalar} (one single input and one single output
 
 In a {\bf time-invariant} system, we have a response which does not change with time. Mathematically, if $f(t) \to y(t)$ we must have $f(t-T) \to y(t-T)$.
 
-When dealing with linear, time-invariant systems, we can represent therm with linear ODEs with constant coefficients. In this case, it's conventien to use the {\bf Dirac delta function} or the {\bf unit impulse function}.
+When dealing with linear, time-invariant systems, we can represent therm with linear ODEs with constant coefficients. In this case, it's convention to use the {\bf Dirac delta function} or the {\bf unit impulse function}.
 
 The unit impulse function $\delta(t)$ satisfies \[ \int_{-\infty}^\infty \delta(t) \dd t = 1\] and $\delta(t) = 0, \forall t \neq 0$. This is an example of a generalized function or distribution. In the case of piecewise-continuous signals, this defining property of $\delta(t)$ becomes \[ f(\tau) = \int_{-\infty}^\infty f(t) \delta(t-\tau) \dd t \] This is the ``sifting property'' of $\delta(t)$.
+
+We also have \[ f(t) = \int_{-\infty}^\infty f(\tau) \delta(t-\tau) \dd\tau \] which we can use to show that convolution is central to LTI systems. This also allows us to express $f$ as a superposition of unit impulse functions.
+
+Suppose that \[ \delta(t) \xrightarrow{S} h(t) \] where $h(t)$ is the ``impulse response'' of the LTI system. Then $h(t)$ is the response of the system to the input $\delta(t)$ when all initial conditions are zero. Then we have \[ \delta(t-\tau) \xrightarrow{S} h(t-\tau) \] by time-invariance, \[ f(\tau) \delta(t-\tau) \xrightarrow{S} f(\tau)h(t-\tau) \] by linearity, and \[ f(t) = \int_{-\infty}^\infty f(\tau) \delta(t-\tau) \dd\tau \xrightarrow{S} \int_{-\infty}^\infty f(\tau) h(t-\tau) \dd\tau \] by convolution.
+
+The response in an LTI system, then, is the convolution of its input with its impulse response.
+
+So in the Laplace domain, we see that \[ Y(s) = \laplace{(h * f)(t)} = H(s)F(s) \] Where $H(s) = \laplace{h(t)}$ is called the {\bf transfer function} of the system.
+
+\begin{example}
+Suppose $S$ is an LTI system and consider an exponential input $e^{s_0 t}$ where $s_0 \in \mathbb{C}$. Let $e^{s_0 t} \xrightarrow{S} y(t)$. By time-invariance, we have \[ e^{s_0 (t-\tau)} \xrightarrow{S} y(t-\tau) \] But $e^{s_0(t-\tau)} = e^{-s_0 T} e^{s_0t}$, so by linearity \[ e^{s_0(t-\tau)} = e^{-s_0T} e^{s_0t} \xrightarrow{S} e^{-s_0T}y(t) \] So $y(t\tau) = e^{-s_0T} y(t)$. This holds for all $t$ and $T$. So, in particular, $y(0) = e^{-s_0t}y(t)$ for all $T$ which gives us \[ y(t) = y(0) e^{s_0t} \]
+
+Thus we can comment that exponentials are {\bf eigenfunctions} of LTI systems.
+
+By our convolution integral, we have
+\begin{align*}
+y(t) &= \int_{-\infty}^\infty f(t-\tau)h(t) \dd\tau\\
+&= \int_{-\infty}^\infty e^{s_0(t-\tau)}h(t) \dd\tau\\
+&= e^{s_0t} \int_{-\infty}^\infty h(\tau) e^{-s_0\tau} \dd\tau\\
+&= e^{s_0t} H(s) \bigg|_{s=s_0}
+\end{align*}
+which is the transfer function evaluated at $s=s_0$.
+
+If $s_0$ is imaginary ($s_0 = j\omega$), our input $e^{s_0 t} = e^{j\omega t} = \cos\omega t + j\sin\omega t$. Then $y(t) = H(j\omega)e^{j\omega t}$. In this case, $H(j\omega)$ is called the ``frequency response'' of $S$.
+
+We also see that $H(j\omega) = |H(j\omega)| e^{j\angle H(j\omega)}$. Thus we have $y(t) = H(j\omega)e^{j\omega t} = |H(j\omega)| e^{j(\omega t + \angle H(j\omega))}$ which is the amplitude (given a phase shift of the angle of the frequency response) multiplied by $|H(j\omega)|$.
+\end{example}
+
+In systems and signals, we generally focus on the zero-state response (where we have $Y(s) = aB(s) + cy(0^-)$ is the sum of the ``zero-state'' and ``zero-input'' responses), so we still have the relationship \[ Y(s) = H(s)F(s) \]
 
 \end{document}

@@ -538,11 +538,12 @@ Let $u= v_0, v_1, v_2, \dots, v_k = v$ be a {\bf shortest} walk between $u$ and 
 \end{proof}
 
 \begin{lemma}
+\label{connectedPaths}
 If $u,v,w$ are vertices of $G$ and there is a path from $u$ to $v$ and a path from $v$ to $w$, then thre is a path from $u$ to $w$.
 \end{lemma}
 
 \begin{proof}
-Putting there two paths together, we get a walk (not necessarily a path) from $u$ to $w$. By lemma~\ref{walkToPath}, there is a path from $u$ to $w$.
+Putting the two paths together, we get a walk (not necessarily a path) from $u$ to $w$. By lemma~\ref{walkToPath}, there is a path from $u$ to $w$.
 \end{proof}
 
 \begin{lemma}
@@ -554,7 +555,7 @@ Let $v_0, v_1, v_2, \dots v_k$ be a longest path in $G$. Since the path is longe
 \end{proof}
 
 \begin{theorem}[Dirac]
-If $G$ is a graph on $n \geq 3$ vertices where every vertex has degree $d \geq \frac{n}{2}$, then $G$ has a cycle containing every vertex (a {\bf Hamiltonian Cycle}).
+If $G$ is a graph with $n \geq 3$ vertices where every vertex has degree $d \geq \frac{n}{2}$, then $G$ has a cycle containing every vertex (a {\bf Hamiltonian Cycle}).
 \end{theorem}
 
 \begin{proof}
@@ -562,5 +563,26 @@ Let $P = (v_0, v_1, \dots v_k)$ be a longest path of $G$. We claim that there is
 
 Now let $I$ be the set of vertices in $P$ adjacent to $v_0$ and $J$ be the vertices in $P$ that are one to the right of a neighbour of $v_k$.
 \end{proof}
+
+\subsection{Connectivity}
+A graph $G$ is {\bf connected} if, for every pair of vertices $u,v$ in $G$, there is a path (or walk) from $u$ to $v$. Complete graphs, complete bipartite graphs with non-empty sides, graphs with a hamiltonian cycle, and n-cube graphs are all connected.
+
+\begin{lemma}
+If $G$ is a graph and $x$ is a vertex in $G$ such that, for every vertex $y$ in $G$, there is a path from $x$ to $y$, then $G$ is connected.
+\end{lemma}
+
+\begin{proof}
+Suppose such a vertex $x$ exsts. Let $u$ and $v$ be vetices of $G$. By hopthesis there is a path from $u$ to $x$ and a path from $x$ to $v$, so there is a path from $u$ to $v$ by lemma~\ref{connectedPaths}.
+\end{proof}
+
+A {\bf component} of a graph $G$ is a maximal connected subgraph of $G$. That is, a connected subgraph of $G$ that is not contained as a subgraph in any larger connected subgraph of $G$.
+
+Often, to understand a graph in some way it will suffice to understand the graph's components. For example: $G$ is bipartite if and only if each of its components are bipartite.
+
+If $(A,B)$ is a partition of the vertex set of a graph $G$, then the {\bf cut} of $G$ induced by $(A,B)$ is the set of edges of $G$ with one end in $A$ and one end in $B$.
+
+\begin{lemma}
+A graph $G$ is diconnected if and only if there exists a partition $(A,B)$ of its vertex set such that $A,B \neq \varnothing$ and $(A,B)$ induces an empty cut.
+\end{lemma}
 
 \end{document}
