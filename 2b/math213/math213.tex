@@ -691,4 +691,6 @@ We also see that $H(j\omega) = |H(j\omega)| e^{j\angle H(j\omega)}$. Thus we hav
 
 In systems and signals, we generally focus on the zero-state response (where we have $Y(s) = aB(s) + cy(0^-)$ is the sum of the ``zero-state'' and ``zero-input'' responses), so we still have the relationship \[ Y(s) = H(s)F(s) \]
 
+In the time domain, we have the standard first order system \[ H(s) = \frac{K}{s\tau = 1} \] where $k, \tau \in \mathbb{R}$ and $k, \tau > 0$. For the impulse response, we know that $y(t) = \mathcal{L}^{-1} \{ H(s)F(s) \}$; if $f(t) = \delta(t)$, then \[ F(s) = \lim_{x\uparrow 0} \int_{-\infty}^\infty \delta(t) e^{-st} \dd t \] which gives us \[ y(t) = \frac{k}{\tau} e^{\frac{-t}{\tau}} e_{-1}(t) \]
+
 \end{document}

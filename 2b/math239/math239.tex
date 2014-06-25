@@ -585,4 +585,22 @@ If $(A,B)$ is a partition of the vertex set of a graph $G$, then the {\bf cut} o
 A graph $G$ is diconnected if and only if there exists a partition $(A,B)$ of its vertex set such that $A,B \neq \varnothing$ and $(A,B)$ induces an empty cut.
 \end{lemma}
 
+\begin{theorem}[Chuatal '72]
+If $G$ is a graph on $n$ vertices with degrees $d_1 \leq d_2 \leq \cdots \leq d_n$, then if ($d_i > i$ or $d_{n-1} \geq n-i$) for all $i < \half n$, then $G$ is Hamiltonian.
+\end{theorem}
+
+A graph is {\bf k-connected} if there are $k$ `internally disjoint' paths between any pair of its vertices. Equivalently, for any $k-1$ vertices, removing them leaves a connected graph.
+
+It was postulated that ``If $G$ is a 3-connected graph that can be drawn in the plane without edges crossing, then $G$ is Hamiltonian.'' This, though, we proven wrong by the Tutte Graph; instead, we postulate that every 4-connected graph that can be drawn in the plane without crossings is Hamiltonian.
+
+% EULER TOURs
+
+\begin{theorem}
+Every connected graph in which every vertex has even degree is Eulerran.
+\end{theorem}
+
+\begin{proof}
+If the edge set is empty, the theorem is obviously true. Suppose the theorem holds for all graphs on $< m$ edges. Let $G$ be a connected graph with $m$ edges and all even degrees. By the propositions, $G$ contains a cycle. Let $F$ be the edge set of a largest-possible closed walk of $G$ that doesn't repeat edges.
+\end{proof}
+
 \end{document}
