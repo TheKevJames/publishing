@@ -308,12 +308,13 @@ It relies on the \code{CXX} environment variable which {\bf SHOULD NOT BE OVERRI
 It has defined the \code{.cpp.o} suffix, which auto-creates non-existing or out-of-date object files from their particular source file. This will be called implicitely by declaring object files as dependencies to various targets (e.g.\ \code{all}, \code{test}, \code{clean}, \code{program1}, \dots). Note that I have not defined the dependencies for each object file (e.g.\ \code{Common.o} is based on \code{Common.cpp} and \code{Common.h}, but I have not explicitely declared this). Any object file will by default be built from a file of the same name with the \code{cpp} extension. If we want to change these dependencies, we can do so with
 \begin{verbatim}
 ...
-.cpp.o:
-    ${CXX} $(CXX_FLAGS) -c $<
+test: program1_test program2_test
+
 
 Common.o: Common.cpp First.cpp Second.cpp
 
-...
+
+program1: ...
 \end{verbatim}
 
 \code{all} is the standard name given to the set of commands which should be run by default. It should be responsible for compiling and linking all program components and will be run by default by calling \code{make} on the command-line.
@@ -518,7 +519,7 @@ The value of each assigned data member is represented, which allows us to easily
 A {\bf UML Sequence Diagram} is a graphical model of communication events between objects, as exhibitied in one execution trace. It is similar to a timeline view of your program specific to several classes / functions.
 
 \section{Object Oriented Design Principles}
-Object Oreitned Design Principles are a set of guidelines which improves program quality and modularity.
+Object Oriented Design Principles are a set of guidelines which improve program quality and modularity.
 
 \subsection{Open-Closed Principle}
 A module should be open for extension but closed to modification. For example, we prefer to have client code depend on an abstract class (which could be extended) rather than a concrete one.
@@ -538,5 +539,16 @@ High-level modules should depend on abstractions rather than on concrete classes
 
 \subsection{Single Responsibility Principle}
 Encapsulate each changeable design decision in a seperate module. The {\bf single-responsibility principle} offers guidance on how to decompose our program into cohesive modules.
+
+\subsection{Liskov Substitutability Principle}
+The {\bf Liskov substitution principle} enforces strong behavioural subtyping, which is basically the following: if $S$ is a subtype of $T$, then any properties provable of $T$ must also be proveable of $S$. Less formally, any base class instance should be replaceable by a subclass instance.
+
+\subsection{Law of Demeter}
+The Law of Demeter is the principle of least knowledge and suggests loose coupling. It states that
+\begin{itemize}
+\item each unit should have only limited information about other units (e.g.\ only those which are very related)
+\item each unit should only interact with friends
+\item each unit should prefer only interacting with immediate friends
+\end{itemize}
 
 \end{document}

@@ -45,19 +45,18 @@ A timing function is a function $T_A$ such that $T_A : \{Q\} \to \mathbb{R} > 0$
 
 Example: given $T_A(n) = 1 000 000n + 2 000 000 000$ and $T_B(n) = 0.01n^2$, which is `better'? For $n < 100 000 000$, algorithm $B$ is better. Since we only care about large inputs, though, we say $A$ is better overall.
 
-\begin{example}
-Prove that $2010n^2 + 1388 = O(n^3)$.
+\begin{definition}
+$f(n) \in O(g(n))$ if there exists a positive real number $c$ and an integer $n_0 > 0$ such that $\forall n \geq n_0$, $f(n) \leq cg(n)$.
+\end{definition}
 
+\begin{example}
+Prove that $2010n^2 + 1388 \in O(n^3)$.
 \begin{proof}
-We want to prove that for all positive $c \in \mathbb{Z}$, there exists some $n_0$ such that for all $n > n_0$, $2010 n^2 + 1388 \leq cn^3$. So for $n > 1388$ we have $2010n^2 + 1388 \leq 2011n^2 \leq cn^3$ which in turn gives us $2011n^2 \leq cn^3 \iff 2011 \leq cn$. Then this holds given $n_0 = 2010$.
+We want to prove that for all positive $c \in \mathbb{Z}$, there exists some $n_0$ such that for all $n \geq n_0$, $2010 n^2 + 1388 \leq cn^3$. So for $n > 1388$ we have $2010n^2 + 1388 \leq 2011n^2 \leq cn^3$ which in turn gives us $2011n^2 \leq cn^3 \iff 2011 \leq cn$. Then this holds given $n_0 = 2011$.
 \end{proof}
 \end{example}
 
-\begin{definition}
-$f(n) = O(g(n))$ if there exists a positive real number $c$ and an integer $n_0 > 0$ such that $\forall n \geq n_0$, $f(n) \leq cg(n)$.
-\end{definition}
-
-More concretely, we can say that $f(n) = O(af(n))$ and $b f(n) = O(f(n))$. It's also worth noting that order notation is transitive (e.g.\ $f(n) = O(g(n))$ and $g(n) = O(h(n))$ implies $f(n) = O(h(n))$).
+More concretely, we can say that $f(n) \in O(af(n))$ and $b f(n) \in O(f(n))$. It's also worth noting that order notation is transitive (e.g.\ $f(n) \in O(g(n))$ and $g(n) \in O(h(n))$ implies $f(n) \in O(h(n))$).
 
 We use five different symbols to denote order notation:
 \begin{itemize}
@@ -70,23 +69,23 @@ We use five different symbols to denote order notation:
 
 More concretely, we have the formulae
 \begin{definition}[$o$]
-$f(n) = o(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) < c \cdot g(n)$ for all $n \geq n_0$.
+$f(n) \in o(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) < c \cdot g(n)$ for all $n \geq n_0$.
 \end{definition}
 
 \begin{definition}[$O$]
-$f(n) = O(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \leq c \cdot g(n)$ for all $n \geq n_0$.
+$f(n) \in O(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \leq c \cdot g(n)$ for all $n \geq n_0$.
 \end{definition}
 
 \begin{definition}[$\Theta$]
-$f(n) = \Theta(g(n))$ if there exists constants $c_1, c_2 > 0$ such that $c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$.
+$f(n) \in \Theta(g(n))$ if there exists constants $c_1, c_2 > 0$ such that $c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$.
 \end{definition}
 
 \begin{definition}[$\Omega$]
-$f(n) = \Omega(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \geq c \cdot g(n)$ for all $n \geq n_0$.
+$f(n) \in \Omega(g(n))$ if there exist constants $c > 0$, $n_0 > 0$ such that $f(n) \geq c \cdot g(n)$ for all $n \geq n_0$.
 \end{definition}
 
 \begin{definition}[$\omega$]
-$f(n) = \omega(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) > c \cdot g(n)$ for all $n \geq n_0$.
+$f(n) \in \omega(g(n))$ if for all $c > 0$ there exists a constant $n_0 > 0$ such that $f(n) > c \cdot g(n)$ for all $n \geq n_0$.
 \end{definition}
 
 \begin{example}
@@ -102,8 +101,7 @@ function(n):
 \end{verbatim}
 we find the order equation
 \begin{align*}
-&= \Theta(1) + \sum_{i=1}^n \sum_{j=i}^n \Theta(1) + \Theta(1)\\
-&= \Theta(1) \sum_{i=1}^n \sum_{j=1}^n 1\\
+\Theta(1) + \sum_{i=1}^n \sum_{j=i}^n \Theta(1) + \Theta(1) &= \Theta(1) \sum_{i=1}^n \sum_{j=1}^n 1\\
 &= \Theta(1) \sum_{i=1}^n (n-i+1)\\
 &= \Theta(1) \bigg( \sum_{i=1}^n n - \sum_{i=1}^n i + \sum_{i=1}^n 1 \bigg)\\
 &= \Theta(1) \bigl( n^2 + i^n + n \bigl)\\
@@ -156,7 +154,7 @@ Linked lists support $O(1)$ insertion and deletion, $O(n)$ accessing. Arrays are
 A {\bf queue} is a data structure where you \code{insert} at the end of the list and \code{dequeue} from the front. Implementations are the same as a stack: either an array or a linked list may be used, though a pointer or reference to the first item is necessary.
 
 \subsubsection{Priority Queues}
-A {\bf priority queue} is similar to a queue, but each element has a priority attached to it (a numerical ``score''). The elementes are dequeue'd in order of priority. A priority queue supports
+A {\bf priority queue} is similar to a queue, but each element has a priority attached to it (a numerical ``score''). The elements are dequeue'd in order of priority. A priority queue supports
 \begin{itemize}
 \item \code{insert(x, p)}: inserts an element $x$ with priority $p$
 \item \code{delete()}: deletes the element with the highest priority $p$
@@ -248,7 +246,7 @@ Given an array in no particular order, our goal is to adjust the ordering such t
 
 The obvious approach is to call the heap insertion method once for each item in our input array. This is the {\bf top-down} approach to heap creation.
 
-This can generally done in place, as we can treat the input array as a structurally valid but orderingly incorrect binary tree. As such, each insertion operation simply `ignores' values to its right. Since we are calling out $\Theta(\log n)$ insertion method $n$ times, we see that top-down heap creatoin has runtime complexity $\Theta(n\log n)$.
+This can generally done in place, as we can treat the input array as a structurally valid but orderingly incorrect binary tree. As such, each insertion operation simply `ignores' values to its right. Since we are calling our $\Theta(\log n)$ insertion method $n$ times, we see that top-down heap creation has runtime complexity $\Theta(n\log n)$.
 
 More formally, we see we have an upper bound such that the cost of the swaps is proportional to the depth of the node (i.e.\ which level it is on) and the number of nodes to process. This depth is given by $O(\log n)$ and the number of nodes by $n$, so we have $O(n\log n)$ as our upper bound. Our lower bound is given as such: the worst case occurs when the input array is sorted in ascending order (i.e.\ requires we perform the maximal number of swaps for each insertion). In this case, we would be required to swap $\lfloor\log n\rfloor$ times for each of our $n$ insertions.
 
@@ -280,21 +278,23 @@ The lower bound is at least $\Omega(n)$ (since we must run our heap creation on 
 There exist many sorting algorithms:
 \begin{table}[ht]
 \centering
-  \begin{tabular}{|l|c|}
+  \begin{tabular}{|l|c|c|c|c|}
   \hline
-  Algorithm & Complexity \\
+  Algorithm & Time Complexity & Stable & In Place & Memory Complexity \\
   \hline
   \hline
-  Selection Sort & $\Theta(n^2)$ \\
-  Insertion Sort & $\Theta(n^2)$ \\
-  Merge Sort & $\Theta(n\log n)$ \\
-  Heap Sort & $\Theta(n\log n)$ \\
-  Quick Sort & $\Theta(n\log n)$ \\
+  Selection Sort & $\Theta(n^2)$ & Maybe & Yes & $O(1)$ \\
+  Insertion Sort & $\Theta(n^2)$ & Yes & Yes & $O(1)$ \\
+  Merge Sort & $\Theta(n\log n)$ & Yes & No & $O(n)$ \\
+  Heap Sort & $\Theta(n\log n)$ & No & Yes & $O(1)$ \\
+  Quick Sort & $\Theta(n\log n)$ & Maybe & Maybe & $O(\log n)$ or $O(n)$ \\
+  Counting Sort & $\Theta(n+k)$ & Yes & No & $O(n+k)$ \\
+  Radix Sort Sort & $\Theta(d(n+k))$ & Yes & No & $O(n+k)$ \\
   \hline
   \end{tabular}
 \end{table}
 
-For a comparison-based algorithm, we have a lower bound of $\Omega(n\log n)$. For non-comparison-based algorithms, we can achieve $O(n)$.
+For a comparison-based algorithm, we have a lower bound of $\Omega(n\log n)$. For non-comparison-based algorithms, we can achieve $O(n)$ ($O(n+k)$ and $O(d(n+k))$ can be made to be $O(n)$ with a proper selection of $k$ and $d$).
 
 \subsection{PQ Sort}
 As mentioned above, we can sort data using a priority queue. Both \code{insert} and \code{delete} take $O(\log n)$ time, as does recursively sorting any newly moved elements. Thus, for sorting $n$ elements we see that PQ sort will take $O(n\log n)$ time, which is the same as mergesort.
@@ -361,7 +361,7 @@ partition(A, p):
             swap(A[i], A[j])
 \end{verbatim}
 
-In the \emph{worst case}, we have $\Theta(n^2)$ time. This would occur if the selected pivot is always $\max(A)$ and we are searching for the smallest element, for example in the array $[n, n-1, n-2, \cdots, 3, 2, 1]$.
+In the \emph{worst case}, we have $\Theta(n^2)$ time. This would occur if the selected pivot is always $\max(A)$ and we are searching for the smallest element, for example in the array $[n, n-1, n-2, \dots, 3, 2, 1]$.
 
 In the \emph{average case}, the probability of selecting a ``good'' pivot is $50\%$. After $r$ recursive calls, this means the array was halved approximately $\frac{r}{2}$ times. After $4\log n$ calls, we must be left with an array of size $1$. Thus we have
 \begin{align*}
@@ -527,7 +527,9 @@ We can use either hash tables or balanced search trees for these types of operat
 Note that both approaches can be adapted to minimize page faults.
 
 \subsection{Multi-Dimensional Data}
+An item is said to be multi-dimensional if it has $d > 1$ aspects (coordinates). Each item, then, corresponds to an item in $d$-dimensional space.
 
+Though we can use ordered arrays for one dimensional range searches, we prefer a balanced BST (e.g.\ AVL tree) when generalizing to higher dimensions. Using a balanced tree, we can perform a range search in $O(\log n)$ time and output the answers in $O(k + \log n)$, where $k$ is the number of answers.
 
 \section{Trees}
 \subsection{Binary Trees}
@@ -639,21 +641,6 @@ We define $N(h)$ to be the least number of nodes in an AVL with height $h$. One 
 
 Red-black trees are another binary tree implementation which is somewhat similar to AVL trees. They have a minsize 1 and a maxsize 3, but represent 2- or 3-nodes as two or three distinct binary nodes with a color (i.e.\ ``red'' or ``black'').
 
-There also exist the following other binary tree implementations:
-\begin{itemize}
-\item AA Trees
-\item Cartesian Trees
-\item Pagoda
-\item Rope
-\item Scapegoat Trees
-\item Splay Trees
-\item T Trees
-\item Tango Trees
-\item Top Trees
-\item Treap
-\item Weight-Balanced Trees
-\end{itemize}
-
 \subsection{B Trees}
 A {\bf B tree} is a classification of trees which have a more generalized structure than BSTs. Instead of each node having a single value, B tree nodes have multiple values. All B tree leaves must be at the same level.
 
@@ -687,16 +674,7 @@ To delete, we first swap the KVP with its successor so we are always deleting fr
 
 Note that the 2-3 tree \code{search}, \code{insert}, and \code{delete} implementations defined above are the same for all B tree implementations.
 
-We also have the following other B tree implementations:
-\begin{itemize}
-\item 2-3-4 Trees
-\item BX Trees
-\item Dancing Trees
-\item Fusion Trees
-\item Queap
-\end{itemize}
-
-Each implementation of a B tree has the following variations
+Each implementation of a B tree (including those not mentioned) has the following variations
 \begin{itemize}
 \item B Trees: standard implementation
 \item B+ Trees: all data stored in leaves (nodes are only used for determining which path to follow)
@@ -704,26 +682,43 @@ Each implementation of a B tree has the following variations
 \item B* Trees: all data stored in leaves, nodes are kept $\frac{2}{3}$ full by redistributing to three binary children leaves (two with data, one without)
 \end{itemize}
 
-\subsection{Multiway Trees}
-Multiway trees are trees which can have more than two children, as well as multiple values per node. We refer to multiway trees with a maximum of $m$ children as {\bf multiway trees of order $m$}.
+\subsection{Range-Finding Trees}
+\subsubsection{Quadtrees}
+{\bf Quadtrees} can be used to improve the efficiency of our range searches. If we have $n$ points in $P = \{(x_0,y_0), (x_1,y_1), \dots, (x_{n-1},y_{n-1})\}$, we can build a quadtree as follows:
+\begin{enumerate}
+\item Find a square $R$ which contains all the points in $P$ (using minimum and maximum $x$ and $y$ values)
+\item Let the root of the quadtree correspond to $R$
+\item We partition (split) $R$ into four equal subsquares (quadrants), each of which will correspond to a child of $R$
+\item Recursively repeat the previous step for each node containing more than one point
+\item Delete all leaves which do not contain a point
+\end{enumerate}
 
-There exist the following standard multiway tree implementations:
-\begin{itemize}
-\item (a,b) Trees
-\item And-Or Trees
-\item Disjoint-Set Data Structure
-\item Enfilade
-\item Exponential Trees
-\item Fenwick Trees
-\item Fusion Trees
-\item K-ary Trees
-\item Link/cut Trees
-\item Spaghetti Stack
-\item SPQR Trees
-\item Ternary Trees
-\item Van Emde Boas Trees
-\end{itemize}
+We can search a quadtree in the same way as a BST.\@ When we insert, we simply place the tem in the correct node and split that node if it contains more than one point. To delete, we search for the point, delete it, and walk back up the tree to delete unnecessary splits.
 
+The complexity of a quadtree range search is $\Theta(n + h)$, no matter the answer (e.g.\ including $\varnothing$). We also define the {\bf spread factor} of points $P$: $\beta(P) = \frac{d_{\max}}{d_{\min}}$, where $d_{\max}$ and $d_{\min}$ are the maximum or minimum distance between two points in $P$.
 
+Note the height of a quadtree is $h \in \Theta(\log_2 \frac{d_{\max}}{d_{\min}})$.
+
+The initial build time complexity of a quadtree is $\Theta(nh)$.
+
+Quadtrees are easy to compute and deal with, but can waste a large amount of space and can have large heights (depending on distribution of points). Furthermore, they are simple to generalize to higher dimensions (e.g.\ octrees).
+
+\subsubsection{KD Trees}
+The idea behind {\bf KD trees} is to split the points into two roughly equal sides and thus create a balanced binary tree. We do this by alternating between vertical and horizontal ``splitting lines'' until each section has only one point. This gives us a time complexity of $\Theta(n\log n)$ and the height of the tree $h\in \Theta(\log n)$.
+
+The range search algorithm
+\begin{verbatim}
+def rangeSearch(T,R):
+  if T.empty:
+    return
+  if T.point in R:
+    report T.point
+  for each child C in T:
+    if C.region intersect R is null:
+      rangeSearch(C, R)
+\end{verbatim}
+has a complexity of $\Theta(k + U)$, where $k$ is the number of keys reported and $U$ is the number of regions we unsuccessfully visit.
+
+We define $Q(n)0$ as the maximum number of regions which intersect a splitting line. We have $Q(n) = 2Q(\quarter n) + O(1)$ which solves to \[ Q(n) = Q(\sqrt(n)) \] and we have time complexity $O(k + \sqrt(n))$.
 
 \end{document}
