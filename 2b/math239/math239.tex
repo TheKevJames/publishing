@@ -600,7 +600,31 @@ Every connected graph in which every vertex has even degree is Eulerran.
 \end{theorem}
 
 \begin{proof}
-If the edge set is empty, the theorem is obviously true. Suppose the theorem holds for all graphs on $< m$ edges. Let $G$ be a connected graph with $m$ edges and all even degrees. By the propositions, $G$ contains a cycle. Let $F$ be the edge set of a largest-possible closed walk of $G$ that doesn't repeat edges.
+If the edge set is empty, the theorem is obviously true. Suppose the theorem holds for all graphs on $< m$ edges. Let $G$ be a connected graph with $m$ edges and all even degrees. By the propositions, $G$ contains a cycle. Let $F$ be the edge set of a largest-possible closed walk of $G$ that doesn't repeat edges. If $F=E$, we're done, Otherwise, $(V,E-F)$ is a graph with even degrees and fewer edges than $G$, so by the IH each of its components has a Euler tour. Combining such a Euler tour with $F$ gives a longer closed walk with no repeated edges, a contradiction.
 \end{proof}
+
+An edge $e$ of a graph $G$ is a {\bf bridge} of $G$ ig $G-e$ has more components than $G$.
+
+\begin{lemma}
+If $E=xy$ is a bridge of $G$, then $x$ and $y$ are in different components of $G-e$.
+\end{lemma}
+
+\begin{lemma}
+If $e$ is a bridge of $G$, then $G-e$ has exactly one more componenet than $G$.
+\end{lemma}
+
+\begin{proof}
+In the case where $G$ is connected: $G-e$ has $\geq 2$ components. Suppose for a contradiction that $G-e$ has $\geq 3$ componenets; let $C_0, C_1, C_2$ be distinct components of $G-e$. At least one of these components contains neither end of $e$, and is therefore a component of $G$. Since it does not contain $e$, it is not all of $G$; thus $G$ is diconected.
+\end{proof}
+
+A graph is $k${\bf -edge-connected} if deleting any $k-1$ edges leaves a connected graph.
+
+\begin{theorem}[Menger's Theorem (Edge version)]
+If $G$ is a $k$-edge-connected graph, then there are $k$ edge-disjoint paths between every pair of vertices in $G$.
+\end{theorem}
+
+\begin{theorem}
+Let $G$ be a cnnected graph with no bridge. For any pair of vertices $x,y$ in $G$, there are two edge-disjoint paths of $G$ btween $x$ and $y$.
+\end{theorem}
 
 \end{document}
