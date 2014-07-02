@@ -627,4 +627,49 @@ If $G$ is a $k$-edge-connected graph, then there are $k$ edge-disjoint paths bet
 Let $G$ be a cnnected graph with no bridge. For any pair of vertices $x,y$ in $G$, there are two edge-disjoint paths of $G$ btween $x$ and $y$.
 \end{theorem}
 
+\subsection{Trees}
+A {\bf tree} is a connected graph with no cycle (acyclic). In a graph such as this, each edge is a bridge.
+
+\begin{lemma}
+Every edge of a tree is a bridge.
+\end{lemma}
+
+\begin{proof}
+We proved earlier than an edge $e$ is a bridge if and only if $e$ is contained in no cycle. Therefore every edge of a tree is a bridge.
+\end{proof}
+
+\begin{lemma}
+If $x,y$ are vertices of a tree $T$, then there is a unique path of $T$ from $x$ to $y$.
+\end{lemma}
+
+\begin{proof}
+Let $P,Q$ be different paths from $x$ to $y$. $P$ and $Q$ `diverge' at some point and $Q$ `returns' to a vertex in $P$ at some point thereafter; this gives a cycle, so $T$ is not a tree. Contradiction!
+\end{proof}
+
+\begin{proof}[Alternative Proof]
+Let $A$ be the set of edges of $T$ so that $x,y$ are in different components after the edge is removed. Let $B$ be the set of edges such that $x,y$ are in the same component once the edge is removed.
+
+Clearly every path from $x$ to $y$ users every edge in $A$ and none in $B$. This determines a unique path.
+\end{proof}
+
+\begin{lemma}
+Every tree on $\geq 2$ vertices has a leaf (vertex of degree 1).
+\end{lemma}
+
+\begin{proof}
+We proved earlier that every graph with min degree $\geq 2$ has a cycle. By contraposition, every acyclic graph has a vertex of degree less than two. Since trees on $\geq 2$ vertices have no vertices of degree 0, this implies they all have a leaf.
+\end{proof}
+
+\begin{lemma}
+Every tree on $\geq 2$ vertices has $\geq 2$ leaves.
+\end{lemma}
+
+\begin{proof}
+Let $v_0, v_1, v_2, \dots v_k$ be a longest path of $T$. By maximality of the path, neither $v_0$ nor $v_k$ has a neighbour outside the path. By acyclicity, neither has a neighbour inside the path except for $v_1, v_{k-1}$ respectively. So $v_0, v_k$ have degree 1.
+\end{proof}
+
+\begin{lemma}
+Each tree on $n \geq 1$ vertices has exactly $n-1$ edges.
+\end{lemma}
+
 \end{document}

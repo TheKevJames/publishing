@@ -691,6 +691,54 @@ We also see that $H(j\omega) = |H(j\omega)| e^{j\angle H(j\omega)}$. Thus we hav
 
 In systems and signals, we generally focus on the zero-state response (where we have $Y(s) = aB(s) + cy(0^-)$ is the sum of the ``zero-state'' and ``zero-input'' responses), so we still have the relationship \[ Y(s) = H(s)F(s) \]
 
-In the time domain, we have the standard first order system \[ H(s) = \frac{K}{s\tau = 1} \] where $k, \tau \in \mathbb{R}$ and $k, \tau > 0$. For the impulse response, we know that $y(t) = \mathcal{L}^{-1} \{ H(s)F(s) \}$; if $f(t) = \delta(t)$, then \[ F(s) = \lim_{x\uparrow 0} \int_{-\infty}^\infty \delta(t) e^{-st} \dd t \] which gives us \[ y(t) = \frac{k}{\tau} e^{\frac{-t}{\tau}} e_{-1}(t) \]
+In the time domain, we have the standard first order system \[ H(s) = \frac{K}{s\tau - 1} \] where $k, \tau \in \mathbb{R}$ and $k, \tau > 0$. For the impulse response, we know that $y(t) = \mathcal{L}^{-1} \{ H(s)F(s) \}$; if $f(t) = \delta(t)$, then \[ F(s) = \lim_{x\uparrow 0} \int_{-\infty}^\infty \delta(t) e^{-st} \dd t \] which gives us \[ y(t) = \frac{k}{\tau} e^{\frac{-t}{\tau}} e_{-1}(t) \]
+
+\subsection{Stability}
+If a system behaves like a standard first order system as the real pole ($\alpha$) approaches zero, we say that the real pole is {\bf dominant}. If the system behaves like a standard second order transfer function as the real pole approaches infinity, then we have a system where the complex poles are dominant.
+
+The dominant pole is responsible for determining the response of the system when we are in the time domain. If no pole is dominant, the response is based on both.
+
+We generally say that poles are dominant if all other poles are at least five times further from the imaginary axis than they are. This is more-or-less a rule of thumb.
+
+A rational transfer function is {\bf stable} if all of its finite poles have real parts which are strictly negative. In this case, we sometimes say that all of the poles ``lie in the open left-half-plane''. All real responses, then, will be decaying exponentially (if all poles are strictly positive, we have an increasing exponential response and if they all lie exactly on the imaginary axis we will have a constant response).
+
+A notion of stability of LTI systems is based on that of {\bf boundedness} of a signal. We say that a signal $x(t)$ is bounded if there exists some real number $M \in \mathbb{R}$ such that $|x(t)| \leq M, \forall t$. A single-input single-output (SISO) system is said to be ``bounded-input bounded-output stable'' (BIBO stable) if, whenever its input signal is bounded, its output signal is also bounded.
+
+A rational function is {\bf proper} (respectively, {\bf strictly proper}) if the degree of its numerator is $\leq$ (respectively, $<$) that of its denominator.
+
+\begin{theorem}
+A SISO LTI system with a rational tranfer function is BIBO stable if and only if that transfer function is both stable and proper.
+\end{theorem}
+
+\begin{proof}[If]
+Suppose the transfer function is stable and proper. Then it can be decomposed into the sum of a constant $a_0$ and various terms of the form $\frac{a_{jk}}{{(s-p_j)}^k}$ where the real part of $p_j$ is strictly negative. Taking the inverse transform, we have $\mathcal{L}^{-1} \{ a_0 \} = a_0 \delta(t)$ and $\mathcal{L}^{-1} \{ \frac{a_{jk}}{{(s-p_j)}^k} \} = a_{jk} e^{p_j t} e^{k-1} u_{-1}(t)$ where $\Re (p_j) < 0$.
+
+Suppose that the inout $x(t)$ is bounded \[ |x(t)| \leq M, \forall t \] for some real $M$. So, the output is a sum of convolutions of the form \[ \int_{0^-}^\infty x(t-\tau) a_0 \delta(\tau) \dd\tau = a_0 x(t) \]
+
+But $|a_0 x(t)| \leq a_0 M$ so this term is bounded and $\infty_{0^-}^\infty x(t-\tau) a_{jk} \tau^{k-1} e^{p_j \tau} \dd\tau \leq M \int_{0^-}^\infty a_{jk} \tau^{k-1} e^{p_j \tau} \dd\tau$ which will converge.
+
+So $y(t)$ is a finite sum of bounded functions and therefore is itself bounded.
+\end{proof}
+
+\begin{proof}[Only If]
+Suppose the transfer function is unstable. Then it has some pole $p$ whose real part is not strictly negative.
+
+Suppose $p=0$. Then a partial-fractions decomposition of $H(s)$ contains a term proportional to $\frac{1}{s}$; i.e.\ the system is not BIBO stable.
+
+If we suppose that $p = j\omega, \omega \neq 0$, we can find that the system must also not be BIBO stable. If we have $y(t) = \mathcal{L}^{-1} \{ \frac{1}{s-j\omega}\frac{1}{s-j\omega} \}$ which gives $y(t) = e^{j\omega t} tu_{-1}(t)$ which is unbounded.
+
+Finally, if $\Re(p) > 0$, then the step response contains a term
+\begin{align*}
+y(t) &= \mathcal{L}^{-1} \{ \frac{1}{{(s-p)}^k} \frac{1}{s} \}\\
+&= \int_{0^-}^t e^{pt} t^{k-1} u_{-1}(t) \dd t
+\end{align*}
+which is unbounded because $\Re(p) > 0$.
+
+Therefore, the stability of the transfer function is necessary.
+
+Suppose the transfer function is improper. Then \[ H(s) = q(s) + \frac{n(s)}{d(s)} \] where $q(s)$ is a polynomial of degree $\geq 1$ and $\frac{n(s)}{d(s)}$ is strictly proper.
+
+So a unit step gives rise to a Dirac delta function in the expression for the output.
+\end{proof}
 
 \end{document}
