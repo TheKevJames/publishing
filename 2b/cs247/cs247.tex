@@ -551,4 +551,86 @@ The Law of Demeter is the principle of least knowledge and suggests loose coupli
 \item each unit should prefer only interacting with immediate friends
 \end{itemize}
 
+\section{Templates}
+Suppose we want to create our own generic classes and functions. A {\bf function template} describes this sort of family:
+\begin{verbatim}
+template<typename T>
+int compare(const T &lhs, const T &rhs) {
+    if(lhs < rhs) {
+        return -1;
+    }
+    if(lhs > rhs) {
+        return 1;
+    }
+    return 0;
+}
+\end{verbatim}
+
+We can use this code as \code{compare(3, 4);}, \code{compare(3.14, 4.2);}, etc.
+
+If we would like to compare different types, we could use
+\begin{verbatim}
+template<typename T1, typename T2>
+int compare(const T1 &lhs, const T2 &rhs) { ... }
+\end{verbatim}
+whether or not we would find such a thing useful (this allows for code such as \code{compare(``whale'', 42);}) is left as an exercise to the reader.
+
+We can also return templates with
+\begin{verbatim}
+template<typename T>
+T compare(const int &lhs, const int &rhs) { ... }
+\end{verbatim}
+at which point we must make explicit our desired return type, e.g.\ \code{compare<float>(3,4);}.
+
+Note that in the case of code such as
+\begin{verbatim}
+template<typename T1, typename T2, typename T3>
+T1 compare(const T2 &lhs, const T3 &rhs) { ... }
+\end{verbatim}
+this explicitness works as follows: \code{compare</*T1 = */float, /*T2 = */int, /*T3 = */float>(3, 3.14);}, i.e.\ the templates must be assigned in order.
+
+We can also create templated class definitions:
+\begin{verbatim}
+template<typename T>
+class Stack {
+    T _items[STACK_SIZE];
+public:
+    Stack();
+    void push(const &T);
+    T pop();
+}
+
+template<typename T>
+void Stack<T>::push(const T &elem) { ... }
+\end{verbatim}
+
+The template handle also allows us to provide default but compile-time editable variables as follows:
+\begin{verbatim}
+template<typename T, int size = 100>
+class Stack {
+    T _items[size];
+    ...
+}
+\end{verbatim}
+which can be used as \code{Stack<T> myStack;} to create a Stack of default size 100 or as \code{Stack<T, 42> myStack;} to create a Stack with a non-default size (e.g.\ 42).
+
+If we make assumptions within our templated code, that can place restrictions on which types may be templated. For example:
+\begin{verbatim}
+template<typename T>
+T mumble(T val) {
+    val.speak();
+    std::cout << val << std::endl;
+    return "Frog";
+}
+\end{verbatim}
+will only compile if there exists some type or class which has a \code{speak()} method, an output stream operator, and can be typecase from a string.
+
+\subsection{Friends}
+There are three types of friends declarations which may appear in a class templat. Each type of declaration describes friendship to one or more entities:
+\begin{enumerate}
+\item a friend declaration for an ordinary nontemplate class or function, which grants friendship to a specific named class or function
+\item a friend declaration for a class template or function template, which grants access to all instances of the friend
+\item a friend declaration which grants access only to a specific instance of a class or function template
+\end{enumerate}
+
 \end{document}
