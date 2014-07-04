@@ -672,4 +672,57 @@ Let $v_0, v_1, v_2, \dots v_k$ be a longest path of $T$. By maximality of the pa
 Each tree on $n \geq 1$ vertices has exactly $n-1$ edges.
 \end{lemma}
 
+\begin{proof}
+This is trivial for $n=1$. Fix $n>1$ and suppose inductively that the result holds for all positive integers less than $n$. Let $T$ be a tree on $n$ vertices and $e$ be an edge of $T$.
+
+We know that $e$ is a bridge, so $T-e$ has exactly two componenets $T_1, T_2$; each is acyclic and is thus a tree. If $|V(T_1)| = n$, then $n_1 + n_2 = n$. By the induction hypothesis, each $T_i$ has $n_i - 1$ edges, so $T$ has $(n_1 - 1) + (n_2 - 1) + 1 = n-1$ edges.
+\end{proof}
+
+\begin{lemma}
+Each tree $T$ on $n \geq 2$ vertices has $\geq 2$ leaves.
+\end{lemma}
+
+\begin{proof}
+By the handshake theorem, $2(n-1) = 2|E(T)| = \displaystyle\sum_{v\in V(T)} \deg(v)$.
+
+So
+\begin{align*}
+-2 &= \sum_{v\in V(T)} \deg(v) - 2n\
+-2 &= \sum_{v\in V(T)} (\deg(v) - 2)
+\end{align*}
+
+Since $\deg(v) \geq 1$ for all $v$ which implies $\deg(v) - 2 \geq 0$ for all vertices of degree $\geq 2$, it follows that there are at least 2 vertices of degree 1 (i.e.\ there are two leaves).
+\end{proof}
+
+Note that given the above proof, we can prove that if a graph has exactly two leaves, the other vertices must all have degree two\dots thus we see that this graph must be a path.
+
+\subsubsection{Spanning Trees}
+A {\bf spanning tree} for a graph $G$ is a spanning subgraph $T$ of $G$ ($V(T) = V(G)$) that is a tree.
+
+\begin{lemma}
+A graph $G$ has a spanning tree if and only if $G$ is connected.
+\end{lemma}
+
+\begin{proof}
+Suppose $G$ has a spanning tree $T$. By connectedness of $T$, there is a path in $T$ between two vertices of $T$ which is a path in $G$; thus $G$ is connected. Conversely, suppose that $G$ is connected.
+
+Let $H$ be a minimal connected spanning subgraph of $G$. To show that $H$ is a spanning tree, we need to argue it is acyclic. By minimality, every edge is a brdige. But then $H$ is acyclic, so it is a spanning tree.
+\end{proof}
+
+\begin{lemma}
+Corrolary: Every connected graph on $n$ vertices has $\geq n-1$ edges.
+\end{lemma}
+
+\begin{proof}
+The graph has a spanning tree, which has $n-1$ edges.
+\end{proof}
+
+\begin{lemma}
+Corrolary: Every connected graph on $n$ vertices and $n-1$ edges is a tree.
+\end{lemma}
+
+\begin{proof}
+The graph has a spanning tree using all the edges.
+\end{proof}
+
 \end{document}
