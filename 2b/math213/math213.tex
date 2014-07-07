@@ -741,4 +741,19 @@ Suppose the transfer function is improper. Then \[ H(s) = q(s) + \frac{n(s)}{d(s
 So a unit step gives rise to a Dirac delta function in the expression for the output.
 \end{proof}
 
+\subsection{Frequency Response}
+We represent the frequency response as a Bode plot: $|H(j\omega)|_{\text{dB}}$ vs $\log_{10} \omega$ (``magnitude'') and $\angle H(j\omega)$ vs $\log_{10} \omega$ (``phase''). Note that a Bel is the $\log_{10}$ of the ratio of the average power of two signals. This basically boils down to seeing that if \[ H(s) = G_1(s)G_2(s)\dots G_m(s) \] then we have \[ \angle H(j\omega) = \angle G_1(j\omega) \angle G_2(s) \dots \angle G_m(j\omega) \]
+
+Because $|H(j\omega)|$ is the ratio of amplitudes of sinusoidal signals and $|H(j\omega)|^2$ is, therefore, the ratio of powers of signals, we see that \[ |H(j\omega)|_{dB} = 10 \log_{10} |H(j\omega)|^2 = 20 \log_{10} |H(j\omega)| \]
+
+We know, then, that \[ |H(j\omega)|_{dB} = |G_1(j\omega)|_{dB} + |G_2(j\omega)|_{dB} + \cdots + |G_m(j\omega)|_{dB} \]
+
+In a standard first order system, we have $H = \frac{K}{s\tau + 1}$. Then we have
+\begin{align*}
+H(j\omega) &= \frac{K}{1 + j\omega\tau}\\
+|H(j\omega)| &= \frac{K}{\sqrt{1 + {(\omega\tau)}^2}}\\
+20\log_{10}|H(j\omega)| &= 20\log_{10} K - 20\log_{10} \sqrt{1+{(\omega\tau)}^2}\\
+20\log_{10}|H(j\omega)| &\approx 20\log_{10} K
+\end{align*}
+
 \end{document}

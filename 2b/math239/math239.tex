@@ -725,4 +725,52 @@ Corrolary: Every connected graph on $n$ vertices and $n-1$ edges is a tree.
 The graph has a spanning tree using all the edges.
 \end{proof}
 
+\begin{theorem}
+\label{bipartiteTrees}
+Every tree is bipartite.
+\end{theorem}
+
+\begin{proof}
+Suppose the statute holds for all trees on $<n$ vertices (where $n\geq 2$ is an integer; note that $n=2$ is a simple base case). Let $T$ be a tree on $n$ vertices and $e=uv$ be an edge of $T$ so that $v$ is a leaf. By the inductive hypothesis, $T-v$ is bipartite with bipartition $(A^\prime, B^\prime)$ where $u \in A^\prime$. Now, $(A^\prime, B^\prime \cup \{v\})$ is a bipartition of $T$.
+\end{proof}
+
+\begin{lemma}
+\label{bipartiteWalkLengths}
+If $G$ is a bipartite graph and $u,v \in V(G)$, then
+\begin{itemize}
+\item if $u,v$ are in the same part of a biparititon, then every walk from $u$ to $v$ has an even length
+\item if $u,v$ are in different parts, then every walk from $u$ to $v$ has odd length
+\end{itemize}
+\end{lemma}
+
+\begin{proof}
+Obvious.
+\end{proof}
+
+\begin{lemma}
+If $G$ is a graph with no odd cycles, then $G$ is bipartite.
+\end{lemma}
+
+\begin{proof}
+Let $T$ be a spanning tree of $G$ (we may assume that $G$ is connected; otherwise, we may apply this proof to each component). Let $(A,B)$ be a bipartition of $T$ (by theorem~\ref{bipartiteTrees}). By lemma~\ref{bipartiteWalkLengths} and connectedness of $T$, any two vertices in the same part of this bipartition have an even path between them.
+
+Therefore, every edge of $G$ between vertices of $G$ in the same part of $(A,B)$ is in an odd cycle of $G$. Since $G$ has no odd cycles, there are no such adges. So $(A,B)$ is a bipartition of $G$, and $G$ is thus bipartite.
+\end{proof}
+
+{\bf Problem:} Given a graph $G$ and a real number $w(e)$ assigned to each edge $e$ (its weight), find a spanning tree of $G$ of minimum total weight.
+
+{\bf Algorithm:} an algorithm (Prim's algorithm) for solving this problem is as follows:
+\begin{enumerate}
+\item Let $T = (\{v\},\varnothing)$, where $v \in V(G)$ is arbitrary
+\item While $T$ is not a spanning tree (i.e.\ $|E(T)| < V(T) -1$)
+\begin{enumerate}
+\item Let $f=uv$ be a minimum weight edge such that $u \in V(T), v \notin V(T)$ ($f$ is in the cut of $G$ induced by $V(T)$)
+\item Add $f$ abd $v$ to $T$
+\end{enumerate}
+\end{enumerate}
+
+\begin{theorem}
+Prim's algorithm outputs a minimum weight spanning tree.
+\end{theorem}
+
 \end{document}
