@@ -765,12 +765,29 @@ Therefore, every edge of $G$ between vertices of $G$ in the same part of $(A,B)$
 \item While $T$ is not a spanning tree (i.e.\ $|E(T)| < V(T) -1$)
 \begin{enumerate}
 \item Let $f=uv$ be a minimum weight edge such that $u \in V(T), v \notin V(T)$ ($f$ is in the cut of $G$ induced by $V(T)$)
-\item Add $f$ abd $v$ to $T$
+\item Add $f$ and $v$ to $T$
 \end{enumerate}
 \end{enumerate}
 
 \begin{theorem}
 Prim's algorithm outputs a minimum weight spanning tree.
+\end{theorem}
+
+\begin{proof}
+Let $T$ be a tree given by Prim's Algorithm with esge set $\{e_1, \dots, e_n\}$. Let $k \leq n$ be maximal such that there is a minimum weight spanning tree $T^*$ containing edges $\{e_1, \dots, e_k\}$. If $k=n$ then $T$ is a minimum weight spanning tree, as required.
+
+So we may assume that $k < n$. Therefore, $e_{k-1} \notin E(T^*)$, but by connectedness $T^*$ contains an edge $e^\prime$ with one end in $\{v_1, \dots, v_{k+1}\}$ and the other edge outside. Since $e_{k+1}$ was chosen by Prim's Algorithm, we have $w(e^\prime) \geq w(e_{k+1})$. But now $T^\prime = T^* - e^\prime + e_{k+1}$ is a spanning tree of weight $w(T^*) - w(e^\prime) + w(e_{k+1}) \leq w(T^*)$.
+
+So $T^\prime$ is a minimum spanning tree containing $e_1, e_2, \dots, e_{k+1}$, contradicting the maximality of $k$.
+\end{proof}
+
+\subsection{Planarity}
+A graph is {\bf planar} if it can be drawn in the plane without edges crossing. Such a drawing is a {\bf planar embedding}.
+
+Any closed loop that does not intersect itself divides $\mathbb{R}^2$ into an `outside' and an `inside'. This is the {\bf Jordan Curve Theorem}.
+
+\begin{theorem}
+A graph is planar if and only if it has a spherical embedding.
 \end{theorem}
 
 \end{document}
