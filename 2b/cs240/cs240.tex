@@ -8,6 +8,7 @@
     linkcolor=black,
     urlcolor=black
 }
+\setcounter{secnumdepth}{5}
 
 \begin{document}
 
@@ -527,7 +528,7 @@ We can use either hash tables or balanced search trees for these types of operat
 Note that both approaches can be adapted to minimize page faults.
 
 \subsection{Multi-Dimensional Data}
-An item is said to be multi-dimensional if it has $d > 1$ aspects (coordinates). Each item, then, corresponds to an item in $d$-dimensional space.
+An item is said to be multi-dimensional if it has $d > 1$ aspects (co-ordinates). Each item, then, corresponds to an item in $d$-dimensional space.
 
 Though we can use ordered arrays for one dimensional range searches, we prefer a balanced BST (e.g.\ AVL tree) when generalizing to higher dimensions. Using a balanced tree, we can perform a range search in $O(\log n)$ time and output the answers in $O(k + \log n)$, where $k$ is the number of answers.
 
@@ -565,6 +566,24 @@ There exist the following BST variations:
 \item Self-Balancing BST
 \item Threaded BST
 \end{itemize}
+
+We can perform a single-dimensional range search on a BST as:
+\begin{verbatim}
+BST-rangeSearch(T, k1, k2):
+  if T = nil:
+    return
+  if key(T) < k1:
+    BST-rangeSearch(T.right, k1, k2)
+  if key(T) > k2:
+    BST-rangeSearch(T.left, k1, k2)
+
+  if k1 ≤ key(T) ≤ k2:
+    BST-rangeSearch(T.left, k1, k2)
+    report key(T)
+    BST-rangeSearch(T.right, k1, k2)
+\end{verbatim}
+
+Given $k$ is the number of reported items, this algorithm runs in $O(k + \log n)$ time.
 
 \subsubsection{AVL Trees}
 An {\bf AVL tree} is a BST with an additional structural property: the heights of the left and right subtree must differ by no more than one (where an empty tree is defined to have a height of $-1$).
@@ -683,8 +702,16 @@ Each implementation of a B tree (including those not mentioned) has the followin
 \end{itemize}
 
 \subsection{Range-Finding Trees}
-\subsubsection{Quadtrees}
-{\bf Quadtrees} can be used to improve the efficiency of our range searches. If we have $n$ points in $P = \{(x_0,y_0), (x_1,y_1), \dots, (x_{n-1},y_{n-1})\}$, we can build a quadtree as follows:
+When we find ourselves needing to perform a multi-dimensional range search, we have several options:
+\begin{itemize}
+\item reduce our data to a single key (this is not simple or straightforward)
+\item use a dictionary for each dimension (inefficent, wastes space)
+\item use partition trees
+\item use multi-dimensional range trees
+\end{itemize}
+
+\subsubsection{Partition Trees}
+\paragraph{Quadtrees} can be used to improve the efficiency of our range searches. If we have $n$ points in $P = \{(x_0,y_0), (x_1,y_1), \dots, (x_{n-1},y_{n-1})\}$, we can build a quadtree as follows:
 \begin{enumerate}
 \item Find a square $R$ which contains all the points in $P$ (using minimum and maximum $x$ and $y$ values)
 \item Let the root of the quadtree correspond to $R$
@@ -693,9 +720,20 @@ Each implementation of a B tree (including those not mentioned) has the followin
 \item Delete all leaves which do not contain a point
 \end{enumerate}
 
-We can search a quadtree in the same way as a BST.\@ When we insert, we simply place the tem in the correct node and split that node if it contains more than one point. To delete, we search for the point, delete it, and walk back up the tree to delete unnecessary splits.
+We can search a quadtree in the same way as a BST.\@ When we insert, we simply place the item in the correct node and split that node if it contains more than one point. To delete, we search for the point, delete it, and walk back up the tree to delete unnecessary splits.
 
-The complexity of a quadtree range search is $\Theta(n + h)$, no matter the answer (e.g.\ including $\varnothing$). We also define the {\bf spread factor} of points $P$: $\beta(P) = \frac{d_{\max}}{d_{\min}}$, where $d_{\max}$ and $d_{\min}$ are the maximum or minimum distance between two points in $P$.
+We can perform a range search on a quadtree as:
+\begin{verbatim}
+QTree-RangeSearch(T, R):
+  if (T is a leaf):
+    if (T.point ∈ R):
+      report T.point
+  for each child C of T:
+    if C.region intersect R is null:
+      QTree-RangeSearch(C, R)
+\end{verbatim}
+
+The complexity of a quadtree range search is $O(nh)$, no matter the answer (e.g.\ including $\varnothing$). We also define the {\bf spread factor} of points $P$: $\beta(P) = \frac{d_{\max}}{d_{\min}}$, where $d_{\max}$ and $d_{\min}$ are the maximum or minimum distance between two points in $P$.
 
 Note the height of a quadtree is $h \in \Theta(\log_2 \frac{d_{\max}}{d_{\min}})$.
 
@@ -703,31 +741,37 @@ The initial build time complexity of a quadtree is $\Theta(nh)$.
 
 Quadtrees are easy to compute and deal with, but can waste a large amount of space and can have large heights (depending on distribution of points). Furthermore, they are simple to generalize to higher dimensions (e.g.\ octrees).
 
-\subsubsection{KD Trees}
-The idea behind {\bf KD trees} is to split the points into two roughly equal sides and thus create a balanced binary tree. We do this by alternating between vertical and horizontal ``splitting lines'' until each section has only one point. This gives us a time complexity of $\Theta(n\log n)$ and the height of the tree $h\in \Theta(\log n)$.
+\paragraph{} The idea behind {\bf KD trees} is to split the points into two roughly equal sides and thus create a balanced binary tree. We do this by alternating between vertical and horizontal ``splitting lines'' until each section has only one point. This gives us a time complexity of $\Theta(n\log n)$ and the height of the tree $h\in \Theta(\log n)$.
 
 The range search algorithm
 \begin{verbatim}
-def rangeSearch(T,R):
+def KDTree-rangeSearch(T,R):
   if T.empty:
     return
   if T.point in R:
     report T.point
   for each child C in T:
     if C.region intersect R is null:
-      rangeSearch(C, R)
+      KDTree-rangeSearch(C, R)
 \end{verbatim}
 has a complexity of $\Theta(k + U)$, where $k$ is the number of keys reported and $U$ is the number of regions we unsuccessfully visit.
 
-We define $Q(n)0$ as the maximum number of regions which intersect a splitting line. We have $Q(n) = 2Q(\quarter n) + O(1)$ which solves to \[ Q(n) = Q(\sqrt(n)) \] and we have time complexity $O(k + \sqrt(n))$.
+We define $Q(n)0$ as the maximum number of regions which intersect a splitting line. We have $Q(n) = 2Q(\quarter n) + O(1)$ which solves to $Q(n) \in O(\sqrt(n))$ and we have overall time complexity of range search given as $O(k + \sqrt(n))$.
 
-The query time of a KD tree is $O(2^{1-1d} + n)$. % CHECK THIS
+For higher dimensional KD trees, we have storage space $O(n)$, construction time $O(n\log n)$, and range search time $O(n^{1-\frac{1}{d}} + k)$ (where $d$ is the number of dimensions and is considered constant).
 
 \subsubsection{Range Trees}
-A {\bf range tree} is a tree of trees (a multi-level data structure).
+A {\bf range tree} is a tree of trees (a multi-level data structure). In essence, a range tree is built by creating a balanced BST determined solely based on the first-dimension co-ordinates of each element. Then, for every node in this tree, a \emph{new} balanced BST is created determined by the second-dimension co-ordinates of the nodes below the selected node in the current tree.
 
-% MISSING
+A range search is simply a range search in the outer-most tree which then recurses on each ``top'' node in range. Thus for each dimension, we perform a standard range search on that tree level number (e.g.\ the trees created using the nodes of the outer-most tree are used to search with second-dimension data).
 
+In two dimensions, a range tree search gives run time $O(k + \log^2 n)$. Note that construction time and storage usage both are in $O(n\log n)$. This generalizes to:
+\begin{itemize}
+\item storage space: $O(n\log^{d-1} n)$
+\item construction time: $O(n\log^{d-1} n)$
+\item range search time: $O(k + \log^d n)$
+\end{itemize}
 
+% \section{String Matching}
 
 \end{document}
