@@ -790,4 +790,22 @@ Any closed loop that does not intersect itself divides $\mathbb{R}^2$ into an `o
 A graph is planar if and only if it has a spherical embedding.
 \end{theorem}
 
+A planar embedding has {\bf faces}, which are the regions represented by all closed-cycle planar representations. Note that the region outside of the entire graph is also a face. Each of these faces have a degree equal to the number of edges that face touches.
+
+Two faces area adjacent in they are incident with a common edge. A closed walk which starts on some vertex on a face and ``traverses'' the entire face is a {\bf bounding walk}. The degree of a face is the length of this boundary walk for that face.
+
+\begin{theorem}[Handshake Theorem for Faces]
+If a connected planar embedding of $G = (v,e)$ has faces $f_1, \dots, f_k$, then $\displaystyle\sum_{i=1}^k \deg(f_i) = 2|E|$.
+\end{theorem}
+
+\begin{proof}
+Each edge contributes two to the total length of boundary walks; one for each side.
+
+{\bf Better proof:} Every planar embedding $G$ has a {\bf planar} dual embedding $G^*$ whose vertices are the faces of $G$ and whose edges correspond to face adjacencies.
+\end{proof}
+
+\begin{theorem}[Euler's Formula]
+For any planar embedding of a connected grap $G = (V,E)$ with face set $F$, we have $|V| - |E| + |F| = 2$.
+\end{theorem}
+
 \end{document}
