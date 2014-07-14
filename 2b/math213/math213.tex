@@ -756,4 +756,27 @@ H(j\omega) &= \frac{K}{1 + j\omega\tau}\\
 20\log_{10}|H(j\omega)| &\approx 20\log_{10} K
 \end{align*}
 
+\section{Fourier Series}
+The effect of sinusoidal signals $e^{j\omega t}$ on LTI systems is easy to analyze: we simply multiply our input by the frequency response $H(j\omega)$. We can extend this analysis via the {\bf Fourier Series} to other periodic signals.
+
+We represent a periodic signal as an infinite sum of sinusoids.
+
+A function $f(t)$ is {\bf periodic} with period $T$ if for all $t$, $f(t+T) = f(t)$. If this in the case, clearly $f$ is periodic with period $af, a \in \mathbb{Z}$. We continue to refer to a periodic function by its minimal period, i.e.\ $T$, not $3T$.
+
+Given such a function, we'll try to represent it as a superposition of $e^{j\frac{2\pi}{T}nt}, n \in \mathbb{Z}$. A function $f$ is {\bf piecewise-smooth} on the interval $[-\half T, \half T]$ if there exists a finite set of points $-\half T = t_0 < t_1 < t_2 < \cdots < t_k = \half T$ such that $f$ and $\dot f$ are bounded and continuous on each interval.
+
+The set of all piecewise-smooth functions on $[-\half T, \half T]$ forms a vector space (under multiplication by complex scalars). We can make the vector space into an {\bf inner product space} by defining \[ <f,g> = \frac{1}{T} \int_{-\half T}^{\half T} f(t) g^*(t) \dd t \]
+
+The complex sinusoids $e^{j \frac{2\pi}{T} nt} (n \in \mathbb{Z})$ form an orthonormal basic of a subspace of the piecewise-smooth functions of $[-\half T, \half T]$.
+
+Given $f = e^{j\frac{2\pi}{T}mt}$ and $g = e^{j\frac{2\pi}{T}{nt}}$, $<f,g> =
+\begin{dcases*}
+1 & if $m = n$\\
+0 & otherwise
+\end{dcases*}$.
+
+We'll approximate a piecewise-smooth function $f(t)$ by its projection onto this subspace \[ f(t) \approx \sum_{n=-\infty}^\infty c_n e^{j\frac{2\pi}{T} nt} \] where $c_n = <f(t), e^{j\frac{2\pi}{T}nt}>$.
+
+For every partial sum, we can define an error function \[ e_N(t) = f(t) - \sum_{n=-N}^N c_n e^{j\frac{2\pi}{T}nt} \] We define the ``size'' of the error as $<e_n, e_n>$ which is the ``average power'' of the error signal. Then the average power is
+
 \end{document}

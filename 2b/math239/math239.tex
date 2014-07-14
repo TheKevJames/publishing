@@ -808,4 +808,35 @@ Each edge contributes two to the total length of boundary walks; one for each si
 For any planar embedding of a connected grap $G = (V,E)$ with face set $F$, we have $|V| - |E| + |F| = 2$.
 \end{theorem}
 
+\begin{proof}
+If $G$ is a tree, then $|V| = |V|, |E| = |V|-1, |F| = 1$. So $|V| - |E| + |F| = 2$. Otherwise, $|V| > |E|$ and we may assume inductively that the formula holds for all graphs with fewer edges since if $G$ is not a tree, there is an edge $e$ of $G$ that is not a bridge so $G-e$ is connected.
+
+Since thie formula holds for $G-e$, we can prove this inductively.
+\end{proof}
+
+A {\bf platonic solid} is a polyhedron with a high degree of symmetry, i.e.\ every face can be moved to every other face hile maintaining the overall shape, same with the vertices. These give rise to a {\bf platonic graph}: a connected graph with a planar embedding in which each vertex has the same degree $k$, where $k\geq 3$ and each face has the same degree $c$, where $d\geq 3$.
+
+\begin{theorem}
+There are exactly five nonisomorphic platonic graphs.
+\end{theorem}
+
+\begin{proof}
+Let $V, E, F$ be the vertex, edge, and face sets. We know $k|V| = \displaystyle\sum_{v\in V} \deg(v) = 2|E|$ so $|V| = \frac{2}{k}|E|$. Also $d|F| = \displaystyle\sum_{f\in F} \deg(f) = w|E|$ so $|F| = \frac{2}{d}|E|$. Furthermore, Euler's formula gives us $\frac{2}{|E|} = \frac{2}{k} + \frac{2}{d} - 1$. Thus we must have $\frac{2}{k} + \frac{2}{d} = 1 + \frac{2}{|E|} > 1$. So we can not have $d \geq 4$ and $k \geq 4$, thus $k = 3$ or $d = 3$.
+
+If $k = 3$, then $d < 6$. Similarly, if $d = 3$, then $k < 6$.
+
+So our possibilities are:
+\begin{itemize}
+\item $d = k = 3$
+\item $d = 3, k = 4$
+\item $d = 4, k = 3$
+\item $d = 3, k = 5$
+\item $d = 5, k = 3$
+\end{itemize}
+\end{proof}
+
+We can easily solve the equations we defined to determine the number of faces, edges, and vertices of each of these possibilities. For example: $k = 3, d = 4$ forces a 3-d cube, drawn in the planar fashion.
+
+% d is the degree of the faces k is the degree of the vertices
+
 \end{document}
