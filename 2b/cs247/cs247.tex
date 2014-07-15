@@ -636,4 +636,41 @@ There are three types of friends declarations which may appear in a class templa
 \section{STL}
 The {\bf C++ Standard Template Library} is a major component of the Standard Library. It contains {\bf containers} for primitive data types, {\bf algorithms}, and {\bf iterators}.
 
+These containers know nothing about the elements they contain and function in the same way no matter what type the elements are. Mostly, containers focus on membership (\code{insert}, \code{erase}, etc). Containers also know nothing about any associated algorithms and can define their own iterators.
+
+The algorithms know nothing about the data structures they operate on and almost nothing about the contained elements. Instead, algorithms use container iterators to apply their functionality.
+
+Some algorithms overwright elements values in an existing container. We must take care to ensure that the destination sequence is large enough for the number of elements being written. For example:
+\begin{verbatim}
+template<class InputIterator, class OutputIterator>
+OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result);
+\end{verbatim}
+requires that \code{result} be at least the size of the input container.
+
+Algorithms never directly change the size of containers; only container operators can add or remove elements. Instead, algoriths rearrange elements---sometimes by placing undesirable elements at the end of the container and returning an iterator past the last \emph{valid} element.
+
+Some algorithms apply operations to the elements in their input range, e.g.\ \code{transform()}, \code{sort()}, etc. Some algorithms also accept a predicate which is applied to all elements and is used to restrict the set of data elements upon which our algorithm operates. For example:
+\begin{verbatim}
+bool gt20(int x) { return 20 < x; }
+
+remove_copy_if(input.begin(), input.end(), output.begin(), gt20);
+\end{verbatim}
+
+If we need a function which refers to data other than iterated elements, we need to define a {\bf function object}:
+\begin{verbatim}
+class gt_n {
+    int value;
+public:
+    gt_n(int val) : value(val) { }
+
+    bool operator()(int n) { return n > value; }
+}
+
+int main() {
+    gt_n gt4(4);
+    std::cout << gt4(3) << std::endl;  // prints 0
+    std::cout << gt4(5) << std::endl;  // prints 1
+}
+\end{verbatim}
+
 \end{document}

@@ -772,6 +772,135 @@ In two dimensions, a range tree search gives run time $O(k + \log^2 n)$. Note th
 \item range search time: $O(k + \log^d n)$
 \end{itemize}
 
-% \section{String Matching}
+\section{String Matching}
+\subsection{Pattern Matching}
+The act of {\bf pattern matching} is to search for a given string in a large body of text. We refer to $T[0\dots n-1]$ as the {\bf haystack}---the text being searched, and $P[0\dots m-1]$ as the {\bf needle}---the pattern we are searching for. Our goal is to return the first $i$ such that \[ P[j] = T[i+j] \] This is the first occurence of $P$ in $T$.
+
+We define the substring $T[i\dots j]$ as a string of length $j-i+1$ consisting of characters $T[i], T[i+1], \dots, T[j-1], T[j]$ in order. We also define the {\bf prefix} $T[0\dots i]$ and the {\bf suffix} $T[i\dots n-1]$ where $0 \leq i \leq n-1$.
+
+Pattern matching algorithms consist of guesses and checks:
+\begin{itemize}
+\item A {\bf guess} is a position $i$ such that $P$ might start at $T[i]$. Valid guesses obey $o \leq i \leq n-m$.
+\item A {\bf check} of a guess is a single position $j$ with $0 \leq j < m$ where we compare $P[j]$ to $T[i+j]$. We must perform $m$ checks for a correct guess, though we may make fewer checks to determine an incorrect guess.
+\end{itemize}
+
+We can find the brute force algorithm as:
+\begin{verbatim}
+bruteForce(T[0..n-1], P[0..m-1]):
+  for i = 0 to n - m:
+    match = true
+    j = 0
+    while j < m and match:
+      if T[i+j] == P[j]:
+        j = j + 1
+      else:
+        match = false
+    if match:
+      return i
+  return FAIL
+\end{verbatim}
+
+The worst possible input to this algorithm is $P = a^{m-1}b, T = a^n$. This gives us a worst case time complexity of $\Theta\bigl((n-m+1)m\bigl)$ or, if $m \leq \half n$, $\Theta(nm)$.
+
+Fortunately, we can find more sophisticated algorithms. More specifically, {\bf KMP} and {\bf Boyer-Moore} both perform extra preprocessing on $P$ and eliminate guesses based on completed matches and mismatches.
+
+\subsection{KMP}
+The {\bf Knuth-Morris-Pratt} algorithm matches text in left-to-right. It also shifts the pattern more intelligently than the brute force algorithm.
+
+If a check fails (a {\bf mismatch} occurs), we can shift the pattern at most $x$ spaces to the right, where $x$ is the largest prefix of $P[0\dots j]$ which is also a suffix of $P[1\dots j]$.
+
+We can also preprocess the pattern to find matches of prefixes of the pattern within the pattern itself. The {\bf failure array} $F$ of size $m$ is defined as follows: $F[j]$ is defined as the length of the largest prefix of $P[0\dots j]$ that is also a suffix f $P[1\dots j]$. Note that $F[0] = 0$. If a mismatch occurs at $P[j] \neq T[i]$, we set $j = F[j-1]$.
+
+We can describe this algorithm as:
+\begin{verbatim}
+failureArray(P[0..m-1]):
+  F[0] = 0
+  i = 1
+  j = 0
+  while i < m:
+    if P[i] == P[j]:
+      F[i] = j + 1
+      i = i + 1
+      j = j + 1
+    else if j > 0:
+      j = F[j-1]
+    else:
+      F[i] = 0
+      i = i + 1
+  return F
+
+KMP(T[0..n-1], P[0..m-1]):
+  F = failureArray(P)
+  i = 0
+  j = 0
+  while i < n:
+    if T[i] == P[j]:
+      if j = m - 1:
+        return i-j
+      else:
+        i = i + 1
+        j = j + 1
+    else:
+      if j > 0:
+        j = F[j-1]
+      else:
+        i = i + 1
+  return FAIL
+\end{verbatim}
+
+The \code{failureArray} function has a runtime of $\Theta(m)$ and the \code{KMP} function has a runtime of $\Theta(n)$. So we have overall runtime $\Theta(n + m)$ for the KMP method.
+
+\subsection{Boyer-Moore}
+The {\bf Boyer-Moore} algorithm is based on three key ideas:
+\begin{itemize}
+\item Reverse-Order Searching: we compare $P$ with a subsequence of $T$ moving backwards
+\item Bad Character Jumps: when a mismatch occurs at $T[i] = c$:
+  \begin{itemize}
+  \item if $c \in P$, we shift $P$ to align the last occurence of $c$ in $P$ with $T[i]$
+  \item otherwise, we shift $P$ to align $P[0]$ with $T[i+1]$
+  \end{itemize}
+\item Good Suffix Jumps: if we have already matched a suffix of $P$ before getting a mistmatch, we shift $P$ forward to align with the previous occurence of that suffix (with a mismatch from the actual suffix). This is similar to the failure array in KMP.\@
+\end{itemize}
+
+These key ideas allow us to skip large portions of $T$.
+
+The {\bf Last-Occurence Function} is a preprocess of the pattern $P$. $L(c)$ is defined as the largest index $i$ such that $P[i] = c$ (or -1 if that index does not exist). This can be computed in $O(m + |\Sigma|)$, where $\Sigma$ is the alphabet. In practice, $L$ is stored in a $\Sigma$-sized array.
+
+The {\bf Suffix-Skip Array} is similar: again, we preprocess the pattern $P$. The array $S$ of size $m$ is definedas: $S[i]$ is the largest index $j$ such that$P[i+1\dots m-1] = P[j+1\dots j+m-i-1]$ and $P[i] \neq P[j]$. In this calculation, any negative indices are considered to make the given condition true (these correspon to letter which we may not have checked yet). Thus the SSA is similar to the KMP failure array with an extra condition. It is also computed in $\Theta(m)$.
+
+This algorithm can be represented as:
+\begin{verbatim}
+boyerMoore(T[0..n-1], P[0..m-1]):
+  L = lastOccurenceArray(P)
+  S = suffixArray(P)
+  i = m - 1
+  j = m - 1
+  while i < n and j >= 0:
+    if T[i] = P[j]:
+      i = i - 1
+      j = j - 1
+    else:
+      i = i + m - 1 - min(L[T[i]], S[j])
+      j = m - 1
+  if j == -1:
+    return i + 1
+  return FAIL
+\end{verbatim}
+
+The worst case running time of this algorithm is $O(n + |\Sigma|)$, though this is difficualt to prove. In practice, the worst case is incredibly rare for this algorithm; this algorithm is almost always faster than KMP for searching English text.
+
+\subsection{Tries}
+A {\bf trie (radix tree)} is a dictionary for binary strings: it is a binary tree based on bitwise comparison and is, in practice, similar to radix sort. Items are stored only in leaf nodes, a left child corresponds to a 0 bit, and a right child corresponds to a 1 bit. Keys can have varying numbers of bits. A trie is {\bf prefix-free}: no key is a prefix of another key.
+
+To search in a trie, we simply follow the correct node until we either end at a leaf (success) or a child does not exist (failure).
+
+To insert into a trie, we perform the following steps:
+\begin{itemize}
+\item search for $x$
+\item if we end at a leaf with key $x$, $x$ must already be in our trie: quit
+\item otherwise, if we end at a leaf $y \neq x$: this is not possible by our prefix restriction
+\item otherwise, if we finish at an internal node and have no remaining bits: this is not possible by our prefix restriction
+\item otherwise, we expand the trie by adding necessary nodes corresponding to remaining bits
+\end{itemize}
 
 \end{document}
