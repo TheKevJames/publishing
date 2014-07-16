@@ -839,4 +839,54 @@ We can easily solve the equations we defined to determine the number of faces, e
 
 % d is the degree of the faces k is the degree of the vertices
 
+\begin{lemma}
+In any planar embedding of a graph with at least one cycle, the boundary of every face contains a cycle.
+\end{lemma}
+
+Corollary: In any planar embedding of a graph with at least two edges, each face has degree $d \geq 3$.
+
+\begin{proof}
+Either each component is a tree, giving one face of degree $2|E| \geq 4$, or each face has a cycle in its boundary, giving degree $\geq 3$ for each face.
+\end{proof}
+
+\begin{lemma}
+\label{planarRestriction}
+If $G = (V,E)$ is a planar graph and $|E| \geq 2$, then $|E| \leq 3|V| - 6$.
+\end{lemma}
+
+Note that for arbitrary graphs we have $|E| \leq {|v| \choose 2} \approx \half |V|^2$.
+
+Corollary: $K_5$ is nonplaner (since $|V| = 5, |E| = 40$, and $10 > 3.5 - 6$).
+
+\begin{proof}[Lemma~\ref{planarRestriction}]
+Every face has degree $d \geq 3$ is an embedding, so
+\begin{align*}
+2|E| &= \displaystyle\sum_{f\in F} \deg(f) \geq 3|F|\\
+|F| &\leq \frac{2}{3}|E|\\
+2 &\leq |V| - \frac{1}{3}|E|\\
+|E| &\leq 3|V| - 6
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+If $G = (V,E)$ is a planar graph and every cycle has length $l \geq g$ and $|E \geq \half g$, then \[ |E| \leq \frac{g}{g-2}(|V| - 2) \]
+\end{lemma}
+
+\begin{proof}
+$2|E| = \displaystyle\sum_{f\in F} \deg(f) \geq g|F|$, so $|F| \leq \frac{2}{g} |E|$.
+
+$2 = |V| - |E| + |F| \leq |V| - |E| + \frac{@}{g}|E| = |V| - (1-\frac{2}{g})|E| = |V| - \frac{g-2}{g}|E|$, so therefore $|V| - \frac{g}{g-2}|E| \geq 2$ and $|E| \leq \frac{g}{g-2}(|V| - 2)$.
+\end{proof}
+
+Corollary: $K_{3,3}$ is nonplanar.
+
+Because it has no triangles, so $g=4$ in the lemma gives $|E| \leq \frac{4}{4-2}(|V| - 2) = 2|V| - 4$. But $|E| = 9, |V| = 6$ does not satisfy this.
+
+\subsubsection{Nonplanarity}
+$K_5$ and $K_{3,3}$ are nonplanar. Furthermore, every subdivision of a nonplanar graph is nonplanar (a subdivision is a graph such that we replace ever edge with a path of length at least one). Also, every graph containing a subdivision of a nonplanar graph as a subgraph is nonplanar.
+
+\begin{theorem}[Kuratowiski's Theorem]
+A graph is planar if and only if it has no subdivision of $K_5, K_{3,3}$ as a subgraph.
+\end{theorem}
+
 \end{document}

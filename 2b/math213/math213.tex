@@ -777,6 +777,37 @@ Given $f = e^{j\frac{2\pi}{T}mt}$ and $g = e^{j\frac{2\pi}{T}{nt}}$, $<f,g> =
 
 We'll approximate a piecewise-smooth function $f(t)$ by its projection onto this subspace \[ f(t) \approx \sum_{n=-\infty}^\infty c_n e^{j\frac{2\pi}{T} nt} \] where $c_n = <f(t), e^{j\frac{2\pi}{T}nt}>$.
 
-For every partial sum, we can define an error function \[ e_N(t) = f(t) - \sum_{n=-N}^N c_n e^{j\frac{2\pi}{T}nt} \] We define the ``size'' of the error as $<e_n, e_n>$ which is the ``average power'' of the error signal. Then the average power is
+For every partial sum, we can define an error function \[ e_N(t) = f(t) - \sum_{n=-N}^N c_n e^{j\frac{2\pi}{T}nt} \] We define the ``size'' of the error as $<e_n, e_n>$ which is the ``average power'' of the error signal.
+
+\subsection{Inner Products}
+An {\bf inner product space} is a vector space $V$ equipped with an ``inner product'' operation $<f, g>$. An {\bf inner product operation} is an operation satisfying:
+\begin{itemize}
+\item $<au + bv, w> = a<u,w> + b<v,w>$ for all $u, v, w \in V, a, b \in \mathbb{R}$
+\item $<u,w> = <w,u>^*$
+\item $<u,u> \geq 0$
+\item $<u,u> = 0$ if and only if $u=0$
+\end{itemize}
+Inner products also allow the definition of a normal vector $||v|| = \sqrt{<v,v>}$.
+
+We defined the inner product of $<f,g>$ as \[ <f,g> = \frac{1}{T} \int_{-\half T}^{\half T} f(t)g^*(t) \dd t \] this does not satisfy the fourth requirement, but we can fix that by declaring out piecewise-smooth functions as ``equivalence classes''---that is, $f \equiv g \iff <f-g, f-g> = 0 \iff ||f-g|| = 0$.
+
+\begin{theorem}[Projection Theorem]
+Let $V$ be an inner product space and $W$ be a finite-dimensional subspace of $V$. Then for an arbitrary vector $v\in V$, there exists a vector $\hat w$, the unique best approximatino to $v$ in $W$.
+
+That is \[ || v - \hat w|| \leq ||v - w|| \] for all $w\in W$.
+
+This best approximatant $\hat w$ is the ``projection'' of $v$ onto $w$ and is characterized by the fact that the approximation error $e = v - \hat w$.
+\end{theorem}
+
+This best approximant $\hat w$ can be characterized in terms of an orthonormal basis for $W$ as \[ \hat w = \sum_{i=1}^M <v, u_i> u_i \] where the $u_i$ over $i = 1\dots M$ form an orthonormal basis for $W$.
+
+\subsection{Dirichlet Convergence Theorem}
+For any piecewise-smooth function $f(t)$ on $[-\half T, \half T]$, \[ \sum_{h=-\infty}^\infty c_n e^{j\frac{2\pi}{T} nt} =
+\begin{dcases*}
+f(t) & if $f$ is continuous at $t$\\
+\frac{f(t^-) + f(t^+)}{2} & otherwise
+\end{dcases*}\]
+
+By the Dirilecht Theorem, we can derive \[ ||f||^2 = \sum_{n=-\infty}^\infty |c_n|^2 \] which is ``Perseval's Theorem''. This theorem decomposes the power of $f$ into frequency components.
 
 \end{document}
