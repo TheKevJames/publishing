@@ -1,0 +1,676 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\title{CS 247 --- Software Engineering Principles}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2014}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Object-Orientation}
+Code which follows {\bf object-oriented} patterns has better affinity between user-defined types and real-world types, can be more easily reused (inheritance, composition, as-is, polymorphism), allows for encapsulation and information hiding, decomposes extremely effectively (and thus seperates concerns), and allows for abstraction through ADTs (Abstract data types), interfaces, etc.
+
+\subsection{ADTs}
+An ADT is a user-defined data type. They are composed with a range of legal values and functions that maniplate variables of a given type. By providing compiler support for these type restrictions, we turn programmer errors into type errors (which are checked by the compiler).
+
+One of the main motivations for designing an ADT is to ensure safety of any client code. Other motivations include evolvability and scalability. ADTs also tend to improve code efficiency by limiting range checks to constructors and mutators.
+
+An ADT constructor initializes the new object to some legal value and throws an error if the passed-in value is illegal. Accessors and mutators provide restricted read/write access to one of the values in the object. It is best practice to ensure legality within each mutator and use \code{const} references whenever possible.
+
+We use the {\bf outside-in} method fo development: first we determine what the user wants out of it, then we design and implement it.
+
+{\bf Function Overloading} is syntactic sugar which allows us to define a function with the same name as some other function, so long as this new function has different parameters. It is generally best practice to only overload functions when the purpose of the function is the same for each. For example: \code{void print(int)} and \code{void print{float}}.
+
+Another option is to use {\bf default arguments}. Defualt arguments tend to be used when a given argument should be optional. For example: \code{void print(int, outputStream=cout)}. Default arguments must appear only in the function declaration.
+
+We can also overload operators. For example, we could define the sum of two classes as some other class, some modified version of one class, or even a standard data type of some sort with \code{MyClass operator+(const MyClass\&, const MyClass\&)}. Though widely used, this practice should be used sparingly, if at all.
+
+{\bf Nonmember functions} are critical ADT functions which are declared outside of the class. This leads to ebtter encapsulation and more flexible packaging. Additonally, certain functions are required to be nonmember functions (e.g.\ \code{operator>>}). Streaming operators should be nonmember functions so that they can accept a stream as a first operand and thus chain stream operations.
+
+A class can have \code{private}, \code{protected}, and \code{public} data members and functions (in addition to several less-often used flags). It is best practice to use the most secure flag as possible (generally: \code{private}); though the \code{public} flag is sometimes necessary, the \code{protected} flag should be avoided. We can also use the \code{friend} flag to create a \code{private} method which is accessible to a given other class.
+
+\subsection{Inheritance}
+{\bf Inheritance} allows us to create classes ({\bf derived classes}) which include the data members and functions of a {\bf base class}.
+
+\subsection{Polymorphism}
+When we create a derived class, that class can inherit pointers from its parent.
+
+{\bf Object slicing} occurs when only base class fields are copied from a subclass. It can occur as a side-effect of intereactions between a subclass and a superclass: passing the sublcass by value, assigning the subclass to the superclass, or suing the superclass assignment operator between subclass instances.
+
+{\bf Function binding} occurs at compile time. When a base class pointer is given a reference to a subclass after its declaration, the subclasses methods will not be called.
+
+{\bf Virtual functions} are a method of getting around this. A virtual function delays function lookup to runtime, and thus will ensure the subclass function will be called even when using a pointer to the base class.
+
+When having an instance of a base class doesn't make sense, we can make a {\bf pure virtual function}. Pure virtual functions need no definitition and prevent class instatiation. They also ensure all subclasses must have a definition for that function.
+
+\subsection{Overloading}
+{\bf Overloading} occurs when two functions with the same name have a different set (amount or type) of parameters.
+
+\subsection{Overriding}
+{\bf Overriding} occurs in subclasses, when a subclass function has the same signature as a superclass function. When this function is called from the derived class, the derived class' version of the function will be called.
+
+\subsection{Friendship}
+The {\bf friend} command allows us to declare a class or function which can access the private members of the class containing the friend declaration.
+
+For example:
+\begin{verbatim}
+class Base {
+    int priv;
+public:
+    friend void print(Base);
+};
+
+void print (Base esab) {
+    cout << esab.priv << endl;
+}
+\end{verbatim}
+
+\subsection{Helper Functions}
+The best practice is to hide helper functions as \code{private} methods or within a namespace. Helper functions modularize our code, but should not pollute the gloal namespace.
+
+\section{Entity vs Value Objects}
+{\bf Entity Objects} are the digital embodiment of a real-world entity. Each object has a distinct identity and objects with the same attribute values are not equal. {\bf Value Objects} simply represent a value of an ADT.\@ Value objects with the same attribute values are considered to be identical.
+
+An operation on an entity object should reflect a real-world event: copying is not meaningful---though cloning may be, entities referred to by pointers are useless (due to the no-copy rule), and computation on entities are not meaningful (overload \code{new} and \code{delete}, maybe \code{operator<}). Virtual functions and inheritance are uncommon for value-based ADTs, though equality and computations are useful.
+
+\subsection{Singleton Design Pattern}
+The {\bf Singleton Design Pattern} ensures that only one object of our ADT exists. By using a structure of the form
+\begin{verbatim}
+class ADT {
+    static ADT a;
+    ADT() {}
+    ADT(const ADT&);
+public:
+    static ADT* instance() {
+        return &a;
+    }
+};
+\end{verbatim}
+we can ensure that the singleton is created the first time, then \emph{referenced} every time thereafter.
+
+\subsection{Essential Methods}
+Some C++ member functions are necessary for all object definitions and will thus be inserted by default if no implementation is provided. These include
+\begin{itemize}
+\item the default constructor (if and only if we do not define any other constructor)
+\item the destructor
+\item the copy constructor
+\item the assignment operator
+\end{itemize}
+in addition, the equality operator should be defined for all objects, though it has no default implementation.
+
+If we do not declare a copy constructor (a constructor which copies class instances), the default copy constructor will be created based on {\bf memberwise initialization} such that
+\begin{itemize}
+\item simple data members are bitwise copied
+\item pointer members are bitwise copied
+\item member objects are copied using their copy constructors
+\item inherited members are copied using thir copy constructors
+\end{itemize}
+The assignment operator follows the same pattern as the above.
+
+The default constructor follows a slightly different set of default values ({\bf memberwise initialization})
+\begin{itemize}
+\item simple data members are uninitialized
+\item pointer members are uninitialized
+\item member objects are initialized using their default constructors
+\item inherited members are initialized using their default constructors
+\end{itemize}
+
+The deconstructor is similar since it uses {\bf memberwise destruction}
+\begin{itemize}
+\item simple data mambers are deallocated
+\item pointer members deallocate the pointer
+\item member objects call their destructor
+\item inherited members call their destructor
+\end{itemize}
+
+\subsection{Mutable vs Immutable Objects}
+Entity objects are {\bf mutable}, that is, their objects can change via mutators or other functions. Value objects, though, are often {\bf immutable}: their objects can not change value, a new object must be created instead.
+
+It is possible, though, to design a mutable value-based ADT:\@
+\begin{verbatim}
+Person myPerson("David", new Date(1, "May", 1990));
+cout << myPerson.DOB;
+
+Date myDate = myPerson.DOB;
+myDate.monthIs(myDate + 1);
+cout << myPerson.DOB;
+\end{verbatim}
+This is generally a bad design: this ADT has a mutable date field if and only if the constructor did not create a {\bf deep copy} of the input date and the accessor did not return a deep copy. If either of these do not create a copy, the original, mutable object continues to be accessible externally.
+
+\subsubsection{Copy Types}
+A deep copy creates an entirely new instance of an object.
+\begin{verbatim}
+class ADT {
+    Date d;
+public:
+    void setDate(const Date din) {
+        d = new Date(din);
+    }
+}
+\end{verbatim}
+
+A {\bf shallow copy} simply creates a pointer to the copied object.
+\begin{verbatim}
+class ADT {
+    Date d;
+public:
+    void setDate(const Date din) {
+        d = din;
+    }
+}
+\end{verbatim}
+
+\section{Polymorphism}
+The compiled byte code contains executable code for every function and method definition. The compiler can see at compile time which method should be executed. When we add virtual functions, each class with such a function will have a {\bf vtable} of pointers to these functions and a pointer to its vtable. This allows us to call the same functions from multiple subclasses without reimplementing them.
+
+The general convention as to whether a public function is to be made virtual is made for the class as a whole instead of for each individual function. This is generally based on whether the class should be polymorphic or not.
+
+We can use the assignment operator to assign derived class instances to base class instances.
+\begin{verbatim}
+int main (void) {
+    Base b(42, 'x');
+    Derived d(10, 'c', 8.1);
+    b = d;
+}
+\end{verbatim}
+This assignment will not copy the derived class' extra data members or vpointers. We call this {\bf object slicing}.
+
+If there exists any virtual function, the class is polymorphic and should thus have a virtual destructor. If we do not implement this manually, the compiler will default to creating a non-virtual constructor.
+
+In order to print a polymorphic function, we generally
+\begin{itemize}
+\item create a \code{virtual void print(std::ostream\& os) const;} function which does the actual printing
+\item create a non-member function \code{std::ostream\& operator<<(std::ostream\& os, const ADT\& adt);} which takes an instance of the class and calls the \code{print()} member function
+\end{itemize}
+
+The overloaded streaming operator generally looks similar to
+\begin{verbatim}
+std::ostream& operator<<(std::ostream& os, const ADT& adt) {
+    adt.print(os);
+    return os;
+}
+\end{verbatim}
+
+In general, we have
+\begin{verbatim}
+class ADT {
+public:
+    ADT();
+    ADT(ADT& adt);
+    virtual ~ADT();
+    void operator=(ADT& adt);
+    virtual bool operator==(ADT& adt);
+    virtual void print(std::ostream& os);
+}
+\end{verbatim}
+
+\section{Compilation}
+We use {\bf header files} to contain our declarations and {\bf code files} to contain their implementations. Header files may be \code{\#include}'d by other modules so that they can use the interface without relying on a specific implementation.
+
+To ensure that header files are not included multiple times, we use the following {\bf header guard}:
+
+For the file \code{sample.h}, we do:
+\begin{verbatim}
+#ifndef SAMPLE_H
+#define SAMPLE_H
+
+// contents of header file
+
+#endif
+\end{verbatim}
+
+We can use a similar process within files when we need to reference \code{class A} from \code{class B} and vice-versa. To avoid a circular dependency, we can use {\bf forward declarations} as such
+\begin{verbatim}
+// A.h
+class B;
+
+class A {
+    // declarations involving B
+}
+\end{verbatim}
+and
+\begin{verbatim}
+// B.h
+class A;
+
+class B {
+    // declarations involving A
+}
+\end{verbatim}
+
+Since compiling and linking in C++ are seperate operations, we can compile each file seperately. This allows us to recompile only those files that have changed.
+
+Note that if a file changes, we need to recompile it as well as all other files which depend on it. This would be much easier with an automated build system.
+
+\subsection{Make, an Automated Build System}
+\code{make} is a UNIX command which uses build instructions and file dependencies provided in a \code{Makefile} as well as file timestamps to ensure it only recompiles changed files and their children.
+
+We can create Makefiles with macros, implicit rule, and automatic dependency derivations.
+
+\begin{verbatim}
+CXX_FLAGS=-g -Wall
+
+GTEST_DIR=~/gtest
+GTEST_FLAGS=-isystem $(GTEST_DIR)/include -pthread
+GTEST_LIBS=$(GTEST_DIR)/lib/*
+
+
+.SUFFIXES:
+.SUFFIXES: .o .cpp
+
+.cpp.o:
+    ${CXX} $(CXX_FLAGS) -c $<
+
+
+all: program1 program2
+
+test: program1_test program2_test
+
+
+program1: Program1.o Program1Dependency.o Common.o
+    ${CXX} $(CXX_FLAGS) $^ -o $@
+
+program1_test: Program1Test.cpp Program1.o Program1Dependency.o Common.o
+    ${CXX} $(GTEST_FLAGS) $(CXX_FLAGS) $^ $(GTEST_LIBS) -o $@;
+    ./$@
+
+program2: Program2.o Program2Dependency.o Common.o
+    ${CXX} $(CXX_FLAGS) $^ -o $@
+
+program2_test: Program2Test.cpp Program2.o Program2Dependency.o Common.o
+    ${CXX} $(GTEST_FLAGS) $(CXX_FLAGS) $^ $(GTEST_LIBS) -o $@;
+    ./$@
+
+
+clean:
+    rm -f *.o
+    rm -f program1 program1_test
+    rm -f program2 program2_test
+\end{verbatim}
+
+This reasonably complicated Makefile should be named \code{Makefile} (no extension) and placed in the development directory. It assumes we are uses \code{gtest} as a test suite and have the following files in the current folder: \code{Program1.cpp}, \code{Program1.h}, \code{Program1Dependency.cpp}, \code{Program1Dependency.h}, \code{Program1Test.cpp}, \code{Program2.cpp}, \code{Program2.h}, \code{Program2Dependency.cpp}, \code{Program2Dependency.h}, \code{Program2Test.cpp}, \code{Common.cpp}, \code{Common.h}
+.
+
+It relies on the \code{CXX} environment variable which {\bf SHOULD NOT BE OVERRIDEN IN A MAKEFILE} since it is defined for each user by the specific compiler they use for C++ files (e.g.\ g++, clang++, \dots).
+
+It has defined the \code{.cpp.o} suffix, which auto-creates non-existing or out-of-date object files from their particular source file. This will be called implicitely by declaring object files as dependencies to various targets (e.g.\ \code{all}, \code{test}, \code{clean}, \code{program1}, \dots). Note that I have not defined the dependencies for each object file (e.g.\ \code{Common.o} is based on \code{Common.cpp} and \code{Common.h}, but I have not explicitely declared this). Any object file will by default be built from a file of the same name with the \code{cpp} extension. If we want to change these dependencies, we can do so with
+\begin{verbatim}
+...
+test: program1_test program2_test
+
+
+Common.o: Common.cpp First.cpp Second.cpp
+
+
+program1: ...
+\end{verbatim}
+
+\code{all} is the standard name given to the set of commands which should be run by default. It should be responsible for compiling and linking all program components and will be run by default by calling \code{make} on the command-line.
+
+\code{test} is the standard for running a test-suite during development. \code{check} should be used for self-testing once a program is installable (which should be with the \code{install} target).
+
+\code{clean} should be used to remove all files generated by the Makefile, i.e.\ files which can be rebuilt.
+
+Further standard targets can be found at \url{http://bit.ly/1nSOZPG}.
+
+\section{Exceptions}
+An {\bf exception} is an unusual event or situtation which prevents a function from completing normally. In C++, we handle exceptions in a separate section from our normal code: risky and risk-free code is separated, different areas of our program can handle exceptions in a different manner, and errors can not be silently ignored.
+
+We handle errors in a block of code with
+\begin{verbatim}
+try {
+    // risky code
+} catch(exceptionType1& e) {
+    std::cout << "Generated exception 1" << std::endl;
+    system.exit(-1);
+} catch(exceptionType2& e) {
+    std::cout << "Generated exception 2" << std::endl;
+    system.exit(-2);
+} catch(...) {
+    std::cout << "Generated unspecified exception" << std::endl;
+    throw;
+}
+\end{verbatim}
+
+An exception is handled by the ``nearest'' handler whose argument matches its type. A {\bf local exception} is one which is handled in the same routine as it is thrown (e.g.\ through an alternative computatino or return value). Otherwise, the exception is caught by the dynamically nearest matching catch-clause whose try-block encloses the throw. If there is no matching handler, the program aborts.
+
+A function may declare a {\bf throw list} of potential exceptions it can throw. An empty list implies it does not throw errors, a missing list implies it may or may not throw. If a function throws an error not in its throw list (if it has one), that exception is considered \code{unspecified} and will crash the program (unless the \code{unspecified()} function has been overloaded).
+
+In order to fully support blind inheritance and allow libraries to change, it is best practice not to use throw lists.
+
+\section{Resource Acquistion is Initialization (RAII)}
+The {\bf RAII} idiom equates resource management with object lifetimes. The resource is allocated in the objects constructor and deallocated in its destructor. The standard function signatures are \code{resourceType* allocate(\dots)} and \code{void release(resourceType*)}
+
+\subsection{Smart Pointers}
+A {\bf smart pointer} is an ADT which simulates a pointer while using RAII to provide automatic deallocation. In C99, the \code{auto\_ptr<type>} object is used for this. In C++11, we have \code{unique\_ptr<type>} for single-owner transferable references and \code{shared\_ptr<type>} for multiple-owner automatic deallocation upon lack of references.
+
+An \code{auto\_ptr} is not a substitute for a standard pointer.
+\begin{itemize}
+\item the \code{operator=} is different
+\item we cannot assign an \code{auto\_ptr} to a non-\code{auto\_ptr}
+\item we cannot pass an \code{auto\_ptr} to a function parameter that is not an \code{auto\_ptr}
+\item we cannot use \code{auto\_ptr}s in STL containers
+\end{itemize}
+
+To use an \code{auto\_ptr}, we must \code{\#include <memory>}
+
+An \code{auto\_ptr} requires less explicit management by the programmer, since all standard tasks are dealt with automatically. However, since only one \code{auto\_ptr} can refer to any unique object, the \code{auto\_ptr} may not always be useable.
+
+We can use an \code{auto\_ptr} as follows
+\begin{verbatim}
+#include <memory>
+
+std::auto_ptr<int> pointer;
+
+std::cout << *pointer.get() << std::endl;
+// prints ``0''
+
+pointer.reset(42);
+std::cout << *pointer.get() << std::endl;
+// prints ``42''
+\end{verbatim}
+
+\section{Development Practices}
+There are many problem areas in program development: code ownership, testing, managing complex requirements, \dots
+
+\subsection{Waterfall Model}
+The waterfall model imitates standard engineering procedures: the requirements are developed, then a design plan is created, development is completed, and finally the system is tested. This model is commonly accepted to be flawed: writing software is not the same as architecting a building.
+
+\subsection{Agile Programming}
+There are several methodologies which can be described as agile programming: {\bf scrum}, {\bf extreme}, \dots
+
+\subsubsection{Extreme Programming}
+{\bf eXtreme Programming (XP)} is a modern software development process models which allows the programmer to lead the process. The goal is to produce high-quality software by ``keeping programming fun''. Though the name suggest high-risk and haphazard development, the opposite is true.
+
+XP encompasses several business ideas, but the main three are pair programming, {\bf design simplicity}, and {\bf automated testing}.
+
+The basic rule of {\bf pair programming} is ``code is never written or modified unless two people are sitting side-by-side in front of one computer''. Programming becomes a dialogue: only one person types, but both people analye, design, program, and test. Pairing is not a long-term commitment; groups only need to remain together for the duration of a single task.
+
+Design cimplicity ensures that a short-term pairing can be productive. By establishing coding standards and writing test code together, the pair can avoid trivial misunderstandings and reach a common understanding.
+
+Pair programming also fosters collective ownership. Any programmer may change any portion of the code at any given time. System integration takes place as often as possible to identify conflicting changes. A working version always exists.
+
+The basic rule of {\bf design simplicity} is ``build the simplest thing that works''. Simple deigns lead to code that can easily be modified or replaced as requirements evolve. ``Embrace change'' is the motto of XP.\@
+
+Pair programming forces an immediate ``simplicity check'' as design ideas are explained to the second programmer. Automated testing gives programmers the confidence that design changes have been correctly implemented. An overall system metaphor guides the design process.
+
+A simple design has no duplicated code or logic. {\bf Refactoring} is the process of simplifying code to avoid or eliminate duplication. For example: code may be refactored to combine two similar classes or to extend them from the same base class.
+
+The baseic rule of {\bf automated testing} is ``write the tests first''. Automated tests should become an integral component of the program, which can be allowed to self-test at any time. System integration takes place as often as possible. Automated testing ensures that a working version of the program always exists.
+
+Design simplicity makes it easy to write tests. Each programmer thinks of ways to test their partner's ideas. A successful test provides the gratification which programmers crave.
+
+\section{Design Patterns}
+{\bf Design patterns} are codified solutions that put design principles into practice to improve the modularity and flexibility of our code.
+
+\subsection{Template Method Pattern}
+{\bf Problem:} duplicate code. Multiple sublcass methods have simila algotihm structure.
+
+{\bf Solution:} localize duplicate code structure in abstract class. Abstract class defines a template method (of common code) that calls pure virtual subroutines. Subclasses override the subroutines.
+
+Alternatively, a template method is a bse-class method that defines a common code structure but includes primitive operations (holes) to be defined by subclass methods. It is essential that the template method be nonvirtual and the primitive operations be virtual functions in the base class.
+
+\subsection{Adaptor Pattern}
+{\bf Problem:} interface mismatch between two modules. If you want to reuse an existing class though its interface does not match what is needed. Alternatively, if the interface of one of our modules changes and we don't want to make major changes to the existing code.
+
+{\bf Solution:} define an adaptor class that maps one interface to another.
+
+\subsection{Facade Pattern}
+{\bf Problem:} complex interface. Client of a subsystem interacts with multiple complex classes.
+
+{\bf Solution:} create a single, simplified interface (class). Restrict, simplify client's interactions with subsystems' classes.
+
+\subsection{Strategy Pattern}
+{\bf Problem:} want to vary an algorithm at runtime.
+
+{\bf Solution:} encapsulate the algorithm decision. Define algorithm to a component object and use subclassing to specialize the algorithm in different ways.
+
+\subsection{Observer Pattern}
+{\bf Problem:} we have a set of data which we want to display or use in multiple places.
+
+One way to solve this would be to create a \code{updateAll()} function. However, having to maintain a dependency chart within a member function is generally not a good idea: we would need to change code in multiple places to add new data and all state-changing operations would have to call this update function. Furthermore, changes at runtime may not be properly propogated.
+
+{\bf Solution:} alternatively, we could ensure that all classes relying on our changed data (``Observers'') are within a collection in the data (``Subject'') class and derive from a base class with an \code{update(state)} method. Then, the Subject class simply needs to iterate through this collection and call the \code{update()} method on each of them.
+
+We can extend this second option by adding member functions to the Subject class which will add and remove displays from the collection. Traditionally, we use the Subject member functions \code{subscribe()}, \code{unsubscribe()}, and \code{change()}.
+
+Any classes derived from the Subject class may provide methods for getting and settings state information; these, of course, must call the \code{change()} method of the base class. Any clases derived from the Observer class must simply reimplement the \code{update(state)} function.
+
+The observer pattern described above is the {\bf push} form: data is pushed along with the \code{update} call to each observer. Instead, we can send empty \code{update} method calls and instead have each observer access the data from our Subject class upon update. This can be useful when various observers care about different state information.
+
+Either implementation of the observer pattern minimizes coupling between Subjects and Observers: the resulting classes are thus easier to reuse and the Observers can easily change at runtime.
+
+\subsection{Model-View-Controller Pattern}
+The {\bf MVC} design pattern is a collection of design patterns which decouple UI code from application code. The Model is our backend application code, the View is the frontend UI code, and the Controller is the interface between the two which takes in user input and translates that to an application code call.
+
+MVC makes heavy use of observers (the view is an observer of the model), strategies (the controller varies the model), and composites (throughout).
+
+The main function for a MVC program (more specifically, for a GTK-based project) would be written as
+\begin{verbatim}
+int main(int argc, char *argv[]) {
+    Gtk::main kit(argc, argv);
+
+    Model model;
+    Controller controller(&model);
+    View view(&controller, &model);
+
+    Gtk::main::run(view);
+
+    return 0;
+}
+\end{verbatim}
+
+\section{UML Modelling}
+A model is an abstraction of something for the purpose of understanding it before building it, communicating it to others, and answering questions about it.
+
+{\bf Unified Modelling Language} is a collection of notations for representing different views of a software design.
+
+Structural Diagrams:
+\begin{itemize}
+\item class diagram
+\item component diagram
+\item composite structure diagram
+\item deployment diagram
+\item object diagram
+\item package diagram
+\item profile diagram
+\end{itemize}
+
+Behaviour Diagrams:
+\begin{itemize}
+\item activity diagram
+\item communication diagram
+\item interaction overview diagram
+\item sequence diagram
+\item state diagram
+\item timing diagram
+\item use case diagram
+\end{itemize}
+
+\subsection{UML Class Diagrams}
+A box represents a class and defines the class name, the set of attributes and initial values, and the set of operations and signatures. These can be expressed at different levels of abstraction: just the name, the name and public attributes, or everything along with their individual private/public/virtual etc.\ status.
+
+An {\bf association} between two classes indicates that there exists a physical or conceptual link between objects of those classes.
+
+{\bf Multiplicity} annotations constrain the number of allowable links in association. We can either give specific values (\code{x}), ranges of values (\code{x\dots y}), or ``greater-than'' values (\code{x\dots *})---note that we can use \code{*} to denote ``any number''. If we have no annotation, the multiplicity is unspecified.
+
+A class association represents link attributes: properties of the link which cannot be attributed to either object. A composition is a stronger ``part of'' relation between a composite object and its components. A part does not exist without its composite (and belongs to at most one composite) and the composite is responsible for creating and destroying members.
+
+The UML uses the term {\bf generalization} for the subtype relationship between a base class and its derived classes. Every member of a derived class is a member of its base class. Attributes and associations of the base class are attributes and associations of the derived class.
+
+\subsection{UML Object Models}
+An {\bf object model} is a runtime instance of a class model: every object is an instantiation of a specific class and every link between two objects is an instantiation of a specific association.
+
+The value of each assigned data member is represented, which allows us to easily analyse the program state.
+
+\subsection{UML Sequence Diagram}
+A {\bf UML Sequence Diagram} is a graphical model of communication events between objects, as exhibitied in one execution trace. It is similar to a timeline view of your program specific to several classes / functions.
+
+\section{Object Oriented Design Principles}
+Object Oriented Design Principles are a set of guidelines which improve program quality and modularity.
+
+\subsection{Open-Closed Principle}
+A module should be open for extension but closed to modification. For example, we prefer to have client code depend on an abstract class (which could be extended) rather than a concrete one.
+
+It is possible to inherit both interfaces or implementations. The abstract class designer determines which parts of a member function the dervied class inherits: the interface, the interface and default implementation, or the interface and non-overridable implementation.
+
+\subsection{Inheritance vs Composition}
+When defining a new class that includes attributes and capailities of an existing class, should our new class inherit for the base class or include the class as a complex attribute? In generally, we prefer composition: composition can change at run-time (rather than being a static relationship between classes) and can not break encapsulation; we only prefer inheritance when we are subtyping or using an entire interface. Basically, composition is black box reuse where inheritance is white box reuse.
+
+\subsection{Delegation}
+Delegation in object composition stimulates inheritance-based object method reuse. The composite object delegates to the component object and can pass itself as a parameter to let the delegated operation refer to the composite object.
+
+The benefits of composition are maximized when the component is an abstract type which can be concretized in multiple ways.
+
+\subsection{Dependency Inversion}
+High-level modules should depend on abstractions rather than on concrete classes. If we change the standard inheritance paradigm (``client extends server'') to ``client and server both inherit from a common interface'', we can ensure that the two modules never have any problems interfacing with each other.
+
+\subsection{Single Responsibility Principle}
+Encapsulate each changeable design decision in a seperate module. The {\bf single-responsibility principle} offers guidance on how to decompose our program into cohesive modules.
+
+\subsection{Liskov Substitutability Principle}
+The {\bf Liskov substitution principle} enforces strong behavioural subtyping, which is basically the following: if $S$ is a subtype of $T$, then any properties provable of $T$ must also be proveable of $S$. Less formally, any base class instance should be replaceable by a subclass instance.
+
+\subsection{Law of Demeter}
+The Law of Demeter is the principle of least knowledge and suggests loose coupling. It states that
+\begin{itemize}
+\item each unit should have only limited information about other units (e.g.\ only those which are very related)
+\item each unit should only interact with friends
+\item each unit should prefer only interacting with immediate friends
+\end{itemize}
+
+\section{Templates}
+Suppose we want to create our own generic classes and functions. A {\bf function template} describes this sort of family:
+\begin{verbatim}
+template<typename T>
+int compare(const T &lhs, const T &rhs) {
+    if(lhs < rhs) {
+        return -1;
+    }
+    if(lhs > rhs) {
+        return 1;
+    }
+    return 0;
+}
+\end{verbatim}
+
+We can use this code as \code{compare(3, 4);}, \code{compare(3.14, 4.2);}, etc.
+
+If we would like to compare different types, we could use
+\begin{verbatim}
+template<typename T1, typename T2>
+int compare(const T1 &lhs, const T2 &rhs) { ... }
+\end{verbatim}
+whether or not we would find such a thing useful (this allows for code such as \code{compare(``whale'', 42);}) is left as an exercise to the reader.
+
+We can also return templates with
+\begin{verbatim}
+template<typename T>
+T compare(const int &lhs, const int &rhs) { ... }
+\end{verbatim}
+at which point we must make explicit our desired return type, e.g.\ \code{compare<float>(3,4);}.
+
+Note that in the case of code such as
+\begin{verbatim}
+template<typename T1, typename T2, typename T3>
+T1 compare(const T2 &lhs, const T3 &rhs) { ... }
+\end{verbatim}
+this explicitness works as follows: \code{compare</*T1 = */float, /*T2 = */int, /*T3 = */float>(3, 3.14);}, i.e.\ the templates must be assigned in order.
+
+We can also create templated class definitions:
+\begin{verbatim}
+template<typename T>
+class Stack {
+    T _items[STACK_SIZE];
+public:
+    Stack();
+    void push(const &T);
+    T pop();
+}
+
+template<typename T>
+void Stack<T>::push(const T &elem) { ... }
+\end{verbatim}
+
+The template handle also allows us to provide default but compile-time editable variables as follows:
+\begin{verbatim}
+template<typename T, int size = 100>
+class Stack {
+    T _items[size];
+    ...
+}
+\end{verbatim}
+which can be used as \code{Stack<T> myStack;} to create a Stack of default size 100 or as \code{Stack<T, 42> myStack;} to create a Stack with a non-default size (e.g.\ 42).
+
+If we make assumptions within our templated code, that can place restrictions on which types may be templated. For example:
+\begin{verbatim}
+template<typename T>
+T mumble(T val) {
+    val.speak();
+    std::cout << val << std::endl;
+    return "Frog";
+}
+\end{verbatim}
+will only compile if there exists some type or class which has a \code{speak()} method, an output stream operator, and can be typecase from a string.
+
+\subsection{Friends}
+There are three types of friends declarations which may appear in a class templat. Each type of declaration describes friendship to one or more entities:
+\begin{enumerate}
+\item a friend declaration for an ordinary nontemplate class or function, which grants friendship to a specific named class or function
+\item a friend declaration for a class template or function template, which grants access to all instances of the friend
+\item a friend declaration which grants access only to a specific instance of a class or function template
+\end{enumerate}
+
+\section{STL}
+The {\bf C++ Standard Template Library} is a major component of the Standard Library. It contains {\bf containers} for primitive data types, {\bf algorithms}, and {\bf iterators}.
+
+These containers know nothing about the elements they contain and function in the same way no matter what type the elements are. Mostly, containers focus on membership (\code{insert}, \code{erase}, etc). Containers also know nothing about any associated algorithms and can define their own iterators.
+
+The algorithms know nothing about the data structures they operate on and almost nothing about the contained elements. Instead, algorithms use container iterators to apply their functionality.
+
+Some algorithms overwright elements values in an existing container. We must take care to ensure that the destination sequence is large enough for the number of elements being written. For example:
+\begin{verbatim}
+template<class InputIterator, class OutputIterator>
+OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result);
+\end{verbatim}
+requires that \code{result} be at least the size of the input container.
+
+Algorithms never directly change the size of containers; only container operators can add or remove elements. Instead, algoriths rearrange elements---sometimes by placing undesirable elements at the end of the container and returning an iterator past the last \emph{valid} element.
+
+Some algorithms apply operations to the elements in their input range, e.g.\ \code{transform()}, \code{sort()}, etc. Some algorithms also accept a predicate which is applied to all elements and is used to restrict the set of data elements upon which our algorithm operates. For example:
+\begin{verbatim}
+bool gt20(int x) { return 20 < x; }
+
+remove_copy_if(input.begin(), input.end(), output.begin(), gt20);
+\end{verbatim}
+
+If we need a function which refers to data other than iterated elements, we need to define a {\bf function object}:
+\begin{verbatim}
+class gt_n {
+    int value;
+public:
+    gt_n(int val) : value(val) { }
+
+    bool operator()(int n) { return n > value; }
+}
+
+int main() {
+    gt_n gt4(4);
+    std::cout << gt4(3) << std::endl;  // prints 0
+    std::cout << gt4(5) << std::endl;  // prints 1
+}
+\end{verbatim}
+
+\end{document}
