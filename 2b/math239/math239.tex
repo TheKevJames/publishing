@@ -774,7 +774,7 @@ Prim's algorithm outputs a minimum weight spanning tree.
 \end{theorem}
 
 \begin{proof}
-Let $T$ be a tree given by Prim's Algorithm with esge set $\{e_1, \dots, e_n\}$. Let $k \leq n$ be maximal such that there is a minimum weight spanning tree $T^*$ containing edges $\{e_1, \dots, e_k\}$. If $k=n$ then $T$ is a minimum weight spanning tree, as required.
+Let $T$ be a tree given by Prim's Algorithm with edge set $\{e_1, \dots, e_n\}$. Let $k \leq n$ be maximal such that there is a minimum weight spanning tree $T^*$ containing edges $\{e_1, \dots, e_k\}$. If $k=n$ then $T$ is a minimum weight spanning tree, as required.
 
 So we may assume that $k < n$. Therefore, $e_{k-1} \notin E(T^*)$, but by connectedness $T^*$ contains an edge $e^\prime$ with one end in $\{v_1, \dots, v_{k+1}\}$ and the other edge outside. Since $e_{k+1}$ was chosen by Prim's Algorithm, we have $w(e^\prime) \geq w(e_{k+1})$. But now $T^\prime = T^* - e^\prime + e_{k+1}$ is a spanning tree of weight $w(T^*) - w(e^\prime) + w(e_{k+1}) \leq w(T^*)$.
 
@@ -821,7 +821,7 @@ There are exactly five nonisomorphic platonic graphs.
 \end{theorem}
 
 \begin{proof}
-Let $V, E, F$ be the vertex, edge, and face sets. We know $k|V| = \displaystyle\sum_{v\in V} \deg(v) = 2|E|$ so $|V| = \frac{2}{k}|E|$. Also $d|F| = \displaystyle\sum_{f\in F} \deg(f) = w|E|$ so $|F| = \frac{2}{d}|E|$. Furthermore, Euler's formula gives us $\frac{2}{|E|} = \frac{2}{k} + \frac{2}{d} - 1$. Thus we must have $\frac{2}{k} + \frac{2}{d} = 1 + \frac{2}{|E|} > 1$. So we can not have $d \geq 4$ and $k \geq 4$, thus $k = 3$ or $d = 3$.
+Let $V, E, F$ be the vertex, edge, and face sets and $d, k$ be the degree of the faces and vertices. We know $k|V| = \displaystyle\sum_{v\in V} \deg(v) = 2|E|$ so $|V| = \frac{2}{k}|E|$. Also $d|F| = \displaystyle\sum_{f\in F} \deg(f) = w|E|$ so $|F| = \frac{2}{d}|E|$. Furthermore, Euler's formula gives us $\frac{2}{|E|} = \frac{2}{k} + \frac{2}{d} - 1$. Thus we must have $\frac{2}{k} + \frac{2}{d} = 1 + \frac{2}{|E|} > 1$. So we can not have $d \geq 4$ and $k \geq 4$, thus $k = 3$ or $d = 3$.
 
 If $k = 3$, then $d < 6$. Similarly, if $d = 3$, then $k < 6$.
 
@@ -836,8 +836,6 @@ So our possibilities are:
 \end{proof}
 
 We can easily solve the equations we defined to determine the number of faces, edges, and vertices of each of these possibilities. For example: $k = 3, d = 4$ forces a 3-d cube, drawn in the planar fashion.
-
-% d is the degree of the faces k is the degree of the vertices
 
 \begin{lemma}
 In any planar embedding of a graph with at least one cycle, the boundary of every face contains a cycle.
@@ -869,7 +867,7 @@ Every face has degree $d \geq 3$ is an embedding, so
 \end{proof}
 
 \begin{lemma}
-If $G = (V,E)$ is a planar graph and every cycle has length $l \geq g$ and $|E \geq \half g$, then \[ |E| \leq \frac{g}{g-2}(|V| - 2) \]
+If $G = (V,E)$ is a planar graph and every cycle has length $l \geq g$ and $|E| \geq \half g$, then \[ |E| \leq \frac{g}{g-2}(|V| - 2) \]
 \end{lemma}
 
 \begin{proof}
@@ -882,13 +880,13 @@ Corollary: $K_{3,3}$ is nonplanar.
 
 Because it has no triangles, so $g=4$ in the lemma gives $|E| \leq \frac{4}{4-2}(|V| - 2) = 2|V| - 4$. But $|E| = 9, |V| = 6$ does not satisfy this.
 
-\subsubsection{Nonplanarity}
-$K_5$ and $K_{3,3}$ are nonplanar. Furthermore, every subdivision of a nonplanar graph is nonplanar (a subdivision is a graph such that we replace ever edge with a path of length at least one). Also, every graph containing a subdivision of a nonplanar graph as a subgraph is nonplanar.
+$K_5$ and $K_{3,3}$ are nonplanar. Furthermore, every subdivision of a nonplanar graph is nonplanar (a subdivision is a graph such that we replace every edge with a path of length at least one). Also, every graph containing a subdivision of a nonplanar graph as a subgraph is nonplanar.
 
 \begin{theorem}[Kuratowiski's Theorem]
 A graph is planar if and only if it has no subdivision of $K_5, K_{3,3}$ as a subgraph.
 \end{theorem}
 
+\subsection{Colouring}
 A {\bf $k$-colouring} of a graph $G$ is an assignment of `colours' in $\{1\dots k\}$ to the vertices of $G$ so that adjacent vertices get different colours. A graph with a k-colouring is {\bf $k$-colourable}. The {\bf chromatic number} $X(G)$ is the minimum $k$ such that $G$ is $k$-colourable.
 
 2-colourable graphs, then, are bipartite (and vice-versa).
@@ -924,5 +922,55 @@ Every planar graph is 4-colourable.
 \begin{proof}
 Appel, Haken. 1977.
 \end{proof}
+
+\subsection{Matching}
+A {\bf matching} $M$ of a graph $G$ is a subset of $E(G)$ such that each $v\in V(G)$ is incident with at most one edge in $M$. If a vertex $v\in V(G)$ is incident with an edge of $M$, then $v$ is {\bf saturated} by $M$. Otherwise, it is {\bf unsaturated}. A matching in $G$ with maximum size is a {\bf maximum matching}. A {\bf perfect matching} is one which saturates every vertex in $G$.
+
+If $M$ is a matching of $G$, a path $P = N_0, N_1, \dots N_n$ is an {\bf M-alternating path} if either $\{ N_i, N_{i+1} \} \in M$ whenever $i$ is odd and $\{ N_i, N_{i+1} \} \notin M$ whenever $i$ is even or vice-versa. An M-alternating path is {\bf M-augmenting} if it joins two $M$-unsaturated vertices.
+
+\begin{lemma}
+\label{augmentingIsNotMaximum}
+If $M$ has an augmenting path, then $M$ is not maximum.
+\end{lemma}
+
+\begin{proof}
+Let $P = N_0, N_1, \dots N_n$ be an M-augmenting path in $G$. So $N_0$ is $M$-unsaturated. $\{ N_i, N_{i+1} \} \in M$ if $i$ is odd and $\{ N_i, N_{i+1} \} \notin M$ if $i$ is even. Thus since $N_n$ is $M$-unsaturated, $n$ is odd. So $|F(P)| = n = 2k + 1$, $|E(P) \cap M| = k$, $|E(P) \setminus M| = k + 1$.
+
+Let
+\begin{align*}
+N &= M \Delta E(P)\\
+&= (M \setminus E(P)) \cup (E(P) \setminus M)
+\end{align*}
+teh only $M$-unsaturated vertices of $P$ are $N_0$ and $N_n$. So each $N_i$ is incident with exactly one edge of $N$.
+
+Thus $N$ is a matching and $|N| = |M| + 1$.
+\end{proof}
+
+\begin{lemma}
+$M$ is not a maximum matching if and only if there exists an $M$-augmenting path.
+\end{lemma}
+
+\begin{proof}
+We can prove one direction by lemma~\ref{augmentingIsNotMaximum}.
+
+Now, let $M$ be a matching in $G$ that is not maximum. So there exists a maximum matching $N$ of $G$ with $|N| > |M|$. Consider $N \Delta M$.
+
+Each vertex $N \in V(G)$ is incident with at most one edge of $M$ and at most one edge of $N$. Thus $N$ is incident with at most 2 edges of $N \Delta M$. Let $H = (V(G), N \Delta M)$; the connected components of $H$ are isolated vertices, cycles, and paths.
+
+Let $C$ be a cycle in $H$. Every vertex of $C$ is incident with exactly one edge of $N$ and exactly on edge of $M$. So $|E(C)|$ is even.
+
+If $P$ is a path component of $H$, then by the same argument $P$ is both an $M$-alternating and $N$-alternating path. If $|E(P)|$ is even, we can't say anything. If it is odd, then $P$ is either $M$-augmenting or $N$-augmenting.
+
+Since $N$ is maximum, odd paths are $M$-augmented.
+
+Finally, since $|N| > |M|$, $|N \cap E(H)| > |M \cap E(H)|$. So there is some component of $H$ with more $N$-edges than $M$-edges. Thus there exists an $M$-augmenting path.
+\end{proof}
+
+We have an algorithm for max matching:
+\begin{enumerate}
+\item given $G$ and $M$, try to find an $M$-augmenting path
+\item if $P$ is $M$-augmenting, set $M = M \Delta E(P)$ and return to step 1.
+\item if there is no $M$-augmenting path, return $M$.
+\end{enumerate}
 
 \end{document}

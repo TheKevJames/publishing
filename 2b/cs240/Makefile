@@ -1,5 +1,4 @@
 all: cs240.pdf
-	make -C assignment
 
 
 .SUFFIXES:
@@ -16,4 +15,3 @@ clean:
 	rm -f *.out
 	rm -f *.pdf
 	rm -f *.toc
-	make -C assignment clean
