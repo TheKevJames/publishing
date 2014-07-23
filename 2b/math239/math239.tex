@@ -924,7 +924,7 @@ Appel, Haken. 1977.
 \end{proof}
 
 \subsection{Matching}
-A {\bf matching} $M$ of a graph $G$ is a subset of $E(G)$ such that each $v\in V(G)$ is incident with at most one edge in $M$. If a vertex $v\in V(G)$ is incident with an edge of $M$, then $v$ is {\bf saturated} by $M$. Otherwise, it is {\bf unsaturated}. A matching in $G$ with maximum size is a {\bf maximum matching}. A {\bf perfect matching} is one which saturates every vertex in $G$.
+A {\bf matching} $M$ of a graph $G$ is a subset of $E(G)$ such that each $v\in V(G)$ is incident with at most one edge in $M$. If a vertex $v\in V(G)$ is incident with an edge of $M$, then $v$ is {\bf saturated} by $M$. Otherwise, it is {\bf unsaturated}. A matching in $G$ with maximum size is a {\bf maximum matching}. A {\bf perfect matching} is one which saturates every vertex in $G$. The empty set is always a matching of $G$.
 
 If $M$ is a matching of $G$, a path $P = N_0, N_1, \dots N_n$ is an {\bf M-alternating path} if either $\{ N_i, N_{i+1} \} \in M$ whenever $i$ is odd and $\{ N_i, N_{i+1} \} \notin M$ whenever $i$ is even or vice-versa. An M-alternating path is {\bf M-augmenting} if it joins two $M$-unsaturated vertices.
 
@@ -941,7 +941,7 @@ Let
 N &= M \Delta E(P)\\
 &= (M \setminus E(P)) \cup (E(P) \setminus M)
 \end{align*}
-teh only $M$-unsaturated vertices of $P$ are $N_0$ and $N_n$. So each $N_i$ is incident with exactly one edge of $N$.
+the only $M$-unsaturated vertices of $P$ are $N_0$ and $N_n$. So each $N_i$ is incident with exactly one edge of $N$.
 
 Thus $N$ is a matching and $|N| = |M| + 1$.
 \end{proof}
@@ -972,5 +972,47 @@ We have an algorithm for max matching:
 \item if $P$ is $M$-augmenting, set $M = M \Delta E(P)$ and return to step 1.
 \item if there is no $M$-augmenting path, return $M$.
 \end{enumerate}
+
+\subsection{Covers}
+A (vertex) {\bf cover} of a graph $G$ is a subset $C$ of $V(G)$ such that every edge of $G$ is incident with at least one vertex of $C$. A cover of minmum size is a {\bf minimum cover}. $V(G)$ is always a cover of $G$.
+
+\begin{lemma}
+\label{matchingLeqCover}
+If $M$ is a matching of $G$ and $C$ is a cover of $G$, then $|M| \leq |C|$.
+\end{lemma}
+
+\begin{proof}
+Since $C$ covers $E(G)$, $C$ covers the edges in $M$. For each $\{x,y\} \in M$, at least one of $x$ and $y$ is in $C$. Moreover, since every vertex in $G$ is incident with at least one edge of $M$, we can pick an end of each edge in $M$ that lies in $C$, and these vertices are distinct. Thus $|M| \leq |C|$.
+\end{proof}
+
+Note that this lemma (lemma~\ref{matchingLeqCover}) implies that the size of the maximum matching is less than the size of the minimum cover.
+
+\begin{lemma}
+If $M$ is a matching of $G$ and $C$ is a cover of $G$ with $|M| = |C|$, then $M$ is maximum and $C$ is minimum.
+\end{lemma}
+
+\begin{proof}
+Suppose $M$ and $C$ are given (and equal in size) and $M$ is not maximum. Then the exists a matching $N$ of $G$ with $|N| > |M| = |C|$ which contradicts lemma~\ref{matchingLeqCover}.
+\end{proof}
+
+We denote the size of the largest matching in $G$ by $\Mu(G)$. An {\bf essential vertex} in $G$ is a vertex which is saturated by every maximum matching of $G$, i.e.\ if $v$ is essential, then $\Mu(G\setminus v) < \Mu(G)$.
+
+\begin{theorem}[K$\"{o}$nig's Theorem]
+If $G$ is bipartite, then the size of a maximum mathcing is equal to the size of a minimum cover.
+\end{theorem}
+
+\begin{proof}
+K$\"{o}$nig and Egerv$\'{a}$ry, 1931. Alternate proof from Rizzi, 2000. This proof leads to the Hungarian Algorithm.
+
+Rizzi's proof: Let $G$ be a minimal counter-example to the theorem (so $G$ is bipartite, $\Mu(G) < $ the size of the minimum cover, and every proper subgraph of $G$ satisfies the theorem). So $G$ is connected, not a cycle, and not a path (this is trivial, but must be proven).
+
+Thus there exists a vertex $u \in \Mu(G)$ such that $\deg(u) \geq 3$. Let $v$ be a neighbour of $u$. Then we have two cases:
+
+Case 1: $v$ is an essential vertex. $\Mu(G\setminus v) < \Mu(G)$ tells us that since $G\setminus v$ is a proper ubgraph of $G$, the must exist a cover $C$ of $G\setminus v$ such that $|C| = \Mu(G\setminus v)$. Note that $C \cup \{v\}$ isa  cover of $G$ with \[ |C \cup \{v\}| = \Mu(G\setminus v) + 1 \leq \Mu(G) \] This contradicts our choice of $G$.
+
+Case 2: $v$ is unessential. Let $M$ be a maximum matching of $G$ which does not saturate $v$. Note that $M$ must saturate $u$, otherwise $M \cup \{ \{u,v\} \}$ is a larger matching. Let $e \in E(G) \setminus M$ such that $e$ is incident with $u$ but not with $v$. Consider $G\setminus e$; note that $M$ is a maximum matching of $G\setminus e$, so $\Mu(G\setminus e) = \Mu(G)$. Let $C$ be a cover of $G\setminus e$ such that $|C| = |M|$. Since $|C| = |M|$, $C$ contains exactly one end of each edge in $M$. In particular, if $\{u,x\} \in M$, then one of $x$ and $u$ is in $M$. Since $e$ is incident with $u$, $C$ is a cover of $G$. But $|C| = |M| = \Mu(G)$, which contradicts our assumption that $G$ is a counter-example.
+
+Thus both cases give contradictions so the size of a maximum mathcing is equal to the size of a minimum cover.
+\end{proof}
 
 \end{document}
