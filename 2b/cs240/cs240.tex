@@ -532,6 +532,8 @@ An item is said to be multi-dimensional if it has $d > 1$ aspects (co-ordinates)
 
 Though we can use ordered arrays for one dimensional range searches, we prefer a balanced BST (e.g.\ AVL tree) when generalizing to higher dimensions. Using a balanced tree, we can perform a range search in $O(\log n)$ time and output the answers in $O(k + \log n)$, where $k$ is the number of answers.
 
+% TODO: MISSING
+
 \section{Trees}
 \subsection{Binary Trees}
 Binary trees are the most common tree structure. Their defining factor is nodes with a single value.
@@ -959,5 +961,84 @@ Overall, then we have the following complexities:
   \end{tabular}
 \end{table}
 
+\section{Compression}
+We can measure the quality of encoding (compression) schemes by processing speed, security, size, reliability\dots when determining the quality of a compression algorithm, specifically, we mostly focus on the size.
 
+Encoding schemes which attempt to minimize the size of the compressed code $|C|$ perform {\bf data compression}. We measure their {\bf compression ratio} as \[ \frac{|C| \log |\sum_{c\in C}|}{|S| \log |\sum_{s\in S}|} \]
+
+There exists both {\bf logical} (based on the meaning of the data) and {\bf physical} (based on the data bits) compression schemes. Furthermore, there exists both {\bf lossless} (recover $S$ exactly) and {\bf lossy} (more size-efficient, but only returns an approximation) algorithms.
+
+Character encodings such as ASCII are encoding algorithms. ASCII, specifically, maps seven bits to encode 128 characters; to decode this, we simply look up the seven-digit code in a {\bf decoding decoding}. The decoding dictionary $D$:
+\begin{itemize}
+\item must be prefix-free,
+\item might be used and stored explicitly (e.g.\ as a trie), or only implicitly, and
+\item might be agreed in advance (fixed), stored alongside the message (static), or stored implicitly within the message (adaptive)
+\end{itemize}
+ASCII is a {\bf fixed-length code} since each key in $D$ has length seven.
+
+\subsection{Variable-Length Codes}
+If different key strings in $D$ have different lengths, we have a {\bf variable-length code}. The UTF coding scheme uses this type of formatting; every unicode character is represented with between one- and four-bytes. ASCII characters are signified by a zero followed by the seven-digit ASCII code, all other characters are represented by between one and four one's (signifying the total number of bytes) followed by a zero and three to five bits. The remaining bits are eight digits beginning with 10.
+
+\subsection{Run-Length Encoding}
+A {\bf run-length encoding} is a variable-length encoding within a fixed decoding dictionary which is not explicitely stored. The source and coded alphabets are both binary: since this will clearly give us runs of zero's and one's, we can encode this as the first bit of $S$ followed by a sequence of integers representing run lengths.
+
+The encoding of run-length $k$ must be prefix-free so the decoder knows when to stop reading. We thus encode the length of $k$ in unary followed by the actual value of $k$ in binary.
+
+The binary length of $k$ is $\len(k) = \lfloor \log k\rfloor + 1$. Since $k \geq 1$, we will encode $\len(k) − 1$, which is at least 0. The prefix-free encoding of the positive integer $k$ is in two parts: $\lfloor\log k\rfloor$ copies of 0 followed by the binary representation of $k$.
+
+The compression ratio, then, can be as low as below $1\%$. Unfortunately, this is rarely the case: there is no compression until $k \geq 6$ and we actually have expansion if $k = 2$ or $4$.
+
+\subsection{Huffman Coding}
+We note that certain source-code items are bound to appear much more frequently than others (e.g.\ when encoding English, the letter $e$ will appear much more frequently than any other letter). We can find it useful, then, to use shorter codes for more frequent letters.
+
+When the source alphabet is arbitrary and the coded alphabet is binary, we can build a binary trie to store the decoding dictionary $D$. Each character in the alphabet is a leaf in this trie.
+
+We can build the best tree with by:
+\begin{enumerate}
+\item determining the frequency of each character $c \in S$
+\item making a height-zero trie for each character (also assign a ``weight'' to each trie equal to the sum of the frequencies of its contents)
+\item recursively merge two tries with the least weights and update the new trie's weight until you only have a single trie $D$
+\end{enumerate}
+Note than a min-heap is best for this process.
+
+A Huffman-encoded set of compressed text requires the encoder to do lots of work: it must build the decoding trie, construct the encoding dictionary, and encode the text. The decoding trie must be transmitted along with the encoded text, but this does significantly improve decoding speed.
+
+\subsection{Adaptive Dictionaries}
+Huffman coding uses a {\bf static} dictionary, instead of the {\bf fixed} dictionaries of previous examples: the dictionary is the the same for the entire encoding and decoding processes.
+
+An {\bf adaptive} dictionary has the following properties:
+\begin{itemize}
+\item there is a (usually fixed) initial dictionary $D_0$
+\item for $i \geq 0$, $D_i$ is used to determine the $i$th output character
+\item after writing the $i$th character to output, both encoder and decoder update $D_i$ to $D_{i+1}$
+\end{itemize}
+Usually adaptive encoding and decoding algorithms have identical costs.
+
+We can use the {\bf move-to-front} heuristic to take advantage of data locality; any MTF-based compression algorithm will be adaptive.
+
+We can explain MTF encoding as:
+\begin{verbatim}
+MTF-encode(S):
+  while S.characters:
+    c = S.pop_next_character
+    print L.find(c)
+    L[0], L[i] = L[i], L[0]
+
+MTF-decode(C):
+  while C.characters:
+    i C.pop_next_integer
+    print L[i]
+    L[0], L[i] = L[i], L[0]
+\end{verbatim}
+
+We can also find certain substrings which appear more frequently (i.e.\ not just single characters. For English, we have bigrams and trigrams: $th$, $er$, $on$, \dots, $the$, $and$, $tha$, \dots)
+
+\subsubsection{Lempel-Ziv}
+{\bf Lempel-Ziv} algorithms are a family of adaptive compression algorithms which encode both characters or substrings.
+
+They tend to have fixed-width encoding using $k$ bits to store the decoding dictionary with $q^k$ entries. The first $n$ elements are for single characters, the remaining are for multiple character subtrings.
+
+After encoding or decoding a substring $y \in S$, we add $xc$ to $D$ where $x$ is the previously encoded or decoded substring of $S$ and $c$ is the first character of $y$.
+
+\subsubsection{Burrows-Wheeler Transform}
 \end{document}
