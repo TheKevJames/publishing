@@ -1015,4 +1015,40 @@ Case 2: $v$ is unessential. Let $M$ be a maximum matching of $G$ which does not 
 Thus both cases give contradictions so the size of a maximum mathcing is equal to the size of a minimum cover.
 \end{proof}
 
+Let $G$ be an $(A,B)$-bigraph. Let $M$ be a matching in $G$. Set $X_0 = \{a\in A : a$ is $M$-unsaturated$\}$ and $Z = \{ v\in V : $ there exists an $M$-alternating ath $P(v)$ from some vertex in $X$ to $v\}$. Then $X = A\cap Z$ abd $Y = B\cap Z$. This is an {\bf XY Construction} of $G$.
+
+If $v\in X$, $P(v)$ is even and ends with an $M$-edge; if $v\in Y$, $P(v)$ is odd and ends with an edge not in $M$. The paths $P(v)$ start with edges that are not in $M$. If $V\in Y$ is $M$-unsaturated, then $P(v)$ is $M$-augmenting. All of the interior vertices of $P(v)$ lie in $Z$.
+
+\begin{lemma}
+Let $M$ be a matching in $(A,B)$-bigraph $G$. Let $X,Y$ be as previously constructed. Then
+\begin{enumerate}
+\item there is an edge of $G$ from $X$ to $B\setminus Y$
+\item $C = Y\cup (A\setminus X)$ is a cover of $G$
+\item there is no matching edge from $Y$ to $A\setminus X$
+\item $|M| = |C| - |U|$ where $U$ is the set of $M$-unsaturated vertices in $Y$
+\item there is an $M$-augmenting path to each vertex in $U$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}
+\item Assume that there exists a $u\in X$ and $v\in B\setminus Y$ such that $\{u,v\}\in E(G)$. Since $u\in X$, there is an $M$-alternating path $P(u) from 4X_0$ to $u$. $P(u)$ is even and ends with a matching edge.
+
+So $\{u,v\}\notin M$ and $P(u)v$ is an $M$-alternating path from $X_0$ to $v$. This contradicts $v\in B\setminus Y$.
+\item Let $C = Y \cup (A \setminux X)$. $C$ is a cover of $G$ if and only if there are no edges from $X$ to $B\setminus Y$. By our sub-proof 1, we know that there are no such edges, so $C$ is a cover.
+\item Let $U\in Y$ and $v\in A\setminux X$ such that $\{u,x\}\in M$. By definition, there is an $M$-alternating path $P(u)$ from $X_0$ to $u$. Since $u\in Y$, this path is odd and ends with an edge not in $M$. So $P(u)v$ is an $M$-alternating path from $X_0$ to $u$. This contradicts $v\in A\setminus X$.
+\item Let $u$ be the set of $M$-unsaturated vertices in $Y$. Consider $u\in A\setminus X$. $u$ is saturated by $M$. Sinc e $U$ is the set of $M$-unsaturated vertices in $Y$, there is no matching edge from $X$ to $U$.
+
+There are no edges from $X$ to $B\setminus Y$ by sub-proof 1. Since each vertex in $Y\setminus U$ is $M$-saturated, the matching edges incidents with vertices of $X$ are exactly the matching edges incident with vertices of $Y\setminux U$.
+
+$|M| = |A\setminus X| + |Y\setminux U| = |A\setminus X| + |Y| - |U| = |C| - |U|$.
+\item Since there is an $M$-alternating path $P(v)$ for each vertex $v\in U$ that joins $v$ to a vertex in $X_0$, $P(v)$ is $M$-augmenting.
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of K$\"{o}$nig's Theorem]
+Let $G$ be an $(A,B)$-bigraph. Let $M$ be a maximum matching of $G$. Perform our $XY$-construction. By our previous proof, we have:
+$U$, the set of $M$-unsaturaated vertices in $Y$, is $\varnothing$. $C = Y\cup (A\setminus X)$ is a cover. $|M| = |C|$. Thus $C$ is a minimum cover and $|M| = |C|$.
+\end{proof}
+
 \end{document}
