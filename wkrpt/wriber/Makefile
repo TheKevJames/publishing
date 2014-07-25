@@ -3,4 +3,4 @@ all:
 
 
 clean:
-	latexmk -bibtex -CA
+	rm -f wkrpt.pdf
