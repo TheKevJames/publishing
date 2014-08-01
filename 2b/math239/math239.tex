@@ -1051,4 +1051,28 @@ Let $G$ be an $(A,B)$-bigraph. Let $M$ be a maximum matching of $G$. Perform our
 $U$, the set of $M$-unsaturaated vertices in $Y$, is $\varnothing$. $C = Y\cup (A\setminus X)$ is a cover. $|M| = |C|$. Thus $C$ is a minimum cover and $|M| = |C|$.
 \end{proof}
 
+% MISSING
+
+\begin{theorem}[Hall's Theorem]
+If $(A<B)$ is a bipartition of a bipartite graph $G$ and $|N(D)| \geq |D|$ for each $D \subseteq A$, then $G$ has a matching saturating every vertex of $A$.
+\end{theorem}
+
+Corollary: If $(A,B)$ is a bipartition of a bipartite graph $G$, then $G$ has a perfect matching if and only if $|A| = |B|$ and $|N(D)| \geq |D|$ for each $D \subseteq A$.
+
+\begin{lemma}
+If $k \geq 1$ and $G$ is a $k$-regular bipartite graph, then $G$ has a perfect matching.
+\end{lemma}
+
+\begin{proof}
+Let $D \subseteq A$.  Let $F$ be the set of edges with one end in $N(D)$. Every vertex in $N(D)$ has degree $k$, so $|F| = \sum_{v\in N(D)} \deg (v) = k|N(D)|$. Every edge with one end in $D$ is in $F$, so $|F| \geq \sum_{v\in D} \deg(v) = k|D|$. Then $k|D| \leq |F| \leq k|N(D)|$, giving $|D| \leq |N(D)|$. By Hall's Theorem, we have a perfect matching.
+\end{proof}
+
+Corollary: If $G$ is a $k$-regular bipartite graph, then $E(G)$ has a partition into $k$ perfect matchings of $G$.
+
+\begin{proof}
+Find one by the proposition, remove it, apply induction.
+\end{proof}
+
+Equivalently, every $k$-regular bipartite graph is {\bf edge-colourable}.
+
 \end{document}
