@@ -485,7 +485,7 @@ If the average cost of searches is $t$, then for we set $\alpha < 1 - \frac{1}{t
 \subsubsection{Cuckoo Hashing}
 The Cuckoo hashing algorithm also uses two hashing algorithms: the idea, though, is to always insert a new item into $h_1(k)$. If this overwrites another element, we simply re-insert the old element into its alternate position.
 
-The ``alternate position'' is defined as follows: the two hash functions are used to create two completely seperate hash tables. Thus, each element can exist in any one of two possible {\bf nests}.
+The ``alternate position'' is defined as follows: the two hash functions are used to create two completely separate hash tables. Thus, each element can exist in any one of two possible {\bf nests}.
 
 This gives us $O(1)$ search and deletion as well as amortized $O(1)$ insertion, though it does require mostly random hash functions.
 
@@ -501,7 +501,7 @@ We store the {\bf directory} (root node) in internal memory. This directory cont
 
 To search for a key $k$ in the dictionary, we find block $B$ with the first $d$ bits of $H(k)$ as such: $\lfloor \frac{h(k)}{2^{L-d}} \rfloor$. Then, we simply perform a binary search in block $B$ for our hash value. This algorithm is $\Theta(\log S)$ and generates one page fault.
 
-To insert into this dictionary, we search for $h(k)$ to find the proper block for insertion. IF the block has space, we insert our key. Otherwise, we perform a {\bf block split}: we seperate $B$ into $B_0$ and $B_1$ where the items are split by the $k_B$th bit, then update our dictionary references. Note that if our dictionary does not have enough space for a split, we must first double its size and update references accordingly (this is called a {\bf dictionary grow}).
+To insert into this dictionary, we search for $h(k)$ to find the proper block for insertion. IF the block has space, we insert our key. Otherwise, we perform a {\bf block split}: we separate $B$ into $B_0$ and $B_1$ where the items are split by the $k_B$th bit, then update our dictionary references. Note that if our dictionary does not have enough space for a split, we must first double its size and update references accordingly (this is called a {\bf dictionary grow}).
 
 To delete from this dictionary, we perform the reverse operation from insertion: we search for block $B$ and remove $k$ from it. If $n_B$ is too small, we perform a {\bf block merge}, and if every block $B$ has local depth $k_B \leq d - 1$, we perform a {\bf dictionary shrink}.
 
@@ -984,7 +984,7 @@ A {\bf run-length encoding} is a variable-length encoding within a fixed decodin
 
 The encoding of run-length $k$ must be prefix-free so the decoder knows when to stop reading. We thus encode the length of $k$ in unary followed by the actual value of $k$ in binary.
 
-The binary length of $k$ is $\len(k) = \lfloor \log k\rfloor + 1$. Since $k \geq 1$, we will encode $\len(k) − 1$, which is at least 0. The prefix-free encoding of the positive integer $k$ is in two parts: $\lfloor\log k\rfloor$ copies of 0 followed by the binary representation of $k$.
+The binary length of $k$ is $\text{len}(k) = \lfloor \log k\rfloor + 1$. Since $k \geq 1$, we will encode $\text{len}(k) − 1$, which is at least 0. The prefix-free encoding of the positive integer $k$ is in two parts: $\lfloor\log k\rfloor$ copies of 0 followed by the binary representation of $k$.
 
 The compression ratio, then, can be as low as below $1\%$. Unfortunately, this is rarely the case: there is no compression until $k \geq 6$ and we actually have expansion if $k = 2$ or $4$.
 

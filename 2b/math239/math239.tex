@@ -257,7 +257,7 @@ A(x) &= 1 -2x + x^2
 Given a power series $P(x)$, if $Q(x)$ is another power series such that $PQ(x) = 1$ then $Q(x)$ is an inverse of $P(x)$. We write $Q(x) = P^{-1}(x) = \frac{1}{P(x)}$.
 
 \begin{lemma}
-$P(x) = \displaystyle\sum_{k \geq 0} P_k x^k$ has an inverse if and only iff $p_0 \neq =$.
+$P(x) = \displaystyle\sum_{k \geq 0} P_k x^k$ has an inverse if and only if $p_0 \neq 0$.
 \end{lemma}
 
 We can often write formal power series more concisely in terms of their inverses. This can be useful for simplifying a series, for example:
@@ -995,22 +995,22 @@ If $M$ is a matching of $G$ and $C$ is a cover of $G$ with $|M| = |C|$, then $M$
 Suppose $M$ and $C$ are given (and equal in size) and $M$ is not maximum. Then the exists a matching $N$ of $G$ with $|N| > |M| = |C|$ which contradicts lemma~\ref{matchingLeqCover}.
 \end{proof}
 
-We denote the size of the largest matching in $G$ by $\Mu(G)$. An {\bf essential vertex} in $G$ is a vertex which is saturated by every maximum matching of $G$, i.e.\ if $v$ is essential, then $\Mu(G\setminus v) < \Mu(G)$.
+We denote the size of the largest matching in $G$ by $\mu(G)$. An {\bf essential vertex} in $G$ is a vertex which is saturated by every maximum matching of $G$, i.e.\ if $v$ is essential, then $\mu(G\setminus v) < \mu(G)$.
 
-\begin{theorem}[K$\"{o}$nig's Theorem]
+\begin{theorem}[Konig's Theorem]
 If $G$ is bipartite, then the size of a maximum mathcing is equal to the size of a minimum cover.
 \end{theorem}
 
 \begin{proof}
-K$\"{o}$nig and Egerv$\'{a}$ry, 1931. Alternate proof from Rizzi, 2000. This proof leads to the Hungarian Algorithm.
+Konig and Egervary, 1931. Alternate proof from Rizzi, 2000. This proof leads to the Hungarian Algorithm.
 
-Rizzi's proof: Let $G$ be a minimal counter-example to the theorem (so $G$ is bipartite, $\Mu(G) < $ the size of the minimum cover, and every proper subgraph of $G$ satisfies the theorem). So $G$ is connected, not a cycle, and not a path (this is trivial, but must be proven).
+Rizzi's proof: Let $G$ be a minimal counter-example to the theorem (so $G$ is bipartite, $\mu(G) < $ the size of the minimum cover, and every proper subgraph of $G$ satisfies the theorem). So $G$ is connected, not a cycle, and not a path (this is trivial, but must be proven).
 
-Thus there exists a vertex $u \in \Mu(G)$ such that $\deg(u) \geq 3$. Let $v$ be a neighbour of $u$. Then we have two cases:
+Thus there exists a vertex $u \in \mu(G)$ such that $\deg(u) \geq 3$. Let $v$ be a neighbour of $u$. Then we have two cases:
 
-Case 1: $v$ is an essential vertex. $\Mu(G\setminus v) < \Mu(G)$ tells us that since $G\setminus v$ is a proper ubgraph of $G$, the must exist a cover $C$ of $G\setminus v$ such that $|C| = \Mu(G\setminus v)$. Note that $C \cup \{v\}$ isa  cover of $G$ with \[ |C \cup \{v\}| = \Mu(G\setminus v) + 1 \leq \Mu(G) \] This contradicts our choice of $G$.
+Case 1: $v$ is an essential vertex. $\mu(G\setminus v) < \mu(G)$ tells us that since $G\setminus v$ is a proper ubgraph of $G$, the must exist a cover $C$ of $G\setminus v$ such that $|C| = \mu(G\setminus v)$. Note that $C \cup \{v\}$ isa  cover of $G$ with \[ |C \cup \{v\}| = \mu(G\setminus v) + 1 \leq \mu(G) \] This contradicts our choice of $G$.
 
-Case 2: $v$ is unessential. Let $M$ be a maximum matching of $G$ which does not saturate $v$. Note that $M$ must saturate $u$, otherwise $M \cup \{ \{u,v\} \}$ is a larger matching. Let $e \in E(G) \setminus M$ such that $e$ is incident with $u$ but not with $v$. Consider $G\setminus e$; note that $M$ is a maximum matching of $G\setminus e$, so $\Mu(G\setminus e) = \Mu(G)$. Let $C$ be a cover of $G\setminus e$ such that $|C| = |M|$. Since $|C| = |M|$, $C$ contains exactly one end of each edge in $M$. In particular, if $\{u,x\} \in M$, then one of $x$ and $u$ is in $M$. Since $e$ is incident with $u$, $C$ is a cover of $G$. But $|C| = |M| = \Mu(G)$, which contradicts our assumption that $G$ is a counter-example.
+Case 2: $v$ is unessential. Let $M$ be a maximum matching of $G$ which does not saturate $v$. Note that $M$ must saturate $u$, otherwise $M \cup \{ \{u,v\} \}$ is a larger matching. Let $e \in E(G) \setminus M$ such that $e$ is incident with $u$ but not with $v$. Consider $G\setminus e$; note that $M$ is a maximum matching of $G\setminus e$, so $\mu(G\setminus e) = \mu(G)$. Let $C$ be a cover of $G\setminus e$ such that $|C| = |M|$. Since $|C| = |M|$, $C$ contains exactly one end of each edge in $M$. In particular, if $\{u,x\} \in M$, then one of $x$ and $u$ is in $M$. Since $e$ is incident with $u$, $C$ is a cover of $G$. But $|C| = |M| = \mu(G)$, which contradicts our assumption that $G$ is a counter-example.
 
 Thus both cases give contradictions so the size of a maximum mathcing is equal to the size of a minimum cover.
 \end{proof}
@@ -1035,18 +1035,18 @@ Let $M$ be a matching in $(A,B)$-bigraph $G$. Let $X,Y$ be as previously constru
 \item Assume that there exists a $u\in X$ and $v\in B\setminus Y$ such that $\{u,v\}\in E(G)$. Since $u\in X$, there is an $M$-alternating path $P(u) from 4X_0$ to $u$. $P(u)$ is even and ends with a matching edge.
 
 So $\{u,v\}\notin M$ and $P(u)v$ is an $M$-alternating path from $X_0$ to $v$. This contradicts $v\in B\setminus Y$.
-\item Let $C = Y \cup (A \setminux X)$. $C$ is a cover of $G$ if and only if there are no edges from $X$ to $B\setminus Y$. By our sub-proof 1, we know that there are no such edges, so $C$ is a cover.
-\item Let $U\in Y$ and $v\in A\setminux X$ such that $\{u,x\}\in M$. By definition, there is an $M$-alternating path $P(u)$ from $X_0$ to $u$. Since $u\in Y$, this path is odd and ends with an edge not in $M$. So $P(u)v$ is an $M$-alternating path from $X_0$ to $u$. This contradicts $v\in A\setminus X$.
+\item Let $C = Y \cup (A \setminus X)$. $C$ is a cover of $G$ if and only if there are no edges from $X$ to $B\setminus Y$. By our sub-proof 1, we know that there are no such edges, so $C$ is a cover.
+\item Let $U\in Y$ and $v\in A\setminus X$ such that $\{u,x\}\in M$. By definition, there is an $M$-alternating path $P(u)$ from $X_0$ to $u$. Since $u\in Y$, this path is odd and ends with an edge not in $M$. So $P(u)v$ is an $M$-alternating path from $X_0$ to $u$. This contradicts $v\in A\setminus X$.
 \item Let $u$ be the set of $M$-unsaturated vertices in $Y$. Consider $u\in A\setminus X$. $u$ is saturated by $M$. Sinc e $U$ is the set of $M$-unsaturated vertices in $Y$, there is no matching edge from $X$ to $U$.
 
-There are no edges from $X$ to $B\setminus Y$ by sub-proof 1. Since each vertex in $Y\setminus U$ is $M$-saturated, the matching edges incidents with vertices of $X$ are exactly the matching edges incident with vertices of $Y\setminux U$.
+There are no edges from $X$ to $B\setminus Y$ by sub-proof 1. Since each vertex in $Y\setminus U$ is $M$-saturated, the matching edges incidents with vertices of $X$ are exactly the matching edges incident with vertices of $Y\setminus U$.
 
-$|M| = |A\setminus X| + |Y\setminux U| = |A\setminus X| + |Y| - |U| = |C| - |U|$.
+$|M| = |A\setminus X| + |Y\setminus U| = |A\setminus X| + |Y| - |U| = |C| - |U|$.
 \item Since there is an $M$-alternating path $P(v)$ for each vertex $v\in U$ that joins $v$ to a vertex in $X_0$, $P(v)$ is $M$-augmenting.
 \end{enumerate}
 \end{proof}
 
-\begin{proof}[Proof of K$\"{o}$nig's Theorem]
+\begin{proof}[Proof of Konig's Theorem]
 Let $G$ be an $(A,B)$-bigraph. Let $M$ be a maximum matching of $G$. Perform our $XY$-construction. By our previous proof, we have:
 $U$, the set of $M$-unsaturaated vertices in $Y$, is $\varnothing$. $C = Y\cup (A\setminus X)$ is a cover. $|M| = |C|$. Thus $C$ is a minimum cover and $|M| = |C|$.
 \end{proof}

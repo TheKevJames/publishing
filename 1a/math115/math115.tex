@@ -2,7 +2,12 @@
 \usepackage{amsmath,amssymb,parskip,custom}
 \usepackage[margin=1in]{geometry}
 
+\newcommand{\perpp}[2]{{\rm perp}_{\vec{#2}} (\vec{#1})}
+\newcommand{\proj}[2]{{\rm proj}_{\vec{#2}} (\vec{#1})}
 \newcommand{\R}[1]{\mathbb{R}^{#1}}
+\newcommand{\spanv}[1]{{\rm span}\{#1\}}
+\newcommand{\vectwo}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vecthree}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
 
 \begin{document}
 
@@ -38,30 +43,30 @@ In $\R{n}$, the dot product of $\vec{u} = \vecthree{a_0}{\dots}{a_n}$ and $\vec{
 \subsection*{Magnitude}
 The {\bf magnitude} of a vector is its length.
 
-Example: for $\vec{v} = \begin{bmatrix}1\\0\\1\\1\\2\end{bmatrix}$ \[ \magv{v} = \sqrt{3^2+4^2} = 5 \]
+Example: for $\vec{v} = \begin{bmatrix}1\\0\\1\\1\\2\end{bmatrix}$ \[ {||v||} = \sqrt{3^2+4^2} = 5 \]
 
-More generally \[ \magv{v} = \sqrt{\vec{v}\circ\vec{v}} \] and \[ \magv{v}^2 = \vec{v}\circ\vec{v} \]
+More generally \[ {||v||} = \sqrt{\vec{v}\circ\vec{v}} \] and \[ {||v||}^2 = \vec{v}\circ\vec{v} \]
 
 \subsubsection*{Unit Vector}
-The {\bf unit vector} is a vector of length one. Given $\vec{v}$, the unit vector with the same direction is \[ \frac{\vec{v}}{\magv{v}} \]
+The {\bf unit vector} is a vector of length one. Given $\vec{v}$, the unit vector with the same direction is \[ \frac{\vec{v}}{{||v||}} \]
 
 This is called {\bf normalization}.
 
 \subsubsection*{Distance Between Points}
-For $P$ and $Q$, the {\bf distance} between them is $\magv{PQ}$
+For $P$ and $Q$, the {\bf distance} between them is $||PQ||$
 
 \subsubsection*{Angle Between Two Vectors}
 For $\vec{u}$ and $\vec{v}$, the {\bf angle} between them is $\theta$.
 
 Deriving from the {\bf cosine law} $c^2 = a^2 + b^2 - 2ab\cos\theta$, we get
 \begin{align*}
-\mags{\vec{u}-\vec{v}}^2 &= \magv{u}^2 + \magv{v}^2 - 2\magv{u}\magv{v}\cos\theta\\
+{||\vec{u}-\vec{v}||}^2 &= {||u||}^2 + {||v||}^2 - 2{||u||}{||v||}\cos\theta\\
 &= (\vec{u}-\vec{v})\circ(\vec{u}-\vec{v})\\
 &= \vec{u}\circ\vec{u} - \vec{u}\circ\vec{v} - \vec{v}\circ\vec{u} + \vec{v}\circ\vec{v}\\
-&= \magv{u}^2 - 2\vec{u}\circ\vec{v} + \magv{v}^2\\
--2\magv{u}\magv{v}\cos\theta &= -2\vec{u}\circ\vec{v}\\
-\cos{\theta}&=\frac{\vec{u}\circ\vec{v}}{\magv{u}\magv{v}}\\
-\theta&=\cos^{-1}\bigg({\frac{\vec{u}\circ\vec{v}}{\magv{u}\magv{v}}}\bigg)
+&= {||u||}^2 - 2\vec{u}\circ\vec{v} + {||v||}^2\\
+-2{||u||}{||v||}\cos\theta &= -2\vec{u}\circ\vec{v}\\
+\cos{\theta}&=\frac{\vec{u}\circ\vec{v}}{{||u||}{||v||}}\\
+\theta&=\cos^{-1}\bigg({\frac{\vec{u}\circ\vec{v}}{{||u||}{||v||}}}\bigg)
 \end{align*}
 
 \textit{Definition:} two vectors $\vec{u}$ and $\vec{v}$ are orthogonal if $\vec{u}\circ\vec{v} = 0$
@@ -96,7 +101,7 @@ $\proj{v}{u}$ is the {\bf projection} of $\vec{v}$ onto $\vec{u}$
 \end{enumerate}
 
 \begin{align*}
-\proj{v}{u} &= \frac{\vec{u}\circ\vec{v}}{\magv{u}^2}\vec{u}\\
+\proj{v}{u} &= \frac{\vec{u}\circ\vec{v}}{{||u||}^2}\vec{u}\\
 \perpp{v}{u} &= \vec{v} - proj_{\vec{u}}(\vec{v})\\
 \perpp{v}{u}\circ\proj{v}{u} &= 0
 \end{align*}
@@ -104,7 +109,7 @@ $\proj{v}{u}$ is the {\bf projection} of $\vec{v}$ onto $\vec{u}$
 \subsection*{Shortest Distance}
 The tip of $\proj{v}{u}$ is the {\bf closest point} to $\vec{v}$
 
-Example: The shortest distance between the point $P$ and the line $\vec{QR}$ is \[ \mags{\perpp{QP}{QR}} \]
+Example: The shortest distance between the point $P$ and the line $\vec{QR}$ is \[ ||\perpp{QP}{QR}|| \]
 
 \subsection*{Projection onto a Plane}
 For a point $P$ and a plane containing point $Q$, the {\bf projection} onto that plane is \[ \perpp{QP}{n} \]
@@ -141,11 +146,15 @@ Recall: every element of $\R{n}$ in a plane can be written as a linear combinati
 
 $\spanv{\vectwo{1}{2}}$ is the line through $0$ with distance $\vectwo{1}{2}$. If $\vec{x}in\spanv{\vectwo{1}{2}}$, then $\vec{x} = a_0\vectwo{1}{2}, a_0in\mathbb{R}$
 
-\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}in\R{n}$, then $\spanv{\vec{v_0},\dots \vec{v_k}}$ is a subspace of $\R{n}$}
+\begin{theorem}
+If $\vec{v_0},\dots \vec{v_k}in\R{n}$, then $\spanv{\vec{v_0},\dots \vec{v_k}}$ is a subspace of $\R{n}$
+\end{theorem}
 
 In $\R{2}$ we have $\R{2} = \spanv{\vectwo{1}{0},\vectwo{0}{1},\vectwo{1}{1}} = \spanv{\vectwo{1}{0},\vectwo{0}{1}}$ because $\vectwo{1}{1}$ is a linear combination of the other two vectors, and is thus redundant.
 
-\theorem{Theorem: if $\vec{v_0},\dots \vec{v_k}in\R{n}$ and $\vec{v_k}$ is a linear combination of $\vec{v_0},\dots \vec{v_{k-1}}$, then $\spanv{\vec{v_0},\dots \vec{v_k}} = \spanv{\vec{v_0},\dots \vec{v_{k-1}}}$}
+\begin{theorem}
+If $\vec{v_0},\dots \vec{v_k}in\R{n}$ and $\vec{v_k}$ is a linear combination of $\vec{v_0},\dots \vec{v_{k-1}}$, then $\spanv{\vec{v_0},\dots \vec{v_k}} = \spanv{\vec{v_0},\dots \vec{v_{k-1}}}$
+\end{theorem}
 
 \subsection*{Linear Independence}
 \textit{Definition:} The set $\{\vec{v_0},\dots \vec{v_k}\}$ is {\bf linearly dependent} if there exists $a_0,\dots a_k$ not all zero such that $a_0\vec{v_0} + \dots + a_k\vec{v_k} = \vec{0}$. Otherwise (ie, if $a_0,\dots a_k$ are all zero) the set is {\bf linearly independent}.
@@ -202,7 +211,9 @@ To guarantee consistency of a set spanning $\R{n}$, the span must contain at lea
 \subsection*{Bases}
 In $\R{n}$ any basis has size $n$.
 
-\theorem{Theorem: if $S$ is a subspace, then any basis for $S$ has the same size.}
+\begin{theorem}
+If $S$ is a subspace, then any basis for $S$ has the same size.
+\end{theorem}
 
 \textit{Definition:} the dimension of a subspace is the size of its basis. \[ \text{dim}\{S\} = k \]
 Example: the dimension of any plane is 2.
@@ -370,7 +381,9 @@ For any matrix $A$ which is equal to the matrix $B$, except for one row or colum
 Example: $\begin{vmatrix}1&0\\0&1\end{vmatrix} = \begin{vmatrix}1&0\\121&1\end{vmatrix}$
 
 \subsection*{Invertibility}
-\theorem{Theorem: $A$ is invertible if and only if det$A \neq 0$}
+\begin{theorem}
+$A$ is invertible if and only if det$A \neq 0$
+\end{theorem}
 
 \subsection*{Determinant of a Product}
 \[ \text{det}(AB) = \text{det}(A)\text{det}(B) \]
@@ -427,9 +440,13 @@ Thus $f(n)$ is the second component of that equation \[ f(n) = \frac{1}{\sqrt{5}
 \section*{Similar Matrices}
 \textit{Definition:} Two $n$x$n$ matrices $A$ and $B$ are {\bf similar} if there exists an invertible $P$ such that $P^{-1}AP = B,$ or $A \sim B$. $A$ is diagonalizable if it is similar to a diagonalizable matrix.
 
-\theorem{Theorem: If $A \sim B$, then they have the same determinant, characteristic polynomial, eigenvalues, rank, and trace.}
+\begin{theorem}
+If $A \sim B$, then they have the same determinant, characteristic polynomial, eigenvalues, rank, and trace.
+\end{theorem}
 
-\theorem{Theorem: If $A$ is diagonalizable, det$A$ is the product of the eigenvalues of $A$ and tr$A$ is the sum of the eigenvalues of $A$.}
+\begin{theorem}
+If $A$ is diagonalizable, det$A$ is the product of the eigenvalues of $A$ and tr$A$ is the sum of the eigenvalues of $A$.
+\end{theorem}
 
 \section*{Orthogonality}
 \textit{Definition:} A set $\{\vec{v_1},\dots \vec{v_k}\}$ is {\bf orthogonal} if $v_i \neq v_j$ whenever $i \neq j$
@@ -438,19 +455,19 @@ Example: the standard basis is an orthogonal set, ie. $\bigg\{\vecthree{1}{0}{0}
 
 If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal set that does not include $\vec{0}$, then it is linearly independant.
 
-Suppose $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal basis for a subspace $S$. Let $\vec{x}in S$. So $\vec{x} = a_1\vec{v_1} + \dots + a_k\vec{v_k}$ for some $a_i$'s. For some $i$, take the dot product of $\vec{v_i}$ on both sides to get \[ x\vec{v_i} = a_1\vec{v_1}\circ\vec{v_i} + \dots + a_i\vec{v_i}\circ\vec{v_i} + \dots + a_k\vec{v_k}\circ\vec{v_i} \] \[ a_i = \frac{x\vec{v_i}}{\magv{v_i}^2} \] \[ \vec{x} = \frac{xa_1}{\magv{a_1}^2}\vec{v_1} + \dots + \frac{xa_k}{\magv{a_k}^2}\vec{v_k} \]
+Suppose $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthogonal basis for a subspace $S$. Let $\vec{x}in S$. So $\vec{x} = a_1\vec{v_1} + \dots + a_k\vec{v_k}$ for some $a_i$'s. For some $i$, take the dot product of $\vec{v_i}$ on both sides to get \[ x\vec{v_i} = a_1\vec{v_1}\circ\vec{v_i} + \dots + a_i\vec{v_i}\circ\vec{v_i} + \dots + a_k\vec{v_k}\circ\vec{v_i} \] \[ a_i = \frac{x\vec{v_i}}{{||v_i||}^2} \] \[ \vec{x} = \frac{xa_1}{{||a_i||}^2}\vec{v_1} + \dots + \frac{xa_k}{{||a_k||}^2}\vec{v_k} \]
 
 Example: for $\bigg\{\vectwo{1}{1},\vectwo{1}{-1}\bigg\}$
 
 \[ \vectwo{3}{4} = \frac{7}{2}\vectwo{1}{1} + \frac{-1}{2}\vectwo{1}{-1} \]
 
-\textit{Definition:} A set $\{\vec{v_1}, \dots \vec{v_k}\}$ is {\bf orthonormal} if it is orthogonal and $\magv{v_i} = 1$ for each $i$ (ie. any orthogonal set where each vector has been normalized)
+\textit{Definition:} A set $\{\vec{v_1}, \dots \vec{v_k}\}$ is {\bf orthonormal} if it is orthogonal and ${||v_i||} = 1$ for each $i$ (ie. any orthogonal set where each vector has been normalized)
 
-% This theorem may be incorrect or incomplete
-\theorem{Theorem: If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthonormal basis for a subspace $S$ and $\vec{k}in S$, then \[ \vec{x} = (x\vec{v_1})\vec{v_1} + \dots + (x\vec{v_k})\vec{v_k} = kx \]}
+\begin{theorem}If $\{\vec{v_1},\dots \vec{v_k}\}$ is an orthonormal basis for a subspace $S$ and $\vec{k}in S$, then \[ \vec{x} = (x\vec{v_1})\vec{v_1} + \dots + (x\vec{v_k})\vec{v_k} = kx \]
+\end{theorem}
 
 \subsection*{Orthogonal Matrices}
-A matrix is {\bf orthogonal} if $A^{-1} = A^T$, or $A^TA = I$. Along it's diagonal, $\magv{v_i} = 1$, for each $i$.
+A matrix is {\bf orthogonal} if $A^{-1} = A^T$, or $A^TA = I$. Along it's diagonal, ${||v_i||} = 1$, for each $i$.
 
 If $A$ is orthogonal, so is $A^T$. Also, each of its rows and columns are {\bf orthonormal}.
 
@@ -477,13 +494,15 @@ Example: let $S = \spanv{\begin{bmatrix}1\\1\\-1\\-1\\1\end{bmatrix},\begin{bmat
 
 \textit{Definition:} let $\{v_1,\dots v_k\}$ be an orthonormal basis of the subspace $Sin\R{n}$. Then \[ \proj{x}{s} = \vec{x}\vec{v_1}\vec{v_1} + \dots + \vec{x}\vec{v_k}\vec{v_k} \]
 
-If $\{\vec{v_1},\dots \vec{v_k}\}$ is orthogonal, then \[ \proj{x}{s} = \frac{\vec{x}\vec{v_1}}{\magv{v_1}^2}\vec{v_1} + \dots + \frac{\vec{x}\vec{v_k}}{\magv{v_k}^2}\vec{v_k} \]
+If $\{\vec{v_1},\dots \vec{v_k}\}$ is orthogonal, then \[ \proj{x}{s} = \frac{\vec{x}\vec{v_1}}{{||v_1||}^2}\vec{v_1} + \dots + \frac{\vec{x}\vec{v_k}}{{||v_k||}^2}\vec{v_k} \]
 
 Example: find $P = x -2y + 3z = 0$ projected onto $\vec{x} = \vecthree{3}{1}{2}$
 
-An orthogonal basis is $\vec{v} = \bigg\{ \vecthree{1}{-1}{-1},\vecthree{5}{4}{1} \bigg\}$ thus \[ \proj{x}{p} = \frac{\vec{x}\vec{v_1}}{\magv{v_1}^2}\vec{v_1} = \frac{\vec{x}\vec{v_2}}{\magv{v_2}^2}\vec{v_2} \]
+An orthogonal basis is $\vec{v} = \bigg\{ \vecthree{1}{-1}{-1},\vecthree{5}{4}{1} \bigg\}$ thus \[ \proj{x}{p} = \frac{\vec{x}\vec{v_1}}{{||v_1||}^2}\vec{v_1} = \frac{\vec{x}\vec{v_2}}{{{||v_2||}}^2}\vec{v_2} \]
 
-\theorem{Theorem: let $S$ be a subspace of $\R{n}$ and $\vec{x}$ be a vector in $\R{n}$. There exists a unique vector $\vec{s}in S$ such that we can find the minimum of $\mags{\vec{x}-\vec{s}}$, and that vector is \[ \vec{s} = \proj{x}{s} \]}
+\begin{theorem}
+Let $S$ be a subspace of $\R{n}$ and $\vec{x}$ be a vector in $\R{n}$. There exists a unique vector $\vec{s}in S$ such that we can find the minimum of $||\vec{x}-\vec{s}||$, and that vector is \[ \vec{s} = \proj{x}{s} \]
+\end{theorem}
 
 \subsection*{Gram-Schmidts Procedure}
 Given a basis $\{w_1,\dots w_k\}$ for a subspace $S$, {\bf Gram-Schmidtz produce} an orthogonal basis $\{v_1,\dots v_k\}$ for $S_i$ where for each $i$ \[ \spanv{w_1,\dots w_i} = \spanv{v_1,\dots v_i}S_i \]
@@ -498,7 +517,7 @@ Suppose $\{w_1,\dots w_k\}$ is a basis for $S$. We define $S_i = \spanv{w_1,\dot
 \textit{Application:} Line fitting, curve fitting
 
 \subsection*{Orthogonal Diagonaliazation}
-For a "normal" diagonal, where $D$ is a diagonal matrix and $P$ is invertable $P^{-1}AP = D$
+For a ``normal'' diagonal, where $D$ is a diagonal matrix and $P$ is invertable $P^{-1}AP = D$
 
 \textit{Definition:} A matrix $A$ is {\bf orthogonally diagonalizable} if there exists an orthogonal matrix $Q$ and a diagonal matrix $D$ such that \[ Q^{-1}AQ = D \]
 
@@ -511,10 +530,11 @@ A^T &= (QDQ^T)^T\\
 &= QDQ^T\\
 &= A
 \end{align*}
-
 thus if a matrix is orthogonally diagonalizable, it must be symmetric.
 
-\theorem{Principle Axis Theorem: if $A$ is symmetric, then $A$ is orthogonally diagonalizable.}
+\begin{theorem}[Principle Axis Theorem]
+If $A$ is symmetric, then $A$ is orthogonally diagonalizable.
+\end{theorem}
 
 Example: $A = \begin{bmatrix}2&-2\\-2&5\end{bmatrix}$
 
@@ -533,7 +553,9 @@ D &= \begin{bmatrix}6&0\\0&1\end{bmatrix}\\
 Q &= \begin{bmatrix}\frac{1}{\sqrt{5}}&\frac{2}{\sqrt{5}}\\\frac{-2}{\sqrt{5}}&\frac{1}{\sqrt{5}}\end{bmatrix}
 \end{align*}
 
-\theorem{Theorem: If $A$ is symmetric, the eigenvectors corresponding to distinct eigenvalues are orthogonal.}
+\begin{theorem}
+If $A$ is symmetric, the eigenvectors corresponding to distinct eigenvalues are orthogonal.
+\end{theorem}
 
 Example: $A = \begin{bmatrix}0&-1&-1\\-1&0&1\\-1&1&0\end{bmatrix}$
 
@@ -579,7 +601,9 @@ Example {\bf vector spaces} (sets obeying the 10 required properties):
 
 Subspaces are vector spaces.
 
-\theorem{Theorem: Let $\mathbb{V}$ be a vector space and let $\{v_1,\dots v_k\} in \mathbb{V}$. Then the span $\{v_1,\dots v_k\}$ is a subspace of $\mathbb{V}$}
+\begin{theorem}
+Let $\mathbb{V}$ be a vector space and let $\{v_1,\dots v_k\} in \mathbb{V}$. Then the span $\{v_1,\dots v_k\}$ is a subspace of $\mathbb{V}$
+\end{theorem}
 
 \subsection*{Linear Independence}
 \textit{Definition:} Let $\mathbb{V}$ be a vector space, let $\vec{v_1},\dots \vec{v_k} in \mathbb{V}$. Then $\{\vec{v_1},\dots \vec{v_k}\}$ is {\bf linearly independent} if the only solution to \[ a_1\vec{v_1} + \dots + a_k\vec{v_k} = 0 \] is the trivial solution.
@@ -587,7 +611,9 @@ Subspaces are vector spaces.
 \subsection*{Basis and Dimension}
 \textit{Definition:} Let $\mathbb{V}$ be a vector space. Then a {\bf basis} is a linearly independant set that spans $\mathbb{V}$.
 
-\theorem{Theorem: If $S$ and $T$ are bases for $\mathbb{V}$, then $S$ and $T$ have the same size.}
+\begin{theorem}
+If $S$ and $T$ are bases for $\mathbb{V}$, then $S$ and $T$ have the same size.
+\end{theorem}
 
 \textit{Definition:} The {\bf dimension} of a vector space is the size of its basis.
 
@@ -601,12 +627,16 @@ Let $\mathbb{V}$ be a vector space of dimension n. Then
 \subsubsection*{Finding a Basis}
 Given $S = \spanv{\vec{v_1},\dots \vec{v_k}}$ find a basis. If there is linear dependence, throw out dependant vectors until you have independence.
 
-\theorem{Theorem: If $\vec{v_k}$ is a non-trivial linear combination of $\{\vec{v_1}, \dots \vec{v_k}\}$, then \[ \spanv{\vec{v_1},\dots \vec{v_k}} = \spanv{\vec{v_1},\dots \vec{v_{k-1}}} \]}
+\begin{theorem}
+If $\vec{v_k}$ is a non-trivial linear combination of $\{\vec{v_1}, \dots \vec{v_k}\}$, then \[ \spanv{\vec{v_1},\dots \vec{v_k}} = \spanv{\vec{v_1},\dots \vec{v_{k-1}}} \]
+\end{theorem}
 
 \subsubsection*{Extending a Basis}
 Given a basis $B$ of a subspace $S$ of $\mathbb{V}$, extend $B$ to a basis for $\mathbb{V}$.
 
-\theorem{Theorem: If $\vec{v_1},\dots \vec{v_k}$ is linearly independent and $\vec{v_{k+1}}$ is not in the $\spanv{\vec{v_1},\dots \vec{v_k}}$, then $\{\vec{v_1},\dots \vec{v_k}, \vec{v_{k+1}}\}$ is still linearly independent.}
+\begin{theorem}
+If $\vec{v_1},\dots \vec{v_k}$ is linearly independent and $\vec{v_{k+1}}$ is not in the $\spanv{\vec{v_1},\dots \vec{v_k}}$, then $\{\vec{v_1},\dots \vec{v_k}, \vec{v_{k+1}}\}$ is still linearly independent.
+\end{theorem}
 
 Usually, we can consider adding vectors from the standard basis.
 
@@ -617,12 +647,14 @@ For $C[a,b]$, the {\bf inner product} is $f, g in [a,b]$ and \[ <f,g> = \int_a^b
 
 If $<f,g> = 0$, $f$ and $g$ are orthogonal.
 
-\[ \magv{f}^2 = <f,f> = \int_a^b f^2(x) \dd x \]
+\[ {||f||}^2 = <f,f> = \int_a^b f^2(x) \dd x \]
 
-To project $f(x)$ onto $\{\sin x,\cos x\}$ we have \[ \frac{<f(x),\sin x>}{\magv{\sin x}^2}\sin x + \frac{<f(x),\cos x>}{\magv{\cos x}^2}\cos x \]
+To project $f(x)$ onto $\{\sin x,\cos x\}$ we have \[ \frac{<f(x),\sin x>}{{||\sin x||}^2}\sin x + \frac{<f(x),\cos x>}{{||\cos x||}^2}\cos x \]
 
 \section*{Complex Numbers}
-\theorem{Fundamental Theorem of Algebra: The polynomial equation \[ a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0 = 0  \] where each $a_i in \mathbb{C}$, $a_n \neq 0$ has at least one root in $\mathbb{C}$}
+\begin{theorem}[Fundamental Theorem of Algebra]
+The polynomial equation \[ a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0 = 0  \] where each $a_i in \mathbb{C}$, $a_n \neq 0$ has at least one root in $\mathbb{C}$.
+\end{theorem}
 
 \textit{Definition:} A {\bf complex number} $z$ in standard form is $z = a + bi$ where $a, b in \mathbb{R}$. The set of all complex numbers is $\mathbb{C} = \{a + bi \suchthat a, b in \mathbb{R}\}$
 

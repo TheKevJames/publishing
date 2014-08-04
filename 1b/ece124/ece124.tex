@@ -179,7 +179,7 @@ Sometimes the value of $f$ doesn't matter, and we can exploit this face when min
 
 \section*{General Circuitry}
 \subsection*{Multiple Output Functions}
-When dealing with two-output functions, ie circuits with two different functions, optimizing each one seperately is not always the best option. If we can design a circuit with shared circuitry, this will often decrease our total cost. For example, if we have $f = a + b + c + d + e$ and $g = a + b + c + d + f$, it is much better to share $a + b + c + d$ between the two circuits.
+When dealing with two-output functions, ie circuits with two different functions, optimizing each one separately is not always the best option. If we can design a circuit with shared circuitry, this will often decrease our total cost. For example, if we have $f = a + b + c + d + e$ and $g = a + b + c + d + f$, it is much better to share $a + b + c + d$ between the two circuits.
 
 \subsection*{Factoring}
 We may sometimes factor a circuit into smaller components to reduce the total cost. For example, if we can write $f(x) = g(h(x))$, sometimes it is cheaper to implement the latter. If the factored circuit has any inputs shared between its subfunctions, we call it a {\bf disjoint decomposition}.

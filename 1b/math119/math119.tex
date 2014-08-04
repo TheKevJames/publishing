@@ -124,7 +124,7 @@ Generally, since $f(x) = \displaystyle\sum_{k=0}^n \frac{(f)^k x_0}{k!}(x - x_0)
 For some functions (example: $\frac{1}{1+x}$), this is only applicable on certain (between 0 and 1) intervals. With some work, we can see that $\frac{1}{1+x} = \displaystyle\sum_{k=0}^\infty (-1)^kx^k$ for $x in (0,1)$, but this only gives us a partial answer, and not easily at that!
 
 \subsection*{Convergence of Infinite Series}
-\definition An infinite series of constants $a_k$ is defined as \[ \sum_{k=0}^\infty a_k = \lim_{n\to\infty} \sum_{k=0}^n a_k \]
+\textit{Definition: } An infinite series of constants $a_k$ is defined as \[ \sum_{k=0}^\infty a_k = \lim_{n\to\infty} \sum_{k=0}^n a_k \]
 
 In other words, given a sequence of numbers $a_k$, we can construct the sequence of partial sums $s_n$ (i.e. $a_0, a_0 + a_1, a_0 + a_1 + a_2, ...$) If this sequence converges ($\lim_{n\to\infty} s_n = s$), then we say that the series $\displaystyle\sum_{k=0}^\infty a_k$ converges, and its sum is $s$. Otherwise, it diverges.
 
@@ -220,7 +220,7 @@ There are four extremely useful functions to remember, which can be used as the 
 \end{itemize}
 
 \section*{Big-O Order Symbol}
-\definition Given two function $f$ and $g$, we say that ``$f$ is of order $g$ as $x \to x_0$'' and write $f(x) = O(g(x))$ as $x \to x_0$ if there exists a constant $A$ greater than 0 such that $|f(x)| \leq A |g(x)|$ on some interval around (but not necessarily including) $x_0$.
+\textit{Definition: } Given two function $f$ and $g$, we say that ``$f$ is of order $g$ as $x \to x_0$'' and write $f(x) = O(g(x))$ as $x \to x_0$ if there exists a constant $A$ greater than 0 such that $|f(x)| \leq A |g(x)|$ on some interval around (but not necessarily including) $x_0$.
 
 This allows us to say things like $\sin x = O(x)$ and $\frac{\sin x}{x} = O(x)$, though it could be argued that this is a terrible misuse of the equals sign, and that $\epsilon$ should be used instead.
 
@@ -257,7 +257,7 @@ The only effective tool for determining whether these limits exist is the Squeez
 \subsection*{Partial Derivatives}
 We derive a function of two variables by pretending one of the variables is a constant and differentiating the resulting single-variable function the usual way. More technically, we have:
 
-\definition The partial derivative of $f(x,y)$ with respect to $x$ at the point $(a,b)$ is \[ f_x(a,b) = \lim_{h\to 0} \frac{f(a+h, b) = f(a,b)}{h} \] if this limit exists (otherwise $f$ is not differentiable). Providing the limit exists, the partial derivative with respect to $y$ is found similarly.
+\textit{Definition: } The partial derivative of $f(x,y)$ with respect to $x$ at the point $(a,b)$ is \[ f_x(a,b) = \lim_{h\to 0} \frac{f(a+h, b) = f(a,b)}{h} \] if this limit exists (otherwise $f$ is not differentiable). Providing the limit exists, the partial derivative with respect to $y$ is found similarly.
 
 Note: we can write $f_x$ as $\frac{\partial f}{\partial x}$, depending on which style of notation we prefer.
 
@@ -294,7 +294,7 @@ Since any function $f: \mathbb{R}^2 \to \mathbb{R}$ has two derivatives which ar
 Basically, the gradient vector acts as the ``complete'' derivative (since it's comprised of the \emph{partial} derivatives).
 
 \subsection*{Directional Derivatives}
-\definition The directional derivative of $f(x,y)$ in the direction of a unit vector $\vec{u} = (u_0, u_1)$ at the point $a = (a,b)$ is denoted by $D_{\vec{u}} f(a,b)$ and defined as \[ D_{\vec{u}} f(a,b) = \lim_{h\to 0} \frac{f(a + hu_0, b + hu_1) - f(a,b)}{h} \] Note that $\inint{D_{\vec{u}} f(a,b)}{f} = f(a + hu_0, b + hu_1)$. We can also find \[ D_{\vec{u}} f(a,b) = \nabla f(x,y) \cdot \vec{u} \]
+\textit{Definition: } The directional derivative of $f(x,y)$ in the direction of a unit vector $\vec{u} = (u_0, u_1)$ at the point $a = (a,b)$ is denoted by $D_{\vec{u}} f(a,b)$ and defined as \[ D_{\vec{u}} f(a,b) = \lim_{h\to 0} \frac{f(a + hu_0, b + hu_1) - f(a,b)}{h} \] Note that $\int D_{\vec{u}} f(a,b) \dd f = f(a + hu_0, b + hu_1)$. We can also find \[ D_{\vec{u}} f(a,b) = \nabla f(x,y) \cdot \vec{u} \]
 
 Example: for $f(x,y) = x^2 + y^2$, find the slope at point $(1,-1)$ in the direction of the vector $(3,4)$.
 
@@ -311,7 +311,7 @@ Since $\vec{u}$ is a unit vector, we have $\nabla f \cdot \vec{u} = ||\nabla f||
 \subsubsection*{Unconstrained Optimization}
 To seek the maxima and minima of a multivariate function, we must first redefine these in our new environment:
 
-\definition A function $f(x,y)$ has a {\bf local maximum} at $(x_0, y_0)$ if $f(x_0, y_0) \geq (x_ y)$ for all $(x,y)$ in some disk around $(x_0,y_0)$. Similarly, a function $f(x,y)$ has a {\bf local minimum} at $(x_0, y_0)$ if $f(x_0, y_0) \leq (x_ y)$ for all $(x,y)$ in some disk around $(x_0,y_0)$.
+\textit{Definition: } A function $f(x,y)$ has a {\bf local maximum} at $(x_0, y_0)$ if $f(x_0, y_0) \geq (x_ y)$ for all $(x,y)$ in some disk around $(x_0,y_0)$. Similarly, a function $f(x,y)$ has a {\bf local minimum} at $(x_0, y_0)$ if $f(x_0, y_0) \leq (x_ y)$ for all $(x,y)$ in some disk around $(x_0,y_0)$.
 
 Since these points must occur at such a place where the tangent plane is horizontal (i.e. $\nabla f = \vec{0}$) or undefined. Thus our critical points are points in which either \emph{both} $f_x$ and $f_y$ are zero or at least one of them is undefined.
 
@@ -344,7 +344,7 @@ We have two options in this case: $\int_R xy \dd A = \int_0^1 \int_x^{\sqrt{x}} 
 
 Example: evaluate $\int_0^2 \int_{x^2}^4 x^3\sin(y^3) \dd y \dd x$.
 
-It is impossible to calculate $\inint{\sin(y^3)}{y}$, thus we must change the order of integration. We can see that the original domain is $x = (0,2), y = (x^2,4)$, thus we can see our new domain is $y = (0,4), x = (0, \sqrt{y})$. From this we have $\int_0^2 \int_{x^2}^4 x^3\sin(y^3) \dd y \dd x = \int_0^4 \int_0^{\sqrt{y}} x^3\sin(y^3) \dd x \dd y$ which is easy to evaluate.
+It is impossible to calculate $\int \sin(y^3) \dd y$, thus we must change the order of integration. We can see that the original domain is $x = (0,2), y = (x^2,4)$, thus we can see our new domain is $y = (0,4), x = (0, \sqrt{y})$. From this we have $\int_0^2 \int_{x^2}^4 x^3\sin(y^3) \dd y \dd x = \int_0^4 \int_0^{\sqrt{y}} x^3\sin(y^3) \dd x \dd y$ which is easy to evaluate.
 
 \subsubsection*{Double Integrals in Polar Coordinates}
 Sometimes, it is easier to evaluate a function if it is expressed in the polar coordinate system. By translating our coordinates, we can see that \[ \int \int f(x,y) \dd x \dd y = \int \int f(r\cos\theta, r\sin\theta)\cdot r \dd r \dd\theta \]

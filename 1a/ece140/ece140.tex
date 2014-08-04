@@ -56,8 +56,8 @@ The mathematical models used for circuit analysis are only approximations. They 
   \begin{tabular}{clc}
   Relationship Between $v$ and $i$ & Element \\ \hline
   $v \propto i$ & Resistor \\
-  $v \propto \fracd{i}{t}$ & Inductor \\
-  $v \propto \inint{i(t)}{t}$ & Capacitor \\
+  $v \propto \frac{\dd i}{\dd t}$ & Inductor \\
+  $v \propto \int i(t) \dd t$ & Capacitor \\
   $v \not\propto i$ & Independant Voltage Source \\
   $i \not\propto v$ & Independant Current Source \\
   $v$ or $i \propto v_0$ or $i_0$ & Dependant Source \\ \hline
@@ -100,7 +100,7 @@ Assuming we are following the passive sign convention, we have \[ P =vi = i^2R =
 For a complete circuit, the absorbed power is equal to the generated power, as per conservation of energy.
 
 \subsubsection*{Resistance of Wires}
-Each material has a property called {\bf resistivity} ($\rho$) which is the measure of how "easily" electrons can travel through that material. The units of resistivity are $\Omega *m$, thus we have \[ R = \rho\frac{l}{A} \]
+Each material has a property called {\bf resistivity} ($\rho$) which is the measure of how ``easily'' electrons can travel through that material. The units of resistivity are $\Omega *m$, thus we have \[ R = \rho\frac{l}{A} \]
 
 Usually, the resistance of wires can be approximated as $0 \Omega$
 
@@ -119,14 +119,18 @@ Note that each element has a node at each end.
 A {\bf path} is a route through a circuit where no node is encountered more than once. If we end at the same node as we started at, we have a {\bf path}. A {\bf branch} is a single path in a network composed of one simple element and the nodes at each end of that element.
 
 \subsection*{Kirchoff's Current Law (KCL)}
-\theorem{Theorem: The algebraic sum of all currents entering any node is zero.}
+\begin{theorem}[KCL]
+The algebraic sum of all currents entering any node is zero.
+\end{theorem}
 
 KCL is based on the principle of conservation of charge. Basically, charge can not accumulate at a node, so any charge entering a node must leave it. Consider an intersection: the number of cars entering an intersection is exactly equal to the number of cars leaving that intersection.
 
 KCL can also be written as ``the sum of the currents entering a node is equal to the sum of currents leaving a node''.
 
 \subsection*{Kirchoff's Voltage Law (KVL)}
-\theorem{Theorem: The algebraic sum of the voltage around any closed path is zero.}
+\begin{theorem}[KVL]
+The algebraic sum of the voltage around any closed path is zero.
+\end{theorem}
 
 This is based on the fact that the enrgy required to move a charge from point A to point B must have the same value independant of the path between points.
 
@@ -184,7 +188,9 @@ A {\bf supermesh} is created from two meshes that have an independant current so
 Note that if the current source lies on the perimeter of the circuit, there is no need to write KVL in for this mesh.
 
 \section*{Linearity and Superposition}
-\theorem{The superposition principle: The response (a desired current or voltage) in a linear circuit having more than one independant source can be obtained by adding the responses caused by the separate independant sources acting alone.}
+\begin{theorem}
+The superposition principle: The response (a desired current or voltage) in a linear circuit having more than one independant source can be obtained by adding the responses caused by the separate independant sources acting alone.
+\end{theorem}
 
 The {\bf superposition principle} can be applied to linear circuits only.
 
@@ -195,9 +201,11 @@ A {\bf linear element} is one which has a linear voltage-current relationship. A
 A {\bf linear circuit} is one composed entierly from independant sources, linear dependant sources, and linear elements. For any linear circuit, if all independant voltage and current sources are multiplied by a constant k, all the current and voltage responses in the circuit will be multiplied by the same factor k.
 
 \section*{The Principle of Superposition}
-If we have two inputs (independant sources), which are also referred to as "forcing functions", and two responses (or "response functions"), then when the inputs change, the responses will change.
+If we have two inputs (independant sources), which are also referred to as ``forcing functions'', and two responses (or ``response functions''), then when the inputs change, the responses will change.
 
-\theorem{Theorem: In any linear resistive network, the voltage across or the current through any resistor or source can be calculated by algebraically adding all the individual voltages or currents caused by the "seperate" independat sources acting along, with all other independent sources deactivated.}
+\begin{theorem}
+In any linear resistive network, the voltage across or the current through any resistor or source can be calculated by algebraically adding all the individual voltages or currents caused by the ``separate'' independat sources acting along, with all other independent sources deactivated.
+\end{theorem}
 
 To deactivate an independant voltage source, you make it into a short circuit where $v = 0$ (replace it with a wire). To deactivate an independant current source, you make it into an open circuit where $i = 0$ (remove that branch from the circuit).
 
@@ -219,7 +227,7 @@ This allows us to use a combination of ideal circuit elements to model a real de
 
 For any practical voltage source, as the current increases, the voltage approaches zero, eventually reaching zero at some maximum current. The voltage when the current is zero is equal to the voltage provided by the ideal voltage source.
 
-Note that the resistor is not "really" present as a separate component, but is only a part of the model we use to represent a practical voltage source in which the terminal voltage decreases as the load current increases.
+Note that the resistor is not ``really'' present as a separate component, but is only a part of the model we use to represent a practical voltage source in which the terminal voltage decreases as the load current increases.
 
 \subsection*{Practical Current Source}
 Ideal current sources can deliver a constant current regardless of the load resistance connected to it or the voltage across its terminals. Such a device does not exist in the real world.
@@ -238,7 +246,9 @@ To perform source transformation on a voltage source in series with a resistor, 
 To perform source transformation on a current source in parallel with a resistor, replace that network with a voltage source in series with a resistor. The resistor will have the same resistance, and the voltage source will have a voltage equal to the current of the original source times the resistance of the resistor.
 
 \section*{Thevenin's Equivalent Circuits}
-\theorem{Thevenin's Theroem: It is possible to replace any linear circuit with an independant voltage source in series with a resistor.}
+\begin{theorem}[Thevenin's Theroem]
+It is possible to replace any linear circuit with an independant voltage source in series with a resistor.
+\end{theorem}
 
 The response measured at the load resistor will remain unchanged, thus the original circuit and the equivalent circuit will be equivalent, from an electrical point of view.
 
@@ -269,19 +279,23 @@ To use Thevenin's Theorem:
 \end{enumerate}
 
 \section*{Norton's Theorem}
-\theorem{Norton's Theorem: It is possible to replace any circuit with an independant current source in parallel with a resistor.}
+\begin{theorem}[Norton's Theorem]
+It is possible to replace any circuit with an independant current source in parallel with a resistor.
+\end{theorem}
 
 Norton's method follows in the same way as Thevenin's. Note the two equivalent circuits are related through source transformation.
 
 \section*{Maximum Power Transfer}
-\theorem{Theorem: An independant voltage source with resistance $R_S$  or an independant current source with resistance $R_S$ delivers a maximum power to the load resistance $R_L$ for which $R_S = R_L$}
+\begin{theorem}
+An independant voltage source with resistance $R_S$  or an independant current source with resistance $R_S$ delivers a maximum power to the load resistance $R_L$ for which $R_S = R_L$.
+\end{theorem}
 
 Note that $R_S$ is equal to the Thevenin or Norton equivalent resistance.
 
 Thus we have \[ P_{{\rm max}} = \frac{v^2}{4R^2} \]
 
 \section*{Operational Amplifiers}
-{\bf "Op amps"} are very useful every day electrical devices built on integrated circuits (IC). One IC may contain several op amps, and each op amp is built using many transistors.
+{\bf ``Op amps''} are very useful every day electrical devices built on integrated circuits (IC). One IC may contain several op amps, and each op amp is built using many transistors.
 
 \begin{figure}[ht]
 \centering
@@ -379,7 +393,7 @@ Examples of passive elements
 \item Inductors $\to$ received energy is stored int the form of a magnetic field, and this stored energy can be retrieved
 \end{itemize}
 
-For an {\bf ideal capactitor} \[ i(t) = C\ \fracd{v(t)}{t} \] where $C$ is the capacitance, measured in farads $F$ where $1F = \frac{1C}{1V}$
+For an {\bf ideal capactitor} \[ i(t) = C\ \frac{\dd v(t)}{\dd t} \] where $C$ is the capacitance, measured in farads $F$ where $1F = \frac{1C}{1V}$
 
 If the current entering the capacitor is DC, then current flow will eventualy stop when the capacitor has accumulated enough charge. If the current is time-varying, a displacement current will flow between the plates (see unified electromagnetic theory), and the current will be non-zero.
 
@@ -395,20 +409,20 @@ Important properties of a capactior
 \end{itemize}
 
 \subsubsection*{Integral Voltage-Current Relationships}
-For $i(t) = C\ \fracd{v(t)}{t}$, we can find \[ v(t) = \frac{1}{C} \int_{t_0}^t i(\tau) \dd\tau + v(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ v(t) = \frac{1}{C} \inint{i(t)}{t} + k \]
+For $i(t) = C\ \frac{\dd v(t)}{\dd t}$, we can find \[ v(t) = \frac{1}{C} \int_{t_0}^t i(\tau) \dd\tau + v(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ v(t) = \frac{1}{C} \int i(t) \dd t + k \]
 
 Usually, we have $v(-\infty) = 0$, so $v(t) = \frac{1}{C} \int_{-\infty}^t i(\tau) \dd\tau$
 
 Since the integration of the current over any time interval is the charge accumulated in that period on the capacitor plate into which the current is flowing, we have \[ q(t) = Cv(t) \]
 
 \subsubsection*{Energy Storage}
-The power delivered to a capacitor is \[ P = v(t)\ C\ \fracd{v(t)}{t} \] and thus the change in {\bf energy stored} in its electric field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half C\bigl[v^2(t) - v^2(t_0)\bigl] \]
+The power delivered to a capacitor is \[ P = v(t)\ C\ \frac{\dd v(t)}{\dd t} \] and thus the change in {\bf energy stored} in its electric field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half C\bigl[v^2(t) - v^2(t_0)\bigl] \]
 
 \subsubsection*{Practical Capacitor Model}
 A practical capacitor can be {\bf modelled} as a capacitor in parallel with a resistor.
 
 \subsection*{Ideal Inductor Model}
-For an {\bf ideal inductor} \[ v(t) = L\ \fracd{i(t)}{t} \] where $L$ is the inductance, measured in henrys $H$ where $1H = \frac{1V{\rm sec}}{1A}$
+For an {\bf ideal inductor} \[ v(t) = L\ \frac{\dd i(t)}{\dd t} \] where $L$ is the inductance, measured in henrys $H$ where $1H = \frac{1V{\rm sec}}{1A}$
 
 An inductor is denoted by a coil on a wire. It may be physically constructed by winding a length of wire into a coil.
 
@@ -422,12 +436,12 @@ Important properties of an inductor
 \end{itemize}
 
 \subsubsection*{Integral Voltage-Current Relationships}
-We can find \[ i(t) = \frac{1}{L} \int_{t_0}^t v(\tau) \dd\tau + i(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ i(t) = \frac{1}{L} \inint{v(t)}{t} + k \]
+We can find \[ i(t) = \frac{1}{L} \int_{t_0}^t v(\tau) \dd\tau + i(t_0) \] which can be written as an indefinite integral plus a constant of integration \[ i(t) = \frac{1}{L} \int v(t) \dd t + k \]
 
 Usually, we have $i(-\infty) = 0$, so $i(t) = \frac{1}{L} \int_{-\infty}^t v(\tau) \dd\tau$
 
 \subsubsection*{Energy Storage}
-The power delivered to an inductor is \[ P = i(t)\ L\ \fracd{i(t)}{t} \] and thus the change in {\bf energy stored} in its magnetic field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half L\bigl[i^2(t) - i^2(t_0)\bigl] \]
+The power delivered to an inductor is \[ P = i(t)\ L\ \frac{\dd i(t)}{\dd t} \] and thus the change in {\bf energy stored} in its magnetic field between time instants $t_o$ and $t$ is \[ \Delta\omega_c = \half L\bigl[i^2(t) - i^2(t_0)\bigl] \]
 
 \subsubsection*{Practical Capacitor Model}
 A practical inductor can be {\bf modelled} as an inductor in series with a (usually very small) resistor.
@@ -490,7 +504,7 @@ The {\bf polar form} of a complex number is a simplification of the exponential 
 The total response of a linear electric circuit is its natural response (transient response to sudden condition changes) plus its forced response ({\bf steady-state} response to any independant source). Note that the forcing function is distinguished between the DC forcing function and the sinusoidal forcing function.
 
 \subsection*{Characteristics of Sinusoids}
-For any sinusoidal voltage we have \[ v(t) = V_m \sin(\omega t + \theta) \] where $V_m$ is the peak voltage, $\omega = 2\pi f = \frac{2\pi}{T}$, and $\theta$ is the phase shift. If we have a phase shift of $-5$, the generated sinusoidal graph "starts" at $\omega t = 5$.
+For any sinusoidal voltage we have \[ v(t) = V_m \sin(\omega t + \theta) \] where $V_m$ is the peak voltage, $\omega = 2\pi f = \frac{2\pi}{T}$, and $\theta$ is the phase shift. If we have a phase shift of $-5$, the generated sinusoidal graph ``starts'' at $\omega t = 5$.
 
 To compare sinusoidal waves, they must
 \begin{enumerate}
@@ -512,13 +526,13 @@ Also, we have
 \end{align*}
 
 \subsection*{Forced Response to Sinusoidal Functions}
-For any sufficiently complex sinusoidal circuit, the circuit's equation will be a differential equation. For example, a single loop with elements $v_S(t), R, L$ may have the equation $V_m \cos(\omega t) = iR + L\fracd{i(t)}{t}$
+For any sufficiently complex sinusoidal circuit, the circuit's equation will be a differential equation. For example, a single loop with elements $v_S(t), R, L$ may have the equation $V_m \cos(\omega t) = iR + L\frac{\dd i(t)}{\dd t}$
 
 The solution of the differential equation will give a complementary solution (natural or transient response) plus a particular integral ({\bf forced response} or steady state).
 
-For any time instant $t$, if $i(t) = 0$ then we have $\fracd{i(t)}{t} \approx \cos(\omega t)$ or $i \approx \sin(\omega t)$. If $\fracd{i(t)}{t} = 0$, then we have $i \approx \cos(\omega t)$. Thus we get $i(t) = I_0\cos(\omega t) + I_1\sin(\omega t)$. We can then substitute this into the KVL equation, and solve the circuit and get $i(t) = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}\cos\bigg[\omega t - \arctan\bigl(\frac{\omega t}{R}\bigl)\bigg]$
+For any time instant $t$, if $i(t) = 0$ then we have $\frac{\dd i(t)}{\dd t} \approx \cos(\omega t)$ or $i \approx \sin(\omega t)$. If $\frac{\dd i(t)}{\dd t} = 0$, then we have $i \approx \cos(\omega t)$. Thus we get $i(t) = I_0\cos(\omega t) + I_1\sin(\omega t)$. We can then substitute this into the KVL equation, and solve the circuit and get $i(t) = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}\cos\bigg[\omega t - \arctan\bigl(\frac{\omega t}{R}\bigl)\bigg]$
 
-Note: for an inductor, the current lags the voltage by $\frac{\pi}{2}$, or $i(t) = V_m\cos(\omega t - \frac{\pi}{2})$ (the voltage has been "moved ahead" by $\frac{\pi}{2}$ units). For a capacitor, the current leads the voltage by $\frac{\pi}{2}$
+Note: for an inductor, the current lags the voltage by $\frac{\pi}{2}$, or $i(t) = V_m\cos(\omega t - \frac{\pi}{2})$ (the voltage has been ``moved ahead'' by $\frac{\pi}{2}$ units). For a capacitor, the current leads the voltage by $\frac{\pi}{2}$
 
 $\omega L$ is the inductive reactance, and is the oppositions that is offered by the inductor to the passage of any sinusoidal current.
 
@@ -533,7 +547,7 @@ By using a {\bf complex forcing function}, our mathematical analysis will be sim
 
 For example: If our input is $v_s = V_m\cos(\omega t)$ then we have ${\rm Re}(v_s) = \bigl\{V_me^{j\omega t}\bigl\}$. If we apply the complex input $V_me^{j\omega t}$ instead of $V_m\cos(\omega t)$, the circuit analysis will be very easy and the real part of the output will be the part of the output produced by the real input $V_m\cos(\omega t)$.
 
-For example, on the circuit with $V_m \cos(\omega t) = iR + L\fracd{i(t)}{t}$ we get $V_m = I_m e^{j\theta}(R + j\omega L)$ where $I_m = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}$ and $\theta = 0 - \arctan\bigl(\frac{\omega L}{R}\bigl)$ or, by substituting this back into our non-complex form \[ i(t) = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}\cos\bigg[\omega t - \arctan\bigl(\frac{\omega t}{R}\bigl)\bigg] \] which is the same as our original answer.
+For example, on the circuit with $V_m \cos(\omega t) = iR + L\frac{\dd i(t)}{\dd t}$ we get $V_m = I_m e^{j\theta}(R + j\omega L)$ where $I_m = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}$ and $\theta = 0 - \arctan\bigl(\frac{\omega L}{R}\bigl)$ or, by substituting this back into our non-complex form \[ i(t) = \frac{V_m}{\sqrt{R^2 + \omega^2L^2}}\cos\bigg[\omega t - \arctan\bigl(\frac{\omega t}{R}\bigl)\bigg] \] which is the same as our original answer.
 
 \section*{The Phasor}
 We have \[ V_me^{j(\omega t _ \theta)} = V_m\cos(\omega t + \theta) + jV_m\sin(\omega t + \theta) \]
@@ -549,12 +563,12 @@ In the time domain we have $v(t) = Ri(t)$. In polar form, we have \[ V_m\angle\t
 Since $R$ is completely real, $\theta = \phi$ for any resistor.
 
 \subsubsection*{Inductors}
-In the time domain we have $v(t) = L\ \fracd{i(t)}{t}$. In polar form, we have \[ V_m\angle\theta = jwL * I_m\angle\phi \]
+In the time domain we have $v(t) = L\ \frac{\dd i(t)}{\dd t}$. In polar form, we have \[ V_m\angle\theta = jwL * I_m\angle\phi \]
 
 For any inductor, $\theta = \phi + \frac{\pi}{2}$ (ie. the current lags the voltage by $\frac{\pi}{2}$
 
 \subsubsection*{Capacitors}
-In the time domain we have $i(t) = C\ \fracd{v(t)}{t}$. In polar form, we have \[ I_m\angle\phi = jwC * V_m\angle\theta \]
+In the time domain we have $i(t) = C\ \frac{\dd v(t)}{\dd t}$. In polar form, we have \[ I_m\angle\phi = jwC * V_m\angle\theta \]
 
 For any capacitor, $\phi = \theta + \frac{\pi}{2}$ (the opposite of an inductor)
 

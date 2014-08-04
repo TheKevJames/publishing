@@ -2,10 +2,14 @@
 \usepackage{amsmath,amssymb,parskip,custom}
 \usepackage[margin=1in]{geometry}
 
+\newcommand{\divides}{\ \!|\ \!}
+\newcommand{\matrixtwo}[4]{\begin{bmatrix}#1 & #2\\#3 & #4\end{bmatrix}}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\renewcommand{\proof}[1]{\vspace{2pt}\centerline{\begin{minipage}{0.95\textwidth}\emph{Proof:}\\#1 QED.\end{minipage}}}
 \newcommand{\proposition}[1]{{\bf Proposition: \textit{#1}}}
 \newcommand{\propositionlist}[2]{{\bf Proposition} (#1). \emph{#2}}
 \newcommand{\R}[1]{\mathbb{R}^{#1}}
+\newcommand{\vectwo}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
 
 \begin{document}
 
@@ -15,7 +19,7 @@
 \maketitle\HRule
 
 \section*{Implications}
-\definition An impication is a statement $S$ such that a hypothesis (or assumption) $H$ ensures the validity of the conclusion $C$, and may either be true or false. An implication is only false if a hypothesis is true and the conclusion is false (ie a counter-example exists). In other words, for $S$: $P \implies Q$ ($P$ implies $Q$), $S$ is true unless $P$ is true and $Q$ is false.
+\textit{Definition: } An impication is a statement $S$ such that a hypothesis (or assumption) $H$ ensures the validity of the conclusion $C$, and may either be true or false. An implication is only false if a hypothesis is true and the conclusion is false (ie a counter-example exists). In other words, for $S$: $P \implies Q$ ($P$ implies $Q$), $S$ is true unless $P$ is true and $Q$ is false.
 
 Note that this can give confusing results such as
 \begin{itemize}
@@ -45,7 +49,7 @@ Assume $A$. Since both $A$ and $A \implies B$ are true, $B$ is true. Since $B$ a
 $B \implies C$ is false if and only if $B$ is true and $C$ is false. If $C$ is false, we have $A$ is false, so we have both $A \implies B$ and $A \implies C$ are true, but $B \implies C$ is false. Thus $S_0$ and $S_2$ do not imply $S_1$.}
 
 \subsubsection*{Divisibility}
-\definition An integer $m$ divides an integer $n$ if there exists an integer $k$ such that $n = km$. This is denoted as $m \divides n$.
+\textit{Definition: } An integer $m$ divides an integer $n$ if there exists an integer $k$ such that $n = km$. This is denoted as $m\divides n$.
 
 \proposition{Transitivity of Divisibility\\
 Let a, b, and c be integers. If $a\divides b$ and $b\divides c$, then $a\divides c$.}
@@ -78,7 +82,7 @@ Note that we use $\land$, $\lor$, and $\neg$ to denote ``and'', ``or'', and ``no
 \end{enumerate}
 
 \subsection*{Subsets}
-\definition $S$ is a {\bf subset} of $T$ $(S \subseteq T)$ if and only if for every $x in \R{}$, $x in S \implies x in T$. Note that $S \subseteq S$ and the zero set is a subset of every other set.
+\textit{Definition: } $S$ is a {\bf subset} of $T$ $(S \subseteq T)$ if and only if for every $x in \R{}$, $x in S \implies x in T$. Note that $S \subseteq S$ and the zero set is a subset of every other set.
 
 For a set $S$, the {\bf power set} is the set of all possible subsets of $S$, denoted by $\powerset{S}$ or $2^S$
 
@@ -109,7 +113,7 @@ $\exists y$, $y < 1$ is true if $y in \mathbb{Z}$ but not if $y in \mathbb{N}$
 We can thus compare these qualifiers to logical statements. For example \[ \forall x, P(x) = P(x_0) \land P(x_1) \land P(x_2) ... \] and \[ \exists x, P(x) = P(x_0) \lor P(x_1) \lor P(x_2) ... \]
 
 \subsection*{Proving Statements Containing Quantifiers}
-Note that some quantifiers can be hidden in words. For example, the mathematical definition of divisibility is $a \divides c \implies \exists k in \mathbb{Z} \suchthat c = ka$
+Note that some quantifiers can be hidden in words. For example, the mathematical definition of divisibility is $a\divides c \implies \exists k in \mathbb{Z} \suchthat c = ka$
 \begin{enumerate}
 \item To prove that something exists, construct this thing.
 \item To prove a universal property, select an arbitrary member of the universe and prove the property for this instance.
@@ -135,19 +139,19 @@ This is a contradiction, thus the proposition is false.}
 Can be accepted logically.}
 
 \section*{Binary Relations}
-Let $X$ be a set. A {\bf binary relation} on $X$ is a two-variable predicate \relation defined on $X$ (ie for $\{ (x,y) in X$ x $X \}, \relation (x,y)$ may be either true or false). When $\relation (x,y)$ holds, we say \emph{$x$ is \relation -related to $y$} and write $x \relation y$.
+Let $X$ be a set. A {\bf binary relation} on $X$ is a two-variable predicate $\mathcal{R}$ defined on $X$ (ie for $\{ (x,y) in X$ x $X \}, \mathcal{R} (x,y)$ may be either true or false). When $\mathcal{R} (x,y)$ holds, we say \emph{$x$ is $\mathcal{R}$ -related to $y$} and write $x \mathcal{R} y$.
 
 Equality, ordering, and divisibility are all examples of relations. We also have \[ A \subseteq B \iff \forall x in S, (x in A \implies x in B) \] and for any $A, B in \powerset{S}$ the disjointedness relation \[ A \perp B \iff A \cap B = \{ \} \]
 
 For a binary relation on set $X$, the relation is
 \begin{itemize}
-\item Reflexive if $\forall x in X, x \relation x$
-\item Symmetric if $\forall x, y in X, x \relation y \implies y \relation x$
-\item Transitive if $\forall x, y, x in X, x \relation y \land y \relation z \implies x \relation z$
+\item Reflexive if $\forall x in X, x \mathcal{R} x$
+\item Symmetric if $\forall x, y in X, x \mathcal{R} y \implies y \mathcal{R} x$
+\item Transitive if $\forall x, y, x in X, x \mathcal{R} y \land y \mathcal{R} z \implies x \mathcal{R} z$
 \end{itemize}
 
 \subsection*{Equivalence Relations}
-Let $X$ be a non-empty set. An {\bf equivalence relation} on $X$ is a binary relation on $X$ that is reflexive, symmetric, and transitive. The most common example of this is for $S = \{ (x,y) in \R{}$ x $\R{} \suchthat x = y \}, x \relation y$ is an equivalent relation.
+Let $X$ be a non-empty set. An {\bf equivalence relation} on $X$ is a binary relation on $X$ that is reflexive, symmetric, and transitive. The most common example of this is for $S = \{ (x,y) in \R{}$ x $\R{} \suchthat x = y \}, x \mathcal{R} y$ is an equivalent relation.
 
 \section*{Implication Modifiers}
 \subsection*{Converses}
@@ -177,7 +181,7 @@ P(x) &= \exists y in \R{}, \forall x in \R{} \suchthat y < x\\
 \end{align*}
 
 \subsection*{Contrapositive}
-\definition The contrapositive of $P \implies Q$ is $\neg Q \implies \neg P$. A statement and its contrapositive are equivalent, and it can sometimes be easier to prove the contrapositive.
+\textit{Definition: } The contrapositive of $P \implies Q$ is $\neg Q \implies \neg P$. A statement and its contrapositive are equivalent, and it can sometimes be easier to prove the contrapositive.
 
 \proposition{For $n in \mathbb{Z}$, if $n^2$ is even then $n$ is even}
 
@@ -217,7 +221,7 @@ Suppose $P(n)$ is a statement for $n \geq n_0$. If
 Then, by induction, $P(n)$ is true $\forall n \geq n_0$.
 
 \subsection*{Weak Induction}
-{\bf Weak induction} is a general technique based directly on the Principle of Mathematical Induction (henceforth refered to as POMI), and is suited to proving statements of the form "$\forall n \geq n_0, P(n)$". It consists of two steps:
+{\bf Weak induction} is a general technique based directly on the Principle of Mathematical Induction (henceforth refered to as POMI), and is suited to proving statements of the form ``$\forall n \geq n_0, P(n)$''. It consists of two steps:
 \begin{enumerate}
 \item the {\bf base case} (prove $P(n_0)$), and
 \item the {\bf induction step} (chose an arbitrary $k \geq n_0$ for which we assume $P(k)$, then prove $P(k+1)$).
@@ -251,7 +255,7 @@ So $\forall k \geq 2, P(k) \implies P(k+1)$. Thus, by POMI, $\forall n \geq 2, (
 {\bf Strong induction} is an alternative to weak induction which may be used when $P(k+1)$ is dependant on either multiple past cases or a single past case $P(j)$ where the relative location of $j < k$ cannot be determined.
 
 \subsubsection*{Principle of Strong Induction, v1}
-\definition Let $P(n)$ be a property concerning integers $n \geq n_0$. Suppose that the following are true:
+\textit{Definition: } Let $P(n)$ be a property concerning integers $n \geq n_0$. Suppose that the following are true:
 \begin{enumerate}
 \item $P(n_0)$, and
 \item $\forall k \geq n_0, \forall n_o \leq j \leq k, P(j) \implies P(k+1)$
@@ -262,15 +266,15 @@ Then $\forall n, P(n)$.
 
 \proof{
 For any $n \geq 2$, if $n$ is prime then $n$ is the product of a single prime (itself). Thus $n$ is prime $\implies P(n)$.\\
-Assume $n$ is composite. By definition $\exists m \suchthat 1 < m < n \land m \divides n$.\\
+Assume $n$ is composite. By definition $\exists m \suchthat 1 < m < n \land m\divides n$.\\
 For $n = md, d in \mathbb{N}$, we have $1 < d < n$.\\
 By induction hypothesis, $P(m) \land P(d)$, which means we can express $m$ and $d$ as products of primes.
 The we can write \[ m = p_0p_1...p_s \] and \[ d = q_0q_1...q_t \] so \[ n = md = (p_0p_1...p_s)(q_0q_1...q_t) \] is a product of primes. By POSI, $\forall n \geq 2, n$ is a product of primes.}
 
 \subsubsection*{Principle of Strong Induction, v2}
-The first version of POSI can fail given certain low values of $k$ (for certain $P(n)$ we may have $P(n) \iff n \geq b \land b \geq n_0$). We thus modify POSI to seperately verify the multiple base cases of $P(j)$ for $n_o \leq j \leq b$.
+The first version of POSI can fail given certain low values of $k$ (for certain $P(n)$ we may have $P(n) \iff n \geq b \land b \geq n_0$). We thus modify POSI to separately verify the multiple base cases of $P(j)$ for $n_o \leq j \leq b$.
 
-\definition Let $P(n)$ be a property concerning integers $n \geq n_0$. Suppose, for some integer $b \geq n_0$, the following are true:
+\textit{Definition: } Let $P(n)$ be a property concerning integers $n \geq n_0$. Suppose, for some integer $b \geq n_0$, the following are true:
 \begin{enumerate}
 \item $P(n_0), P(n_0 + 1), ..., P(b)$, and
 \item $\forall k \geq b, \forall n_o \leq j \leq k, P(j)$
@@ -293,43 +297,43 @@ Thus we have shown that whenever $k \geq 67, P(60),...P(k-1)$ all true imply $P(
 \section*{Properites of Various Things}
 \subsection*{Divisibility}
 \proposition{Divisibility of Integer Combinations\\
-Let $a, b, c in \mathbb{Z}$. $a \divides b \land a \divides c \implies a \divides bx + cy, \forall x, y in \mathbb{Z}$}
+Let $a, b, c in \mathbb{Z}$. $a\divides b \land a\divides c \implies a\divides bx + cy, \forall x, y in \mathbb{Z}$}
 
 \proof{
-Since $a \divides b \land a \divides c$, there exists $k, l in \mathbb{Z}$ such that $b = ka$ and $c = la$\\
-Then $bx + cy = kax + lay = a(kx + ly)$. Since $kx + ly in \mathbb{Z}, a \divides bx + cy$.}
+Since $a\divides b \land a\divides c$, there exists $k, l in \mathbb{Z}$ such that $b = ka$ and $c = la$\\
+Then $bx + cy = kax + lay = a(kx + ly)$. Since $kx + ly in \mathbb{Z}, a\divides bx + cy$.}
 
 \proposition{Bounds by Divisibility\\
-Let $a, b in \mathbb{Z}. a \divides b \land b \neq 0 \implies |a| \leq |b|$}
+Let $a, b in \mathbb{Z}. a\divides b \land b \neq 0 \implies |a| \leq |b|$}
 
 \proof{
-Since $a \divides b$, there exist $k in \mathbb{Z}$ such that $b = ka$.\\
+Since $a\divides b$, there exist $k in \mathbb{Z}$ such that $b = ka$.\\
 Then $|b| = |ka| = |k||a| \geq |a|$.}
 
 \subsubsection*{Division Algorithm}
 \proposition{Let $a in \mathbb{Z} \land b in \mathbb{N}$. Then there exist unique integers $q, r$ such that $a = qb + r$ where $0 \leq r < b$}
 
 \subsection*{Greatest Common Divisors}
-\definition For any $a, b in \mathbb{Z}$ not both $0$, the greatest common divisor of $a$ and $b$, denoted $\gcd(a,b)$, is the integer $d$ such that $d \divides a \land d \divides b$ and $c \divides a \land c \divides b \implies c \leq d$.
+\textit{Definition: } For any $a, b in \mathbb{Z}$ not both $0$, the greatest common divisor of $a$ and $b$, denoted $\gcd(a,b)$, is the integer $d$ such that $d\divides a \land d\divides b$ and $c\divides a \land c\divides b \implies c \leq d$.
 
 \proposition{GCD with Remainders\\
 If $a, b, q, r in \mathbb{Z}$ such that $a = qb + r$, then $\gcd(a,b) = \gcd(b,r)$}
 
 \proof{
 Let $d = \gcd(a,b)$.\\
-Since $d$ is a common divisor of $a, b, d \divides b$.\\
-We see that $r = a - qb$. Since $a - qb$ is an integer combination of $a$ and $b$, $d \divides a - qb$, so $d \divides r$.\\
-Let $c$ be a common divisor of $b$ and $r$. So $c \divides b \land c \divides r$.\\
-Since $qb + r$ is an integer combination of $b$ and $r$, $c \divides qb + r$. So $c \divides a$. Therefore, $c$ is a common divisor of $a, b$. Since $d = \gcd(a,b), c \leq d$.\\
+Since $d$ is a common divisor of $a, b, d\divides b$.\\
+We see that $r = a - qb$. Since $a - qb$ is an integer combination of $a$ and $b$, $d\divides a - qb$, so $d\divides r$.\\
+Let $c$ be a common divisor of $b$ and $r$. So $c\divides b \land c\divides r$.\\
+Since $qb + r$ is an integer combination of $b$ and $r$, $c\divides qb + r$. So $c\divides a$. Therefore, $c$ is a common divisor of $a, b$. Since $d = \gcd(a,b), c \leq d$.\\
 Thus $d = \gcd(b, r)$ so $\gcd(a, b) = \gcd(b, r)$.}
 
 \proposition{GCD Characterization\\
-For $a, b in \mathbb{Z}$, if $d \divides a, d \divides b, d \geq 0$, and $\exists x, y in \mathbb{Z}$ such that $ax + by = d$, then $d = \gcd(a,b)$.}
+For $a, b in \mathbb{Z}$, if $d\divides a, d\divides b, d \geq 0$, and $\exists x, y in \mathbb{Z}$ such that $ax + by = d$, then $d = \gcd(a,b)$.}
 
 \proof{
 If $a = b$ then $\gcd(a,b) = 1$ so then $x = 1, y = 0$ is an integer solution to $ax + by = a$.\\
 Without loss of generality, assume $a > b$. Define function $E(a,b)$ to be the number of steps required when feeding $(a,b)$ into the Euclidean algorithm. We will prove by induction on $E(a,b)$.\\
-$E(a,b) = 1$ so $b \divides a$. Then $\gcd(a,b) = b$.\\
+$E(a,b) = 1$ so $b\divides a$. Then $\gcd(a,b) = b$.\\
 Assume for some $k \geq 1$ the result holds when $E(a,b) = k$.\\
 Suppose $E(a,b) = k+1$. In the first step of the alogirthm, we calculate $a = qb + r$ and $\gcd(a,b) = \gcd(b,r)$.\\
 Let $d = \gcd(a,b)$. Then $E(b,r) = k$, so there exists $x_0, y_0 in \mathbb{Z}$ such that $bx_0 + ry_0 = \gcd(b,r) = d$.\\
@@ -337,34 +341,34 @@ Substitute $r = a - qb$ to get $d = bx_0 + (a - qb)y_0 = ay_0 + b(x_0 - qy_0)$.\
 Then $x = y_0, y = x_0 - qy_0$ is an integer soution to $ax + by = d$.}
 
 \subsubsection*{Coprimes}
-\definition For $a,b in \mathbb{Z}$, $a$ and $b$ are coprime if $\gcd(a,b) = 1$.
+\textit{Definition: } For $a,b in \mathbb{Z}$, $a$ and $b$ are coprime if $\gcd(a,b) = 1$.
 
 \proposition{Coprimesness and Divisibility\\
-If $a, b, c in \mathbb{Z}$ where $c \divides ab$ and $a$ and $c$ are coprime, then $c \divides b$.}
+If $a, b, c in \mathbb{Z}$ where $c\divides ab$ and $a$ and $c$ are coprime, then $c\divides b$.}
 
 \proof{
 Since $\gcd(a,c) = 1$, there exist $x,y$ such that $ax + cy = 1$. Then $bax + bcy = b$.\\
-Since $c \divides ab \land c \divides c$, $c \divides bax + bcy$ (by integer combination) so $c \divides b$.}
+Since $c\divides ab \land c\divides c$, $c\divides bax + bcy$ (by integer combination) so $c\divides b$.}
 
 \proposition{Primes and Divisibility\\
-If $a,b in\mathbb{Z}$, $p$ is prime and $p \divides ab$, then $p \divides a$ or $p \divides b$.}
+If $a,b in\mathbb{Z}$, $p$ is prime and $p\divides ab$, then $p\divides a$ or $p\divides b$.}
 
 \proof{
-Assume $p \notdivides a$. Since the only positive factors of $p$ are $1$ and $p$ and $p \notdivides a$, $\gcd(p,a) = 1$.\\
-Given Coprimeness and Divisibility, $p \divides b$. So $p \divides a \lor p \divides b$.}
+Assume $p \nmid a$. Since the only positive factors of $p$ are $1$ and $p$ and $p \nmid a$, $\gcd(p,a) = 1$.\\
+Given Coprimeness and Divisibility, $p\divides b$. So $p\divides a \lor p\divides b$.}
 
 \proposition{Division by GCD\\
 If $a,b in \mathbb{Z}$ where $d = \gcd(a,b > 0$ then $\gcd(\frac{a}{d},\frac{b}{d}) = 1$}
 
 \subsection*{Linear Diophantine Equations}
-\definition An LDE has the form $a_0x_0 + a_1x_1 + ... + a_nx_n = c$ where $a_0, ... a_n, c in \mathbb{Z}$ and $x_0, ... x_n$ are integer variables.
+\textit{Definition: } An LDE has the form $a_0x_0 + a_1x_1 + ... + a_nx_n = c$ where $a_0, ... a_n, c in \mathbb{Z}$ and $x_0, ... x_n$ are integer variables.
 
-Given the one variable case $ax = c$, there exists a solution if and only if $a \divides c$. If there is a solution, that solution is unique. For the two variable case $ax + by = c$ the set of all solutions is $\{ (x_0, y_0) in \mathbb{Z}$ x $\mathbb{Z} \suchthat ax_0 + by_0 = c \}$.
+Given the one variable case $ax = c$, there exists a solution if and only if $a\divides c$. If there is a solution, that solution is unique. For the two variable case $ax + by = c$ the set of all solutions is $\{ (x_0, y_0) in \mathbb{Z}$ x $\mathbb{Z} \suchthat ax_0 + by_0 = c \}$.
 
-Generally, $ax + by = c$ has an integer solution whenever $\gcd(a,b) \divides c$.
+Generally, $ax + by = c$ has an integer solution whenever $\gcd(a,b)\divides c$.
 
 \proposition{LDE 1\\
-Let $a,b,c in \mathbb{Z}, d = \gcd(a,b)$. Then $ax + by = c$ has an integer solution if and only if $d \divides c$.}
+Let $a,b,c in \mathbb{Z}, d = \gcd(a,b)$. Then $ax + by = c$ has an integer solution if and only if $d\divides c$.}
 
 \proposition{LDE 2\\
 Let $a,b,c in \mathbb{Z}, d = \gcd(a,b) > 0$. If $(x_0, y_0)$ is an integer solution to $ax + by = c$, the complete set of integers is $\bigl\{ \bigl( x_0 + \frac{b}{d}n, y_0 - \frac{a}{d}n \bigl) \suchthat n in \mathbb{Z} \bigl\}$.}
@@ -385,7 +389,7 @@ Each positive integer can be writen as $n = p_0^{n_0} p_1^{n_1} ... p_k^{n_k}$ w
 \proposition{If $a = p_0^{a_0} p_1^{a_1} ... p_k^{a_k}$ and $b = p_0^{b_0} p_1^{b_1} ... p_k^{b_k}$ are prime factorizations of $a$ and $b$, then $\gcd(a,b) = p_0^{d_0} p_1^{d_1} ... p_k^{d_k}$ where $d_i = \min(a_i,b_1)$ for all $i$.}
 
 \subsection*{Congruences}
-\definition Let $m$ be a fixed positive integer and $a,b in \mathbb{Z}$. Then $a$ is congruent to $b$ module $m$ if $m \divides a - b$. We write $a \equiv b \pmod m$. Equivelently, $a \equiv b \pmod m$ if $a = b + km$ for some $k in \mathbb{Z}$.
+\textit{Definition: } Let $m$ be a fixed positive integer and $a,b in \mathbb{Z}$. Then $a$ is congruent to $b$ module $m$ if $m\divides a - b$. We write $a \equiv b \pmod m$. Equivelently, $a \equiv b \pmod m$ if $a = b + km$ for some $k in \mathbb{Z}$.
 
 Note that congruences are reflexive, symmetric, and transitive.
 
@@ -398,7 +402,7 @@ Note that congruences are reflexive, symmetric, and transitive.
 \end{itemize}}
 
 \subsubsection*{Modular Arithmetic}
-\definition Let $m in \mathbb{N}$. For any $a in \mathbb{Z}$, we define $[a] = \{ k in \mathbb{Z} \suchthat a \equiv k \pmod m \}$. In turn, this allows us to define $\mathbb{Z}_m = \{ [0], [1], ... [m-1] \}$.
+\textit{Definition: } Let $m in \mathbb{N}$. For any $a in \mathbb{Z}$, we define $[a] = \{ k in \mathbb{Z} \suchthat a \equiv k \pmod m \}$. In turn, this allows us to define $\mathbb{Z}_m = \{ [0], [1], ... [m-1] \}$.
 
 Within $\mathbb{Z}_5$ we have $[3] + [4] = [7] = [2]$ and $[1] - [3] = [1] + [2] = [3]$.
 
@@ -406,14 +410,14 @@ The main point of this: $a \equiv b \pmod m \iff [a] = [b]$ in $\mathbb{Z}_m$.
 
 This also gives us two representations of {\bf Fermat's Little Theorem}:
 \begin{itemize}
-\item If $p$ is prime and $p \notdivides a$ where $a in \mathbb{Z}$, then $a^{p-1} \equiv 1 \pmod p$
+\item If $p$ is prime and $p \nmid a$ where $a in \mathbb{Z}$, then $a^{p-1} \equiv 1 \pmod p$
 \item In $\mathbb{Z}_p$, if $[a] \neq [0]$ then $[a^{p-1}] = 1$
 \end{itemize}
 
 \subsubsection*{Linear Congruences}
 $ax \equiv b \pmod m \iff [a][m] = [b]$ in $\mathbb{Z}_m$.
 
-\proposition{$ax \equiv b \pmod m$ has an integer solution if and only if $\gcd(a,m) \divides b$.}
+\proposition{$ax \equiv b \pmod m$ has an integer solution if and only if $\gcd(a,m)\divides b$.}
 
 \subsubsection*{Chinese Remainder Theorem}
 The CRT deals with simultaneous congruences. Example $n \equiv a_1 \pmod m_1$ and $n \equiv a_2 \pmod m_2$.
@@ -469,7 +473,7 @@ So we know $\cos(x) = \cosh(ix)$ and $\sin(x) = -i\sinh(ix)$.
 For $a,z in \mathbb{C}$, we want $z^n = a$. Suppose $a = re^{i\theta}$ and $z = se^{i\phi}$. Then $s = r^\frac{1}{n}$ and $\phi = \frac{\theta + 2\pi k}{n}$
 
 \subsection*{Polynomials}
-\definition Let $\mathbb{F}$ be a field (informally, a number system closed under arithmetic operations, i.e. $\mathbb{R}$). A polynomial in $x$ over $\mathbb{F}$ is anything of the form $\displaystyle\sum_{i = 0}^n a_ix^i = a_nx^n + a_{n-1}x_{n-1} + ... a_1x + a_0$ where $n \geq 0$, $n in \mathbb{N}$, $a_n, a_{n-1}, ... a_1, a_0 in \mathbb{F}$. The set of all polynomials in $x$ over $\mathbb{F}$ is denoted as $\mathbb{F}(x)$.
+\textit{Definition: } Let $\mathbb{F}$ be a field (informally, a number system closed under arithmetic operations, i.e. $\mathbb{R}$). A polynomial in $x$ over $\mathbb{F}$ is anything of the form $\displaystyle\sum_{i = 0}^n a_ix^i = a_nx^n + a_{n-1}x_{n-1} + ... a_1x + a_0$ where $n \geq 0$, $n in \mathbb{N}$, $a_n, a_{n-1}, ... a_1, a_0 in \mathbb{F}$. The set of all polynomials in $x$ over $\mathbb{F}$ is denoted as $\mathbb{F}(x)$.
 
 Polynomials such as $x^2 + 1$ can not be factored in $\mathbb{R}$, but it can be factored in $\mathbb{C}$ with $(x + i)(x - i)$. In $\mathbb{Z}_2$, we can factor it as $(x + 1)^2$, but it is not factorizable in $\mathbb{Z}_n, n \neq 2$. Thus the same polynomial can act quite differently given varying $\mathbb{F}$.
 
@@ -502,7 +506,7 @@ The receiver published the public encryption key $e, n$ and keeps the private de
 
 We only encrypt integer messages $M$ where $0 \leq M < n$. For encryption, the cipher text $C$ is one where $C \equiv m^e \pmod{n}$. The decrypted text $D$ is one where $D \equiv C^d \pmod{n}$. This works when $M \equiv D \pmod n$ in all cases.
 
-Example: Public key $(19, 4307)$, private key $(1099, 4307)$. We turn an English message into integers, so we have "PR" is $M = 1618$. $C \equiv 1618^{10} \equiv 2762 \pmod{4307}$. To decrypt $C$ we have $D \equiv 2762^{1099} \equiv 1618 \pmod{4307}$.
+Example: Public key $(19, 4307)$, private key $(1099, 4307)$. We turn an English message into integers, so we have ``PR'' is $M = 1618$. $C \equiv 1618^{10} \equiv 2762 \pmod{4307}$. To decrypt $C$ we have $D \equiv 2762^{1099} \equiv 1618 \pmod{4307}$.
 
 \proposition{$D \equiv M \pmod n$}
 
@@ -510,11 +514,11 @@ Example: Public key $(19, 4307)$, private key $(1099, 4307)$. We turn an English
 We have $D \equiv M^{ed} \pmod n$.\\
 We then split $n$ into $p$ and $q$.\\
 We first claim that $M^{ed} \equiv M \pmod p$.\\
-Suppose $p \notdivides M$. By FLT, $M^{p-1} \equiv 1 \pmod p$.\\
+Suppose $p \nmid M$. By FLT, $M^{p-1} \equiv 1 \pmod p$.\\
 Since $eD \equiv 1 \pmod{\phi(n)}, \exists k in \mathbb{Z}$ such that $ed = 1 + k(p-1)(q-1)$.\\
 Then $M^{ed} \equiv M^{1 + k(p-1)(q-1)} \equiv M M^{k(p-1)(q-1)} \pmod p$.\\
 Since $M^{p-1} \equiv 1 \pmod p$, this is equivalent to $M 1^{k(q-1)}$, so $M^{ed} \equiv M \pmod p.$\\
-Now suppose $p \divides M$. Then $M \equiv 0 \pmod p$ and $M^{ed} \equiv 0 \pmod p$.\\
+Now suppose $p\divides M$. Then $M \equiv 0 \pmod p$ and $M^{ed} \equiv 0 \pmod p$.\\
 So $M^{ed} \equiv M \pmod p$.\\
 By switching the roles of $p$ and $q$, we get that $M^{ed} \equiv M \pmod q$.\\
 This implies simultaneous congruence, and by CRT we have $M^{ed} \equiv M \pmod{pq}$.}
@@ -524,11 +528,11 @@ This implies simultaneous congruence, and by CRT we have $M^{ed} \equiv M \pmod{
 \section*{Propositions}
 This section is a summary of all ``important'' propositons covered in this course. For an exhaustive list, see the next pages.
 
-\propositionlist{Transitivity of Divisibility (TD)}{For $a, b in \mathbb{Z}$, $a \divides b \land b \divides c \implies a \divides c$}
+\propositionlist{Transitivity of Divisibility (TD)}{For $a, b in \mathbb{Z}$, $a\divides b \land b\divides c \implies a\divides c$}
 
-\propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a \divides b \land a \divides c \implies a \divides bx + cy$.}
+\propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a\divides b \land a\divides c \implies a\divides bx + cy$.}
 
-\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies |a| \leq |b|$.}
+\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a\divides b \land b \neq 0 \implies |a| \leq |b|$.}
 
 \propositionlist{Division Algorithm (DA)}{For $a,b in \mathbb{Z}$ and $b > 0$, $\exists q,r \suchthat a = qb + r \land 0 \leq r < b$.}
 
@@ -540,7 +544,7 @@ This section is a summary of all ``important'' propositons covered in this cours
 
 \propositionlist{Congruences and Division (CD)}{$ac \equiv bc \pmod m \land \gcd(c,m) = 1 \implies a \equiv b \pmod m$.}
 
-\propositionlist{Fermat's Little Theorem (FLT)}{If $p$ is prime and $p \notdivides a$, then $a^{p-1} \equiv 1 \pmod p$.}
+\propositionlist{Fermat's Little Theorem (FLT)}{If $p$ is prime and $p \nmid a$, then $a^{p-1} \equiv 1 \pmod p$.}
 
 \propositionlist{Fermat's Little Theorem Corollary (F$\mathbb{L}$T)}{For any integer $a$ and prime $p$, $a^p \equiv a \pmod p$.}
 
@@ -560,11 +564,11 @@ This section is a summary of all ``important'' propositons covered in this cours
 
 \section*{Propositions (Full List)}
 
-\propositionlist{Transitivity of Divisibility (TD)}{For $a, b in \mathbb{Z}$, $a \divides b \land b \divides c \implies a \divides c$}
+\propositionlist{Transitivity of Divisibility (TD)}{For $a, b in \mathbb{Z}$, $a\divides b \land b\divides c \implies a\divides c$}
 
-\propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a \divides b \land a \divides c \implies a \divides bx + cy$.}
+\propositionlist{Divisibility of Integer Combinations (DIC)}{For $a,b,c,x,y in \mathbb{Z}$, $a\divides b \land a\divides c \implies a\divides bx + cy$.}
 
-\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a \divides b \land b \neq 0 \implies |a| \leq |b|$.}
+\propositionlist{Bounds by Divisibility (BBD)}{For $a,b in \mathbb{Z}$, $a\divides b \land b \neq 0 \implies |a| \leq |b|$.}
 
 \propositionlist{Division Algorithm (DA)}{For $a,b in \mathbb{Z}$ and $b > 0$, $\exists q,r \suchthat a = qb + r \land 0 \leq r < b$.}
 
@@ -574,11 +578,11 @@ This section is a summary of all ``important'' propositons covered in this cours
 
 \propositionlist{Extended Euclidean Algorithm (EEA)}{For $a,b in \mathbb{Z}$ both positive, then $d = \gcd(a,b)$ can be computed and there exist integers $x$ and $y$ such that $ax + by = d$.}
 
-\propositionlist{Coprimeness and Divisibility (CAD)}{Let $a,b,c in \mathbb{Z}$. If $a$ and $c$ are coprime, $c \divides ab \implies c \divides b$}
+\propositionlist{Coprimeness and Divisibility (CAD)}{Let $a,b,c in \mathbb{Z}$. If $a$ and $c$ are coprime, $c\divides ab \implies c\divides b$}
 
 \propositionlist{Division by GCD (DB GCD)}{For $a,b in \mathbb{Z}$, not both zero, $d = \gcd(a,b) \implies 1 = \gcd(\frac{a}{d},\frac{b}{d})$}
 
-\propositionlist{Linear Diophantine Equation Theorem 1 (LDET1)}{Let $a,b,c in \mathbb{Z}$ and $d = \gcd(a,b)$. $ax + by = c$ has an integer solution if and only if $d \divides c$}
+\propositionlist{Linear Diophantine Equation Theorem 1 (LDET1)}{Let $a,b,c in \mathbb{Z}$ and $d = \gcd(a,b)$. $ax + by = c$ has an integer solution if and only if $d\divides c$}
 
 \propositionlist{Linear Diophantine Equation Theorem 2 (LDET2)}{Let $a,b,c in \mathbb{Z}$ and $d = \gcd(a,b) \neq 0$. If $(x_0,y_0)$ is one particular integer solution to $ax + by = c$, then the complete set of integer solutions is \[ \bigg( x_0 + \frac{b}{d}n, y_0 - \frac{a}{d}n \bigg) \suchthat n in \mathbb{Z} \]}
 
@@ -586,7 +590,7 @@ This section is a summary of all ``important'' propositons covered in this cours
 
 \propositionlist{Fundamental Theorem of Arithmetic (UFT)}{Every integer greater than $1$ can be uniquely expressed as a product of primes (apart from the order of the factors)}
 
-\propositionlist{Primes and Divisibility (PAD)}{If $p$ is prime and $p \divides ab$, then $p \divides a$ or $p \divides b$}
+\propositionlist{Primes and Divisibility (PAD)}{If $p$ is prime and $p\divides ab$, then $p\divides a$ or $p\divides b$}
 
 \propositionlist{Divisors from Prime Factorization (DFPF)}{If $x = p_1^{a_1} p_2^{a_2} ... p_n^{a_n}$ is a prime power decomposition of $x$, then $d$ is a positive integer of $x$ if and only if $d = p_1^{d_1} p_2^{d_2} ... p_n^{d_n}$ where $d_i \leq a_i$ for each $i$.}
 
@@ -600,11 +604,11 @@ This section is a summary of all ``important'' propositons covered in this cours
 
 \propositionlist{Congruent iff Same Reminder (CISR)}{Let $a,b in \mathbb{Z}, m in \mathbb{N}$. Then $a \equiv b \pmod m \iff a \% m = b \% m$}
 
-\propositionlist{Fermat's Little Theorem (FLT)}{If $p$ is prime and $p \notdivides a$, then $a^{p-1} \equiv 1 \pmod p$.}
+\propositionlist{Fermat's Little Theorem (FLT)}{If $p$ is prime and $p \nmid a$, then $a^{p-1} \equiv 1 \pmod p$.}
 
-\propositionlist{Linear Congruence Theorem 1 (LCT 1)}{Let $\gcd(a,m) = d \geq 1$. The linear congruence $ax \equiv c \pmod m$ has a solution if and only if $d \divides c$. Moreover, if $x_0$ is one solution, then the complete solution is $x \equiv x_0 \pmod \frac{m}{d}$.}
+\propositionlist{Linear Congruence Theorem 1 (LCT 1)}{Let $\gcd(a,m) = d \geq 1$. The linear congruence $ax \equiv c \pmod m$ has a solution if and only if $d\divides c$. Moreover, if $x_0$ is one solution, then the complete solution is $x \equiv x_0 \pmod \frac{m}{d}$.}
 
-\propositionlist{Linear Congruence Theorem 2 (LCT 2)}{Let $\gcd(a,m) = d \geq 1$. The equation $[a][x] = [c]$ in $\mathbb{Z}_m$ has a solution if and only if $d \divides c$. Moreover, if $[x_0]$ is one solution, the complete solution would be $x = [x_0], [x_0 + \frac{m}{d}], ... [x_0 + (d-1)\frac{m}{d}]$.}
+\propositionlist{Linear Congruence Theorem 2 (LCT 2)}{Let $\gcd(a,m) = d \geq 1$. The equation $[a][x] = [c]$ in $\mathbb{Z}_m$ has a solution if and only if $d\divides c$. Moreover, if $[x_0]$ is one solution, the complete solution would be $x = [x_0], [x_0 + \frac{m}{d}], ... [x_0 + (d-1)\frac{m}{d}]$.}
 
 \propositionlist{Chinese Remainder Theorem (CRT)}{For any set of linear congruences, if $\gcd(m_0,...m_k) = 1$, then the solution can be given by $n = n_0 \pmod {m_0...m_k}$.}
 

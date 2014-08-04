@@ -1,5 +1,11 @@
-all:
-	latexmk -xelatex *.tex && latexmk -bibtex -c
+all: wkrpt.pdf
+
+
+.SUFFIXES:
+.SUFFIXES: .pdf .tex
+
+.tex.pdf:
+	latexmk -xelatex $^ && latexmk -bibtex -c
 
 
 clean:
