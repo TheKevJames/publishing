@@ -1,4 +1,4 @@
-all: highschool ml229 1a 1b 2a 2b wkrpt
+all: highschool ml229 1a 1b 2a 2b 3a wkrpt
 
 
 highschool:
@@ -19,6 +19,9 @@ ml229:
 2b:
 	make -C 2b
 
+3a:
+	make -C 3a
+
 wkrpt:
 	make -C wkrpt
 
@@ -30,7 +33,8 @@ clean:
 	make -C 1b clean
 	make -C 2a clean
 	make -C 2b clean
+	make -C 3a clean
 	make -C wkrpt clean
 
 
-.PHONY: highschool ml229 1a 1b 2a 2b wkrpt
+.PHONY: highschool ml229 1a 1b 2a 2b 3a wkrpt
