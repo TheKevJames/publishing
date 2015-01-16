@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 465 --- Software Testing, Quality Assurance, and Maintenance}
+\author{Kevin James}
+\date{\vspace{-2ex}Winter 2015}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Things that Break}
+There are many things which we must be worried about when deisgning stable software. In particular, we will concern ourselves primarily with
+\begin{itemize}
+\item race conditions
+\item segmentation faults, crashes, infinite loops
+\item wrong output, unwanted side-effects
+\item wrong API, incompatible submodules
+\item bad system behaviour, bad security, wrong specs, wrong output
+\item non-functional properties, memory leaks, bad performance
+\item regressions
+\end{itemize}
+
+There are many steps we can take to fix these issues:
+\begin{itemize}
+\item in-house testing
+\item validatoin suires for plugins
+\item code review
+\item better design
+\item fewer features
+\item defensive programming, especially for plugins
+\end{itemize}
+
+Software never completely works, so our goal should be to make it ``good enough''. How do we do this (ie. how do we cope)? Generally, we use disclaimers, patches, defensive programming, and backups of user data.
+
+\subsection{Testing Methods}
+We can test our systems by
+\begin{enumerate}
+\item compiling it
+\item running it on single input
+\item running it on many inputs
+\item running it on representative inputs
+\item running it on all inputs (statically)
+\item integration testing
+\item regression testing
+\item non-function testing
+\end{enumerate}
+
+\subsection{Terms}
+{\bf Validation} is the act of evaluating software prior to release to ensure compliance. We do {\bf verification} by ensuring that products of phase $x$ fill the requirements of phase $x+1$. We consider {\bf faults} to be static defects, {\bf errors} to be incorrect internal states, and {\bf failures} to be internally incorrect behaviour. All failures must be caused by errors, but not all errors generate failures. {\bf Testing} is the act of evaluating an application by observing execution and {\bf debugging} is the act of finding (fixing) a fault given a failure.
+
+Automation makes testing better and less boring. This also allows you to run tests faster and generate reports, eg. coverage.
+
+List of tools:
+\begin{itemize}
+\item unit test libraries
+\item clang, llvm
+\item valgrind
+\item daikon
+\item randoop
+\item Java Path Finder
+\item cppcheck
+\item FindBugs
+\item splint
+\item coverity
+\item CS SAL
+\item iComment
+\end{itemize}
+
+\section{Faults, Errors, and Failures}
+{\bf Faults} are static defects in the software (ie. lines of code that are wrong). {\bf Errors} occur when the system has the incorrect state, though this does not necessarily have to be observed. {\bf Failures} are externally incorrect behaviour which has been observed by a user.
+
+Within the category of faults, there exist both {\bf design faults} and {\bf mechanical faults}. Design faults occur when the system was designed in such as way as to cause wrong behaviour, do the wrong thing, etc. Mechanical faults occur when unexpected input causes a change in behaviour (rendering it incorrect).
+
+The {\bf state} of a system is all the variables in the program; this includes input, output, return values, temporary variables, iterators/other temporary variables, and the program counter.
+
+\subsection{RIP Model}
+There are three necessary conditions for a failure:
+\begin{itemize}
+\item Reachability: the PC must reach the part of the program with the fault
+\item Infection: there must exist a state problem after executing the fault
+\item Propogation: the state issue must propogate to a visiable location, ie. cause incorrect output
+\end{itemize}
+
+How do we deal with an imperfect world? Fault avoidance (better design, better languages), fault detection (testing), and fault tolerance (redundancy, isolation).
+
+\section{Metrics}
+Code coverage does not provide and accurate representation of test quality, ie. a line which is run but has a bug given some input. Since we do not necessarily have this/these input(s) in our test suire, this code would be marked as covered despite being incorrect.
+
+Outputs of a function may be a good metric if we run a function for all inputs.
+
+Input space coverage is effective if done well; random testing is ineffective, but can prove effective when directed. This involves a test case for each subset of imput space.
+
+Logic coverage can also be effective when done well; if we logically ensure we test all cases, we can prove correctness.
+
+\subsection{Static}
+Static testing involves not actually running the code. You can compile it, use semantic verification (to determine unreachable code or always-thrown unhandled exceptions), do full functional verification, and do code reviews/inspections.
+
+\subsection{Dynamic}
+Dynamic testing is the usual means of testing: you simply run and observe the code.
+
+{\bf Test sets} are groups of {\bf test cases}. A test case is a single-input, single-output test with respect to some code. We can have some difficulties in implementing test cases; slow systems, difficulty in setting tests up, hard-to-parse results (hardware, non-observable, etc).
+
+We avoid ``bad words'' with respect to coverage such as ``complete testing'', ``exhaustive testing'', and ``full coverage''. It is must better to find a reduced space and cover \emph{that} space entirely.
+
+A {\bf test requirement} is a specific element of a software artifact that a test case must satisfy or cover. A test set may satisfy a test requirement / set of test requirements. Infeasible test requirement (ie. ``cover all statements'' when there exist unreachable statements) may make full requirement coverage impossible.
+
+{\bf Criteria subsumption}: coverage criterion $c_1$ subsumes $c_2$ if and only if every test set that satisfies $c_1$ also satisfies $c_2$.
+
+How do we evaluate coverage criteria? We base them on
+\begin{itemize}
+\item the difficulty of generating test requirements,
+\item the difficulty of generating tests, and
+\item their effectiveness in determining faults
+\end{itemize}
+
+\subsection{Test Paths}
+A {\bf path} through a directed program graph must have length greater than or equal to zero. {\bf Subpaths} are legal subsequences of a path. A {\bf test path} is a path that starts at $n_0$ and ends at $n_f$. The execution of a test case creates a test path. Non-deterministic behaviour could cause each test case to generate multiple (infinite?) test paths.
+
+Causes of non-determinism: scheduling, user input, memory allocation.
+
+To find test cases for a given test path, there are some complicated tools which only work in simple cases; otherwise, this must be done manually.
+
+\section{Syntax and Semantics}
+A statement is {\bf syntactically} reachable if there exists a path from $n_0$ to that node. It is {\bf semantically} reachable if some set of program inputs can lead us there.
+
+We denote the portion of graph $G$ which is syntactically reachable from $\chi$ as reach${}_G (\chi)$. One of the most useful of these graphs is reach${}_G (n_0)$, the set of reachable blocks in that program.
+
+A single-entry, single-exit (SESE) graph has one input and one output. We will be mostly discussing these in this class.
+
+{\bf Black-box testing} is any test cases that are written without looking at the implementation. We, in effect, do not know how the code works behind the scenes. {\bf White-box testing} involves test based on the system design / implementation.
+
+Given a set of code such as
+\begin{verbatim}
+void foo(int x) {
+  if (x == 5) {
+    print "5";
+  } else {
+    print "not 5";
+  }
+
+  if (x == 5) {
+    print "5";
+  } else {
+    print "not 5";
+  }
+}
+\end{verbatim}
+an {\bf infeasible test path} is one that prints ``5'' and then ``not 5''.
+
+\subsection{Graphs and Methods}
+Each method induces a graph. Nodes correspond to statements and edges correspond to the successor relation. Note that graphs created in this way must be {\bf directed}, ie. edges must include a directionalit / a direction upon which we must travel to follow this edge.
+
+{\bf Node coverage} is one of many types of coverage. This is also commonly refered to as statement coverage, since this covering this form of graph corresponds exactly with covering the related nodes. To cosider a program as covered under this methodology, there must exist a set of test cases which causes the execution of every statement.
+
+Within a test set, for each test case we execute the program on that test case's input. After doing so, we get the test case's output and validate it as well as a trace of the executed statements (ie. a test path).
+
+Benefits of node coverage
+\begin{itemize}
+\item easy-to-understand metric
+\item easy-to-compute metric
+\item shows unused code
+\item first glance at ``testedness'' of system
+\end{itemize}
+
+Disadvantages of node coverage
+\begin{itemize}
+\item false sense of security when ``100%'' coverage is reached.
+\item promote useless tests
+\item does not help detect duplicate code
+\end{itemize}
+
+We can also have {\bf edge coverage}, which is similar to node coverage but for branches instead of statements. If our program has a loop, we can satisfy node coverage by running the loop a single time. To satisfy edge coverage, we must actually run the loop multiple times. These cases tend to be somewhat contrived, so in practice we consider both forms of coverage to be equivalent.
+
+
+
+\end{document}
