@@ -20,7 +20,7 @@ HUMANITY
 Kevin
 =====
 3A (Winter)
-PHYS 263 (Classical Mechanics) or PHYS 275 (Astro)
+SCI 238 (Astro)
 
 3B (Fall)
 PHYS 275 (Astro) or EARTH 121 (Geology) or SCI 206 (Physics of Everything)
@@ -39,7 +39,7 @@ HUMANITY
 Lara
 ====
 3A (Winter)
-BIO 239 (Genetics)
+SCI 238 (Astro)
 
 3B (Fall)
 - FREE or SCI
@@ -58,7 +58,7 @@ EASIA 205R (Japanese History)
 Nik
 ===
 3A (Winter)
-PHYS 375 (Stars)
+SCI 238 (Astro)
 
 3B (Fall)
 CS 458 (Computer Security and Privacy)
@@ -98,7 +98,7 @@ FREE
 Tyler
 =====
 3A (Winter)
-PHYS 263 (Classical Mechanics)
+SCI 238 (Astro)
 
 3B (Fall)
 EARTH 121 (Geology)
