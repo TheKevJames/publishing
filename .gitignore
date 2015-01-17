@@ -28,6 +28,9 @@
 *.i*86
 *.x86_64
 
+# CSS gitignore
+.sass-cache
+
 # Java gitignore
 *.class
 
