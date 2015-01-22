@@ -1,3 +1,6 @@
 [submodule "2b/cs247/assignment/straights"]
 	path = 2b/cs247/assignment/straights
 	url = git@github.com:TheKevJames/straights
+[submodule "3a/se350/assignment/os"]
+	path = 3a/se350/assignment/os
+	url = git@github.com:TheKevJames/se350.git
