@@ -176,13 +176,25 @@ Benefits of node coverage
 
 Disadvantages of node coverage
 \begin{itemize}
-\item false sense of security when ``100%'' coverage is reached.
+\item false sense of security when ``100\%'' coverage is reached.
 \item promote useless tests
 \item does not help detect duplicate code
 \end{itemize}
 
 We can also have {\bf edge coverage}, which is similar to node coverage but for branches instead of statements. If our program has a loop, we can satisfy node coverage by running the loop a single time. To satisfy edge coverage, we must actually run the loop multiple times. These cases tend to be somewhat contrived, so in practice we consider both forms of coverage to be equivalent.
 
+Beyond node and edge coverage, we have {\bf complete path coverage}, which covers paths of all lengths. Note that if these is at least one loop in the program, this creates an infinite number of test requirements.
 
+A path is {\bf simple} if no node appears more than once in the path, except that the first and last nodes may (optionally) be the same. Simple paths have the following properties:
+\begin{itemize}
+\item no internal loops
+\item can bound their length
+\item can create any path by composing simple paths
+\item (too) many simple paths exist
+\end{itemize}
+
+A {\bf prime path} is a simple path that is not a proper subpath of any other path. {\bf Prime path coverage}, then, requires we simply test all prime paths.
+
+A {\bf round trip path} is a simple path of non-zero length that starts and ends at the same nodes. {\bf Simple Round-Trip coverage} contains at least on round-trip path for each reachable node that begains and ends a round-trip path.
 
 \end{document}

@@ -1,4 +1,4 @@
-all: cs465.pdf
+all: se465.pdf
 	make -C assignment
 
 
