@@ -20,7 +20,44 @@
 \tableofcontents
 \newpage
 
-\section{}
+\subsection{Two-State Process Model}
+(process may be in one of two states...)
+
+Simple queueing mechanism is inefficients because some processes are not running but ready or nt running and blocked, etc. With a single queue, we must scan the full list for a not-running, ready item which has been there the longest. With multiple queues, we can pick the correct queue and then choose a process ``round robin'' style.
+
+Five state model:
+\begin{itemize}
+\item Running: a currently executing process
+\item Ready: a process ready to be picked up
+\item Blocked / Waiting: blocked because it is waiting for something
+\item New: a new process
+\item Exit: a halted / aborted process
+\end{itemize}
+
+\subsection{Suspended Processes}
+(problem...)
+
+\subsection{Process Control Blocks}
+Each process will have a PCB that stores info about the process state:
+\begin{itemize}
+\item Process State
+\item ID
+\item Priority
+\item PC
+\item CPU registers
+\item SP
+\end{itemize}
+
+Process switching follows the following process: select next process with scheduler, invoke context switch to new prcoess. The context switch is slightly more complicated:
+\begin{enumerate}
+\item Save content of current process
+\item Change process state to ready
+\item Update \begin{code}current\_process\end{code} to point to new process
+\item Set new process state to executing
+\item Restore context of \begin{code}current\_process\end{code}
+\item Execture \begin{code}current\_process\end{code}
+\end{enumerate}
+
 
 
 \end{document}

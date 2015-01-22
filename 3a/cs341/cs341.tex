@@ -20,7 +20,71 @@
 \tableofcontents
 \newpage
 
-\section{}
+\section{Solving Recurrences}
+The ``Guess-and-Check'' (Substitution) method involves guessing the form of the solution $T(n) \leq x$. We then verify our guess by induction proof and fill in any constants.
 
+Example:
+\begin{align*}
+T(n) &= 2T\bigg(\frac{n}{2}\bigg) + n^2, 7 \\
+T(n) &\leq cn^2 \\
+n = 1: T(n) &= 7 \leq cn^2, c \geq 7 \\
+T\bigg(\frac{n}{2}\bigg) &\leq c\bigg(\frac{n}{2}\bigg)^2 \\
+T(n) &= 2T\bigg(\frac{n}{2}\bigg) + n^2 \\
+     &\leq 2c\bigg(\frac{n}{2}\bigg) + n^2 \\
+     &= \frac{2cn^2}{4} + n^2 \\
+     &= \bigg(\frac{c}{2} + 1\bigg)n^2 \\
+     &\leq cn^2, \frac{c}{2} + 1 \leq c, c \geq 2
+\end{align*}
+We can then pick $c = 7$ and solve as \[ T(n) \leq 7n^2 \implies T(n) \in O(n^2) \] We can also note that $T(n) \geq n^2$, so $T(n) \in \Theta(n^2)$.
+
+Example:
+\begin{align*}
+T(n) &= 3T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) + 4T\bigg(\bigg\lfloor \frac{n}{4} \bigg\rfloor\bigg) + 1, 1 \\
+T(n) &\leq cn^2 \\
+n = 1: T(n) &= 1 \leq cn^2, c \geq 1 \\
+T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) &\leq c\bigg\lfloor \frac{n}{2} \bigg\rfloor^2 \\
+T(n) &= 3T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) + 4T\bigg(\bigg\lfloor \frac{n}{4} \bigg\rfloor\bigg) + 1 \\
+     &\leq 3c \bigg\lfloor \frac{n}{2} \bigg\rfloor^2 + 4c\bigg\lfloor \frac{n}{4} \bigg\rfloor + 1 \\
+     &\leq 3c \bigg(\frac{n}{2}\bigg)^2 + 4c \bigg(\frac{n}{2}\bigg)^2 + 1 \\
+     &= \bigg(\frac{3}{4} + \frac{4}{16}\bigg)cn^2 + 1 \\
+     &= cn^2 + 1
+\end{align*}
+but since we could not get rid of the constant, we try
+\begin{align*}
+T(n) &\leq cn^2 - c_0 \\
+n = 1: T(n) &= 1 \leq cn^2 - c_0, c \geq 1 + c_0 \\
+T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) &\leq c\bigg\lfloor \frac{n}{2} \bigg\rfloor^2 - c_0 \\
+T(n) &= 3T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) + 4T\bigg(\bigg\lfloor \frac{n}{4} \bigg\rfloor\bigg) + 1 \\
+     &\leq 3\bigg(c \bigg\lfloor \frac{n}{2} \bigg\rfloor^2 - c_0\bigg) + 4\bigg(c\bigg\lfloor \frac{n}{4} \bigg\rfloor - c_0\bigg) + 1 \\
+     &\leq 3c \bigg(\frac{n}{2}\bigg)^2 - 3c_0 + 4c \bigg(\frac{n}{2}\bigg)^2 - 4c_0 + 1 \\
+     &= \bigg(\frac{3}{4} + \frac{4}{16}\bigg)cn^2 - 7c_0 + 1 \\
+     &= cn^2 - c_0, -7c_0 + 1 \leq -c_0, c_0 \geq \frac{1}{6}
+\end{align*}
+Pick $c_0 = \frac{1}{6}, c = \frac{7}{6}$ and we see that \[ T(n) \leq \frac{7}{6}n^2 - \frac{1}{6} \implies T(n) \in O(n^2) \]
+
+\section{Algorithm Design Techniques}
+\subsection{Divide and Conquer}
+Divide your problem into subproblems of the same type, then use recursion to solve each problem and combine the results.
+
+{\bf Problem (Maxima)}: Given a set $P$ of $n$ points in 2D, we say point $p$ dominates point $q$ if and only if $p$ has both a greater $x$ and $y$ value than $q$. We say point $q$ is maximal if and only if $q \in P$ and no point in $P$ dominates $q$. Find all maximal points.
+
+{\bf Solutions}:
+\begin{itemize}
+\item Brute Force: for each $q \in P$, check if no points dominat $q$. Total time: $\Theta(n^2)$
+\item Divide and Conquer: divide into two subarrays of size $\frac{n}{2}$.
+\item Divide by Medians: instead of dividing by size, divide by a median vertical line.
+\end{itemize}
+
+\begin{verbatim}
+maxima(sorted[p_1..p_n]):
+  1. if n == 1: return p_1
+  2. [q_1..q_l] = maxima([p_1..p_{n/2}])
+  3. [s_1..s_m] = maxima([p_{n/2}..p_n])
+  4. i = 1
+  5. while q_i.y > s_1.y
+  6.   i += 1
+  7. return [q_1..q_l, s_1..s_m]
+\end{verbatim}
+which is an $O(n\log n)$ algorithm.
 
 \end{document}
