@@ -197,4 +197,9 @@ A {\bf prime path} is a simple path that is not a proper subpath of any other pa
 
 A {\bf round trip path} is a simple path of non-zero length that starts and ends at the same nodes. {\bf Simple Round-Trip coverage} contains at least on round-trip path for each reachable node that begains and ends a round-trip path.
 
+A graph $G$ is {\bf connected} if each node is reachable from an initial node. An edge $e$ is a {\bf bridge} for a graph $G$ if $G$ is connected but removing $e$ results in a disconnected graph. Note that since graphs are directed in this class, a connected graph precludes the existance of multiple starting nodes.
+
+\subsubsection{Control Flow Graphs}
+{\bf Basic Blocks} can be formed within graphs if we group together statements which always execute together. These blocks must have a single entry point and a single exit point.
+
 \end{document}

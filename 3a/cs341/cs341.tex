@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage{amsmath,amssymb,bookmark,mathtools,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -21,7 +21,37 @@
 \newpage
 
 \section{Solving Recurrences}
-The ``Guess-and-Check'' (Substitution) method involves guessing the form of the solution $T(n) \leq x$. We then verify our guess by induction proof and fill in any constants.
+eg. mergesort
+\[ T(n) =
+\begin{dcases*}
+2T\bigl(\frac{n}{2}\bigl) + \Theta(n) & if $n > 1$ \\
+\Theta(1) & if $n = 1$
+\end{dcases*}\]
+which we can solve to find \[ T(n) \in \Theta(n\log n) \]
+
+eg. stoogesort(A[1..n])
+\begin{verbatim}
+if n <= 1:
+  return
+if A[1] > A[2]:
+  swap(A[1], A[2])
+stoogesort(A[1..\frac{2n}{3}])
+stoogesort(A[\frac{n}{3}+1..n])
+stoogesort(A[1..\frac{2n}{3}])
+\end{verbatim}
+
+Let $T(n)$ be the runtime of stoogesort on $n$ elements. Then \[ T(n) =
+\begin{dcases*}
+3T\bigl(\frac{2n}{3}\bigl) + \Theta(1) & if $n > 1$ \\
+\Theta(1) & if $n = 1$
+\end{dcases*}\]
+
+There are three methods for solving this recurrence:
+\begin{enumerate}
+\item Recursion Tree method: Expand for $k$ iterations to get a tree of terms, set $k$ to reach the base case, sum across rows, then over all levels.
+\item Master method: Look up the answer. The Master Theorem: Let $T(n) = aT(\frac{n}{b}) + f(n)$ if $n > n+0$ and $c$ if $n = n_0$. Set $d = \log_b a$i and pick a small constant $\varepsilon > 0$. Case 1: $f(n) = O(n^{d-\varepsilon}) \implies T(n) = \Theta(n^d)$. Case 2: $f(n) = \Theta(n^d) \implies T(n) = \Theta(n^d \log n)$. Case 3: $\lim_{n\to\infty} f(n) / n^{d+\varepsilon} = \infty \implies T(n) = \Theta(f(n))$.
+\item Substitution method: Guess the form of the solution $T(n) \leq x)$, then verify your guess by induction and fill in any constants.
+\end{enumerate}
 
 Example:
 \begin{align*}
@@ -86,5 +116,69 @@ maxima(sorted[p_1..p_n]):
   7. return [q_1..q_l, s_1..s_m]
 \end{verbatim}
 which is an $O(n\log n)$ algorithm.
+
+{\bf Problem (Closest Pair)}: Given set $P$ of $n$ points in 2D, find a pair $p, q \in P$ such that these points have a smaller distance between them than any other pair of points in $P$, ie. $d(p,q) = \sqrt{(p.x - q.x)^2 + (p.y - q.y)^2}$.
+
+{\bf Solutions}:
+\begin{itemize}
+\item Brute Force Algorithm: $\Theta(n)$
+\item Shamos' Algortithm: $\Theta(n\log^2 n)$. Note that if we refine the Shamos algorithm by pre-sorting $P$ also by y-coordinate at the beginning, we find that our complexity becomes $O(n\log n)$.
+\end{itemize}
+
+\begin{verbatim}
+def bruteForce(P):
+  distance = infinity
+  for each p in P:
+    for each q in P (q neq P):
+      distance = min(distance, d(p,q))
+  return distance
+
+def shamos(P):
+  if n <= 10:
+    return bruteForce(P)
+  x_m = median x_coordinate
+  P_L = { p in P : p.x < x_m }
+  P_R = { p in P : p.x > x_m }
+  d_L = shamos(P_L)
+  d_R = shamos(P_R)
+  d = min(d_L, d_R)
+  <p_1..p_m> = sorted_by(points in { p in P : x_m - d <= p.x <= x_m + d }, y)
+  for i = 1 to m do
+    j = i + 1
+    while p_j.y <= p_i.y + d:
+      d = min(d, d(p_i, p_j))
+      j++
+  return d
+\end{verbatim}
+
+\subsubsection{Multiplying Large Numbers}
+Given two $n$-bit numbers $A = a_{n-1}, a_{n-2}, \dots a_0$, $b = b_{n-1}, b_{n-2}, \dots b_0$ in binary, compute $AB = c_{n-1}, c_{n-2}, \dots c_0$.
+
+The ``Elementary School'' algorithm for this involves doing
+\begin{verbatim}
+    1011
+  x 1101
+--------
+    1011
+  1011
+ 1011
+--------
+10001111
+\end{verbatim}
+which is $O(n)$ shifts and $O(n)$ additions, thus making it an $O(n^2)$ algorithm.
+
+The ``Karatsuba and Ofman'' algorithm involves a different process:
+\begin{verbatim}
+A' = [a_{n-1}..a_{n/2}]
+A" = [a_{n/2 - 1}..a_0]
+A = [A'..A"]
+
+B' = [b_{n-1}..b_{n/2}]
+B" = [b_{n/2 - 1}..b_0]
+B = [B'..B"]
+
+AB = A'B'2^n + (A'B" + A"B')2^(n/2) + A"B"
+\end{verbatim}
+which gives us a complexity of $O(n^2)$.
 
 \end{document}
