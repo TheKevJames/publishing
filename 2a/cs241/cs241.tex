@@ -40,7 +40,7 @@ We also have {\bf General Purpose Registers}{thirty-two zero-indexed registers w
 Our registers range from $\$0 - \$31$. Register $\$0$ always contains the value $0$ and register $\$31$ always contains the value of the return address. Register $\$30$ contains the address of the top of the stack.
 
 \subsubsection*{How a Program is Executed}
-The OS invokes the "loader" to load the program into memory starting at some given memory address, virtually always zero. The loader places the starting address in the PC: "PC $\rightarrow 0x00$".
+The OS invokes the ``loader'' to load the program into memory starting at some given memory address, virtually always zero. The loader places the starting address in the PC: ``PC $\rightarrow 0x00$''.
 
 We then fetch, decode, and execute each instruction in order. In effect:
 
