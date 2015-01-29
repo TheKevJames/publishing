@@ -121,15 +121,28 @@ Each process will have a PCB that stores info about the process state:
 \item SP
 \end{itemize}
 
-{\bf Process switching} follows the following process: select next process with scheduler, invoke context switch to new prcoess. The context switch is slightly more complicated:
+{\bf Process switching} follows the following process: select next process with scheduler, invoke context switch to new process. The context switch is slightly more complicated:
 \begin{enumerate}
-\item Save content of current process
+\item Save context of current process (PC and registers)
 \item Change process state to ready
 \item Update \begin{code}current\_process\end{code} to point to new process
 \item Set new process state to executing
 \item Restore context of \begin{code}current\_process\end{code}
-\item Execture \begin{code}current\_process\end{code}
+\item Execute \begin{code}current\_process\end{code}
 \end{enumerate}
+
+Note that a complete process switch involves switching back to the original process, ie. flipping between the two processes. In this case, we simply execute the context switch again.
+
+We may have {\bf non-process kernels} which:
+\begin{itemize}
+\item execute the kernel outside of any process
+\item have their own memory and call stack
+\item the conecpt of processes only applies to user programs
+\item OS is exuected as a separate entity running in privileged mode
+\item all OS calls are blocking
+\end{itemize}
+
+We can also run the kernel within user processes. The OS, then, is primarily a collection of routines: system software within the context of a user process. This process executes in privileged mode when executing OS code and performs a context switch when entering a system call (though it continues with the same process).
 
 
 

@@ -28,4 +28,30 @@ We can use multiplicative vectors to translate, shift, or rotate our objects. Th
 \item the {\bf rotation matrix} is $\begin{bmatrix}\cos\Theta & \sin\Theta & 0 \\ \sin\Theta & \cos\Theta & 0 \\ 0 & 0 & 1 \end{bmatrix}$
 \end{itemize}
 
+\section{Widgets}
+A {\bf widget} is a generic name for a part of an interface with its own behaviour. They tend to have their own appearance, their own purpose, and can be pretty much anything (ie. a scrollbar, a button, a textbox...). A {\bf logical input device} is a graphical component defined by a function rather than by what it looks like. Each devices transmits a set of primitives:
+\begin{itemize}
+\item locator: an (x,y)-position
+\item pick: identifies a displayed object
+\item choice: selects from a set of alternatives
+\item valuator: inputs a value
+\item string: inputs a string of characters
+\item stroke: inputs a sequence of positions
+\end{itemize}
+
+The primitives are abstracted away so that widgets do not need to handle multiple inputs types, eg. keyboards and voice-recognition.
+
+A widget may be considered a logical input device with an appearance. A logical \emph{button} device can generate a ``pushed'' event, though it may look like a button, be a simple keyboard shortcut, etc.
+
+There exist three types of wisgets: simple, container, and abstract model widgets. We can further characterize them by the model they manipulate, the events they generate, and the properties affecting their appearance.
+
+Goals of a widget toolkit:
+\begin{itemize}
+\item complete: GUI designers should have everything they need
+\item consistent: user sees a consistent look and feel and developers have constistent usage paradigms
+\item customizable: developer can reasonably extend functionality to meet the needs of an application
+\end{itemize}
+
+
+
 \end{document}

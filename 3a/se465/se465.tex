@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage{amsmath,amssymb,bookmark,parskip,textcomp,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -201,5 +201,70 @@ A graph $G$ is {\bf connected} if each node is reachable from an initial node. A
 
 \subsubsection{Control Flow Graphs}
 {\bf Basic Blocks} can be formed within graphs if we group together statements which always execute together. These blocks must have a single entry point and a single exit point.
+
+\section{Race Conditions}
+A race condition occurs when some shared access is written to by two different processes with no guarantee of order. This often occurs when there is no lock on a resource when it is to be written to and then read to.
+
+There are several tools which can help us detect race conditions:
+\begin{itemize}
+\item Helgrind
+\item lockdep
+\item Oracle Solaris Studio thread analyzer
+\item Coverity thread analyzer
+\item Intel Inspector XE 2011
+\end{itemize}
+
+Sometimes, eliminating race conditions does not eliminate bugs. See below, where we lock resources when we use them, but can still have a race condition due to the stale state between locks.
+\begin{verbatim}
+#include <iostream>
+#include <mutex>
+#include <thread>
+
+int counter = 0;
+std::mutex m;
+
+void func() {
+  int tmp;
+
+  m.lock();
+  tmp = counter;
+  m.unlock();
+  tmp++;
+  m.lock();
+  count = tmp;
+  m.unlock();
+}
+
+int main() {
+  std::thread t1(func);
+  std::thread t2(func);
+
+  t1.join();
+  t2.join();
+  std::cout << counter << "\n";
+  return 0;
+}
+\end{verbatim}
+
+As we've seen, removing race conditions does not solve all problems. Try to:
+\begin{itemize}
+\item run your code multiple times
+\item add noise (sleep, increase system load, etc.)
+\item use tools
+\item force scheduling (Java PathFinder)
+\item static approaches (lock-set, happens-before, state-of-the-art lock techniques)
+\end{itemize}
+
+\subsection{Bad Lock Usage}
+Locks and unlocks must be paired, otherwise Bad Things\texttrademark\ could happen.
+\begin{verbatim}
+lock();
+if (something):
+  do_something()
+  return
+unlock()
+\end{verbatim}
+
+
 
 \end{document}
