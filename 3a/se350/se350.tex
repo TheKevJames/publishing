@@ -144,6 +144,9 @@ We may have {\bf non-process kernels} which:
 
 We can also run the kernel within user processes. The OS, then, is primarily a collection of routines: system software within the context of a user process. This process executes in privileged mode when executing OS code and performs a context switch when entering a system call (though it continues with the same process).
 
+% SOMOPHORES
 
+\section{Monitors}
+{\bf Monitors} are software modules. They form a mutex lock with controlled access such that only one process can use a monitor at one time, and only to access local or shared variables. Monitors use condition varibales for signalling and lose unused signals (except semaphores).
 
 \end{document}

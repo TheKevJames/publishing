@@ -21,30 +21,37 @@
 \newpage
 
 \section{Solving Recurrences}
-eg. mergesort
+\begin{example}
+Determine the runtime of mergesort.
 \[ T(n) =
 \begin{dcases*}
 2T\bigl(\frac{n}{2}\bigl) + \Theta(n) & if $n > 1$ \\
 \Theta(1) & if $n = 1$
 \end{dcases*}\]
 which we can solve to find \[ T(n) \in \Theta(n\log n) \]
+\end{example}
 
-eg. stoogesort(A[1..n])
+\begin{definition}
+Stoogesort:
 \begin{verbatim}
-if n <= 1:
-  return
-if A[1] > A[2]:
-  swap(A[1], A[2])
-stoogesort(A[1..\frac{2n}{3}])
-stoogesort(A[\frac{n}{3}+1..n])
-stoogesort(A[1..\frac{2n}{3}])
+def stoogesort(A[1..n]):
+  if n <= 1:
+    return
+  if A[1] > A[2]:
+    swap(A[1], A[2])
+  stoogesort(A[1..\frac{2n}{3}])
+  stoogesort(A[\frac{n}{3}+1..n])
+  stoogesort(A[1..\frac{2n}{3}])
 \end{verbatim}
+\end{definition}
 
+\begin{example}
 Let $T(n)$ be the runtime of stoogesort on $n$ elements. Then \[ T(n) =
 \begin{dcases*}
 3T\bigl(\frac{2n}{3}\bigl) + \Theta(1) & if $n > 1$ \\
 \Theta(1) & if $n = 1$
 \end{dcases*}\]
+\end{example}
 
 There are three methods for solving this recurrence:
 \begin{enumerate}
@@ -53,7 +60,7 @@ There are three methods for solving this recurrence:
 \item Substitution method: Guess the form of the solution $T(n) \leq x)$, then verify your guess by induction and fill in any constants.
 \end{enumerate}
 
-Example:
+\begin{example}
 \begin{align*}
 T(n) &= 2T\bigg(\frac{n}{2}\bigg) + n^2, 7 \\
 T(n) &\leq cn^2 \\
@@ -66,8 +73,9 @@ T(n) &= 2T\bigg(\frac{n}{2}\bigg) + n^2 \\
      &\leq cn^2, \frac{c}{2} + 1 \leq c, c \geq 2
 \end{align*}
 We can then pick $c = 7$ and solve as \[ T(n) \leq 7n^2 \implies T(n) \in O(n^2) \] We can also note that $T(n) \geq n^2$, so $T(n) \in \Theta(n^2)$.
+\end{example}
 
-Example:
+\begin{example}
 \begin{align*}
 T(n) &= 3T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) + 4T\bigg(\bigg\lfloor \frac{n}{4} \bigg\rfloor\bigg) + 1, 1 \\
 T(n) &\leq cn^2 \\
@@ -91,12 +99,14 @@ T(n) &= 3T\bigg(\bigg\lfloor \frac{n}{2} \bigg\rfloor\bigg) + 4T\bigg(\bigg\lflo
      &= cn^2 - c_0, -7c_0 + 1 \leq -c_0, c_0 \geq \frac{1}{6}
 \end{align*}
 Pick $c_0 = \frac{1}{6}, c = \frac{7}{6}$ and we see that \[ T(n) \leq \frac{7}{6}n^2 - \frac{1}{6} \implies T(n) \in O(n^2) \]
+\end{example}
 
 \section{Algorithm Design Techniques}
 \subsection{Divide and Conquer}
 Divide your problem into subproblems of the same type, then use recursion to solve each problem and combine the results.
 
-{\bf Problem (Maxima)}: Given a set $P$ of $n$ points in 2D, we say point $p$ dominates point $q$ if and only if $p$ has both a greater $x$ and $y$ value than $q$. We say point $q$ is maximal if and only if $q \in P$ and no point in $P$ dominates $q$. Find all maximal points.
+\begin{example}
+{\bf (Maxima)}: Given a set $P$ of $n$ points in 2D, we say point $p$ dominates point $q$ if and only if $p$ has both a greater $x$ and $y$ value than $q$. We say point $q$ is maximal if and only if $q \in P$ and no point in $P$ dominates $q$. Find all maximal points.
 
 {\bf Solutions}:
 \begin{itemize}
@@ -116,8 +126,10 @@ maxima(sorted[p_1..p_n]):
   7. return [q_1..q_l, s_1..s_m]
 \end{verbatim}
 which is an $O(n\log n)$ algorithm.
+\end{example}
 
-{\bf Problem (Closest Pair)}: Given set $P$ of $n$ points in 2D, find a pair $p, q \in P$ such that these points have a smaller distance between them than any other pair of points in $P$, ie. $d(p,q) = \sqrt{(p.x - q.x)^2 + (p.y - q.y)^2}$.
+\begin{example}
+{\bf (Closest Pair)}: Given set $P$ of $n$ points in 2D, find a pair $p, q \in P$ such that these points have a smaller distance between them than any other pair of points in $P$, ie. $d(p,q) = \sqrt{(p.x - q.x)^2 + (p.y - q.y)^2}$.
 
 {\bf Solutions}:
 \begin{itemize}
@@ -150,11 +162,13 @@ def shamos(P):
       j++
   return d
 \end{verbatim}
+\end{example}
 
 \subsubsection{Multiplying Large Numbers}
+\begin{example}
 Given two $n$-bit numbers $A = a_{n-1}, a_{n-2}, \dots a_0$, $b = b_{n-1}, b_{n-2}, \dots b_0$ in binary, compute $AB = c_{n-1}, c_{n-2}, \dots c_0$.
 
-The ``Elementary School'' algorithm for this involves doing
+{\bf Solution}: The ``Elementary School'' algorithm for this involves doing
 \begin{verbatim}
     1011
   x 1101
@@ -180,5 +194,104 @@ B = [B'..B"]
 AB = A'B'2^n + (A'B" + A"B')2^(n/2) + A"B"
 \end{verbatim}
 which gives us a complexity of $O(n^2)$.
+\end{example}
+
+% MISSING
+
+\section{Selection}
+\begin{example}
+Given $n$ numbers $a_1..a_n$ and $k$, find the $k^{th}$ smallest number.
+
+{\bf Solutions}:
+\begin{itemize}
+\item Method 0: sort and look up index $k$. $O(n\log n)$ time.
+\item Method 1 (selection sort variation): find minimum, remove, and repeat $k$ times. $O(nk)$ time.
+\item Method 2 (heapsort variation): find minimum, remove, build heap, and repeat $k$ times. $O(n + k\log n$) time.
+\item Method 3 (quicksort variation [``quickselect''])
+\end{itemize}
+
+\begin{verbatim}
+def quickselect([a_1..a_n], k):
+  if n = 1:
+    return a_1
+  pick pivot x
+  L = { a_i : a_i <= x }, l = sizeof(L)
+  R = { a_i : a_i > x }
+  if k <= l:
+    return quickselect(L, k)
+  else:
+    return quickselect(R, k-l)
+\end{verbatim}
+
+Analysis of quickselect: let $T(n)$ be the runtime on $n$ elements. Then \[ T(n) \leq T\bigl(\max\{l, n-l\}\bigl) + O(n) \] In the ideal case, $l = \frac{n}{2}$. In this case, we have (using the master theorem) $T(n) \in O(n)$. In the worst case, $l = 1$ or $l = n - 1$, which gives us $T(n) \in O(n^2)$. The challenge of quickselect, then, is determining a pivot selection strategy which brings us closer to the ideal case.
+\end{example}
+
+\subsubsection{Pivot Selection}
+Selecting a pivot at random gives us an expected case near $O(n)$.
+
+Randomized Analysis: $l$ is equally likely to be $1, 2,\dots n$. Thus $\text{prob}\bigl[\frac{n}{4} < l \leq \frac{3n}{4}\bigl] = \half$. Expected number of iterations to get this case is $2$. So then \[ T(n) \leq T\bigg(\frac{3n}{4}\bigg) + 2 * O(n) \] which is an (expected) $O(n)$ runtime.
+
+Unfortunately, this algorithm gives us only an expected runtime. We do not have a worst case upper bound specifying $O(n)$.
+
+The Blum, Floyd, Prattt, Rivest, and Tarjan algorithm tries to deterministically find a good pivot. They find an approximate median by recursion: this is the ``median of medians of five'' algorithm.
+\begin{verbatim}
+def quickselect([a_1..a_n], k):
+  if n = 1:
+    return a_1
+
+  // pivot selection in n time
+  split a_1..a_n into groups G_1..G_{n/5} of five elements each
+  for i = 1 to n/5:
+    x_i = median of G_i
+  x = quickselect([x_i..x_{n/5}], n/10)
+  // end pivot selection
+
+  L = { a_i : a_i <= x }, l = sizeof(L)
+  R = { a_i : a_i > x }
+  if k <= l:
+    return quickselect(L, k)
+  else:
+    return quickselect(R, k-l)
+\end{verbatim}
+
+\begin{lemma}
+\[ \frac{3n}{10} \lesssim l \lesssim \frac{7n}{10} \]
+\end{lemma}
+
+\begin{proof}
+How many groups $G_i$ with $x_i \leq x$? $\frac{n}{10}$. For each such group, how many elements are less than or equal to $x_i$? $3$. Thus we have the number of elements less than or equal to $x$ is greater than or equal to $\frac{3n}{10}$. Similarly, the number of elements greater than $x$ is greater than or equivalent to $\frac{3n}{10}$.
+\end{proof}
+
+By this lemma, we see that the final recursion lines in this algorithm are in $\leq T(\frac{7n}{10})$. We have the overall complexity of this algorithm as \[ T(n) \leq T(\frac{n}{5}) + T(\frac{7n}{10}) + O(n) \] which solves to $T(n) \in O(n)$.
+
+\subsection{Greedy Algorithms}
+{\bf Greedy Algorithms} are usually used for optimization problems, where we find the solution by minimizing or maximizing some objective subject to some restraints. These algorithms incrememntally build the solution by choosing what seems best at each step.
+\begin{itemize}
+\item Advantages: simple, fast
+\item Disadvantages: local maxima over global maxima
+\end{itemize}
+
+% EXAMPLES MISSING
+
+\subsubsection{Interval Coloring}
+\begin{example}
+Given $n$ intervals $[a_1, b_1], \dots, [a_n, b_n]$, assign each interval a color such that no two intervals of the same color intersect while minimizing the number of colors used.
+
+Greedy Algorithm Idea: scan intervals from left to right and use a new color only when needed.
+
+{\bf Algorithm}:
+\begin{verbatim}
+k = 0
+for each interval [a_1, b_1] in increasing order of a:
+    pick any color c in {1, ..., k} not within any intervals intersecting [a_i, b_1]
+    if c exists:
+        assign [a_i, b_i] color c
+    else:
+        assign [a_i, b_i] color k + 1
+        k++
+\end{verbatim}
+\end{example}
+
+% STABLE MARRIAGE, ETC
 
 \end{document}
