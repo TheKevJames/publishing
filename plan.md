@@ -77,7 +77,7 @@ PSYCH 101 (Psych)
 Steven
 ======
 3A (Winter)
-BIO 239 or 240 (Genetics or Micro)
+CS 370 (Numerical Computation)
 
 3B (Fall)
 SCI 206 (Physics of Everything)
@@ -87,7 +87,8 @@ ECE 457A (Cooperative)
 CS 485 or 486 (ML or AI)
 
 4B (Winter)
-Two of:
+BIO 239 or 240 (Genetics or Micro)
+One of:
 - CS 449 (HCI)
 - CS 458 (Security)
 - ECE 409 (Crypto)
