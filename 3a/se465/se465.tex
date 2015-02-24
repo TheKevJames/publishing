@@ -272,4 +272,17 @@ Since our goal is to find as many bugs as possible (so we can fix them, of cours
 \item find deviance from normal behaviour
 \end{itemize}
 
+\section{Grammars}
+% SUMMARY
+
+Grammars allow us to generate inputs directly: correct inputs which fulfil the grammar and incorrect inputs which do not. We can also use mutation testing, by modifying the grammar or the program and finding inputs which exploit differences. We refer to these modified programs as mutants and search for ways to ``kill the mutant''.
+
+{\bf Ground strings} are strings within our grammar. {\bf Mutation operators} are modificatios we can utilize to change a string. A {\bf mutant} is a ground string upon which we've applied a mutation operator to generate something which appears close to being within our grammar.
+
+For a mutant $m$ of ground string $m_0$, we define test case $t$ as {\bf killing} $m$ if running $t$ on $m$ produces different output than running $t$ on $m_0$. Potential criteria: mutation coverage, mutation operator coverage, and mutation production coverage.
+
+Mutants are programs, not tests.
+
+The goals of mutation testing: mimic typical mistakes and encode knowledge about effective test practices. The goal is to kill mutants, but the desired side effect is the test cases which kill them. For weak mutation coverage, the broken output is not required.
+
 \end{document}

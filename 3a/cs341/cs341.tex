@@ -292,6 +292,30 @@ for each interval [a_1, b_1] in increasing order of a:
 \end{verbatim}
 \end{example}
 
-% STABLE MARRIAGE, ETC
+\subsection{Pairing Algorithms}
+% PAIRING ALGORITHMS
+
+\subsubsection{Stable Marriage}
+% ALGORITHM
+
+The {\bf stable marriage} algorithm is stable if for all matched pairs $(C_1, E_1), (C_2, E_2)$ we don't have both $C_1$ prefers $E_2$ over $E_1$ and $C_2$ prefers $C_1$ over $C_2$.
+
+\subsubsection{Gale and Shapley's Algorithm}
+\begin{verbatim}
+while exist unmatched employer E
+    pick C = next best candidate in E's preference list
+    // E makes offer to C
+    if C is unmatched or C prefers E over C's current employer E_0
+        unmatch(C, E_0)
+        match(C, E)
+\end{verbatim}
+We can see that this algorithm is bounded by $O(n^2)$.
+
+\subsection{Dynamic Programming}
+{\bf Dynamic Programming} can be used for optimization problems. We simply define a class of subproblems, derive a recursive formula to explore all choices at each step, and then evaluate that formula bottom-up using a table. This is successful when the number of total subproblems is not overly large.
+
+% COIN CHANGING
+
+
 
 \end{document}
