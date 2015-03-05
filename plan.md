@@ -1,4 +1,20 @@
-<!-- Harley
+Kevin
+=====
+3B (Fall)
+* EARTH 121 (Geology)
+
+4A (Spring)
+* CS 485 (Machine Learning)
+* ECE 457A (Cooperative)
+
+4B (Winter)
+* CS 444 (Compiler Construction)
+* CS 458 (Computer Security and Privacy)
+* ECE 409 (Applied Cryptography)
+* STV 205 (Cybernetics)
+* HUMANITY
+
+Harley
 ======
 3B (Fall)
 * SCIENCE
@@ -12,37 +28,21 @@
 * ATE
 * ENGL 119 (Intro English)
 * STV 205 (Cybernetics)
-* HUMANITY -->
-
-Kevin
-=====
-3B (Fall)
-* EARTH 121 (Geology)
-
-4A (Spring)
-* CS 485 (Machine Learning) or CS 486 (Artificial Intelligence)
-* ECE 457A (Cooperative)
-
-4B (Winter)
-* CS 444 (Compiler Construction)
-* CS 458 (Computer Security and Privacy)
-* ECE 409 (Applied Cryptography)
-* STV 205 (Cybernetics)
 * HUMANITY
 
-<!-- Lara
+Lara
 ====
 3B (Fall)
-* FREE or SCI
+* HUMANITY or SCI
 
 4A (Spring)
 * ECE 457A (Cooperative)
-* FREE or SCI
+* HUMANITY or SCI
 
 4B (Winter)
 * ECE 409 or CO 487 (Crypto)
 * ECE 416 (High-Level Networks)
-* ECE 419 (Communication Security)
+* ECE 419 (Communication Security) ?
 * STV 205 (Cybernetics)
 * EASIA 205R (Japanese History)
 
@@ -93,9 +93,9 @@ Tyler
 4B (Winter)
 * CS 485 (Machine Learning)
 * ECE 409 (Crypto)
-* ECE 416 (High-Level Networks) (NOTE: REQUIRES ECE 358)
+* ECE 416 (High-Level Networks)
 * STV 205 (Cybernetics)
-* HUMANITY -->
+* HUMANITY
 
 
 Interesting Courses
@@ -118,7 +118,7 @@ Interesting Courses
 |CS 370 (Numerical Computation)                      |3A, 3B, 4A, 4B |
 |CS 444 (Compiler Construction)                      |4B             |
 |CS 449 (Human-Computer Interaction)                 |3B, 4A, 4B     |
-|CS 452 (Real-time Programming)                      |3B, 4A         |
+|CS 452 (Real-time Programming)                      |4A, 4B         |
 |CS 454 (Distributed)                                |3B, 4A, 4B     |
 |CS 458 (Computer Security and Privacy)              |3B, 4B         |
 |CS 466 (Algorithm Design)                           |3B, 4A         |
