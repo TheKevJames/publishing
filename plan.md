@@ -1,4 +1,4 @@
-Harley
+<!-- Harley
 ======
 3B (Fall)
 * SCIENCE
@@ -12,7 +12,7 @@ Harley
 * ATE
 * ENGL 119 (Intro English)
 * STV 205 (Cybernetics)
-* HUMANITY
+* HUMANITY -->
 
 Kevin
 =====
@@ -30,7 +30,7 @@ Kevin
 * STV 205 (Cybernetics)
 * HUMANITY
 
-Lara
+<!-- Lara
 ====
 3B (Fall)
 * FREE or SCI
@@ -95,7 +95,7 @@ Tyler
 * ECE 409 (Crypto)
 * ECE 416 (High-Level Networks) (NOTE: REQUIRES ECE 358)
 * STV 205 (Cybernetics)
-* HUMANITY
+* HUMANITY -->
 
 
 Interesting Courses
