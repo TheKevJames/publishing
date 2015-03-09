@@ -8,41 +8,25 @@ Kevin
 * ECE 457A (Cooperative)
 
 4B (Winter)
+* CO 487 (Applied Cryptography)
 * CS 444 (Compiler Construction)
 * CS 458 (Computer Security and Privacy)
-* ECE 409 (Applied Cryptography)
-* STV 205 (Cybernetics)
-* HUMANITY
-
-Harley
-======
-3B (Fall)
-* SCIENCE
-
-4A (Spring)
-* EARTH 121 (Geology)
-* ECE 455 (Embedded)
-
-4B (Winter)
-* CS 488 (Graphics)
-* ATE
-* ENGL 119 (Intro English)
 * STV 205 (Cybernetics)
 * HUMANITY
 
 Lara
 ====
 3B (Fall)
-* HUMANITY or SCI
+* EARTH 121 (Geology)
 
 4A (Spring)
+* CS 466 (Algorithm Design)
 * ECE 457A (Cooperative)
-* HUMANITY or SCI
 
 4B (Winter)
-* ECE 409 or CO 487 (Crypto)
+* CO 487 (Crypto)
+* CS 458 (Computer Security and Privacy)
 * ECE 416 (High-Level Networks)
-* ECE 419 (Communication Security) ?
 * STV 205 (Cybernetics)
 * EASIA 205R (Japanese History)
 
@@ -68,15 +52,15 @@ Steven
 * SCIENCE
 
 4A (Spring)
+* CS 485 (Machine Learning)
 * ECE 457A (Cooperative)
-* CS 485 or 486 (ML or AI)
 
 4B (Winter)
 * BIO 239 or 240 (Genetics or Micro)
 * One of:
+  * CO 487 (Applied Cryptography)
   * CS 449 (HCI)
-  * CS 458 (Security)
-  * ECE 409 (Crypto)
+  * CS 458 (Computer Security and Privacy)
 * STV 205 (Cybernetics)
 * HUMANITY
 * FREE
@@ -91,8 +75,8 @@ Tyler
 * ECE 457A (Cooperative)
 
 4B (Winter)
+* CO 487 (Applied Cryptography)
 * CS 485 (Machine Learning)
-* ECE 409 (Crypto)
 * ECE 416 (High-Level Networks)
 * STV 205 (Cybernetics)
 * HUMANITY
@@ -115,6 +99,7 @@ Interesting Courses
 |PHYS 234 (Quantum)                                  |3A, 4A, 4B     |
 |PHYS 263 (Classical Mechanics)                      |3A, 4A, 4B     |
 |                                                    |               |
+|CO 487 (Applied Cryptography)                       |4B             |
 |CS 370 (Numerical Computation)                      |3A, 3B, 4A, 4B |
 |CS 444 (Compiler Construction)                      |4B             |
 |CS 449 (Human-Computer Interaction)                 |3B, 4A, 4B     |
