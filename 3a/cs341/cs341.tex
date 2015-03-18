@@ -311,11 +311,59 @@ while exist unmatched employer E
 \end{verbatim}
 We can see that this algorithm is bounded by $O(n^2)$.
 
-\subsection{Dynamic Programming}
+\section{Dynamic Programming}
 {\bf Dynamic Programming} can be used for optimization problems. We simply define a class of subproblems, derive a recursive formula to explore all choices at each step, and then evaluate that formula bottom-up using a table. This is successful when the number of total subproblems is not overly large.
 
 % COIN CHANGING
 
+% LOTS OF STUFF
 
+\section{Graph Problems}
+% INTRO
+
+\subsection{Shortest Paths}
+Given a directed graph with weights along each path, find the cheapest route between two points.
+
+Special Cases:
+\begin{itemize}
+\item Unweighted (or, all are equal to 1): simply find the path which uses the fewest amount of edges (with BFS). Analysis: $O(n + m)$.
+\item DAG (directional acyclic graph): use dynamic programming. Subproblem: $\forall v \in V, \delta[v] =$ the weight of the shortest path from $s$ to $v$. Our answer, then, is $\delta[t]$. Base Case: $\delta[s] = 0$. Recursive Formula: $\delta[v] = \min\bigl(\delta[u] + w(u, v), \{u : (u,v) \in E\}\bigl)$. Note the evaluation order for the recursive formula is in the same order as a topological sort over the edges. Analysis: $O\bigl(n + \displaystyle\sum_{v\in V} \text{in-deg}(v)\bigl) = O(n + m)$.
+\end{itemize}
+
+General Case: we could consider taking the smallest weighted edge at every step, but this would not necessarily give us the correct answer. Instead, we use {\bf Dijkstra's Algorithm}:
+\begin{verbatim}
+// assume positive weights
+// solve single-source (all destination) problem
+// compute d[v]: shortest path weight from s to v for all v in V.
+S= {s}, d[s] = 0
+while S != V:
+    pick edge (u, v) with u in S, v in V - S minimizing d[u] + w(u, v)
+    insert v into S
+    d[v] = d[u] + w(u, v)
+\end{verbatim}
+
+The detailed implementation is:
+\begin{verbatim}
+// TODO: Prim's, with changes to lines 7-8
+if y in emptyset and key[v] + w(u, v) < key[y]:
+  key[y] = key[v] + w(u, v), pi[y] = v
+\end{verbatim}
+
+Analysis: no data structure: $O(n^2)$, heap: $O\bigl((n+m)\log n\bigl)$, Fibonacci heap: $O(m + n\log n)$.
+
+\subsubsection{Correctness Proof}
+Claim: if $(u, v)$ is the edge from $S$ to $V \setminus S$ minimizing $\delta[u] + w(u, v)$, then $\delta[v] = \delta[u] + w(u, v)$.
+
+Proof: There is a path from $s$ to $v$ with weight $\delta[u] + w(u, v)$. Thus $\delta[v] \leq \delta[u] + w(u, v)$. Now, take any arbitrary path $p$ from $s$ to $v$. $p$ must contain an edge $(u^\prime, v^\prime)$ with $u^\prime \in S$ and $v^\prime \in V \setminus S$. $w(p) \geq \delta[u^\prime] + w(u^\prime, v^\prime) + 0 \implies \delta[v] \geq \delta[u] + w(u, v)$. Thus, we have shown $\delta[v] = \delta[u] + w(u, v)$.
+
+Note that this is only correct if our graph contains no negative weights.
+
+\subsubsection{All-Pairs Shortest Paths}
+Given a weighted directed or undirected graph $G = (V, E)$, find the shortest path between all pairs of vertices.
+
+\begin{itemize}
+\item Method 0: Run Dijkstra's algorithm on each vertex, ie. run it $n$ times. This method assumes there are no negative weights. Complexity: $O\bigl(n(m + n\log n)\bigl)$.
+\item Method 1:
+\end{itemize}
 
 \end{document}
