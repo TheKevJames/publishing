@@ -366,4 +366,91 @@ Given a weighted directed or undirected graph $G = (V, E)$, find the shortest pa
 \item Method 1:
 \end{itemize}
 
+% TODO: missing
+
+\subsection{P vs NP}
+\subsubsection{P-Problems}
+We define $P$ as the set of all decision problems solveable in ``polytime'' (worst-case polynomial time).
+
+For example:
+\begin{example}
+We define TSP with inputs: graph $G = (V, E)$, $w : E \implies \mathbb{N}$ and output: cycle that visits every vertex exactly once minimizing total weight.
+
+We define TSP-DECIS with inputs: graph $G = (V, E)$, $w : E \implies \mathbb{N}$, number $w$ and output: yes if and only if there exists a cycle that visits every vertex once and has total weight $\leq w$.
+
+If TSP is solveable in polytime, then PSP-DECIS $\in P$.
+\begin{proof}
+Obviously.
+\end{proof}
+
+If TSP-DECIS $\in P$, then we can find the optimal weight in polytime.
+\begin{proof}
+By binary search. We need $O(\log\sum_{e\in E} w(e))$ calls to the decision algorithm, which is polynomial in the number of input bits.
+\end{proof}
+
+If TSP-DECIS $\in P$, then we can find the optimal cycle in polytime.
+\begin{proof}
+We first find the optimal weight $w^*$ in polytime. For each $e\in E$, we find the optimal weight $w^\prime$ for $G^\prime(V, E - \{e\})$ in polytime and if $w^\prime = w^*$ we delete $e$ from $E$. We do this recursively and return all edges remaining in $E$. We need $O(m)$ calls to this algorithm.
+\end{proof}
+\end{example}
+
+\subsubsection{NP-Problems}
+Our theory concentrates on one common type of ``search'' problem: ``does there exist\dots ?''. Thus we define $NP$ as the set of all decision problems that can be expressed in the form: input: Object $X$, output: yes if and only if there exists object $y$ such that property $R(X, y)$ holds where object $y$ has polysize (``certificate'') and property $R$ can be checked in polytime (``verification algorithm'').
+
+For example:
+\begin{example}
+We define 3-COLORING with input: graph $G = (V, E)$ and output: yes if  and only if there exists a coloring of vertices such that no two adjacent vertices have the same color.
+
+We define 3-COLORING $\in NP$ with certificate coloring: $O(n)$ size and verification no two adjacent vertices have the same color: $O(m)$ time.
+\end{example}
+
+\begin{example}
+TSP-DECIS has inputs: graph $G = (V, E)$, $w: E\implies \mathbb{N}$, number $w$ and output: yes if and only if there exists a cycle which vists every vertex once and has total weight less than or equal to $w$.
+
+We define TSP-DECIS $\in NP$ with certificate cycle $C$: $O(n)$ size and verification $C$ vists every vertex exactly once and has total weight $\leq w$: $O(1 + n)$ time.
+\end{example}
+
+Note that $NP$ does not stand for ``non-polynomial'' but for ``non-deterministic polynomial''. Many real-life problems are $NP$ (answers are easy to verify but hard to find).
+
+\begin{theorem}
+These problems are subsets of each other: $P \subseteq NP \subseteq EXPTIME$.
+\end{theorem}
+
+\begin{proof}
+$P \subseteq NP$: ignore certificate. $NP \subseteq EXPTIME$: brute force, try all certificates of polysize $p(n)$: $2^{p(n)}$.
+\end{proof}
+
+Though we have not yet proved it, we assume $P \neq NP$.
+
+\subsubsection{NPC-Problems}
+$NPC$ problems ar $NP$-complete.
+
+We must define the ``hardest'' problem in $NP$\dots but what does ``$L_1$ is easier than $L_2$ mean''? One way to define this is as $L_1$ ``reduces'' to $L_2$ (selection reduces to sorting).
+
+\begin{definition}
+Given decision problems $L_1, L_2$, a reduction from $L_1$ to $L_2$ is an algorithm $f$ such that the output of $L_1$ on $x$ is ``yes'' if and only if the output of $L_2$ on $f(x)$ is ``yes''. If such a reduction exists, $L_1 \leq_p L_2$.
+\end{definition}
+
+Then, to solve $L_1$: $x \to f(x) \to L_2[f(x)]$.
+
+\begin{lemma}
+If $L_1 \leq_p L_2$ and $L_2 \in P$, then $L_1 \in P$.
+\end{lemma}
+
+\begin{lemma}
+If $L1 \leq_p L_2$ and $L_2 \leq_p L_3$, then $L_1 \leq_p L_3$.
+\end{lemma}
+
+\begin{definition}
+$L$ is $NP$-complete if  and only if $L \in NP$ and $\forall L^\prime \in NP, L^\prime \leq_p L$.
+\end{definition}
+
+\begin{lemma}
+Let $L$ be an $NP$-complete problem. Then $L \not\in P \iff P \neq NP$.
+\end{lemma}
+
+\begin{proof}
+Suppose $L \not\in P$. Then $L\in NP$ so $P \neq NP$. Suppose $L \in P$. Then $\forall L^\prime \in NP \implies L^\prime \leq_p L$ sp $L^\prime \in P$ and thus $NP = P$.
+\end{proof}
+
 \end{document}
