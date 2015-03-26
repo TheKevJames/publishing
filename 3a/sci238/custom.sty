@@ -1,0 +1,53 @@
+\ProvidesPackage{custom}
+
+\usepackage{amsthm}
+
+
+% Style
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\renewcommand{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand{\Im}{\operatorname{\mathfrak{Im}}}
+\newcommand{\suchthat}{\ |\ }
+
+% Coding
+\newcommand{\code}[1]{\ttfamily{#1}\rmfamily{}}
+
+% Derivatives
+\newcommand{\dd}{\ {\rm d}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{{\rm d} #1}{{\rm d} #2}}}
+\newcommand{\dderiv}[2]{\ensuremath{\frac{{\rm d}^2 #1}{{\rm d} #2^2}}}
+\newcommand{\nderiv}[3]{\ensuremath{\frac{{\rm d}^{#3} #1}{{\rm d} #2^{#3}}}}
+\newcommand{\limit}[2]{\ensuremath{\Bigg|_{#1}^{#2}}}
+
+% Environments
+\makeatletter
+\def\thm@space@setup{
+  \thm@preskip=0.5cm
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem*{note}{Note}
+
+% Functions
+\newcommand{\function}{\ensuremath{\rightarrow}}
+	% surjective: onto -> each y is mapped to
+\newcommand{\surjective}{\ensuremath{\twoheadrightarrow}}
+	% injective: one-to-one -> no two elements of x are mapped to the same y
+\newcommand{\injective}{\ensuremath{\rightarrowtail}}
+\newcommand{\bijective}{\ensuremath{\injective\!\!\!\!\!\surjective}}
+\newcommand{\nontotal}{\ensuremath{-\!\!\!\mapsto}}
+\newcommand{\nontotalsurjective}{\ensuremath{-\!\!\!\mapsto\!\!\!\!\!\!\surjective}}
+\newcommand{\nontotalinjective}{\ensuremath{\injective\!\!\!\!\shortmid}}
+\newcommand{\nontotalbijective}{\ensuremath{\bijective\!\!\!\!\shortmid}}
+
+% Shorthand
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+\newcommand{\quarter}{\ensuremath{\frac{1}{4}}}
+
+% Writing
+\newcommand{\ttilde}{\text{\raise.17ex\hbox{$\scriptstyle\sim$}}}
