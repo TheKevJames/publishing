@@ -4,3 +4,6 @@
 [submodule "3a/se350/assignment/os"]
 	path = 3a/se350/assignment/os
 	url = git@github.com:TheKevJames/se350.git
+[submodule "3a/se465/assignment/pipair"]
+	path = 3a/se465/assignment/pipair
+	url = git@github.com:TheKevJames/pipair.git
