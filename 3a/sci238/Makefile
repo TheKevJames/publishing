@@ -1,5 +1,4 @@
-all: sci238.pdf
-	make -C assignment
+all: midterm.pdf final.pdf sci238.pdf
 
 
 .SUFFIXES:
@@ -16,4 +15,3 @@ clean:
 	rm -f *.out
 	rm -f *.pdf
 	rm -f *.toc
-	make -C assignment clean
