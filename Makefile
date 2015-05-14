@@ -1,11 +1,8 @@
-all: highschool ml229 1a 1b 2a 2b 3a wkrpt
+all: highschool 1a 1b 2a 2b 3a wkrpt
 
 
 highschool:
 	make -C highschool
-
-ml229:
-	make -C ml229
 
 1a:
 	make -C 1a
@@ -28,7 +25,6 @@ wkrpt:
 
 clean:
 	make -C highschool clean
-	make -C ml229 clean
 	make -C 1a clean
 	make -C 1b clean
 	make -C 2a clean
