@@ -20,4 +20,19 @@
 \tableofcontents
 \newpage
 
+\section{Introduction}
+There are two main types of control:
+\begin{description}
+\item[Open-Loop control] simply converts reference inputs to control inputs (through a controller), then combines these with disturbance inputs in the plant to provide outputs.
+\item[Feedback control] adds a second susbsytem, where outputs are fed back into a sensor which measures these outputs, compares them to the reference input, and generates an error signal (which we attempt to minimize)
+\end{description}
+
+\subsection{Potential Advantages of Feedback Control}
+\begin{description}
+\item[Tracking] can make output follow reference input.
+\item[Regulation] compensates for disturbance inputs.
+\item[Robustness] compensates for variation in plant dynamics.
+\item[Stabilization] can potentiallially stabilize unsafe plants.
+\end{description}
+
 \end{document}
