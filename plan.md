@@ -1,8 +1,5 @@
 Kevin
 =====
-3B (Fall)
-* EARTH 121 (Geology)
-
 4A (Spring)
 * CS 485 (Machine Learning)
 * ECE 457A (Cooperative)
@@ -16,9 +13,6 @@ Kevin
 
 Lara
 ====
-3B (Fall)
-* EARTH 121 (Geology)
-
 4A (Spring)
 * CS 466 (Algorithm Design)
 * ECE 457A (Cooperative)
@@ -32,9 +26,6 @@ Lara
 
 Nik
 ===
-3B (Fall)
-* CS 458 (Computer Security and Privacy)
-
 4A (Spring)
 * ECE 457A (Cooperative)
 * MUSIC 246 (Soundtracks)
@@ -48,9 +39,6 @@ Nik
 
 Steven
 ======
-3B (Fall)
-* SCIENCE
-
 4A (Spring)
 * CS 485 (Machine Learning)
 * ECE 457A (Cooperative)
@@ -67,9 +55,6 @@ Steven
 
 Tyler
 =====
-3B (Fall)
-* EARTH 121 (Geology)
-
 4A (Spring)
 * ECE 418 (Communications Networks)
 * ECE 457A (Cooperative)
@@ -82,23 +67,10 @@ Tyler
 * HUMANITY
 
 
-Interesting Courses
--------------------
+Interesting ECEs
+----------------
 |Course                                              |Available      |
 |----------------------------------------------------|---------------|
-|HUMANITY                                            |3A, 3B, 4A, 4B |
-|                                                    |               |
-|STV 205 (Cybernetics)                               |3A, 3B, 4A, 4B |
-|                                                    |               |
-|BIO 239 (Genetics)                                  |3A, 4A, 4B     |
-|BIO 240 (Microbio)                                  |3A, 3B, 4A, 4B |
-|EARTH 121 (Geology)                                 |3B             |
-|SCI 238 (Astronomy)                                 |3A, 4A, 4B     |
-|PHYS 275 (Astro)                                    |3B             |
-|PHYS 375 (Astro 2)                                  |4B             |
-|PHYS 234 (Quantum)                                  |3A, 4A, 4B     |
-|PHYS 263 (Classical Mechanics)                      |3A, 4A, 4B     |
-|                                                    |               |
 |CO 487 (Applied Cryptography)                       |4B             |
 |CS 370 (Numerical Computation)                      |3A, 3B, 4A, 4B |
 |CS 444 (Compiler Construction)                      |4B             |
@@ -136,9 +108,6 @@ Potential Humanity Courses
 
 Template
 ========
-3B (Fall)
-*
-
 4A (Spring)
 *
 *
