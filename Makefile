@@ -1,4 +1,4 @@
-all: highschool 1a 1b 2a 2b 3a wkrpt
+all: highschool 1a 1b 2a 2b 3a 3b wkrpt
 
 
 highschool:
@@ -18,6 +18,9 @@ highschool:
 
 3a:
 	make -C 3a
+
+3b:
+	make -C 3b
 
 wkrpt:
 	make -C wkrpt
