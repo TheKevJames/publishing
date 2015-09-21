@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage{amsmath,amssymb,bookmark,mathtools,parskip,custom}
 \usepackage[margin=.8in]{geometry}
 \allowdisplaybreaks
 \hypersetup{colorlinks,
@@ -36,5 +36,57 @@ Disturbance inputs are typically unmeasured and often unmeasurable.
 \item[Robustness] compensates for variation in plant dynamics.
 \item[Stabilization] can potentiallially stabilize unsafe plants.
 \end{description}
+
+\section{Signals and Systems}
+A {\bf signal} is a real- or complex-valued function of a real variable $t$. $t$ usually stands for time, eg. $r(t)$ is the reference input at some time. If the domain of the signal is $\mathbb{R}$ (or some interval of $\mathbb{R}$), then we say that the signal is continuous-time (CT). If the domain is a discrete set (say, $\mathbb{Z}$), the signal is discrete-time (DT).
+
+Mathematically, a {\bf system} is a mapping from a class $f$ of input signals to a class $y$ of output signals.
+
+Notation:
+\begin{align*}
+f &\xrightarrow{S} y \\
+y(t) &= S\bigl(f(t)\bigl) \\
+y &= Sf
+\end{align*}
+
+If the inputs and outputs are all CT signals, the system is CT. If the inputs and outputs are DT, the system is DT. If there are both CT and DT signals, the system is hybrid.
+
+A CT sytem might be moddels using linear ODEs with constant coefficients. A DT system might be modelled using difference equations. A hyrbid feedback system may use analog-to-digital and digital-to-analog converters to switch between the signal types.
+
+Properties of all systems:
+\begin{enumerate}
+\item CT, DT, or hybrid
+\item Memoryless (statis) or dynamic
+\item Causality
+\item Multivariable or scalar
+\item Linearity
+\item Time-invariance
+\end{enumerate}
+
+At a given time $t_0$, a memoryless system $y(t_0) = (Sf)(t_0)$ depends only on $f(t_0)$. A system is {\bf dynamic} if it is not memoryless.
+
+Example:
+\begin{align*}
+M\ddot y(t) &= f(t) \\
+\ddot y &= \frac{1}{M} f(t) \\
+y(t) &= \frac{1}{M} \int_{-\infty}^t \int_{-\infty}^\tau f(\theta) \dd\theta \dd \tau
+\end{align*}
+
+$S$ is {\bf causal} if $y(t) = (Sf)(t)$ depends only on $\{ f(\tau) : \tau \leq t \}$, ie. only on past and present values of $f()$. In other words, if $f_1(\tau) = f_2(\tau) \forall \tau \leq t$ and if $y_1 = Sf_1$ and $y_2 = Sf_2$, then $y_1(\tau) = y_s(\tau) \forall \tau \leq t$.
+
+We can think of causal systems as ``real-time'' and {\bf non-causal} signal processing as ``offline''.
+
+A {\bf multivariable} system is one that has many inputs and/or outputs. Think of a showerhead: the hot and cold water valves provide two independendant inputs. Additional, a showerhead has two outputs: total flow rate and temperature. Control problems involving these systems can be much more complicated that scalar systems (single-input single-output system).
+
+A system is linear if
+\begin{align*}
+y_1 = Sf_1 \\
+y_2 = Sf_2
+\end{align*}
+implies \[ y_1 + y_2 = S(f_1 + f_2) \] Additionally, if $c \in \mathbb{C}$, \[ S(cf_1) = cy_1 \]
+
+More formally, a system is linear if a linear combination of inputs outputs a linear combination of those inputs' responses: \[ S(c_1f_1 + c_2f_2) = c_1y_1 + c_2y_2 \] for any $c_1, c_2 \in \mathbb{C}$. We call this the principle of superposition.
+
+Roughly speaking, a system is {\bf time invariant} if its response to a signal doesn't change with time. Mathematically, \[ f(t) \xrightarrow{S} y(t) \implies f(t-T) \rightarrow y(t-T) \]
 
 \end{document}
