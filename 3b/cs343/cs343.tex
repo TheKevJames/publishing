@@ -70,38 +70,7 @@ The {\bf execution environment} has a significant effect on an EHM: eg. object-o
 
 Control structures with \code{finally} clauses must always be executed. This complicates the EHM, since now both destructors and \code{finally}s must be called. Given multiple execution stacks, an EHM must be even more sophisticated (eg. propogate the exception to another stack if no handler is found in the current one).
 
-\subsection{Static and Dynamic Returns}
-All routines and exceptional control flows can be characterized by the following properties:
-\begin{description}
-\item[static/dynamic call] routine/exectpion name at the call/raise is looked up statically (compile-time) or dynamically (run-time)
-\item[static/dynamic return] after routine handler completes, it returns to its static (definition) or dynamic (call) context.
-\end{description}
-
-\begin{table}[ht]
-\centering
-\begin{tabular}{r|ll}
-  return/handled & static  & dynamic \\ \hline
-  static         & sequel  & termination exception \\
-  dynamic        & routine & routine pointer, virtual routine, resumption \\ \hline
-  \end{tabular}
-\end{table}
-
-\subsubsection{Static Propogation}
-A {\bf sequel} is a routine with no return value where the sequel name is looked up lexically at the call site and control returns to the end of the block in which the sequel is declared. This is called {\bf static propogation}.
-
-\begin{verbatim}
-for(;;) {
-    sequel f() { ... }
-    // ...
-    f();
-    // not executed
-}
-// executed immediately after f();
-\end{verbatim}
-
-These are implemented in \code{try-catch}s. You can always determine statically what line a \code{catch} clause will execute when it returns: \code{catch}s are sequels.
-
-\section{Terms}
+\subsubsection{Terms}
 \begin{description}
 \item[execution] is the language unit in which an exception can be raised, usually any entity with its own runtime stack.
 \item[exception type] is a type name representing an exceptional event.
@@ -136,5 +105,85 @@ These are implemented in \code{try-catch}s. You can always determine statically 
 \item[resumption] means control returns to the raise point: no stack unwinding.
 \item[EHM] = Exception Type + Raise (exception) + Propagation + Handlers
 \end{description}
+
+\subsubsection{Static and Dynamic Returns}
+All routines and exceptional control flows can be characterized by the following properties:
+\begin{description}
+\item[static/dynamic call] routine/exectpion name at the call/raise is looked up statically (compile-time) or dynamically (run-time)
+\item[static/dynamic return] after routine handler completes, it returns to its static (definition) or dynamic (call) context.
+\end{description}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{r||l|l}
+  return/handled & static  & dynamic \\
+  \hline \hline
+  static         & sequel  & termination exception \\ \hline
+  dynamic        & routine & routine pointer, virtual routine, resumption \\
+  \end{tabular}
+\end{table}
+
+\subsubsection{Static Propogation}
+A {\bf sequel} is a routine with no return value where the sequel name is looked up lexically at the call site and control returns to the end of the block in which the sequel is declared. This is called {\bf static propogation}.
+
+\begin{verbatim}
+for(;;) {
+    sequel f() { ... }
+    // ...
+    f();
+    // not executed
+}
+// executed immediately after f();
+\end{verbatim}
+
+These are implemented in \code{try-catch}s. You can always determine statically what line a \code{catch} clause will execute when it returns: \code{catch}s are sequels. Note that sequels are not commonly used as-defined since they only work for monolithic programs as they must be statically nested at the point of use.
+
+\subsubsection{Dynamic Propogation}
+Termination and resumption both have dynamic raises with static and dynamic returns, respectively. This method of propogation works for seperately-compiled programs, but does not allow for statically knowing the handler.
+
+For {\bf termination}, control transfers from the start of propogation to a handler (dynamically) then performs a static return (on handler return) which unwinds the stack. There exist three basic termination forms from a \textit{non-recoverable} operation: \code{non-local}, \code{terminate}, and \code{retry}. Non-local is general but has the goto problem, terminate is more limited, and \code{retry} is a combination of termination with special handler semantics (ie. restart the guarded block handling the exception [Eiffel], which pretends end-of-file is an exception of type EOF).
+
+Since we can simulate \code{retry}, it is rarely supported directly.
+
+In c++, we can toggle throwing exceptions (over returning status codes) in IO code with:
+\begin{verbatim}
+ifstream infile;
+infile.exceptions(ios_base::failbit);
+
+// ...
+// do things
+// ...
+
+try {
+  getline(infile, 42);
+} catch (ios_base::failure) { }
+\end{verbatim}
+
+Note that $\mu$c++ does this by default.
+
+A destructor can raise an exception, but this will cause errors if the exception is raised \textit{during propogation}:
+\begin{verbatim}
+struct E {};
+struct C {
+  ~C() { throw E(); }
+}
+
+try {
+  C x;
+  throw E();
+} catch (E) {
+  // ...
+}
+\end{verbatim}
+this would not have caused issues without the \code{throw()} within the \code{try-catch}.
+
+{\bf Resumption} provides a limited mechanism to generate new blocks on the call stack: control transfeers from the start of propogation to handler dynamically then returns dynamically on handler return -- note that this does not unwind the stack. A resumption handler is corrective action so a computation can continue: eg. the \code{new\_handler} fixup method in c++. If corrective action is impossible, the resumption handler should throw and exception instead of stepping into the enclosing block so the stack will unwind.
+
+So long as a resumption handler remains on the stack, it may not be reused until it has caught and completed handling an exception. This precludes the handler from re-raising and re-catching the same exception. For this reason, propogation ignores unfinished resumption handlers when searching for an exception handler.
+
+\subsubsection{Implementation}
+To implement any dynamic propogation system, the \code{raise} must know the last guarded block with a handler for the raised exception type.
+
+One approach is to do a lot of fuckery with labels, setting and resetting them upon entering or leaving a block. For termination, though, a direct transfer is often impossible anyway since activations on the stack may contain objects with destructors or finalizers. Resetting these labels are exepnsive, so the labels are often stored in the \code{catch}/destructor data within each block and the handler is found by linear search during a tack walk (with no direct transfer taking place). These are often implemented using that expensive approach on raise and zero cost on guarded-block entry, to improve overall efficiency.
 
 \end{document}
