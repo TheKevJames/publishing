@@ -41,11 +41,11 @@
 
 
 \tocsection{Executive Summary}
-TalkIQ, like many (if not all) software development companies~\cite{component}, has several different layers of products and services, both internal and external. Upon development of new code, the relevant systems must be deployed, tested, and verified to function as expected, along with re-deployments of any co-dependant services and management of other dependencies, such as database schema migrations.
+TalkIQ, like many (if not all) software development companies~\cite{component}, has several different layers of products and services, both internal and external. Upon development of new code, the relevant systems must be deployed, tested, and verified to function as expected, along with re-deployments of any co-dependent services and management of other dependencies, such as database schema migrations.
 
-There are many treatises on proper development standards and practices~\cite{practices} as well as the Development Operational (DevOp) systems related to them. Though arguments abound for which of these standards is ``best'' as well as which variation of a class of DevOps system is ``best'', these can mostly be split into two categories (assuming a somewhat agile development methodology is followed): completely automated DevOps or more manual operations.
+There are many treatises on proper development standards and practices~\cite{practices} as well as the Development Operational (DevOps) systems related to them. Though arguments abound for which of these standards is ``best'' as well as which variation of a class of DevOps system is ``best'', these can mostly be split into two categories (assuming a somewhat agile development methodology is followed): completely automated DevOps or more manual operations.
 
-Ultimately, this report shows that a completely automated system fits all criterias for a good quality DevOps system and argues that virtually all software development workflows should implement the system described herein.
+Ultimately, this report shows that a completely automated system fits all criteria for a good quality DevOps system and argues that virtually all software development workflows should implement the system described herein.
 \newpage
 
 
@@ -56,11 +56,11 @@ Ultimately, this report shows that a completely automated system fits all criter
 
 \pagenumbering{arabic}
 \section{Introduction}
-TalkIQ, like many (if not all) software development companies, has several different layers of products and services, both internal and external. Upon development of new code, the relevant systems must be deployed, tested, and verified to function as expected, along with re-deployments of any co-dependant services and management of other dependencies, such as database schema migrations.
+TalkIQ, like many (if not all) software development companies, has several different layers of products and services, both internal and external. Upon development of new code, the relevant systems must be deployed, tested, and verified to function as expected, along with re-deployments of any co-dependent services and management of other dependencies, such as database schema migrations.
 
 In the past, these deployments were managed by ``sysadmins'' and developers didn't care (nor were they meant to) about this process. More recently, the trend has been to slowly migrate towards automated deployment systems; reducing the workload on sysadmins and forcing the developers to learn about the process and think about the effects their changes will cause.
 
-This manual, sysadmin-led process is inherently flawed for a multitude of reasons: any variations in procedure can cause difficult-to-solve issues, deployment strategies need to be considered on a per-deployment basis, release schedules must be slowed down to accomodate the slow process, staff needs to be trained solely to interact with the company's deployment infrastructure, and so on.
+This manual, sysadmin-led process is inherently flawed for a multitude of reasons: any variations in procedure can cause difficult-to-solve issues, deployment strategies need to be considered on a per-deployment basis, release schedules must be slowed down to accommodate the slow process, staff needs to be trained solely to interact with the company's deployment infrastructure, and so on.
 
 \subsection{Problem Requirements}
 Any system which replaces this manual process must support all aspects of that process as well as solving the above issues. Our requirements, then, are as follows:
@@ -107,7 +107,7 @@ Initially, these systems are applied to the environment defined by TalkIQ's deve
 \end{itemize}
 
 \subsection{Code Quality Verification}
-We will describe first the standard manual approach to this problem. Developers simply look over each other's work (hereafter refered to as a ``pull request'' for simplicity), scanning for potential bugs including but not limited to logic errors, styling issues, system stability problems, best practices, and potentially ``too limiting'' designs. Upon some set number of developers deciding the pull request is ``good enough'', that code will be merged into the codebase and further work will be built upon it.
+We will describe first the standard manual approach to this problem. Developers simply look over each other's work (hereafter referred to as a ``pull request'' for simplicity), scanning for potential bugs including but not limited to logic errors, styling issues, system stability problems, best practices, and potentially ``too limiting'' designs. Upon some set number of developers deciding the pull request is ``good enough'', that code will be merged into the codebase and further work will be built upon it.
 
 Another possibility is a completely automated approach wherein a pull request is automatically submit to some gatekeeper service. This service should perform the above analysis: checking for logic errors, styling issues, etc in an automated way by running tests, performing static analysis, etc. This service should then approve or reject the pull request and perform the appropriate action: merging it into the codebase if that pull request was accepted or alerting the developer if it was not.
 
@@ -125,7 +125,7 @@ We define the criteria for determining which of these systems should be implemen
 For mathematical ease, each of these criteria will be represented on a scale from one to five such that a five is the best possible score and a one is the worst. We determine the weighting of these systems as follows and while keeping in mind the above descriptions of our criteria. Note that larger weightings should be applied to more important criteria:
 \begin{itemize}
 \item ``Implementation Time'' and ``Time Until Merge'' are not overly important and so are assigned weightings of {\bf 1}.
-\item ``Developer Time'' and ``Maintenance Cost'' both deal with recurring costs which should be minimzed but should not be the limiting factor in our decision. As such, these will be declared to be twice as important as the previously described criteria and assigned weightings of {\bf 2}.
+\item ``Developer Time'' and ``Maintenance Cost'' both deal with recurring costs which should be minimized but should not be the limiting factor in our decision. As such, these will be declared to be twice as important as the previously described criteria and assigned weightings of {\bf 2}.
 \item Finally, ``Code Quality'' is our most important metric. Due to its importance, and since ``Developer Time'' and ``Maintenance Cost'' should be sacrificed somewhat for this metric, it is assigned a weighting equal to the sum of those two metrics, ie. a weighting of {\bf 4}.
 \end{itemize}
 
@@ -135,7 +135,7 @@ For mathematical ease, each of these criteria will be represented on a scale fro
 \centering
 \begin{tabular}{|l|r|r|}
     \hline
-    Criterium & Relative Weighting & Percentage Weighting \\
+    Criterion & Relative Weighting & Percentage Weighting \\
     \hline
     \hline
     Code Quality        &  4 &  40\% \\
@@ -154,7 +154,7 @@ We apply these criteria in table~\ref{tbl:mcdm-cqv} to determine which approach 
 \begin{description}
 \item[Code quality] is applied to the manual, automated, and hybrid systems by determining the subjective quality of the resulting code. The manual approach catches some set of errors which is assigned a score of {\bf 3}. The fully automated approach would likely catch many of the classes of errors the manual approach could catch, but not all (eg. future architectural instabilities), but will also likely catch a few more issues within those classes than humans could: so thus this report assigns this a score of {\bf 2}. Finally, the hybrid approach should catch the union of these sets of issues. Since they are not mutually exclusive sets, the hybrid system is given a score of {\bf 4}.
 \item[Developer time] is determined as follows: the manual approach requires the most developer time and thus is given a score of {\bf 1}. The automated approach involves no developer time and so is given a score of {\bf 5}. Finally, the hybrid approach allows developers to put in less time while still requiring they put in some, and is thus given a score of {\bf 3}.
-\item[Implementation Time] for the manual approach is virtually zero: commonly-used service ssuch as Github have the capability for a manual approach built-in (thus this report assigns a score of {\bf 5}). The automated approach needs to be designed (mostly) from scratch and is thus assigned a score of {\bf 2}. Similarly, the hybrid approach must be designed from scratch, but does not involve quite as many aspects as the fully-automated approach and would thus require a bit less time; this report assigns it a score of {\bf 3}.
+\item[Implementation Time] for the manual approach is virtually zero: commonly-used services such as Github have the capability for a manual approach built-in (thus this report assigns a score of {\bf 5}). The automated approach needs to be designed (mostly) from scratch and is thus assigned a score of {\bf 2}. Similarly, the hybrid approach must be designed from scratch, but does not involve quite as many aspects as the fully-automated approach and would thus require a bit less time; this report assigns it a score of {\bf 3}.
 \item[Maintenance Cost] for the manual approach is virtually zero since there is nothing to maintain other than internal standard guides (score: {\bf 5}). The automated approach, as a semi-complex system, must be maintained over time, especially as new subsystems are added to the project workflow and as standards change, thus a value of {\bf 2} is assigned. Similarly, the hybrid approach must be maintained but should be slightly easier as it involves fewer ``moving parts''; this report thus assigns it a value of {\bf 3}.
 \item[Time Until Merge] is determined as follows: the manual approach takes some amount of time which is assigned to a score of {\bf 3} as a baseline. The automated approach takes ``no'' time and is thus assigned a score of {\bf 5}. The hybrid approach, being somewhere between the two, is assigned a value of {\bf 4}.
 \end{description}
@@ -165,7 +165,7 @@ We apply these criteria in table~\ref{tbl:mcdm-cqv} to determine which approach 
 \centering
 \begin{tabular}{|p{4.0cm}|p{0.65cm}|p{0.5cm}|p{0.5cm}|p{0.8cm}|p{0.8cm}|p{0.45cm}|p{0.45cm}|}
     \hline
-    {\bf Criterium} & {\bf Wt.} & \multicolumn{2}{|p{1cm}|}{{\bf Manual}} & \multicolumn{2}{|p{1.6cm}|}{{\bf \mbox{Automated}}} & \multicolumn{2}{|p{0.9cm}|}{{\bf Hybrid}} \\
+    {\bf Criterion} & {\bf Wt.} & \multicolumn{2}{|p{1cm}|}{{\bf Manual}} & \multicolumn{2}{|p{1.6cm}|}{{\bf \mbox{Automated}}} & \multicolumn{2}{|p{0.9cm}|}{{\bf Hybrid}} \\
     \hline
     \hline
     Code Quality        &  4 & 3 & 12 & 2 &  8 & 4 & 16 \\
@@ -199,7 +199,7 @@ The workflow for Code Quality Verification at TalkIQ, then, is as follows:
 \item CircleCI runs tests on the pull request; if any of these tests fail or take much longer than usual, the developer is notified and returns to step 1.
 \item Coveralls receives test coverage results from CircleCI; if the test coverage is lower across the codebase with this pull request than without it, the developer is notified and returns to step 1.
 \item Codacy runs static analysis on the pull request; if any issues are created by the pull request, the developer is notified and returns to step 1. Additionally, the presence of any of a subset of legacy issues (which had been introduced prior to implementing this process) within any file modified by the developer causes a notification and a return to step 1.
-\item Requires.io runs on any new requirements; if any of these are out-of date or have any relevant issues, the developer is notified. If the issue is deemed important int erms of severity and problem area, the developer returns to step 1. Note that Requires.io performs additional tasks independantly of these pull requests, so only critical issues need to be fixed here as all other issues will be dealt with independantly.
+\item Requires.io runs on any new requirements; if any of these are out-of date or have any relevant issues, the developer is notified. If the issue is deemed important in terms of severity and problem area, the developer returns to step 1. Note that Requires.io performs additional tasks independently of these pull requests, so only critical issues need to be fixed here as all other issues will be dealt with independently.
 \item Finally, the pull request is marked as ``potentially good'' and other developers with experience in this aspect of the system are notified that they should look over the pull request and merge it if they deem it good. If not, they comment on the issues they discover and the pull request author is notified and returns to step 1.
 \end{enumerate}
 
@@ -216,7 +216,7 @@ For either of these options, the deployment plan must then be run. For the manua
 
 We define the criteria for determining which of these systems should be implemented as follows:
 \begin{description}
-\item[Catastrophy recovery] includes chance of recovery, success of recovery, and effort involved in recovery. These three aspects have been combined since they will likely overlap in many key areas. This is among the most important aspects of the system, along with deployment success rate.
+\item[Catastrophe recovery] includes chance of recovery, success of recovery, and effort involved in recovery. These three aspects have been combined since they will likely overlap in many key areas. This is among the most important aspects of the system, along with deployment success rate.
 \item[Deployment success rate] should be maximized. This is among the most important aspects of the system.
 \item[Deployment time] should be minimized, so as to promote deploying code as soon as it is ready instead of leaving features or bugfixes needlessly stuck in the ``ready'' queue.
 \item[Implementation time] should be minimized, but since this cost is only paid once it can be considered minimally important.
@@ -229,7 +229,7 @@ For mathematical ease, each of these criteria will be represented on a scale fro
 \item ``Implementation Time'' is the least important feature and so is assigned a weighting of {\bf 1}.
 \item ``Maintenance cost'' and ``Staff time'' both deal with expended effort which should be minimized but should not be the limiting factor in our decision, nor should system quality be sacrificed to reduce the amount of effort by any small margin. We assign these aspects a value of {\bf 2}.
 \item ``Deployment time'' is slightly more important as it is generally agreed upon that completed development cycles should be delivered as soon as possible after completion. This aspect is thusly assigned a value of {\bf 3}.
-\item ``Deployment success rate'' and ``Catastrophy recovery'' are by far the most important aspects and are thus given a weighting of {\bf 5}.
+\item ``Deployment success rate'' and ``Catastrophe recovery'' are by far the most important aspects and are thus given a weighting of {\bf 5}.
 \end{itemize}
 
 \begin{table}[ht]
@@ -238,10 +238,10 @@ For mathematical ease, each of these criteria will be represented on a scale fro
 \centering
 \begin{tabular}{|l|r|r|}
     \hline
-    Criterium & Relative Weighting & Percentage Weighting \\
+    Criterion & Relative Weighting & Percentage Weighting \\
     \hline
     \hline
-    Catastrophy Recovery    &  5 &  27.78\% \\
+    Catastrophe Recovery    &  5 &  27.78\% \\
     Deployment Success Rate &  5 &  27.78\% \\
     Deployment Time         &  3 &  16.67\% \\
     Implementation Time     &  1 &   5.55\% \\
@@ -256,7 +256,7 @@ For mathematical ease, each of these criteria will be represented on a scale fro
 
 We apply these criteria in table~\ref{tbl:mcdm-rdp} to determine which approach is best. The scores for each approach were calculated as follows:
 \begin{description}
-\item[Catastrophy Recovery] is applied to the two potential systems by determining the subjective chance of recovery from the theoretically ``worst-case deployment''. We assume the manual approach -- which would involve noticing the issue, determining a rollback plan, implementing that plan, determining whether any other problems occurred and hotfixing those, then analyzing the cause of the issue to prevent future issues -- is given a baseline score of {\bf 3}. Then the automated approach -- which would automatically create the rollback plan before deployment, discover the problem instantly after deployment, implement the rollback virtually instantly upon said discovery, not need to worry about issues not covered by the rollback as it should be a theoretically perfect ``undo'' of the deploy, and then notify developers of the issue -- is clearly much better as virtually all steps are automated, theoretically ``perfect'', and performed instantly. We assign the automated system, then, a score of {\bf 5}.
+\item[Catastrophe Recovery] is applied to the two potential systems by determining the subjective chance of recovery from the theoretically ``worst-case deployment''. We assume the manual approach -- which would involve noticing the issue, determining a rollback plan, implementing that plan, determining whether any other problems occurred and hotfixing those, then analyzing the cause of the issue to prevent future issues -- is given a baseline score of {\bf 3}. Then the automated approach -- which would automatically create the rollback plan before deployment, discover the problem instantly after deployment, implement the rollback virtually instantly upon said discovery, not need to worry about issues not covered by the rollback as it should be a theoretically perfect ``undo'' of the deploy, and then notify developers of the issue -- is clearly much better as virtually all steps are automated, theoretically ``perfect'', and performed instantly. We assign the automated system, then, a score of {\bf 5}.
 \item[Deployment Success Rate] is determined as follows: the manual approach requires staff analyze each aspect of the system and determine the best approach for that system, then integrate each of these plans between all systems that must be deployed as well as all dependencies, etc. Though staff eventually become extremely proficient at this process, there is always the chance of human error; as such, the manual approach is given a value of {\bf 4}. The automated approach, on the other hand, performs the same tasks with no chance of human error. It is thusly assigned a value of {\bf 5}.
 \item[Deployment Time] is determined simply: the manual approach requires an extreme amount of developer time plus whatever deployment time the plan requires, and is thus assigned a value of {\bf 2}. The automated system only requires only the latter (plus a negligible amount of machine-time to generate the instruction set) and is thus assigned a value of {\bf 4}.
 \item[Implementation Time] for the automated approach is somewhat long as the system must be designed and developed per the project specifications, systems, and machines; this is assigned a value of {\bf 3}. Similarly, the manual approach requires training many staff members to complete this process and is also assigned a value of {\bf 3}.
@@ -270,10 +270,10 @@ We apply these criteria in table~\ref{tbl:mcdm-rdp} to determine which approach 
 \centering
 \begin{tabular}{|p{5.0cm}|p{0.65cm}|p{0.5cm}|p{0.5cm}|p{0.8cm}|p{0.8cm}|}
     \hline
-    {\bf Criterium} & {\bf Wt.} & \multicolumn{2}{|p{1cm}|}{{\bf Manual}} & \multicolumn{2}{|p{1.6cm}|}{{\bf \mbox{Automated}}} \\
+    {\bf Criterion} & {\bf Wt.} & \multicolumn{2}{|p{1cm}|}{{\bf Manual}} & \multicolumn{2}{|p{1.6cm}|}{{\bf \mbox{Automated}}} \\
     \hline
     \hline
-    Catastrophy Recovery    &  5 & 3 & 15 & 5 & 25 \\
+    Catastrophe Recovery    &  5 & 3 & 15 & 5 & 25 \\
     Deployment Success Rate &  5 & 4 & 20 & 5 & 25 \\
     Deployment Time         &  3 & 2 &  6 & 4 & 12 \\
     Implementation Time     &  1 & 3 &  3 & 3 &  3 \\
@@ -288,13 +288,13 @@ We apply these criteria in table~\ref{tbl:mcdm-rdp} to determine which approach 
 
 As indicated by having the larger ``score'', the automated approach is best. We thus form the middle step of our DevOps system by performing automated code deployments upon success of the previous (code quality verification) step with automated rollbacks and developer notification upon deployment issues.
 
-TalkIQ uses the configuration managment system ``Ansible'' for much of the process described below. For ease of understanding, the instruction set for Ansible which defines tasks required to install, update, re-deploy, rollback, or uninstall any given project is refered to as a ``playbook''~\cite{playbooks}.
+TalkIQ uses the configuration management system ``Ansible'' for much of the process described below. For ease of understanding, the instruction set for Ansible which defines tasks required to install, update, re-deploy, rollback, or uninstall any given project is referred to as a ``playbook''~\cite{playbooks}.
 
 Each project at TalkIQ has a playbook which implements each of these four targets. These playbooks are managed by a central server which can run these playbooks on any machine used in deployment.
 
 Upon being notified of a pull request being merged into our central codebase, this central server begins to execute its tasks:
 \begin{enumerate}
-\item Determine which pull request caused the deployment and if they are any linked pull requests (ie. a pull request in repository X which mentions the requirement that pull resuest Y in repository Z links those two pull requests).
+\item Determine which pull request caused the deployment and if they are any linked pull requests (ie. a pull request in repository X which mentions the requirement that pull request Y in repository Z links those two pull requests).
 \item Recursively analyze the ``update'' targets of each relevant playbook to determine the full list of playbook targets which must be executed.
 \item If any of these projects are involved in the pipeline, determine (by analyzing the playbook of the next project in series) if any projects ``ahead'' in the pipeline must be re-deployed. If so, for each of these projects, add their ``re-deploy'' task to the list of required playbook tasks to-be-executed.
 \item If any of these projects are linked to multiple other projects (eg. a database used by multiple projects), determine whether this change will break any related project. If so, check for any pending deployment of that project. If that deployment fixes the issue, merge the list of tasks generated from analyzing that project's deployment with the current list. If not, or if it has no pending deployments, terminate this deployment and notify the developers of which projects must be fixed to un-block this deployment.
@@ -305,22 +305,22 @@ Upon being notified of a pull request being merged into our central codebase, th
 \item Upon completion of the deployment, read the logs across each machine (including machines not involved in the deployment) for error messages. Upon discovery of any error messages, perform the above steps once more with the ``rollback'' tasks of each playbook instead of the ``update'' tasks. The process is otherwise identical. Then, notify the developers with the error message which were generated by the deployment.
 \end{enumerate}
 
-Clearly, this process implements the automated procedure described above and will result in an always-stable and always-updated production environment resiliant to failure.
+Clearly, this process implements the automated procedure described above and will result in an always-stable and always-updated production environment resilient to failure.
 
 \subsection{Deployment Testing and Verification}
-As this section has been somewhat included in the above seciont ``Release Deployment Planning'' (see the criterion for a rollback outlined at the section end), this report will simply provide an overview of the further aspects which must be considered here and omit the analysis of competing alternatives.
+As this section has been somewhat included in the above section ``Release Deployment Planning'' (see the criterion for a rollback outlined at the section end), this report will simply provide an overview of the further aspects which must be considered here and omit the analysis of competing alternatives.
 
 This section of the DevOps system deals with any aspect of our system which is analyzed post-deployment. This may include the rollback aspects of the above section. Other aspects include the following:
 \begin{itemize}
 \item Perform speed tests, load tests, stability tests, etc on the live deployment (or a mirror of that deployment) of the entire system to determine areas which need improvement, have been recently made worse, etc.
-\item Perform usability tests and other test which involve examining user behaviour to examine interface and user experience changes which should be implemented.
+\item Perform usability tests and other test which involve examining user behavior to examine interface and user experience changes which should be implemented.
 \item Ensure the system is always operational by performing simple tasks in a recurring manner.
 \item Ensure the above is visible to all staff at all times, as well as easy to consume and determine which changes should be made.
 \end{itemize}
 
 TalkIQ determined that the best approach would be an automated system developed mostly in-house.
 
-Each project is given a set of requirements for which is must always fulfil (eg. be operational, perform its role, fit within standard limits for process execution time and machine cycles, etc). These are managed by ``Consul''~\cite{consul} across all deployment machines and are validated every few seconds. Consul runs on a central server which will be uses for all tasks in this section.
+Each project is given a set of requirements for which is must always fulfill (eg. be operational, perform its role, fit within standard limits for process execution time and machine cycles, etc). These are managed by ``Consul''~\cite{consul} across all deployment machines and are validated every few seconds. Consul runs on a central server which will be uses for all tasks in this section.
 
 Upon each deployment as well as once per day, a set of speed, load, and stability tests are executed. Results of these tests, as well as trends, are stored in a central database on the Consul server. Similarly, usability tests are executed at the same frequency and sent to the same database. User interactions are collected as users interact with our software and are periodically sent to this database.
 
@@ -329,7 +329,7 @@ All results of the above systems are collected and presented on an internal dash
 
 
 \section{Conclusion}
-The results of these evaluations conclude that automated approachs to the three analyzed systems are clearly the best options. As such, this solution should be (and was) implemented at TalkIQ.
+The results of these evaluations conclude that automated approaches to the three analyzed systems are clearly the best options. As such, this solution should be (and was) implemented at TalkIQ.
 
 Ultimately, quality of various aspects of the selected system was the largest factor in determining the correct solution. This is a good approach since it is important to place quality over developer time in non-extreme cases.
 
@@ -346,7 +346,7 @@ This report would argue that this DevOps workflow can and should be applied to a
 \item Always-function systems
 \item Instant notification of errors
 \item Reduced developer training and lack of deployment staff
-\item Reduced possiblity and impact of human error
+\item Reduced possibility and impact of human error
 \item Verification that all projects fulfill defined requirements
 \end{itemize}
 
