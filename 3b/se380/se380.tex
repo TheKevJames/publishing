@@ -89,4 +89,41 @@ More formally, a system is linear if a linear combination of inputs outputs a li
 
 Roughly speaking, a system is {\bf time invariant} if its response to a signal doesn't change with time. Mathematically, \[ f(t) \xrightarrow{S} y(t) \implies f(t-T) \rightarrow y(t-T) \]
 
+\subsection{Impulse}
+The {\bf unit impulse} or {\bf Dirae delta function} was inspired by classical mechanics. We notate it as
+\begin{align*}
+m\dot v &= f \\
+\int_{t_1}^{t_2} m\dot v \dd t &= \int_{t_1}^{t_2} f \dd t \\
+mv(t_2) - mv(t_1) &= \int_{t_1}^{t_2} f \dd t
+\end{align*}
+Where the impulse, or change in momentum, is denoted $\displaystyle\int_{t_1}^{t_2} f \dd t$.
+
+Note that impulse doesn't depend on the ``profile'' of $f(t)$, just on the integral $\displaystyle\int_{t_1}^{t_2} f(t)\dd t$.
+
+The unit impulse function represents a finite impulse delivered instantaneously over an interval of length zero. This is physically impossible, but is important as a limiting case.
+
+Intuitively, consider a rectangular pulse of width $\Delta t$. The unit impulse $\delta(t)$ represent sthe ``limiting case'' where $\Delta t \to 0$. Defining propery: the {\bf sifting property}: \[ \int_{-\infty}^\infty f(t) \delta(t) \dd t \]
+
+As $\Delta t$ becomes sufficiently small, we get $f(t) \approx f(0)$ over $\bigl[-\frac{\Delta t}{2}, \frac{\Delta t}{2}\bigl]$. So \[ \int_{-\infty}^\infty f(t) \delta(t) = f(0) \] or more generally \[ \int_{-\infty}^\infty f(t) \delta(t-T) \dd t = f(T) \] The sifting propery, then ``picks out'' the value of $f$ at $t=T$.
+
+Given a linear, time-invariant system, we call the response of the system to an input $f(t) = \delta(t)$ (with zero initial conditions) the {\bf impulse response}.
+
+Example: given an object sliding along a surface with friction (and supposing $f(t) = \delta(t)$), we have
+\begin{align*}
+M\ddot x &= f - b\dot x \\
+M\ddot x + b\dot x &= f \\
+\int_{0^-}^{0^+} (M\ddot x + b\dot x) \dd t &= \int_{0^-}^{0^+} f(t) \dd t \\
+&= \int_{0^-}^{0^+} \delta(t) \dd t \\
+&= \int_{-\infty}^{\infty} \delta(t) \dd t \\
+&= 1 \\
+\int_{0^-}^{0^+} M\ddot x \dd t + \int_{0^-}^{0^+} b\dot x\dd t &= \\
+\int_{0^-}^{0^+} M\ddot x \dd t &= \\
+M\dot x(0^+) - M\dot x(0^-) &= \\
+\dot x(0^+) = \frac{1}{M}
+\end{align*}
+
+Since $\dot x$ remains bounded, we have $x(0^+) = x(0^-)$ and so for $t > 0$, $M\ddot x + b\dot x = 0$ with $\dot x(0^+) = \frac{1}{M}$ and $x(0^+) = 0$.
+
+Let $v = \dot x$. Then $M\dot v + bv = 0$ and for $t > 0$, $v(t) = \frac{1}{M} e^{-\frac{b}{M} t}$.
+
 \end{document}
