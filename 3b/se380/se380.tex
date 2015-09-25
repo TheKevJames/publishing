@@ -90,7 +90,7 @@ More formally, a system is linear if a linear combination of inputs outputs a li
 Roughly speaking, a system is {\bf time invariant} if its response to a signal doesn't change with time. Mathematically, \[ f(t) \xrightarrow{S} y(t) \implies f(t-T) \rightarrow y(t-T) \]
 
 \subsection{Impulse}
-The {\bf unit impulse} or {\bf Dirae delta function} was inspired by classical mechanics. We notate it as
+The {\bf unit impulse} or {\bf Dirac delta function} was inspired by classical mechanics. We notate it as
 \begin{align*}
 m\dot v &= f \\
 \int_{t_1}^{t_2} m\dot v \dd t &= \int_{t_1}^{t_2} f \dd t \\
@@ -125,5 +125,33 @@ M\dot x(0^+) - M\dot x(0^-) &= \\
 Since $\dot x$ remains bounded, we have $x(0^+) = x(0^-)$ and so for $t > 0$, $M\ddot x + b\dot x = 0$ with $\dot x(0^+) = \frac{1}{M}$ and $x(0^+) = 0$.
 
 Let $v = \dot x$. Then $M\dot v + bv = 0$ and for $t > 0$, $v(t) = \frac{1}{M} e^{-\frac{b}{M} t}$.
+
+% TODO: MISSING
+
+The last equation expresses $f$ as a linear combination of unit impulses. Suppose it is the input to an LTI system $S$ and that the impulse response of the system is $g(t)$. The response to $\delta(t-\tau)$ is then $g(t-\tau)$.
+
+The response of $S$ to $f(\tau)\delta(t-\tau)$ is $f(\tau)g(t-\tau)$ by linearity. Finally, the response to $\displaystyle\int_{-\infty}^\infty f(\tau)\delta(t-\tau) \dd\tau$ is $\displaystyle\int_{-\infty}^\infty f(\tau)g(t-\tau) \dd\tau$ (also by linearity).
+
+So for any LTI system with impulse response $g(t)$, the response to an arbitrary input $f(t)$ is \[ y(t) = \int_{\infty}^\infty f(\tau)g(t-\tau) \dd\tau \] the convolution of $f$ and $g$. Note that convolution is symmetric, ie. $f * g = g * f$.
+
+\subsection{Exponential Inputs}
+Let $S$ be an LTI system and let its input be $f(t) = e^{st}$, giving us $y(t) = Se^{st}$. Given a shift in time, we have $y(t-\tau) = Se^{s(t-\tau)}$ by time-invariance.
+
+Then
+\begin{align*}
+y(t-\tau) &= e^{-st}y(t) \\
+y(0) &= e^{-st} y(t), \forall t = \tau \\
+y(t) &= y(0)e^{st}
+\end{align*}
+
+Exponential signals, then, are ``eigenfunctions'' of LTI functions.
+
+By the convolution integral,
+\begin{align*}
+y(t) &= \int_{-\infty}^\infty h(\tau) f(t-\tau) \dd\tau \\
+&= e^{st} \int_{-\infty}^\infty h(\tau) e^{-st} \dd\tau \\
+&= e^{st} H(s)
+\end{align*}
+where $h$ is the impulse reponse of $f$ and $f(t) = e^{st}$.
 
 \end{document}
