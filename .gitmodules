@@ -7,3 +7,6 @@
 [submodule "3a/se465/assignment/pipair"]
 	path = 3a/se465/assignment/pipair
 	url = git@github.com:TheKevJames/pipair.git
+[submodule "3b/se390/assignment/capstone"]
+	path = 3b/se390/assignment/capstone
+	url = git@github.com:thekevjames/capstone.git
