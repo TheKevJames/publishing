@@ -1,39 +1,59 @@
-all: highschool 1a 1b 2a 2b 3a 3b wkrpt
+SUBDIRS := $(wildcard */.)
+
+CC_FLAGS :=
+CXX_FLAGS := -g -Wall -Wextra
 
 
-highschool:
-	make -C highschool
+all: build
 
-1a:
-	make -C 1a
 
-1b:
-	make -C 1b
+.SUFFIXES:
+.SUFFIXES: .c .cc .class .cpp .dot .java .o .pdf .png .tex
 
-2a:
-	make -C 2a
+.c.o:
+	${CC} $(CC_FLAGS) -c $<
 
-2b:
-	make -C 2b
+.cc.o:
+	${CXX} $(CXX_FLAGS) -c $<
 
-3a:
-	make -C 3a
+.cpp.o:
+	${CXX} $(CXX_FLAGS) -c $<
 
-3b:
-	make -C 3b
+.dot.png:
+	dot -Tpng $< -o $^
 
-wkrpt:
-	make -C wkrpt
+.java.class:
+	javac $^
 
+.tex.pdf:
+	pdflatex $^
+	pdflatex $^
+
+
+build:
+	for dir in $(SUBDIRS); do \
+		make -C $$dir; \
+	done
+
+test:
+	for dir in $(SUBDIRS); do \
+		make -C $$dir test; \
+	done
 
 clean:
-	make -C highschool clean
-	make -C 1a clean
-	make -C 1b clean
-	make -C 2a clean
-	make -C 2b clean
-	make -C 3a clean
-	make -C wkrpt clean
+	for dir in $(SUBDIRS); do \
+		make -C $$dir clean; \
+	done
 
+	rm -rf *.dSYM
+	rm -f *.aux
+	rm -f *.class
+	rm -f *.fdb_latexmk
+	rm -f *.fls
+	rm -f *.log
+	rm -f *.o
+	rm -f *.out
+	rm -f *.pdf
+	rm -f *.toc
 
-.PHONY: highschool ml229 1a 1b 2a 2b 3a wkrpt
+.PHONY: all build clean test $(SUBDIRS)
