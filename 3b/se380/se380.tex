@@ -154,4 +154,18 @@ y(t) &= \int_{-\infty}^\infty h(\tau) f(t-\tau) \dd\tau \\
 \end{align*}
 where $h$ is the impulse reponse of $f$ and $f(t) = e^{st}$.
 
+If we have $y(t) = G(s)e^{st}$, $G(s)$ is the Laplace transform of the impulse response; ie. the {\bf transfer function}. If $s = j\omega$, then $e^{st} = e^{j\omega t} = \cos\omega t + j\sin\omega t$, so we have an imaginary frequency response $G(j\omega)$.
+
+So, by definition, we have \[ G(j\omega) = \bigl| G(j\omega) \bigl| e^{j\angle G(j\omega)} \]
+
+\section{Modelling}
+To model a system, we:
+\begin{enumerate}
+\item Apply relevant physical laws, giving us a system of differential equations
+\item Linearize, giving us a system of linear differential equations
+\item Take Laplace transforms with initial consitions set to zero, giving us a set of linear algebraic equations
+\item Solve for output in terms of input, giving us a transfer function
+\item Experiment to estimate the parameters
+\end{enumerate}
+
 \end{document}

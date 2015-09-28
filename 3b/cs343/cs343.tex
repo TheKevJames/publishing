@@ -165,14 +165,14 @@ A destructor can raise an exception, but this will cause errors if the exception
 \begin{verbatim}
 struct E {};
 struct C {
-  ~C() { throw E(); }
+    ~C() { throw E(); }
 }
 
 try {
-  C x;
-  throw E();
+    C x;
+    throw E();
 } catch (E) {
-  // ...
+    // ...
 }
 \end{verbatim}
 this would not have caused issues without the \code{throw()} within the \code{try-catch}.
@@ -185,5 +185,16 @@ So long as a resumption handler remains on the stack, it may not be reused until
 To implement any dynamic propogation system, the \code{raise} must know the last guarded block with a handler for the raised exception type.
 
 One approach is to do a lot of fuckery with labels, setting and resetting them upon entering or leaving a block. For termination, though, a direct transfer is often impossible anyway since activations on the stack may contain objects with destructors or finalizers. Resetting these labels are exepnsive, so the labels are often stored in the \code{catch}/destructor data within each block and the handler is found by linear search during a tack walk (with no direct transfer taking place). These are often implemented using that expensive approach on raise and zero cost on guarded-block entry, to improve overall efficiency.
+
+% TODO: missing
+
+\section{Coroutines}
+% TODO: missing
+
+\subsection{Semi-Coroutines}
+% TODO: missing
+
+\subsection{Full Coroutines}
+{\bf Full Coroutines} have resume cycles. A full corotuine is allowed to perform semi-coroutine operations because it subsumes the notion of a semi-routine. We can think of standard routines as a linear path through our stack and semi-cortouines as a branching structure. A full coroutine, then, is a branch structure with occasional loopbacks.
 
 \end{document}
