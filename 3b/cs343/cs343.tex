@@ -197,4 +197,21 @@ One approach is to do a lot of fuckery with labels, setting and resetting them u
 \subsection{Full Coroutines}
 {\bf Full Coroutines} have resume cycles. A full corotuine is allowed to perform semi-coroutine operations because it subsumes the notion of a semi-routine. We can think of standard routines as a linear path through our stack and semi-cortouines as a branching structure. A full coroutine, then, is a branch structure with occasional loopbacks.
 
+\subsection{Raising}
+We can either \code{throw} or \code{resume} when we want to raise an exception. Either acts as a rethrow or reresume (respectively) when no exception type is specified. Optionally, we can throw to other stacks, eg. with $\mu$cpp's \code{\_At} clause.
+
+\subsubsection{Nonlocal Exceptions}
+Local exceptions within a coroutine are the same as for exceptions within a routine or class, with one nonlocal difference: an unhandled exception raised by a coroutine raises a nonlocal exception of type \code{BaseCoroutine::UnhandledException} at the coroutine's last resumer and then terminates the coroutine. Note that nonlocal exception delivery is initially disabled for a coroutine -- it must be explicitely enabled at compile-time with the \code{\_Enable} block.
+
+\section{Concurrency}
+A {\bf thread} is an independant sequential execution path through a program. Each thread is scheduled and executed independantly from other threads.
+
+A {\bf process} is a program componenbt such as a routine which has its own thread and the same state information as a coroutine.
+
+A {\bf task} is similar to a process except that it is reduced along some dimension -- it is often the case that a process has its own memor, while tasks share common memory. We sometimes refer to tasks as {\bf Light-Weight Processes} (LWPs).
+
+{\bf Parallel execution} is when two or more operations occur simultaneously, which can only occur when multiple processors are present.
+
+{\bf Concurrent execution} is any situation in which execution of multiple threads \textit{appears} to be performed in parallel. It is the threads of control associated with processes and tasks that results in concurrent execution.
+
 \end{document}
