@@ -214,4 +214,10 @@ A {\bf task} is similar to a process except that it is reduced along some dimens
 
 {\bf Concurrent execution} is any situation in which execution of multiple threads \textit{appears} to be performed in parallel. It is the threads of control associated with processes and tasks that results in concurrent execution.
 
+\subsection{Concurrent Hardware}
+Concurrent thread execution possible with a uniprocessor using {\bf multitasking} and {\bf multiprocessing}. Parallelism is imulated through context switching. Unlike coroutines, task switching may occur at non-deterministic program locations, includeing between any two machine instructions. This introduces virtually all the difificulties in concurrent programs: concurrent programs must be written to work properly regardless of non-deterministic ordering of program execution.
+
+\subsection{Concurrent Systems}
+There are three major types of concurrent systems: systems with {\bf explicit} constructs, {\bf implicit} constructs, or those which attempt to discover concurrency in otherwise sequential programs. Note that the latter two types are built upon the first.
+
 \end{document}
