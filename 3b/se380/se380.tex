@@ -10,6 +10,9 @@
 }
 \setcounter{secnumdepth}{5}
 
+\newcommand{\laplace}[1]{\ensuremath{\mathcal{L} \{#1\}}}
+\newcommand{\invlaplace}[1]{\ensuremath{\mathcal{L}^{-1} \{#1\}}}
+
 \begin{document}
 
 \title{SE 380 --- Introduction to Feedback Control}
@@ -167,5 +170,32 @@ To model a system, we:
 \item Solve for output in terms of input, giving us a transfer function
 \item Experiment to estimate the parameters
 \end{enumerate}
+
+\section{Responses}
+We can relate responses to the positions of poles of transfer functions on the s-plane. Note that poles are the roots of the denominator of the transfer function. Given \[ \frac{Y(s)}{R(s)} = \frac{C(s)P(s)}{1 + C(s)P(s)} \] the control designer can choose $C(s)$ as a root and therefore influence the poles of $\frac{Y(s)}{R(s)}$.
+
+A standard first order system is denoted as \[ G(s) = \frac{K}{s\tau + 1} \] because the polynomial is of degree one (ie. there is only a single pole). The impulse reponse of this function is
+\begin{align*}
+y(t) &= \invlaplace{G(s) \times 1} \\
+&= \invlaplace{\frac{K}{s\tau + 1}} \\
+&= \invlaplace{\frac{\frac{K}{\tau}}{s + \frac{1}{\tau}}} \\
+&= \frac{K}{\tau} \invlaplace{\frac{1}{s+\frac{1}{\tau}}} \\
+&= \frac{K}{\tau} e^{-\frac{t}{\tau}} u(t)
+\end{align*}
+
+Recall that \[ \laplace{e^{-at} u(t)} = \frac{1}{s + a} \] and \[ \laplace{e^{-at} f(t)} = F(s + a) \] Note that you can clearly derive the former from the latter.
+
+The closer the pole $-\frac{1}{\tau}$ is to the imaginary axis, the slower the response.
+
+Given the step response
+\begin{align*}
+y(t) &= \invlaplace{G(s) \times \frac{1}{s}} \\
+&= \invlaplace{\frac{K}{s(s\tau + 1)}} \\
+&= K(1 - e^{-\frac{t}{\tau}}) u(t)
+\end{align*}
+
+It is always the case that the step response is the integral of the impulse response (by the integration of the laplace transform).
+
+A standard first-order system with time constant $\frac{\tau}{1 + K_c K}$ and dc gain $\frac{K}{1 + K_c K}$ has \[ \frac{Y(s)}{R(s)} = \frac{\frac{K_c K}{1 + K_c K}}{s\frac{\tau}{1 + K_c K} + 1} \]
 
 \end{document}
