@@ -198,4 +198,29 @@ It is always the case that the step response is the integral of the impulse resp
 
 A standard first-order system with time constant $\frac{\tau}{1 + K_c K}$ and dc gain $\frac{K}{1 + K_c K}$ has \[ \frac{Y(s)}{R(s)} = \frac{\frac{K_c K}{1 + K_c K}}{s\frac{\tau}{1 + K_c K} + 1} \]
 
+A standard second-rder system is of the form \[ H(s) = \frac{\omega n^2}{s^2 + 2\zeta \omega_n s + \omega_n^2} \] Where $\omega_n$ is the natural frquency and $\zeta$ is the damping ratio.
+
+We'll look at the case where $0 < \zeta < 1$ (the system is {\bf underdamped}). The impulse response is
+\begin{align*}
+y(t) &= \invlaplace{H(s) \times 1} \\
+&= \frac{\omega_n}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin\omega_n\sqrt{1 - \zeta^2} t
+\end{align*}
+and the step response is its integral
+\begin{align*}
+y(t) &= \invlaplace{H(s) \times \frac{1}{s}} \\
+&= 1 - \frac{1}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin(\omega_n\sqrt{1 - \zeta^2} t + \theta)
+\end{align*}
+where $\theta = \cos^{-1} \zeta$. Thus the steady-state response is 1.
+
+The poles of this system are
+\begin{align*}
+s &= \frac{-2\zeta\omega_n \pm \sqrt{4\zeta^2\omega_n^2 - 4\omega_n^2}}{2} \\
+&= -\zeta\omega_n \pm \omega_n\sqrt{\zeta^2- 1} \\
+&= -\zeta\omega_n \pm j\omega_n\sqrt{1 - \zeta^2}
+\end{align*}
+
+The larger the $\omega_n$, the faster the responses. The larger the $\theta$, the smaller the $\zeta$ and the more oscillating the response is.
+
+The {\bf settling time} is the earliest time after which the step response remains within a certain percentage of $y$ (eg. $T(5\%)$).
+
 \end{document}
