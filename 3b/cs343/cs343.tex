@@ -244,4 +244,34 @@ An arbiter is a full-time task which controls entry to critical sections. This t
 \subsection{Hardware Solutions}
 There also exist hardware solutions to this problem. These solutions cheat by making assumptions about execution (eg. y controlling order and speed of execution). This allows the elimination of much of the shared information and the checking required in the software solution. Generally, this is done by providing special atomic operations. This is sufficient for multitasking on a single CPU.
 
+\section{Locking Mechanisms}
+Locks may either yield or not, and may either spin or not (block). Any type of lock can be used for either synchronization or mutual exclusion.
+
+\subsection{Spin Locks}
+A spin lock must watch the lock to see when it is opened, within the process that is blocked.
+
+Some spin-locks are adaptive in spin time, though most spin locks allow for possible task starvation. A spin lock may be most appropriate when there is no other work to do.
+
+\subsection{Blocking Locks}
+An acquiring task makes only one check for open lock and blocks. The \textit{releasing} task has the sole responsibility for detecting blocked acquirers and transferring the lock (or simply releasing it if there are no blocked processes).
+
+Blocking locks reduce busy-waiting through cooperation. This improves speed, but leaves tasks in a zombie state if they are not woken up by the foreign process.
+
+Note that blocking locaks require logic for selecting which task to wake up.
+
+\subsection{Mutex Locks}
+A mutex lock is used only for mutual exclusion. By restricting its usage, we can optimize it to the task;
+
+A {\bf single acquisition} mutex lock may only be acquired once. A {\bf multiple acquisition} mutex lock can be acquired multiple times (from the same owner); we also call these owner locks. Multiple acquisition locks are very useful for recursive calls.
+
+A specializied multiple acquisition lock for IO is called a {\bf stream lock}.
+
+\subsection{Synchronization Locks}
+These are the weakest form of blocking locks since they are stateless (other than the list of blocked tasks). Acquiring this lock always blocks and the release is lost when no other threads are waiting.
+
+\section{Buffering}
+Tasks communicate unidirectionally through a queue; the producer adds items, the consumer removes them.
+
+An {\bf unbounded buffer} allow the producer to produce indefinitely, as the queue never fills up. A counting semaphore can control access to this shared queue.
+
 \end{document}

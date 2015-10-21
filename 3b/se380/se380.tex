@@ -221,6 +221,16 @@ s &= \frac{-2\zeta\omega_n \pm \sqrt{4\zeta^2\omega_n^2 - 4\omega_n^2}}{2} \\
 
 The larger the $\omega_n$, the faster the responses. The larger the $\theta$, the smaller the $\zeta$ and the more oscillating the response is.
 
+The {\bf peak time} is the time a system takes to reach the first response peak and is inversely proportional to the imaginary part of the poles
+
+The impulse response is zero if and only if \[ \omega_n \sqrt{1 - \zeta^2} t = 0, \pi, 2\pi \] which implies \[ Tp = \frac{\pi}{\omega_n \sqrt{1 - \zeta^2}} \] where $\omega_n \sqrt{1 - \zeta^2}$ is the imaginary part of the poles.
+
 The {\bf settling time} is the earliest time after which the step response remains within a certain percentage of $y$ (eg. $T(5\%)$).
+
+We have \[ y(t) = \bigl[ 1 - \frac{1}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin(\omega_n \sqrt{1 - \zeta^2} t + \theta) \bigl] u_{-1}(t) \] To approximate $Ts$, it suffices to focus on $e^{-\zeta\omega_n t}$.
+
+Thus we have \[ e^{-\zeta\omega_n t} \approx 0.05 \iff \zeta\omega_n t = 3 \implies Ts(5\%) \approx \frac{3}{\zeta\omega_n} \] and \[ e^{-\zeta\omega_n t} \approx 0.02 \iff \zeta\omega_n t = 4 \implies Ts(2\%) \approx \frac{4}{\zeta\omega_n} \] These are good approximations for typical values of $\zeta$.
+
+We generally aim for $\zeta \leq 0.7$ (these settling time formulas are only reasonable when $\zeta < 1$.
 
 \end{document}
