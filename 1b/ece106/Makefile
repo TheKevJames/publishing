@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build ece106.pdf
+all: ece106.pdf

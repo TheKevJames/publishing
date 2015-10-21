@@ -31,20 +31,12 @@ all: build
 
 
 build:
-	for dir in $(SUBDIRS); do \
-		make -C $$dir; \
-	done
+	for dir in $(SUBDIRS); do  make -C $$dir; done
 
 test:
-	for dir in $(SUBDIRS); do \
-		make -C $$dir test; \
-	done
+	for dir in $(SUBDIRS); do make -C $$dir test; done
 
 clean:
-	for dir in $(SUBDIRS); do \
-		make -C $$dir clean; \
-	done
-
 	rm -rf *.dSYM
 	rm -f *.aux
 	rm -f *.class
@@ -55,5 +47,7 @@ clean:
 	rm -f *.out
 	rm -f *.pdf
 	rm -f *.toc
+
+	for dir in $(SUBDIRS); do make -C $$dir clean; done
 
 .PHONY: all build clean test $(SUBDIRS)

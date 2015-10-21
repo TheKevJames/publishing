@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build earth121.pdf
+all: earth121.pdf

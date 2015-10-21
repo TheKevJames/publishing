@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build cs240.pdf
+all: cs240.pdf

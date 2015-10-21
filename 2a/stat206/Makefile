@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build stat206.pdf
+all: stat206.pdf

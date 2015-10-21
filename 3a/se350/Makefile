@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build se350.pdf
+all: se350.pdf

@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build math117.pdf
+all: math117.pdf

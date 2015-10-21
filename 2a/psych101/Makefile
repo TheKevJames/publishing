@@ -1,4 +1,4 @@
 include ../../Makefile
 
 
-all: build psych101.pdf
+all: psych101.pdf
