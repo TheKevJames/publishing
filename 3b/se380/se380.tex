@@ -233,4 +233,16 @@ Thus we have \[ e^{-\zeta\omega_n t} \approx 0.05 \iff \zeta\omega_n t = 3 \impl
 
 We generally aim for $\zeta \leq 0.7$ (these settling time formulas are only reasonable when $\zeta < 1$.
 
+If some of the poles are much closer (5 to 10 times) to the imaginary axis than the others, they are considered {\bf dominant}.
+
+The real exponentials in the responses have always features the real parts of the poles, eg $e^{-\zeta\omega_n t}$. These are decaying exponentials if and only if the real parts of the poles are negative.
+
+We say that a single-output system is BIBO stable ifits output is bounded whenever its input is.
+
+Theorem: An LLTI system with transfer function $G(s)$ is BIBO stable if and only if $G(s)$ is stable and proper.
+
+$G(s)$ is {\bf stable} if all of its poles lie in $\mathbb{Re}(s) < 0$ (all the poles lie to the left of the imaginary axis).
+
+A rational transfer function $G(s)$ is {\bf proper} if the degree of the numerator polynomial is less than or equal to that of the denominator. $G(s)$ is {\bf strictly proper} if the degree of the numerator is strictly less than that of the denominator.
+
 \end{document}
