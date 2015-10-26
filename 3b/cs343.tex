@@ -274,4 +274,44 @@ Tasks communicate unidirectionally through a queue; the producer adds items, the
 
 An {\bf unbounded buffer} allow the producer to produce indefinitely, as the queue never fills up. A counting semaphore can control access to this shared queue.
 
+\section{Barrier}
+A {\bf barrier} coordinates a group of tasks performing a concurrent operation surrounded by sequential operations. It specifies the start and (optionally) end times of all tasks, ie.
+\begin{verbatim}
+Barrier start(n), end(n);
+
+start.block(); // wait for threads to start
+// work
+end.block(); // wait for threads to end
+\end{verbatim}
+
+A barrier can be used only for synchronization, not mutual exclusion. Unlike previous synch locks, a barrier retains state information as well as the number of tasks blocked on it. The below case ensures that \code{S1}, \code{S2}, and \code{S3} occur before \code{S5}, \code{S6}, and/or \code{S7}.
+\begin{verbatim}
+Barrier b(3);
+
+T1::main() {
+  S1;
+  b.block();
+  S5;
+}
+
+T2::main() {
+  S2;
+  b.block();
+  S6;
+}
+
+T3::main() {
+  S3;
+  b.block();
+  S7;
+}
+\end{verbatim}
+
+\subsection{Semaphores}
+\subsubsection{Binary}
+A {\bf binary semaphore} is a blocking equivalent to a yielding spin-lock. It can provide both synchronization and mutual exclusion. This more powerful than either a synch lock or a mutex lock. Uses \code{lock.P()} to acquire and \code{lock.V()} to release. \code{lock.acquire()} waits until the semaphore is zero, then decrements it.
+
+\subsubsection{Counting}
+A {\bf counting semaphore} allows multi-values semaphores to have arbitrary states (besides open and closed). This allows for $n$ simultaneous tasks. We can augments \code{V} to allow increasing the counter an arbitrary amount.
+
 \end{document}

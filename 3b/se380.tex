@@ -245,4 +245,8 @@ $G(s)$ is {\bf stable} if all of its poles lie in $\mathbb{Re}(s) < 0$ (all the 
 
 A rational transfer function $G(s)$ is {\bf proper} if the degree of the numerator polynomial is less than or equal to that of the denominator. $G(s)$ is {\bf strictly proper} if the degree of the numerator is strictly less than that of the denominator.
 
+The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-plane (i.e., in $\mathbb{Re} \geq 0$), except possible a single pole at $s = 0$, then \[ \lim_{t\to\infty} e(t) = \lim_{s\to 0} eE(s) \] where $e(t)$ is the steady-state error.
+
+We call $K_p = \lim_{s\to 0} C(s) P(c)$ the {\bf position error constant}.
+
 \end{document}
