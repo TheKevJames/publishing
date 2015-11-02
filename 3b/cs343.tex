@@ -311,7 +311,36 @@ T3::main() {
 \subsubsection{Binary}
 A {\bf binary semaphore} is a blocking equivalent to a yielding spin-lock. It can provide both synchronization and mutual exclusion. This more powerful than either a synch lock or a mutex lock. Uses \code{lock.P()} to acquire and \code{lock.V()} to release. \code{lock.acquire()} waits until the semaphore is zero, then decrements it.
 
+A {\bf split binary semaphore} is a collection of semaphores within which at most one in the collection has the value 1. This can be used when different kinds of tasks have to block seperately. This gives us the ability to unblock a specific kind of task and to collectively manage multiply semaphores in a more simple way.
+
 \subsubsection{Counting}
 A {\bf counting semaphore} allows multi-values semaphores to have arbitrary states (besides open and closed). This allows for $n$ simultaneous tasks. We can augments \code{V} to allow increasing the counter an arbitrary amount.
+
+\section{Freshness}
+In addition to the five rules, we must ensure {\bf freshness} / {\bf staleness}. This involves ensuring no reader (in a reader-writer problem) reads data written after it arrived (too fresh) or reads data from the past (too stale). This is generally a problem when we have split waiting queues; the solution is generally to combine those queues into a single priority queue, use cooperation to wake groups of two tasks at a time, then have the second wait in a higher-priority single-node queue if the second and first are not of the same type.
+
+\section{Concurrent Errors}
+\subsection{Race Conditions}
+A {\bf race condition} occurs when we miss some instances of either mututal exclusion or synchronizatoin; two more tasks race along assuming synchronization or mutual exclusion is guaranteed -- but it is not.
+
+\subsection{No Progress}
+\subsubsection{Live Lock}
+If we have a {\bf live lock}, there is indefinite postponement. This is caused by poor scheduling in the entry protocol. There always exists some mechanism to break the tie on simultaneous arrival that deals effectively with live-lock.
+
+\subsubsection{Starvation}
+A selection algorithm ignores one or more tasks so they are never executed, ie. a lack of long-term fairness. Infinite starvation is extremely rare, but short-term starvation can occur and may be enough of a problem. Like live-lock, starving taks might be ready at any time, switching among action and blocked.
+
+\subsubsection{Deadlock}
+A {\bf deadlock} is the state when one or more prcesses are waiting for an event that will not (and \textit{can not} occur).
+
+A {\bf synchronization deadlock} is a failure in cooperation, so a blocked task is never unblocked (stuck waiting forever). For example
+\begin{verbatim}
+void uMain::main() {
+  uSemaphore s(0);
+  s.P();
+}
+\end{verbatim}
+
+A {\bf mutual exclusion deadklock} is the failure to acquire a resource protected by mutual exclusion. This is a deadlock unless one (or more) of the tasks backs away from the lock.
 
 \end{document}

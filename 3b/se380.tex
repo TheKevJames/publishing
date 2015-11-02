@@ -249,4 +249,11 @@ The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-p
 
 We call $K_p = \lim_{s\to 0} C(s) P(c)$ the {\bf position error constant}.
 
+\subsection{The Stability Theorem}
+Let $C = \frac{N_C}{D_C}$ (and the same for $P$ and $F$) which are ratios of coprime polynomials. Then $D_CD_PD_F + N_CN_PN_F$ is the characteristic polynomial of the system.
+
+Suppose C, P, and F are proper and $CPF$ is strictly proper. Then the feedback is BIBO stable if and only if the chip has no roots in $\mathbb{Re}(s) \geq 0$.
+
+Alternatively, if C, P, and F are proper and $CPF$ is strictly proper, the feedback system if BIBO stable if and only if $1 + CPF$ has no roots in $\mathbb{Re}(s) \geq 0$ and $CPF$ has no pole-zero cancellations in $\mathbb{Re}(s) \geq 0$.
+
 \end{document}
