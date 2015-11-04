@@ -249,11 +249,37 @@ The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-p
 
 We call $K_p = \lim_{s\to 0} C(s) P(c)$ the {\bf position error constant}.
 
-\subsection{The Stability Theorem}
+\subsection{The Fundamental Stability Theorem}
 Let $C = \frac{N_C}{D_C}$ (and the same for $P$ and $F$) which are ratios of coprime polynomials. Then $D_CD_PD_F + N_CN_PN_F$ is the characteristic polynomial of the system.
 
 Suppose C, P, and F are proper and $CPF$ is strictly proper. Then the feedback is BIBO stable if and only if the chip has no roots in $\mathbb{Re}(s) \geq 0$.
 
 Alternatively, if C, P, and F are proper and $CPF$ is strictly proper, the feedback system if BIBO stable if and only if $1 + CPF$ has no roots in $\mathbb{Re}(s) \geq 0$ and $CPF$ has no pole-zero cancellations in $\mathbb{Re}(s) \geq 0$.
+
+\subsection{The Ruth-Horowitz Theorem}
+Given a polynomial $Q(s) = a_ns^n + a_{n-1}s^{n-1} + \dots + a_o$, we construct the table
+\begin{table}[ht]
+\centering
+  \begin{tabular}{r|llll}
+  $n$     & $a_n$     & $a_{n-2}$ & $a_{n-4}$ & \dots \\
+  $n - 1$ & $a_{n-1}$ & $a_{n-3}$ & $a_{n-5}$ & \dots \\
+  $n - 2$ & $b_{n-2}$ & $b_{n-4}$ & $b_{n-6}$ & \dots \\
+  $n - 3$ & $c_{n-3}$ & $c_{n-5}$ & \dots     & \dots \\
+  \dots   & \dots     & \dots     & \dots     & \dots \\
+  \end{tabular}
+\end{table}
+where
+\begin{align*}
+b_{n-2} &= \frac{-1}{a_{n-1}} \begin{vmatrix} a_n & a_{n-2} \\ a_{n-1} & a_{n-3} \end{vmatrix} \\
+b_{n-4} &= \frac{-1}{a_{n-1}} \begin{vmatrix} a_n & a_{n-4} \\ a_{n-1} & a_{n-5} \end{vmatrix} \\
+c_{n-3} &= \frac{-1}{b_{n-2}} \begin{vmatrix} a_n & a_{n-3} \\ b_{n-2} & b_{n-4} \end{vmatrix} \\
+c_{n-5} &= \frac{-1}{b_{n-2}} \begin{vmatrix} a_n & a_{n-5} \\ b_{n-2} & b_{n-6} \end{vmatrix} \\
+\end{align*}
+
+We also fill it in with zeroes as necessary.
+
+The roots of $Q(s)$ all lie in the ``open left half-plane'' $\mathbb{Re}(s) < 0$ if and only if all elements of the first column of the Routh Table are non-zero and have the same sign. A necessary condition for all roots to lie in $\mathbb{Re}(s) < 0$ is that all the coefficients of the polynomial are nonzero and have the same sign.
+
+There's generally a trade-off between steady-state performance and transient performance stability. The variation of the roots of the characteristic polynomial with $K$ is shown by the {\bf root locus}.
 
 \end{document}

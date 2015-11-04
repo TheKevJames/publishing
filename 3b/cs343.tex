@@ -220,10 +220,17 @@ Concurrent thread execution possible with a uniprocessor using {\bf multitasking
 \subsection{Concurrent Systems}
 There are three major types of concurrent systems: systems with {\bf explicit} constructs, {\bf implicit} constructs, or those which attempt to discover concurrency in otherwise sequential programs. Note that the latter two types are built upon the first.
 
-% MISSING
-
 \subsection{Mutual Exclusion}
 Is it possible to write code guaranteeing a statement is always serially executed by 2 threads? Yes, Dekker could do it!
+
+To design a successful mutual exclusion section, we must ensure
+\begin{enumerate}
+\item Only one thread can be in a critical section at a time with respect to a particular object (safety).
+\item Threads may run at arbitrary speed and in arbitrary order, while the underlying system guarantees a thread makes progress (i.e., threads get some CPU time).
+\item If a thread is not in the entry or exit code controlling access to the critical section, it may not prevent other threads from entering the critical section.
+\item In selecting a thread for entry to a critical section, a selection cannot be postponed indefinitely (liveness). Not satisfying this rule is called indefinite postponement or livelock.
+\item After a thread starts entry to the critical section, it must eventually enter. Not satisfying this rule is called starvation.
+\end{enumerate}
 
 \subsubsection{Dekker's Algorithm}
 Dekker's algorithm is not read-write safe, though an RW-safe version exists. The algorithm also has unbounded overtaking (not starvation) because the race losed retracts intent (this is allowed - we do not prevent entry to the critical section by the delayed thread). A thread exiting the critical section does not exclude itself for reentry.
@@ -333,6 +340,15 @@ A selection algorithm ignores one or more tasks so they are never executed, ie. 
 \subsubsection{Deadlock}
 A {\bf deadlock} is the state when one or more prcesses are waiting for an event that will not (and \textit{can not} occur).
 
+There are five conditions which must occur to cause a deadlock:
+\begin{enumerate}
+\item there exists more than one shared resource requiring mututal exclusion
+\item a process holds a resource while waiting for access to a resource held by another process (hold and wait)
+\item once a process has gained access to a resource, the runtime system cannot get it back (no preemption)
+\item there exists a circulay wait of processes on resources
+\item these conditions must occur simultaneously
+\end{enumerate}
+
 A {\bf synchronization deadlock} is a failure in cooperation, so a blocked task is never unblocked (stuck waiting forever). For example
 \begin{verbatim}
 void uMain::main() {
@@ -341,6 +357,21 @@ void uMain::main() {
 }
 \end{verbatim}
 
-A {\bf mutual exclusion deadklock} is the failure to acquire a resource protected by mutual exclusion. This is a deadlock unless one (or more) of the tasks backs away from the lock.
+A {\bf mutual exclusion deadlock} is the failure to acquire a resource protected by mutual exclusion. This is a deadlock unless one (or more) of the tasks backs away from the lock.
+
+\subsection{Deadlock Prevention}
+Eliminate one or more conditions to ensure a deadlock is impossible.
+
+\subsubsection{Synchronization Prevention}
+Eliminate all synhronization (communication). Tasks must then be completely independant and generate results only through side-effects.
+
+\subsubsection{Mutual Exclusion Prevention}
+Deadlock can be prevented by eliminating any one of these conditions:
+\begin{itemize}
+\item No mututal exclusion.This is often impossible.
+\item No hold and wait: Do not give any resource unless all resources can be given. This often leads to poor resource utilization and starvation.
+\item
+\end{itemize}
+% MISSING
 
 \end{document}
