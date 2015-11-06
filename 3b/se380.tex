@@ -282,4 +282,15 @@ The roots of $Q(s)$ all lie in the ``open left half-plane'' $\mathbb{Re}(s) < 0$
 
 There's generally a trade-off between steady-state performance and transient performance stability. The variation of the roots of the characteristic polynomial with $K$ is shown by the {\bf root locus}.
 
+\subsection{The Root Locus}
+Suppose that a chip has the form \[ D_CD_PD_F + KN_CN_PN_F \] where $k > 0$. If $D_CD_PD_F$ and $N_CN_PN_F$ have roots in common, these will be roots of the characteristic polynomial that wil not vary with $K$. Let's ignore these fixed roots by dividing by $D_CD_PD_F$ and cancelling common roots, leaving us with \[ 1 + KG(S) = 0 \]
+
+The form of the root lous is determined by {\bf Evan's Rules}:
+\begin{enumerate}
+\item The root locus consists of $n$ branches (the characteristic polynomial is of degree $n$).
+\item The root locus is symmetrical about the real axis (if $s$ is a root so is $s^*$).
+\item As $k\to 0$, the $n$ branches of the root locus approach the poles of $G(s)$ (the characteristic equation can be writtten $D_CD_PD_F + KN_CK_PK_F = 0$). As $K\to\infty$, $m$ of the $n$ branches tend toward the zeroes of $G(s)$.
+\item As $K\to\infty$, the remaining $n-m$ branches tend toward infinity along straight-line asymptotes with angles of \[ \theta = \frac{\pm k180^\circ}{n-m}, h=1,3,5,\dots \] and a common intersection point \[ \sigma = \frac{\displaystyle\sum_{j=1}^n P_j - \displaystyle\sum_{i=1}^m z_i}{n-m} \]
+\end{enumerate}
+
 \end{document}
