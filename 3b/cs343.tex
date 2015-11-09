@@ -328,7 +328,7 @@ In addition to the five rules, we must ensure {\bf freshness} / {\bf staleness}.
 
 \section{Concurrent Errors}
 \subsection{Race Conditions}
-A {\bf race condition} occurs when we miss some instances of either mututal exclusion or synchronizatoin; two more tasks race along assuming synchronization or mutual exclusion is guaranteed -- but it is not.
+A {\bf race condition} occurs when we miss some instances of either mutual exclusion or synchronizatoin; two more tasks race along assuming synchronization or mutual exclusion is guaranteed -- but it is not.
 
 \subsection{No Progress}
 \subsubsection{Live Lock}
@@ -342,7 +342,7 @@ A {\bf deadlock} is the state when one or more prcesses are waiting for an event
 
 There are five conditions which must occur to cause a deadlock:
 \begin{enumerate}
-\item there exists more than one shared resource requiring mututal exclusion
+\item there exists more than one shared resource requiring mutual exclusion
 \item a process holds a resource while waiting for access to a resource held by another process (hold and wait)
 \item once a process has gained access to a resource, the runtime system cannot get it back (no preemption)
 \item there exists a circulay wait of processes on resources
@@ -368,10 +368,45 @@ Eliminate all synhronization (communication). Tasks must then be completely inde
 \subsubsection{Mutual Exclusion Prevention}
 Deadlock can be prevented by eliminating any one of these conditions:
 \begin{itemize}
-\item No mututal exclusion.This is often impossible.
+\item No mutual exclusion.This is often impossible.
 \item No hold and wait: Do not give any resource unless all resources can be given. This often leads to poor resource utilization and starvation.
 \item
 \end{itemize}
-% MISSING
+
+% TODO: missing
+
+\section{Indirect Communication}
+\subsection{Critical Regions}
+% TODO: missing
+
+\subsubsection{Conditional Crititcal Sections}
+% TODO: missing
+
+\subsection{Monitors}
+A {\bf monitor} is an abstract data type that combines shared data with serialization of its modification. A {\bf mutex member} is one that does not begin execution if there is another active mutex member. A call to a mutex member may become blocked waiting entry and queues of waiting tasks may form. Public member routines of a monitor are implicitely mutex and other kinds of members can be made explicitely mutex (\code{\_Mutex}). You can consider a monitor as implicitly having a lock acquire at entry to any member and a release on exit.
+
+This gives us mutual exclusion across members, eg for
+\begin{verbatim}
+_Monitor Counter {
+    int counter
+public:
+    Counter() : counter(0) { }
+    int inc() { return ++counter; }
+    int dec() { return --counter; }
+}
+\end{verbatim}
+we have mutual exclusion across both \code{inc()}, \code{dec()}, and both.
+
+\subsection{Scheduling}
+A monitor may want to schedule tasks in an order different from the order in which they arrive (eg. reader/writers with freshness/staleness issues). There are two techniques: external and internal scheduling;
+% TODO: missing
+
+External scheduling is generally easier to use, but sometimes is impossible; it can not be used when scheduling depends on parameters or requires being blocked within a member.
+
+\subsubsection{External Scheduling}
+The accept statement conrtols which mutex members can accept calls. By preventing certain members from accepting calls at certain times, we can control the scheduling of tasks.
+
+\subsubsection{Internal Scheduling}
+Internal scheduling involves scheduling among the tasks inside the monitor. A {\bf condition} is a queue of waiting tasks. A tasks waits by placing itself on a condition (\textit{atomically} place self on back of queue, sleep, and release monitor lock). A task on a condition queue is made ready by signalling the condition; this removes the blocked task on the front of the queue and makes it ready.
 
 \end{document}
