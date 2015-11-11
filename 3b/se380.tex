@@ -241,20 +241,20 @@ We say that a single-output system is BIBO stable ifits output is bounded whenev
 
 Theorem: An LLTI system with transfer function $G(s)$ is BIBO stable if and only if $G(s)$ is stable and proper.
 
-$G(s)$ is {\bf stable} if all of its poles lie in $\mathbb{Re}(s) < 0$ (all the poles lie to the left of the imaginary axis).
+$G(s)$ is {\bf stable} if all of its poles lie in $\Re(s) < 0$ (all the poles lie to the left of the imaginary axis).
 
 A rational transfer function $G(s)$ is {\bf proper} if the degree of the numerator polynomial is less than or equal to that of the denominator. $G(s)$ is {\bf strictly proper} if the degree of the numerator is strictly less than that of the denominator.
 
-The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-plane (i.e., in $\mathbb{Re} \geq 0$), except possible a single pole at $s = 0$, then \[ \lim_{t\to\infty} e(t) = \lim_{s\to 0} eE(s) \] where $e(t)$ is the steady-state error.
+The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-plane (i.e., in $\Re \geq 0$), except possible a single pole at $s = 0$, then \[ \lim_{t\to\infty} e(t) = \lim_{s\to 0} eE(s) \] where $e(t)$ is the steady-state error.
 
 We call $K_p = \lim_{s\to 0} C(s) P(c)$ the {\bf position error constant}.
 
 \subsection{The Fundamental Stability Theorem}
 Let $C = \frac{N_C}{D_C}$ (and the same for $P$ and $F$) which are ratios of coprime polynomials. Then $D_CD_PD_F + N_CN_PN_F$ is the characteristic polynomial of the system.
 
-Suppose C, P, and F are proper and $CPF$ is strictly proper. Then the feedback is BIBO stable if and only if the chip has no roots in $\mathbb{Re}(s) \geq 0$.
+Suppose C, P, and F are proper and $CPF$ is strictly proper. Then the feedback is BIBO stable if and only if the chip has no roots in $\Re(s) \geq 0$.
 
-Alternatively, if C, P, and F are proper and $CPF$ is strictly proper, the feedback system if BIBO stable if and only if $1 + CPF$ has no roots in $\mathbb{Re}(s) \geq 0$ and $CPF$ has no pole-zero cancellations in $\mathbb{Re}(s) \geq 0$.
+Alternatively, if C, P, and F are proper and $CPF$ is strictly proper, the feedback system if BIBO stable if and only if $1 + CPF$ has no roots in $\Re(s) \geq 0$ and $CPF$ has no pole-zero cancellations in $\Re(s) \geq 0$.
 
 \subsection{The Ruth-Horowitz Theorem}
 Given a polynomial $Q(s) = a_ns^n + a_{n-1}s^{n-1} + \dots + a_o$, we construct the table
@@ -278,7 +278,7 @@ c_{n-5} &= \frac{-1}{b_{n-2}} \begin{vmatrix} a_n & a_{n-5} \\ b_{n-2} & b_{n-6}
 
 We also fill it in with zeroes as necessary.
 
-The roots of $Q(s)$ all lie in the ``open left half-plane'' $\mathbb{Re}(s) < 0$ if and only if all elements of the first column of the Routh Table are non-zero and have the same sign. A necessary condition for all roots to lie in $\mathbb{Re}(s) < 0$ is that all the coefficients of the polynomial are nonzero and have the same sign.
+The roots of $Q(s)$ all lie in the ``open left half-plane'' $\Re(s) < 0$ if and only if all elements of the first column of the Routh Table are non-zero and have the same sign. A necessary condition for all roots to lie in $\Re(s) < 0$ is that all the coefficients of the polynomial are nonzero and have the same sign.
 
 There's generally a trade-off between steady-state performance and transient performance stability. The variation of the roots of the characteristic polynomial with $K$ is shown by the {\bf root locus}.
 
@@ -291,6 +291,18 @@ The form of the root lous is determined by {\bf Evan's Rules}:
 \item The root locus is symmetrical about the real axis (if $s$ is a root so is $s^*$).
 \item As $k\to 0$, the $n$ branches of the root locus approach the poles of $G(s)$ (the characteristic equation can be writtten $D_CD_PD_F + KN_CK_PK_F = 0$). As $K\to\infty$, $m$ of the $n$ branches tend toward the zeroes of $G(s)$.
 \item As $K\to\infty$, the remaining $n-m$ branches tend toward infinity along straight-line asymptotes with angles of \[ \theta = \frac{\pm k180^\circ}{n-m}, h=1,3,5,\dots \] and a common intersection point \[ \sigma = \frac{\displaystyle\sum_{j=1}^n P_j - \displaystyle\sum_{i=1}^m z_i}{n-m} \]
+\item Points of intersection fo branches of the root locus satisfy \[ G^\prime(s) = \deriv{G(s)}{s} = 0 \] If $s_0$ is a point of intersection of two or more branches and $K_0$ is the corresponding value of $K$, then we must have \[ 1 + K_0 G(s) = (s-s_0)^K F(s) \] where $K \geq 2$, thus \[ K_0 G^\prime(s) = K(s-s_0)^{K-1} F(s) + (s-s_0)^K F^\prime(s) \] and finally \[ G^\prime(s) \Bigg|_{s=s_0} = 0 \]
 \end{enumerate}
+
+For $-\infty < K < 0$, we get the {\bf complementary root locus} with an angle relationship of \[ \angle G(s) = \angle\frac{-1}{K} = \pm h180^\circ, h=0,2,4,\dots \] For a complementary root locus, rule 4 becomes \[ \theta = \frac{\pm h180^\circ}{n-m}, h=0,2,4,\dots \] and rule 5 becomes ``A point $s_0 \in \mathbb{R}$ belongs to the root locus if and only if the number of poles and zeroes of $G(s)$ that lie to its right is \textit{open}''.
+
+\section{PID Controllers}
+Ideally, a PID controller system is defined as \[ C(s) = K_P + \frac{K_I}{s} + K_Ds \] Thus we have
+\begin{align*}
+U(s) &= C(s)E(s) \\
+&= K_PE(s) + \frac{K_I}{s}E(s) + K_DsE(s)
+\end{align*}
+
+Since a system like this would not be BIBO-stable, adding a fast real-pole to the $D$ input is often necessary, eg. $\dots + \frac{K_Ds}{s\tau + 1}$. This term should only appear at high-frequency input values.
 
 \end{document}
