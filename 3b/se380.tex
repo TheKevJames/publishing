@@ -305,4 +305,49 @@ U(s) &= C(s)E(s) \\
 
 Since a system like this would not be BIBO-stable, adding a fast real-pole to the $D$ input is often necessary, eg. $\dots + \frac{K_Ds}{s\tau + 1}$. This term should only appear at high-frequency input values.
 
+\subsection{Root-Locus Designs}
+\begin{enumerate}
+\item {\bf Choose time-domain specifications}: $T_P, OS, T_S, \lim_{t\to\infty} e(t)$
+\item {\bf Convert to ``quasispecs''}: constraints on pole locations, $K_P, K_V$
+\item {\bf Choose controller structure}: eg. proportional controller, lead compensator (approx $PD$ controller), lag compensator (approx $PI$ controller)
+\item {\bf Design (choose parameter values)}: using root locus
+\item {\bf Further analysis / simulation}: determine whether meeting quasispecs in this case implies meeting original specifications.
+\end{enumerate}
+
+\begin{example}
+Design a system to implement $P(s) = \frac{1}{s^2}$.
+
+We define the specifications as:
+\begin{enumerate}
+\item $OS \leq 20\%$
+\item $T_P \leq \frac{\pi}{2}$
+\item Steady-state error for a reference $r(t) = \half t^2 u_{-1} (t) \leq 0.20$
+\end{enumerate}
+
+We convert these to ``equivalent'' quasispecs:
+\begin{enumerate}
+\item Assume that $\frac{Y(s)}{R(s)}$ is of the form of the standard second-order step response. Then $OS = e^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}$ or $\zeta \geq 0.45$.
+\item For a standard second-order system, $T_p = \frac{\pi}{\omega_N \sqrt{1-\zeta^2}}$ so $\omega_N\sqrt{1-\zeta^2} \geq 2$.
+\item $K_a \geq 5$
+\end{enumerate}
+
+We try a proportional controller $C(s) = K$ which gives us $\frac{Y}{R} = \frac{KP}{1 + KP}$. The poles of the closed-loop system are the roots of $1 + KP(s) = 0$; the best way to analyze them is to draw the corresponding root locus plot. Note the asymptotes are $\theta = \frac{\pm 180^\circ}{n-m} = \pm h 90^\circ, h = 1,3,5,\dots$ and so $\sigma = 0$ (in this case, solving without dawing the plot is straight-forward: $1 + KP(s) = 0 \implies s = \pm j\sqrt{K}$).
+
+Since these roots are only on the imaginary axis (ie. $\Re(s) = 0$, our system is non-stable for all $0 < K < \infty$. Thus, a proportional controller will not work for this purpose. We attempt instead a lead compensator $C(s) = K\frac{s-z}{s-P}, P < z$.
+
+How do we chose $z, P$ such that the root locus passes through $s_{cl}$? We simply satisfy the angle relation: $\frac{Y}{R} = \frac{C(s)P(s)}{1 + C(s)P(s)}$, ie. such that the poles are solutions of $1 + K\frac{s-z}{s-P} P(s) = 0$.
+
+Thus we have
+\begin{align*}
+G(s) &= \frac{-1}{K} \\
+\frac{s-z}{s-P} P(s) &= -\frac{1}{K} \\
+\angle \bigg(\frac{s-z}{s-P} P(s)\bigg) &= \pm h180^\circ, h = 1,3,5,\dots\\
+\angle \bigg(\frac{s_d - z}{s_d - P} \bigg) + \angle P(s_d) &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) + \angle \frac{1}{s_d^2} &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) - 2\angle s_d &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) - 234^\circ &= \pm h180^\circ \\
+\end{align*}
+and so we select $z, P$ such that $\phi = \angle(s_d - z) - \angle(s_d - P) = 54^\circ$.
+\end{example}
+
 \end{document}
