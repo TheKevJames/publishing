@@ -326,7 +326,7 @@ We define the specifications as:
 
 We convert these to ``equivalent'' quasispecs:
 \begin{enumerate}
-\item Assume that $\frac{Y(s)}{R(s)}$ is of the form of the standard second-order step response. Then $OS = e^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}$ or $\zeta \geq 0.45$.
+\item Assume that $\frac{Y(s)}{R(s)}$ is of the form of the standard second-order step response. Then $OS = e^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}$ or $\zeta \geq \cos^{-1} 63^\circ \approx 0.45$.
 \item For a standard second-order system, $T_p = \frac{\pi}{\omega_N \sqrt{1-\zeta^2}}$ so $\omega_N\sqrt{1-\zeta^2} \geq 2$.
 \item $K_a \geq 5$
 \end{enumerate}
@@ -348,6 +348,38 @@ G(s) &= \frac{-1}{K} \\
 \angle(s_d - z) - \angle(s_d - P) - 234^\circ &= \pm h180^\circ \\
 \end{align*}
 and so we select $z, P$ such that $\phi = \angle(s_d - z) - \angle(s_d - P) = 54^\circ$.
+
+Choosing a $z$ too close to the imaginary axis can lead to a large overshoot, and placeing $z$ and $P$ too far from the axis can lead to high noise sensitivity.
+
+The high frequency gain of the lead compensator \[ C(s) = K\frac{s-z}{s-P} \] as $|s|$ becomes large \[ C(s) \approx K\frac{z}{P} \] Keeping $K\frac{z}{P}$ small keeps high-frequency gain low.
+
+What's the value of $K$?
+\begin{align*}
+K &= \Bigg| \frac{s_d - P}{s_d - z} \frac{1}{P(s_d)} \\
+&= \frac{|s_d - P|}{|s_d - z|} |s_d|^2
+\end{align*}
+
+Placing $z$ and $P$ too far from the imaginary axis may make the high-frequency gain $K$ excessively large. Rule of thumb: keep $\frac{P}{z} < \{10, 15\}$.
+
+What about steady-state error? For this we need $K_a \geq 5$. Now
+\begin{align*}
+K_a &= \lim_{s\to 0} s^2 C(s)P(s) \\
+&= \lim_{s\to 0} K\frac{s-z}{s-P} \\
+&= K\frac{z}{P} \\
+&= \frac{|s_d - P|}{|s_d - z|} |s_d|^2 \frac{z}{P}
+\end{align*}
+
+This can be maximized, subject to the constrain tthat $\phi = 54^\circ$, eg. by the {\bf Warren-Ross method}.
 \end{example}
+
+\subsection{Lead-Compensator Design Procedure}
+\begin{enumerate}
+\item Using the formulae for a standard second-order system, convert specifications on transient response ($OS$, $T_P$, $T_s$) to constraints on locations of closed-loop poles. Choose a desired pole location $s_d$ accordingly.
+\item If the root locus for a proportional controller passes through the desired region of the s-plane, check whetehr an adequate error constant can be acheived while placing the closed-loop poles in the desired region. If so, skip the next two steps.
+\item Otherwise, compute $\angle P(s_d)$. Choose $z$ and $P$ so that $\angle(s_d - z) - \angle(s_d - P) + \angle P(s_d) = \pm h180^\circ, h=1,3,5,\dots$
+\item Set $K = \frac{|s_d - P|}{|s_d - z|} \frac{1}{|P(s_d)}$ (amplitude of the relation)
+\item Check whether the error constant is adequate.
+\item Simulate the response to a step reference to check $OS, T_P, T_s$.
+\end{enumerate}
 
 \end{document}
