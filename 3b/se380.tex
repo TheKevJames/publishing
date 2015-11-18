@@ -382,4 +382,29 @@ This can be maximized, subject to the constrain tthat $\phi = 54^\circ$, eg. by 
 \item Simulate the response to a step reference to check $OS, T_P, T_s$.
 \end{enumerate}
 
+A few notes:
+\begin{itemize}
+\item If compensator zero $z$ is close to the imaginary axis, the overshoot will be increased.
+\item If $z$ and $P$ both are too far from the origin, the noise sensitivity will be high. The high-frequency gain of the ompensator is \[ K = \frac{|s_d - P|}{|s-d - z|} \frac{1}{|P(s_d)|} \] so we should keep $\frac{P}{z} < 15$.
+\item It's is generally hard to increase the error very much.
+\item If lead compensation is ineffective, it can be combined with {\bf lag compensation}.
+\end{itemize}
+
+\subsection{Lag-Compensator Design}
+The key idea of lag-compensation is to increase the error constant without much degradation of transient performance. For a transfer function $C(s) = \frac{s-z}{s-P}, z < P < 0$, this compensator increases the error by a factor of $\frac{z}{P}$.
+
+We don't want to alter (much) eithe rthe angle relation of the amplitude relation in the neighbourhood of $s_d$.
+
+Placing $z$ (and $P$) close to the imaginary axis means it is likely there will be a closed-loop pole close to the imaginary axis and thus we will likely have a sluggish transient response. Note \[ \frac{Y(s)}{R(s)} = \frac{C(s)P(s)}{1 + C(s)P(s)} \] so our system has a zero at $z$ and may have a root close to $z$. For this transfer funcion, the ``slow'' pole may be essentially cancelled by the zero at $z$.
+
+More notes on compensation:
+\begin{itemize}
+\item The amount by which lead compensation can increase the error constant is limited\dots and our lag-compensator design method doesn't improve transient reponse.
+\item So, a reasonable approach is to use lead compensation to acheive a good transient response, then add (in series) a lag compensator which boosts the error coefficient without degrading the transient reponse.
+\end{itemize}
+
+Consider an ideal P-D controller \[ C(s) = K_p + K_Ds \] which is improper. A more practical P-D controller \[ C(s) = \frac{K_p + K_Ds}{s\tau + 1} \] where $\tau$ is small would add a pole (ie. pole is $\frac{-1}{\tau} < -\frac{k_p}{k_D}$). So a lead compensator is a practical implementation of an ``ideal'' P-D controller.
+
+A lag compensator, on the other hand, is a practical implementation of an ideal P-I controller.
+
 \end{document}

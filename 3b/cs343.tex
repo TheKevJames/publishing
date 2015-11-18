@@ -409,4 +409,6 @@ The accept statement conrtols which mutex members can accept calls. By preventin
 \subsubsection{Internal Scheduling}
 Internal scheduling involves scheduling among the tasks inside the monitor. A {\bf condition} is a queue of waiting tasks. A tasks waits by placing itself on a condition (\textit{atomically} place self on back of queue, sleep, and release monitor lock). A task on a condition queue is made ready by signalling the condition; this removes the blocked task on the front of the queue and makes it ready.
 
+\section{Increasing Concurrency}
+
 \end{document}
