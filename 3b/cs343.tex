@@ -410,5 +410,37 @@ The accept statement conrtols which mutex members can accept calls. By preventin
 Internal scheduling involves scheduling among the tasks inside the monitor. A {\bf condition} is a queue of waiting tasks. A tasks waits by placing itself on a condition (\textit{atomically} place self on back of queue, sleep, and release monitor lock). A task on a condition queue is made ready by signalling the condition; this removes the blocked task on the front of the queue and makes it ready.
 
 \section{Increasing Concurrency}
+Given two tasks involved in direct communication (a client and a server), it is possible to increase the cocurrency on both sides.
+
+\subsection{Server}
+The server is responsible for managing resources and should increase concurrency by introducing administration tasks to the entrane/exit of its concurrent functions instead of executing them within them (ie. to decrease the time in the critical section).
+
+Alternatively, all server ``blocking'' can be managed by the client.
+
+\subsection{Client}
+The client should have the shortest delay as possible, though sometimes it may need to wait for a server request to process. This may be accomplished with asynchronous wait routines.
+
+Asynchronous calls are cimple when the client does not need the result. If it does, we must split this into two calls (\code{callee.start(args)} and \code{callee.finish()}). In the case where the server is not yet done by the second call, we may place that call in eg. a polling loop.
+
+In this case, the server needs a protocol to check which result is being finished.
+
+One way to do this is with {\bf tickets}; the server immediately returns a ticket upon the first call then the client uses that ticket to request the results. Note that in the case of using this ticket approach, the system is somewhat error-prone: the client may not obey the protocol by never retreiving a result, using the same ticket twice, forging a ticket, etc.
+
+Another method is through the use of {\bf callback routines}. The client may provide the server with a function to be run after the server completes the method call. The function is provided with the return value of the the original server method and may operate on it in whatever fashion. Additionally, the callback routine may set some indicator bit which the client may poll to determine when the call has completed.
+
+A {\bf future} provides the same asynchrony as the above without any explicit protocol. The protocol becomes implicit between the future and the task generating the result. Further, it removes the difficult problem of when the caller should try to retreive the result. The future is a container object which is returned immediately as an empty object and updated to have the new data as soon as that data is ready. If the client attempts to access the object before it is ready, the client will simply block until the data exists.
+
+\section{Optimization}
+There exist several general forms of optimization. The general forms of optimizations are
+\begin{description}
+\item[reordering] data and code are re-ordered to increase performance in certain contexts.
+\item[eliding] removal of unnecessary data, data accesses, and computation.
+\item[replication] processors, memory, data, code are duplicated because of limitation and communication speed.
+\end{description}
+
+The optimized program must be isomorphic to the original.
+
+\subsection{Sequential Execution}
+{\bf Sequential} execution
 
 \end{document}
