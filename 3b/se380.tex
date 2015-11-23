@@ -407,4 +407,15 @@ Consider an ideal P-D controller \[ C(s) = K_p + K_Ds \] which is improper. A mo
 
 A lag compensator, on the other hand, is a practical implementation of an ideal P-I controller.
 
+\subsection{Unity-Feedback System}
+Consider a system with \[ \frac{Y(s)}{R(s)} = \frac{KC(s) \times P(s)}{1 + KC(s) \times P(s)} \] then suppose that the feedback system is BIBO stable for sufficiently small $K$ and becomes unstable for larger $K$. The root locus branches, then, must cross the imaginary axis.
+
+Let $K_C$ be the least value of $K$ corresponding to a point on the root locus that is imaginary. Let one such point e $s = j\omega_C$. Then
+\begin{align*}
+1 + K_c C(j\omega_C)P(j\omega_C) &= 0 \\
+K_c C(j\omega_C)P(j\omega_C) &= -1 \\
+\bigl| K_c C(j\omega_C)P(j\omega_C) \bigl| &= 0\text{dB} \\
+\angle K_c C(j\omega_C)P(j\omega_C) &= -180^\circ
+\end{align*}
+
 \end{document}

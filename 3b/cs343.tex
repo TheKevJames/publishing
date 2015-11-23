@@ -431,16 +431,24 @@ Another method is through the use of {\bf callback routines}. The client may pro
 A {\bf future} provides the same asynchrony as the above without any explicit protocol. The protocol becomes implicit between the future and the task generating the result. Further, it removes the difficult problem of when the caller should try to retreive the result. The future is a container object which is returned immediately as an empty object and updated to have the new data as soon as that data is ready. If the client attempts to access the object before it is ready, the client will simply block until the data exists.
 
 \section{Optimization}
-There exist several general forms of optimization. The general forms of optimizations are
+There exist several general forms of optimization, generally restricted by the kind of execution environment. The general forms of optimizations are
 \begin{description}
 \item[reordering] data and code are re-ordered to increase performance in certain contexts.
 \item[eliding] removal of unnecessary data, data accesses, and computation.
-\item[replication] processors, memory, data, code are duplicated because of limitation and communication speed.
+\item[replication] processors, memory, data, code are duplicated because of limitation and communication speed (speed of light).
 \end{description}
 
 The optimized program must be isomorphic to the original.
 
 \subsection{Sequential Execution}
-{\bf Sequential} execution
+{\bf Sequential} execution presents simple optimization semantics because operations occur in {\bf program order}. We find {\bf data dependencies} and {\bf control dependencies}; the former is often reorderable but the latter tends not to be.
+
+Thus we can reorder disjoint operations (where variables have different addresses), elide unnecessary operations (dead code or unnecessary lines), and execute in parallel if there exist multiple functional-units.
+
+\subsection{Memory Hierarchy}
+Optimizing data flow through memory defines a program's speed. Hardware aggressively optimizes data flow for sequential execution; having an understanding of the cache is essential to understanding performance of both sequential and concurrent programs.
+
+\subsection{Concurrent Execution}
+We can only optimize concurrent sections of our code. When we attempt to parallelize sequential code, we must be very careful; often, parallelizing sequential code is either impossible or not worth the additional overhead.
 
 \end{document}
