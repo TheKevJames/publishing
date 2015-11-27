@@ -390,6 +390,23 @@ A few notes:
 \item If lead compensation is ineffective, it can be combined with {\bf lag compensation}.
 \end{itemize}
 
+\subsubsection{Summary of Lead Compensation Design}
+\begin{enumerate}
+\item Find the gain $K$ required for adequate $K_P$ or $K_V$ (whichever applies).
+\item Check whether you can achieve simultaneously a small enough OS -- if so, the design is finished.
+\item Draw the Bode plot of the ``uncompensated system'' $KP(s)$.
+\item Guess how much PM must be added to $\omega_{gc}$ and set this equal to $\sin^{-1} \frac{\alpha - 1}{\alpha + 1}$. Find $\alpha$.
+\item Set $\frac{1}{\sqrt{\alpha} \tau}$ to the frequency at which the uncompensated system has a gain of $-10\log_{10} x$. This is the new $\omega_{gc}$.
+\item Simulate to check the step response. If the response is not correct, return to step 4.
+\end{enumerate}
+
+Notes:
+\begin{enumerate}
+\item Lead compensation may be ineffective if the phase drops off too quickly near the uncompensated $\omega_{gc}$.
+\item Lead compensation increases the ``open-loop'' BW (and generally the closed-loop BW) and therefore speeds up the transient response.
+\item By increasing BW, lead compensation tends to increase noise sensitivity.
+\end{enumerate}
+
 \subsection{Lag-Compensator Design}
 The key idea of lag-compensation is to increase the error constant without much degradation of transient performance. For a transfer function $C(s) = \frac{s-z}{s-P}, z < P < 0$, this compensator increases the error by a factor of $\frac{z}{P}$.
 
@@ -406,6 +423,28 @@ More notes on compensation:
 Consider an ideal P-D controller \[ C(s) = K_p + K_Ds \] which is improper. A more practical P-D controller \[ C(s) = \frac{K_p + K_Ds}{s\tau + 1} \] where $\tau$ is small would add a pole (ie. pole is $\frac{-1}{\tau} < -\frac{k_p}{k_D}$). So a lead compensator is a practical implementation of an ``ideal'' P-D controller.
 
 A lag compensator, on the other hand, is a practical implementation of an ideal P-I controller.
+
+Given \[ P(s) = \frac{8}{s(0.2s + 1)} \] and the specs
+\begin{enumerate}
+\item steady-state error for $r(t) = tu_{-1}(t) \leq 0.2$
+\item $OS < 15\%$
+\end{enumerate}
+we clearly need $K \geq 2.5$ for 1), so we set $K = 2.5$.
+
+Then, the uncompensated system has adequate phase ($-120^\circ$) at $\omega = 2.1s^{-1}$; at this frequency, the uncompensated fain is $20$ dB. We need to add $-20$ dB at this frequency:
+\begin{align*}
+20\log_{10}\alpha &= -20 \\
+\alpha &= 0.1
+\end{align*}
+
+To avoid introducing phase lag at the new $\omega_{gc} = 2.1s^{-1}$, we set
+\begin{align*}
+2.1 &= \frac{10}{\alpha\tau} \\
+\tau &= \frac{10}{0.1 \times 2.1} \\
+&= 47.6 \\
+\frac{1}{\tau} &= 0.021 \\
+\frac{1}{\alpha\tau} &= 0.21
+\end{align*}
 
 \subsection{Unity-Feedback System}
 Consider a system with \[ \frac{Y(s)}{R(s)} = \frac{KC(s) \times P(s)}{1 + KC(s) \times P(s)} \] then suppose that the feedback system is BIBO stable for sufficiently small $K$ and becomes unstable for larger $K$. The root locus branches, then, must cross the imaginary axis.
