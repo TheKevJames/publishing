@@ -457,4 +457,20 @@ K_c C(j\omega_C)P(j\omega_C) &= -1 \\
 \angle K_c C(j\omega_C)P(j\omega_C) &= -180^\circ
 \end{align*}
 
+Theorem: Suppose $C$, $P$, ad $F$ are proper and $CPF$ is strictly proper. Then the feedback system is BIBO stable if and only if
+\begin{enumerate}
+\item $1 + CPF$ has no roots in $\Re(s) \geq 0$, and
+\item $CPF$ has no pole-zero cancellations in the CRHF
+\end{enumerate}
+
+We can check this with the {\bf Nyquist Stability Criterion}; this is based on the principle of the argument. Consider a simple (doesn't intersect itself), closed contour $e_s$ on the s-plane. Suppose its ``oriented'' clock-wise. Consider also a simple function $f(s) = s - s_0$. Map the conou $e_s$ by applying $f$ to each point.
+
+Note that $e_f$ encircles the origin (clockwise) if and only if $s_0$ lies inside $e_w$.
+
+Consider what happens to $\angle f(s) = \angle(s - s_0)$ -- the argument of $f(s)$ as $s$ goes around $e_s$: if $s_0$ lies outside $e_s$, $\angle f(s) = \angle(s - s_0)$ goes through a net change of zero. If $s_0$ lies inside the contour, $\angle f(s) = \angle(s - s_0)$ goes though a net change of $-360^\circ$.
+
+Consider $g(s) = \frac{1}{s-s_0}$. $\angle g(s) = -\angle (s-s_0)$ so, as $s$ goes around $e_s$: if $s_0$ lies outside $e_s$, $\angle g(s)$ goes through a net change of zero and if $s_0$ lies inside $e_s$, $\angle g(s) = -\angle f(s)$ goes through a net change of $360^\circ$. The latter implies $e_g$ encircles the origin once, counter-clockwise.
+
+Theorem ({\bf Principle of the Argument}): Let $G(s)$ be a rational function and let $e_s$ be a single, closed contour on the s-plane, oriented clockwise. Suppose the $G(s)$ has no poles or zeroes on $e_s$, but that the contour $e_s$ encircles $n$ poles and $m$ zeroes of $G$. Thus, aas follows $e_s$. $G(s)$ traces out a curve $e_G$ that encircles the origin $n-m$ times counter-clockwise.
+
 \end{document}
