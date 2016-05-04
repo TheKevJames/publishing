@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 458 --- Computer Security and Privacy}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2016}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Program Security}
+Programs have bugs. Thus, security-relevant programs have security bugs.
+
+\subsection{Flaws, Faults, and Failures}
+A {\bf flaw} is a problem with a program. A {\bf security flaw} is one which affects security (confidentiality, integrity, availability) in some way. Flaws can be considered either {\bf faults} or {\bf failures}. A fault is a mistak ebehind the scenes; a potential problem that does not necessarily cause a real issue. A failure, on the other hand, is when something actually goes wrong {\it from the user's perspective}. Generally, a fault will eventually lead to a failure.
+
+We can find faults in several ways: tracing backwards from a failure, trying to cause failures to trace them back, static verification, etc. Once a fault has been found, small patches can be made to fix the issue. We call this ``penetrate and patch'', see Microsoft's ``Patch Tuesday''s.
+
+Patching does not necessarily make things better -- it can actively make things worse! Patches can cause regressions, expose worse flaws, introduce new faults, etc.
+
+Though specifications generally specify minimum required behaviour, for security- or privacy-relevant software, we consider ``and nothing else'' to be implicitly added to the spec.
+
+\subsection{Unintentional Security Flaws}
+Some flaws are intentional: {\bf malicious} flaws intended to attack systems or {\bf nonmalicious} (but intentional) flaws which are generally features that can cause a failure when attacked. Malicious flaws can be split into {\bf general} and {\bf targetted} flaws; eg. software holes vs keyloggers. Most security issues are caused by unintentional flaws.
+
+An example of a nonmalicious flaw is the SSL Heartbleed bug. The heartbeat mechanism was missing a bounds check, so attackers could request arbitrarily large chunks of code from the SSL server's memory -- much of which may include sensitive data.
+
+\subsubsection{Buffer Overflow Attacks}
+One of the most common types of attack vectors are {\bf buffer overflow attacks}. The general idea here is a lack of bounds checking on accessing memory; if this is not properly bounds-checked, attackers can overwrite data past/on the stack to change things such as the saved return address, thus making a program jump to an address of her choice.
+
+Sometimes, buffer overflow attacks are more restricted: off-by-one errors where only a single byte can be overwritten, overflows on the heap instead of the stack, and only being able to jump to other parts of the program (or standard libraries) instead of arbitrary shellcode.
+
+We can defend against buffer overflows by
+\begin{enumerate}
+\item using a language with bounds checking
+\item having a non-executable stack (writeable or executable, never both)
+\item randomized stack location per-process (many OSes do this)
+\item ``canary'' compiler feature to detect stack modifications
+\end{enumerate}
+
+\subsubsection{Format String Vulnerabilities}
+This class of vulnerabilities was only recently (2000) discvoered: basically, any function which allows a user to specify a portion of the format string gives a small chance that the program is vulnerable. For example:
+
+\begin{enumerate}
+\item \code{printf("\%s\%s\%s\%s")} will likely crash
+\item \code{printf("\%x\%x\%x\%x")} will likely dump your stack
+\item \code{\%n} will {\it write} to an address on the stack
+\end{enumerate}
+
+\end{document}
