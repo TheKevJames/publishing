@@ -59,4 +59,47 @@ This class of vulnerabilities was only recently (2000) discvoered: basically, an
 \item \code{\%n} will {\it write} to an address on the stack
 \end{enumerate}
 
+\subsubsection{Incomplete Mediation}
+{\bf Mediation} is the act of validation user-entered data to ensure it is a meaningful request. This is important when we accept input from untrusted users, eg. through webforms. A lack of mediation opens us up to problems such as incorrect data, buffer overflows, SQL injection, etc.
+
+{\bf Client-side mediation} is a common way to validate webforms: this is a bad idea, since users can tamper with the JavaScript code used to prevent illegal inputs. Similarly, client-side state is often used to help remember users, etc. Similarly, this allows users to tamper with the state.
+
+To defend against client-side mediation, server-side mediation is necessary. For values entered by the user, values should be carefully checked; for state stored by the client, a check against client modification is necessary. Client-side mediation, then, is not necessary and provides no security value, though it may be used to provide a friendlier user interface.
+
+\subsubsection{TOCTTOU}
+A TOCTTOU attack is a {\bf time-of-check to time-of-use} attack, which can result in a race condition where the ``check'' is no longer valid at the time of the ``use''. The problem with this is the time in between the two requests, in which an attacker can modify data in order to gain access to something which should have been restricted.
+
+For example, consider `cat`. If `cat` simply checked the read bit and then, if it was readable, dumped the file, an attacker could run
+
+\begin{verbatim}
+$ touch /tmp/exploit
+$ chmod 0777 /tmp/exploit
+$ ln -s /tmp/exploit leet
+$ cat leet &; ln -s /etc/shadow leet
+...
+root:$6$PASSWORD_HASH_HERE:16451::::::
+...
+\end{verbatim}
+
+To avoid this issue, we muct make sure all information related to the access control decision is constant between the time of the check and the time of the action. Alternatively, locks can be used to ensure no change can occur mid-request.
+
+\subsection{Intentional Security Flaws}
+
+\subsubsection{Malware}
+{\bf Malware} is software written with malicious intent. Malware does require execution to have any effect or cause harm. This often done thorugh user action, eg. a user downloading and running malicious software, inserting a USB drive with autorun enabled, etc. Additionally, it can be possible to exploit some system flaw such as buffer overflows in network daemons, email clients, web browsers, etc.
+
+\subsubsection{Viruses}
+A {\bf virus} is a particular type of malware that infects other files. Traditionally, viruses could only infect executables -- nowadays, many more formats are vulnerable. Typically, the virus activates on execution and tries to infect other files with copies of itself. In this way, a virus can spread between files and computers.
+
+As a general rule, viruses modify other programs to copy itself to the beginning of the target program's code (rather, the virus modifies the entry to point at its code, which is at the end of the program, then jumps back to the original entrypoint; this ensures direct addressing within the original program remains possible). They are generally non-destructive to the file so as to remain undetected.
+
+Additionally, a virus' payload may disable virus scanning software, erase your harddrive, install keyloggers, create a botnet, or start attacking some particular other service or website.
+
+We can protect against viruses through several methods: the most common is to keep a list of known viruses along with some {\bf signature} for identifying them. This signature is generally the infectoin code or payloadd code. We can also identify patterns characteristic of a particular virus, such as where it tries to hide itself and how it propgates.
+
+To avoid this protection, many viruses use {\bf polymorphism}, making slight modifications of itself at each duplication. This is often done through code encryption; by using a different encryption key at each copy, the resulting code has a different checksum. In this case, the decryption code is often used aas the signature for the virus.
+
+\subsubsection{Trojan Horses}
+{\bf Torjan horses} are programs which claim to do something innocuous (and usually do) but which also hide malicious behaviour.
+
 \end{document}

@@ -20,6 +20,20 @@
 \tableofcontents
 \newpage
 
-\section{}
+\section{Overlay Networking}
+{\bf Overlay Networking} is the act of overlaying an alternate style of networking on top of TCP/IP or UDP/IP. For example, a p2p network.
+
+One common use case of a p2p system is to store content across peers. The content should be distributed across all peers for storage, but should be accessible by any of them. One method of organizing these peers is to use the {\bf Chord Approach}.
+
+\subsection{The Chord Approach}
+We define the Chord DHT (Distributed Hash Table) as an $m$-bit unique key for every peer and piece of content. We can then define succ($k$) for any key $K$ as the peer that exists with the smallest id $\geq k$. The content of $k$ is hosted on succ($k$).
+
+We may want to perform a lookup of any data $k$ on any peer. In this case, we simply route the request to succ($k$).
+
+We can maintain a {\bf finger table} (routing table) on each peer $p$ containing $m$ entries: \[ FT_p[i] = succ(p + 2^{i-1}) \] If peers route requests to the result of looking up $k$ in $FT$, after some number of ``hops'' we will reach the peer containing the content (note that a peer can identify whether it was routed to because it hosts the content if its ID is greater than $k$).
+
+This algorithm has a guaranteed termination within a most $m$ hops, since we can not go around the circle more than once. The expected number of hops, though, is $O(\log n)$ where $n$ is the number of peers. The proof of this was originally hand-wavey, but relies on the fact that each hop covers at least half the arc length and peers are roughly equidistant (under the randomness assumption).
+
+Suppose we do lookup($k$) at peer $p$. Assume that $r$ is the peer immediately before succ($k$). Suppose that the next hop at $p$ is $q$. Then $q - p > \frac{r-p}{2}$. Suppose $q = FT_p[j]$. Then $q \geq p + q^{j-1}$ and $r < p + 2^j$.
 
 \end{document}
