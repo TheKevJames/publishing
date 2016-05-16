@@ -1,0 +1,14 @@
+dependencies:
+  pre:
+    - sudo apt-get -qq -o=Dpkg::Use-Pty=0 update
+    - sudo apt-get install latexmk texlive-fonts-recommended texlive-xetex xzdec
+
+    - tlmgr init-usertree
+    - tlmgr update --all
+  override:
+    - tlmgr install $(cat latex-requirements.txt)
+    - make install
+
+test:
+  override:
+    - make -j8
