@@ -51,7 +51,7 @@ Some important dimensions of environments which influence agent design include
 {\bf Cooperation} is the act of using a group to solve a joint problem or perform common tasks based on sharing the responsibility of reaching that goal. This can be accomplished with either direct or indirect communication, or even by independent actions involving no communication. Cooperation can involve division of labour, collective autonomy, conflict avoidance, maintaining group functionality, collecting and sharing knowledge, et cetera.
 
 \subsection{Classes of Problems}
-THere exist several types of problems:
+There exist several types of problems:
 \begin{description}
 \item[well-structured problems] a problem for which the existing state and the desired state are clearly identified and the methods to reach the desired state are fairly obvious
 \item[ill-structured problems] a situation in which the existing and desired states are unclear and, thus, methods of reaching the desired state cannot be found. We may be able to identify whether a given step moves us toward a goal, but we are unlikely to be able to define a list of steps to take
@@ -94,6 +94,13 @@ Search then involved moving between states within the problem space to find a go
 
 A goal-based search requires a fully-observable, deterministic, sequential, static, and discrete environment.
 
+\subsection{Heuristics}
+A heuristic algorithm $h$ on some state $n$ gives $h(n)$ is the expected cost of getting to a known good state from $n$. In informed search, we encode all domain knowledge used in that search. This is considered a {\bf weak method}.
+
+In general: $h(n) \geq 0$, where $h(n) = 0 \implies$ $n$ is a goal state and $h(n) = \infty \implies$ $n$ is a dead-end that can never lead to a goal.
+
+A heuristic is {\bf admissible} if if never overestimates the cost of reaching a goal. This is also refered to as an {\bf optimistic heuristic}.
+
 \subsection{Meta-Heuristics}
 {\bf Meta-Heuristics} are algorithms that combine heuristics in a higher level framework aimed at efficiently and effectively exploring the search space. A meta-heuristic search is a non-exhaustive search algorithm with an internal heuristic: thus, these are often hybrid searches where:
 \begin{enumerate}
@@ -105,8 +112,8 @@ The problem with this technique is that it may skip some correct answers (eg. if
 
 There are two types of meta-heuristic algorithms:
 \begin{description}
-\item [trajectory methods] handle a signle solution at a time, and
-\item
+\item [trajectory methods] which handle a single solution at a time, starting with a single base case and recursively replacing it with a better solution, and
+\item [population methods] which begin with some randomly generated group of solutions and recursively replaces portions of the solution space with sub-groups of better solutions.
 \end{description}
 
 \subsubsection{Trajectory Methods}
@@ -119,7 +126,7 @@ There exist two broad types of search:
 \item[Informed Search] which additionally has some information which allows it to judge the promise of an action (ie. the estimated cost from a state to a goal).
 \end{description}
 
-{\bf Uninformed search} is also described as a {\it blind} search. For a blind search, we can use several strategies:
+An {\bf uninformed search} is also described as a {\it blind} search. For a blind search, we can use several strategies:
 \begin{itemize}
 \item breadth-first search
 \item uniform-cost search
@@ -127,6 +134,15 @@ There exist two broad types of search:
 \item iterative deepening search
 \end{itemize}
 
-A {\bf uniform-cost search} is
+{\bf Informed search} involves some amount of extra information used to improve a standard search algorithm.
+
+\subsubsection{Hill-Climbing}
+{\bf Hill Climbing} is a step-based approach for tree traversal. Beginning with some base case, hill-climbing alogirthms calculate the value of each child of that node. They pick the best of these options, and repeat the algorithm until they reach the locally optimal value. Hill-climbing is extremely straightforward, but can easily get ``stuck'' on local maxima.
+
+\subsubsection{Beam Search}
+A {\bf beam search} is an informed breadth-first search. A beam search adds every successor of a node to a search list, solving for the value of each of them. Then, it recursively travels down up to some max number $n$ of children nodes. For example, when the beam value $n = 2$, this algorithm recurses to the two best children. This is a form of memory optimization, where we exclude some potentially bad results in exchange for reducing our search space considerably. Note than when $n = \infty$ we simply perform a complete breadth-first search.
+
+\subsubsection{$A^*$}
+An {\bf $A^*$} pathing algorithm tries to avoid expanding paths that are already expensive: it uses the evaluation function \[ f(n) = g(n) + h(n) \] where $g(n)$ is the cost from start node to $n$, and $h(n)$ is the estimate cost from $n$ to the goal. $A^*$ uses admissible heuristic $h(n) \leq h^*(n)$ where $h^*(n)$ is the actual cost from $n$ to the goal and $h(n) \geq 0$. $A^*$ always gives the optimal solution.
 
 \end{document}

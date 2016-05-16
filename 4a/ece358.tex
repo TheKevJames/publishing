@@ -36,4 +36,25 @@ This algorithm has a guaranteed termination within a most $m$ hops, since we can
 
 Suppose we do lookup($k$) at peer $p$. Assume that $r$ is the peer immediately before succ($k$). Suppose that the next hop at $p$ is $q$. Then $q - p > \frac{r-p}{2}$. Suppose $q = FT_p[j]$. Then $q \geq p + q^{j-1}$ and $r < p + 2^j$.
 
+\subsection{Subnets}
+Though in theory IPs are divided into addresses and hosts, in reality we divide the host into multiple subnets for the purpose of splitting address blocks. For example, a subnet may be $64.83.192.0/18$. This implies that the address range from $64.83.192.0$ to $64.83.255.255$ is on the subnet (16382 addresses).
+
+\subsection{Hubs}
+Hubs are the connection centers to which all devices on an ethernet are connected. Upon receiving a packet from any device, it simply mirrors that packet to all other devices.
+
+\subsubsection{CSMA/CD}
+{\bf Carrier Sense Multiple Access} with {\bf Collision Detection} is a technology used on hubs; carriers do not transmit when they know someone else is doing so. A collision occurs when more than one pulse exists on the bus at any one time. Hosts check from collision immediately after transmission. The maximum frame size (64B) is designed with this in mind -- this ensures that a carrier can always tell whether a collision was due to their frame, based on some speed of light/packet size calculations we aren't going to cover. In this case, carriers will (often) retry sending the packet.
+
+We use {\bf exponential backoff} when retrying network packets, ie. in attempting to send a frame $f$ after the $c$th collision, we
+\begin{enumerate}
+\item choose a uniform integer $i \in [0, 2^c-1]$
+\item delay by $i$ times the ``slot time''
+\item give up after some max value for $c$ (often $c \in [0,16]$)
+\end{enumerate}
+
+\subsubsection{Switched Ethernet}
+A {\bf switched ethernet} attempts to reduce duplication of packets in a hub; it begins by acting as a hub, but eventually learns which devices are connected to which ports and only mirrors relevant packets to those ports. Eventually, it learns and maintains a switching table.
+
+Hosts connected to the same switch may not be on the same VLAN ({\bf Virtual LAN}). One way to do this is to have the switch bind a port to a VLAN ID. The traffic, then, is allowed to flow only within the VLAN (ie. we create an extra column in the switching table).
+
 \end{document}

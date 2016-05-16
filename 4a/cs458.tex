@@ -69,7 +69,7 @@ To defend against client-side mediation, server-side mediation is necessary. For
 \subsubsection{TOCTTOU}
 A TOCTTOU attack is a {\bf time-of-check to time-of-use} attack, which can result in a race condition where the ``check'' is no longer valid at the time of the ``use''. The problem with this is the time in between the two requests, in which an attacker can modify data in order to gain access to something which should have been restricted.
 
-For example, consider `cat`. If `cat` simply checked the read bit and then, if it was readable, dumped the file, an attacker could run
+For example, consider \code{cat}. If \code{cat} simply checked the read bit and then, if it was readable, dumped the file, an attacker could run
 
 \begin{verbatim}
 $ touch /tmp/exploit
@@ -100,6 +100,61 @@ We can protect against viruses through several methods: the most common is to ke
 To avoid this protection, many viruses use {\bf polymorphism}, making slight modifications of itself at each duplication. This is often done through code encryption; by using a different encryption key at each copy, the resulting code has a different checksum. In this case, the decryption code is often used aas the signature for the virus.
 
 \subsubsection{Trojan Horses}
-{\bf Torjan horses} are programs which claim to do something innocuous (and usually do) but which also hide malicious behaviour.
+{\bf Trojan horses} are programs which claim to do something innocuous (and usually do) but which also hide malicious behaviour. These must be programs which the user actually wants to run. The payload of a trojan can be anything; a virus, for example. That said, a trojan doesn't itself usually spread between computers; they instead rely on multiple users executing the software.
+
+{\bf Scareware} is a program which appears to be a warning which convinces you to install some other payload such as a virus. These are often websites that resize your browser to appear as system dialogs warning of viruses.
+
+{\bf Ransomware} generally encrypts your hard-drive until you send them a payment.
+
+A {\bf logic bomb} is malicious code hiding in software already on your computer, waiting for some event to occur. They are often placed by insiders, ie. employees leaving the company. The payload is generally pretty dire: they might erase data, corrupt data, install ransomeware, etc. Either way, te trigger is usually something the insider can effect once he is no longer an insider: on some rare event, when a special sequence is entered on the public aspect of the company's code, or at some given time in the future (``time bombs'').
+
+Spotting torjans and logic bombs is very tricky since they, respectively, appear to be normal programs or appear to do nothing. Since the user is intentionally running the code, it's hard to detect that these could be malicious.
+
+\subsubsection{Worm}
+A {\bf worm} is a self-contained piece of code that can replicate with little or no user involvement. They often use security flaws in widely deployed software as a path to infection. Typically, they exploit some flaw to gain access to a computer, then starts scanning for other computers to infect. There may or may not be some payload that activates at some point, but this is not necessary.
+
+\subsubsection{Web Bugs}
+A {\bf web bug} is an object (usually a 1x1 pixel transparent object) embedded in a web page which is feteched from a different server than the one that originally served the page. This can send information about you to third parties (often advertisers) whithout your consent.
+
+Why do we consider this malicious code? Only because it affects privacy, rather than security. With the help of cookies like this, advertisers and other third parties can learn about the other sites you visit, learn about your identity, etc.
+
+\subsubsection{Back Doors}
+A {\bf back door} (also called a {\bf trap door}) is a set of instructions designed to bypass the normal authentication mechanisms of a system. These can often be included for debugging or testing (and are accidentally not removed!), for legal reasons, or as a malicious addition.
+
+\subsubsection{Salami Attacks}
+A {\bf salami attack} is one that is made up of many smaller, often considered inconsquential, attacks. The classic example: send the fractions of cents of round-off error from many accounts to a single account owned by the attacker. Similarly, there are attacks where credit card thieves make small charges to very many cards, clerks slightly overcharge for service, gas pumps misreport the amount of gas dispensed, etc.
+
+\subsubsection{Rootkits}
+A {\bf rootkit} is often used by skiddies. It often has two main parts: a method for gaining unauthorized root access (either locally from an unprivileged account or remotely) and a way to hide its own existence. These kits often exploit some known flaw and leave a backdoor for if/when that flaw is repaired.
+
+Rootkits hide their presence by cleaning log messages involving themselves, modifying commands such as \code{ls} and \code{ps}, and modifying the kernel itself to hide the kit from userspace.
+
+\subsubsection{Keyloggers}
+A {\bf keystroke logger} might be installed to keep a record of messages sent, passwords, etc. These will often be stored to a disk and accessed locally though some send the data to a remote machine.
+
+These can be application specific, system-wide, or even hardware-based.
+
+\subsubsection{Interface Illusions}
+These are often websites which appear to do one thing but actually do something else, eg. dragging a scrollbar which actually drags a program from a malicious website to your ``Startup'' folder.
+
+Similar to this is the notion of {\bf clickjacking}, wherein, for example, a transparent button taking a malicous action is transparently overlayed upon a real button.
+
+{\bf Phishing} is a type of interface illusion. A phishing attack generally involves pretending to be a service you are not, for example creating a website at \code{paypa1.com} which appears to be the paypal website. Advanced phishing can appear every bit like the real thing, even the URL bar and the SSL certificate.
+
+\subsubsection{Man-in-the-Middle Attacks}
+Keyboard logging (sort of), interface illusions, and phishing are examples of {\bf man-in-the-middle attacks}. Basically, these are defined by a service intercepting the user's communication with their intended target, then passing along the data normally to pretend nothing is wrong. This allows them to take some malicious action against the data being passed back-and-forth without wither side being the wiser.
+
+\subsubsection{Side Channels}
+Sometimes, attackers may use {\bf covert channels} to gain information. A good example of this is stenography, wherein unrelated data is included in an image. More generally, information can be encoded in RF emissions, power consumption, audio emissions, shared CPU caches, computation time, etc.
+
+A timing side channel attack in the quare-and-multiply algorithm: to compute $x^d$ mod $n$, $d$ is a secret represented in binary and for each zero, do one multiplication, for each 1, do two multiplations. Statistical analysis on timings can reveal $d$ to attackers.
+
+\section{Privilege Escalation}
+Most systems have the concept of differing levels of privilege for different users; websites have global read-access and admin-only write-access, Unix lets users write to \code{\ttilde} but not \code{/usr/bin}, owners of mailing lists can perform extra tasks, etc.
+
+A {\bf privilege escalation} is an attack which raises the privilege level of the attacker beyond that to which he would normally be entitled.
+
+\subsection{Sources}
+A privilege escalation flaw often occurs in a part of the system which legitimately runs with a higher privilege that can be tricked into executing commands with that privilege on the attacker's behalf. Examples include buffer overflows in setuid programs or network daemons and component substitution. Another way this can occur is by tricking the system into thinking one has higher privileges than is actually the case, eg. when there are problems with authentication systems (\code{-froot}).
 
 \end{document}
