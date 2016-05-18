@@ -157,4 +157,45 @@ A {\bf privilege escalation} is an attack which raises the privilege level of th
 \subsection{Sources}
 A privilege escalation flaw often occurs in a part of the system which legitimately runs with a higher privilege that can be tricked into executing commands with that privilege on the attacker's behalf. Examples include buffer overflows in setuid programs or network daemons and component substitution. Another way this can occur is by tricking the system into thinking one has higher privileges than is actually the case, eg. when there are problems with authentication systems (\code{-froot}).
 
+\section{Operating System Security}
+An operating system allows different users to access different resources in a shared way. The OS needs to control this sharing and provide an interface to allow this access. {\bf Identification} and {\bf authentication} are required for this access control.
+
+% TODO: slides
+
+\subsection{Access Control}
+{\bf Access control} generally has three goals:
+\begin{description}
+\item [check every access] otherwise the OS might fail to notice access has been revoked
+\item [enforce least privilege] grant program accesss to only the smallest number of objects required to perform a task
+\item [verify acceptable use] limit types of activity that can be performed on an object
+\end{description}
+
+The {\bf access control matrix} can be used to describe access levels:
+\begin{itemize}
+\item the set of protected objects is $O$ (files, database records)
+\item the set of subjects is $S$ (users, processes acting for them)
+\item the set of rights is $R$ (read, write, execute)
+\end{itemize}
+
+Access control matrix consists of entries $a[s,o]$, where $s \in S$, $o \in O$ and $a[s,o] \subseteq R$. In practice, matrices are not used since they are incredibly sparse.
+
+More frequently, we use {\bf access control lists}, where each object has a list of subjects and that subject's access rights. Subjects are only present in this list if they have some non-empty set of rights.
+
+A {\bf capability} is an unforgeable tokan that gives its owner some access rights to an object. This is enforced by having the OS store and maintain tokens through cryptographic mechanisms. Tokens may be transferable, but this is not necessary.
+
+In some cases, it may make sense to combine both ACLs and capabilities. In UNIX, for example, each file has an ACL which is consulted upon an \code{open()} attempt. If approved, the caller is given a capability listing type of access allowed in the ACL (ie. read/write). Upon calling \code{read()} or \code{write()}, the OS simply looks at the capability (stored in memory) to determine the access type allowed. Note that this violates the goal of ``checking every access''.
+
+There also exists {\bf Role-Based Access Control} (RBAC). This is often used for, eg. companies, whereing a user's access often depends on the user's job function (role) within the company. RBAC also supports more complex access control scenarios: {\bf hierarchical} roles for, eg. managers, {\bf multiple roles} varying based on current tasks, ec. This enforces a {\bf separation of duty}.
+
+\subsubsection{Authentication}
+There are four classes of authentication factors:
+\begin{itemize}
+\item something the user {\bf knows}, such as a password, PIN, or secret question
+\item something the user {\bf has}, such as an ATM card, badge, browser cookie, key, uniform, or phone
+\item something the user {\bf is}, such as biometrics
+\item something about the user's {\bf context}, such as location or time
+\end{itemize}
+
+Different classes of these factors can be combines for more solid authentication. Multiple factors from the same class doesn't really help. It is also important to know that something you have can become something you know, eg. by entering the numbers from your credit card online.
+
 \end{document}
