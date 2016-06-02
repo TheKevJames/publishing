@@ -198,4 +198,62 @@ There are four classes of authentication factors:
 
 Different classes of these factors can be combines for more solid authentication. Multiple factors from the same class doesn't really help. It is also important to know that something you have can become something you know, eg. by entering the numbers from your credit card online.
 
+Passwords are the oldest form of authentication mechanism, but have several usability problems: unrecoverable forgotten passwords, inconvenient to enter them, disclosed passwords remove all protection, sharing passwords prevents easy updates. They are also vulnerable to many forms of attacks: shoulder surfing, keystroke logging, interface illusions, phishing, password re-use, password, guessing, et cetera.
+
+Guessing attacks, especially on short passwords, are particularly effective: an eight character password can be brute-force attacked in no more than five hours (though this is exponential by length of password). If we order these attempts by password likelihood, this becomes even faster in the average case.
+
+This doesn't necessarily mean we should give up on passwords, since there are many things that can be done to mitigate these issues. We also don't really have anything better: something like biometrics is a possibility, but it has its own set of problems.
+
+\subsection{Security Policies}
+Typically, a trusted operating system builds on four factors:
+\begin{itemize}
+\item a {\bf policy}, which is a set of rules defining what is secured and why,
+\item a {\bf model} that implements this policy and can be used to reason about it,
+\item a {\bf design}, which specifies how the OS implements the model, and
+\item {\bf trust}, which assures the OS is implemented according to the design.
+\end{itemize}
+
+Trusted software is similar, it's been rigourously developed and analyzed and is thus trusted to do exactly what it promises and no more. For this to be effective, we must have
+\begin{itemize}
+\item functional correctness,
+\item integrity enforcement (ie. wrong inputs don't break good data),
+\item limited privilege, and
+\item appropriate confidence levels (in the software)
+\end{itemize}
+
+To this end, many security policies have been developed. Particularly for industry applications, many of these are modelled upon government security models.
+
+\subsubsection{Chinese Wall Policy}
+\begin{quote}
+Once you have been able to access information about a particular kind of company, you will no longer be able to access information about other companies of the same kind.
+\end{quote}
+
+For example, assume Alice and Bob are consultants for various companies: Wendy's and MacDonalds (restaurants) and Chapters and Amazon (bookstores). If Alice reads Wendy's information, she can never access MacDonalds information. Though this prevents contamination within classifications (eg. restaurants and bookstores). However, this still allows Alice to write to Chapters; if Bob reads from Chapters and writes to MacDonalds, this information can still contaminate MacDonalds. In this way, this policy provides indirect information flow violating its constraints.
+
+\subsubsection{Lattices}
+A {\bf lattice} is a dominance relationship similar to the military security model and defined with antisymmetry and transitivty. It defines a partial order such that, eg. neither $a \geq b$ nor $b \geq a$ might hold for two levels $a$ and $b$. For every $a$ and $b$ in this lattice, there exists some {\bf unique lowest upper bound} $u \geq a$ and $u \geq b$ as well as a {\bf unique greatest lower bound} $l$. There also exist two elements $U$ and $L$ that dominate / are dominated by all levels.
+
+Consider the set $S = \{ x \suchthat x \leq a, x \leq b \}$. In this case, we have defined the lower bounds -- if there exists an element $l \in S$ such that $l \geq x$ for all $x \in S$, then $l$ is the greatest lower bound. Similarly, we can find the greatest upper bound from the upper bounds.
+
+We define the following: $(x, A) \leq (y, B)$ if $x \geq y$ and $B \subseteq A$. This allows us to create a few other definitions:
+\begin{align*}
+GLB((x, A), (y, B)) &= (\min\{x,y\}, A \cap B) \\
+LUB((x, A), (y, B)) &= (\max\{x,y\}, A \cup B)
+\end{align*}
+
+\subsubsection{Bell-La Padula (BLP)}
+This policy regulates information flow in LMS (lattice-based) policies. The basic principle is the information can only flow up: subject $s$ can only read object $o$ if $C(s) \geq C(o)$ and $s$ can only have write access to $o$ if $C(o) \geq C(s)$.
+
+\subsubsection{Biba Integrity Model}
+This prevents inappropriate modification of data and is the dual of BLP: the opposite of the previous relationships hold, eg users can only write below their security level and can only read above that level. This prevents unreliable people from modifying high integrity information and prevents unreliable information from contaminating subjects.
+
+The {\bf Low Watermark Property} states that Biba's access rules are very restrictive. Instead, we can use dynamic integrity levels: the {\bf subject low integrity property} says ``if subject $s$ reads object $o$, the $l(s) = GLB(l(s), l(o))$''. Similarly, if $s$ modifies $o$, then $l(o) = GLB(l(s), l(o))$. Rather, a subject's integrity can decrease as she reads low-integrity objects and an object's integrity can decrease as it is modified by low-integrity subjects. In practice, though, this eventually leads to a no-access-control system wherein all integrity becomes equal (at the loweest tier). To solve this, some method of increasing integrity must exist.
+
+Thos both Biba and BLP are easy to reason about, they are a bit too simple for great practical benefit and must be modified heavily before they are used. Particularly, they don't provide declassification and need both confidentialty and integrity rather than just one of those. Finally, information leaks may still be possible through covert channels not enforced within these models.
+
+\subsubsection{Information Flow Control}
+An {\bf information flow policy} defines the authorized paths along which information can flow. In compiler-based information flow control, a compiler checks whether the information in a program could violate an information flow policy. This can be either explicitly (eg. $x = y$) or implicitly ($if (x == 1) { y = 1 } else { y = 0 }$).
+
+Input parameters to progams have a lattice-based security classification associated with them. The compiler then updates the security classifcation of each variable depending on program usage (ie. with dynamic BLP/Biba). Ultimately, the compiler can then output the classficiations for each output variable. The user (or another program, etc) is only allowed to see outputs which correspond to its security policy.
+
 \end{document}
