@@ -256,4 +256,41 @@ An {\bf information flow policy} defines the authorized paths along which inform
 
 Input parameters to progams have a lattice-based security classification associated with them. The compiler then updates the security classifcation of each variable depending on program usage (ie. with dynamic BLP/Biba). Ultimately, the compiler can then output the classficiations for each output variable. The user (or another program, etc) is only allowed to see outputs which correspond to its security policy.
 
+\subsection{Trusted System Design Elements}
+Security must be part of the design of any system early on; it is extremely difficult to retrofit a system for security.
+
+There are eight design principles we must cover:
+\begin{description}
+\item[last privilege] operate using the fewest privileges possible
+\item[economy of mechanism] protection mechanism should be simple and straightforward
+\item[open design] avoid \emph{security by obsurity}; use secret keys and passwords, not secret algorithms
+\item[complete mediation] every access attempt must be checked
+\item[permission-based / fail-safe defaults] default should be denial of access (whitelists are better than blacklists)
+\item[seperation of privileges] two or more conditions must be met to gain access
+\item[least common mechanism] every shared mechanism could potentially be used as a covert channel
+\item [ease of use] if protection mechanism is too difficult to use, nobody will use it (or nobody will use it properly)
+\end{description}
+
+\subsubsection{Access Control}
+{\bf Mandatory Access Control (MAC)} is a central authority that determines access permissions. This is good for strong military environments, and for implementing systems such as Bell-La Padula, Biba, Chinese Wall, etc.
+
+{\bf Discretionary Access Control (DAC)} is when the owner of a given resource can control access to that resource.
+
+{\bf Role-Based Access Control (RBAC)} is neither MAC nor DBAC, though it is in fact possible to use combinations of these mechanisms.
+
+\subsubsection{Object Resuse Protection}
+Consider the case where some user is allocated memory by the operating system, stores a password in that address, then \code{free}s the memory. The opeating system does not actually clear this memory until it is passed to some other user (when they call \code{malloc}, etc). In the meantime, this password is accessible at some address.
+
+{\bf Defensive programming}, eg. erasing sensitive data yourself rather than relying on external tools, can help mitigate this.
+
+Hidden data (eg. deleting an email without clearing the server's cache, covering up text in a PDF with black squares, etc) is related to this: data that you think you have removed is still physically present \emph{somewhere}.
+
+\subsubsection{Accountability and Auditing}
+An {\bf audit log} should be kept of all security-related events. This should not be modifiable, since an attacker could simply remove traces of their activities. The provides accountiability if something goes wrong\dots\ but it is important to consider the granularity of event logging. Too fine-grained and we run into size concerns and may have difficulty finding the attack, to coarse-grained and the may miss the attack entirely or not have enough data.
+
+\subsubsection{Trusted Computing Base (TCB)}
+TCB consists of the part of a trusted operating system which is necessary to enforce global security. Changing the non-TCB aspects of the system will not affect security; this can be implemented either in different parts of the kernel or in a different module entirely -- either way, this provides a smaller vector to analyze, which helps us to confirm correctness.
+
+Virtualization is another method of accomplishing this: by providing logical separation, we can ensure any attack is limited only to the VM of the attack vector.
+
 \end{document}
