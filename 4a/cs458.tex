@@ -293,4 +293,28 @@ TCB consists of the part of a trusted operating system which is necessary to enf
 
 Virtualization is another method of accomplishing this: by providing logical separation, we can ensure any attack is limited only to the VM of the attack vector.
 
+% TODO: EAL and Orange Box notes
+
+\section{Network Security}
+The internet is not one single entity; it's a collection of connceted nodes that cover servers, laptops, routers, phones, etc, running a variety of OSes, on wired or wireless links, with various different IP protocols. Traffic is split into packets, which don't even necessarily all follow the same path.
+
+\subsection{Network Threats}
+There are many network threats to consider:
+\begin{description}
+\item[port scans] allow attackers to identify which applications are running one which ports of a target machine; this can allow them to gain information about the state of your machine and potential attack vectors. This information can include lists of services as well as their versions, which is enough to exploit known vulnerabilities in (especially) older versions of software.
+\item[intelligence] attacks, such as social engineering, dumpster diving, eavesdropping, googling, and social profiles.
+\item[eavesdropping and wiretapping] attacks, wherein the owner of a node can always monitor the communication flowing through a node either passively of actively (modification or fabrication of communication), a link traffic is sent though can be spied upon, or traffic can be diverted to a compromised node. It is prudent to assume all communication is wiretapped.
+\item[communication media] interceptions, such as by splicing into a copper (lossy) or optical (lossless) cable physically close to the victim or by eavesdropping on wireless signals. Though these types of attacks are feasible, they are physically expensive and difficult.
+\item[misdelivered information] issues, eg. across a local area network wherein technical issues may cause packets to be sent to multiple nodes (attacker can use a packet sniffer to catch packets not meant for their node) or things such as incorrectly-addressed emails.
+\item[impresonation] attacks, though passwords (by guessing, exploiting defaults, sniffing, or social engineering) and/or by exploiting trust between machines (rhost/rlogin/ssh verified connections can create ``trust chains'').
+\item[spoofing], where an object (URL, node, person, email, wifi access point, etc) pretends to be another one. This can be of the form of URL spoofing (\code{googlee.com}), a second, more power, router with the same network name as another, etc.
+\item[session hijacking], such as: TCP protocol involves a state at sender and receiver which can be hijacks so an attacker appears to be one of the nodes, attackers can sniff cookies to pretend to be a given user, man-in-the-middle attacks where the attacker sits between the two communicating nodes and reacts to data transferred between them.
+\item[traffic analysis] can be used to determine user actions, the mere existence of communication between two parties may be sensitive (think whistleblowers, military environments, CEOs of different companies, torrent downloads vs. browsing, \dots). TCP/IP traffic includes addresses for sender and receiver nodes, so traffic analysis is easy; by sniffing these packets, an attacker can see the addresses of the two end nodes which are communicating.
+\item[integrity attacks], where an attacker modifies packets in transit *change payload, change address of receiver, replay previous packets, delete or create packets). DNS cache poisoning can allow users to map hostnames to incorrect IP addresses. These issues can also be caused by line noise, network congestions, software errors, etc.
+\item[protocol failures]: since TCP/IP assumes all nodes implement protocols faithfully, this can be exploited. TCP, for example, has congestion control mechanisms which ask sender nodes to slow down when the network is congested -- attackers, though, can just ignore this. Some implementations don't even check whether a packet is well-formed, thus allowing buffer overflows, etc, or may include broken security mechanisms such as WEP.
+\item[web site vulnerabilities] wherein attackers examine the HTML returned from a server and finds vulnerabilities or sends some malicious URL to a web server to exploit a buffer overflow, invoke a shell, feed in malicious input, etc. Since HTTP is stateless, the client is responsible for storing state\dots\ which means attackers can modify that state and submit modified state information.
+\item[cross-site scripting and cross-site request forgery] attacks (code injection) allows attackers to add their own code to a webpage, eg. by inserting code into a comments section, form, etc. If this is persistent, other users download and execute this code upon visiting the page. XSS code steals sensitive information (eg. cookies) and sends it to the attacker. CSRF code performs a malicious action at some website if the user is currently logged in there (eg. attack all users currently logged into some bank).
+\item[denial of service (DoS)] includes cutting a wire, jamming a wireless signal, flooding a node by overlodaing its capacity, flooding with pings, ``smurf attacks'' (sppof source address of ping as victim's address, broadcast this ping \emph{everywhere}), SYN floods (send many SYNs, but no ACKs, thus filling the SYN-ACK table on the victim node), packet fragments which can not be completely re-assembled, or packets which all hash to the same bucket in the hash table.
+\end{description}
+
 \end{document}

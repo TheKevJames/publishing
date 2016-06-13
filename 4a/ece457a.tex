@@ -145,4 +145,45 @@ A {\bf beam search} is an informed breadth-first search. A beam search adds ever
 \subsubsection{$A^*$}
 An {\bf $A^*$} pathing algorithm tries to avoid expanding paths that are already expensive: it uses the evaluation function \[ f(n) = g(n) + h(n) \] where $g(n)$ is the cost from start node to $n$, and $h(n)$ is the estimate cost from $n$ to the goal. $A^*$ uses admissible heuristic $h(n) \leq h^*(n)$ where $h^*(n)$ is the actual cost from $n$ to the goal and $h(n) \geq 0$. $A^*$ always gives the optimal solution.
 
+\subsection{Game-Playing}
+% TODO: perfect information, max/min, alpha-beta pruning,
+
+\section{Algorithms}
+\subsection{Tabu Search}
+% TODO: local search, tabu search, adaption and cooperation
+
+\subsection{Simulated Annealing}
+% TODO: physical, simulated, schedules, temperature, convergence, adaption and cooperation
+
+\subsection{Genetic Algorithms}
+% TODO
+
+\subsubsection{Simple Genetic Algorithms}
+% TODO
+
+% TODO: selection (fps, rank, tourney, survivor)
+
+\subsubsection{Real-Valued GAs}
+% TODO
+
+\subsubsection{Permutation GAs}
+% TODO
+
+% TODO: adaptive
+
+There exist four broad categories of parallelization in genetic algorithms:
+\begin{description}
+\item[master-slave (globall-parallel) GAs], wherein the master population handles selection and and mating and applies the results to the entire population, distributing the fitness evaluation process amongst slave processors.
+\item[fine-grained GAs], wherein selection and mating is restricted to (potentially overlapping) local populations. This is suitable for massive-scale systems, eg. wherein each individual can have a dedicated processor.
+\item[coarse-grained (multiple-popultion, multiple-deme, distributed, ``island'' parallel) GAs], wherein multiple populations evolve in parallel, selection and mating is restricted to within that population, and populations exchange individuals now and again. This can be either dense or sparse, where dense topologies lead to faster propogation and sparser ones lead to more isolated systems with the potential of merging solutions eventually for better results. Additionally, we can decide a {\bf migration strategy} for the migratory individuals (best-worst, best-random, random-random, random-worst, etc) and a {\bf migration frequency}, which is self-explanatory but may be based either on time ($n$-generations) or some event (eg. converged populations) -- it is important to avoid migrating too early, so as to avoid creating sub-optimal solutions. We also set a {\bf migration rate}, ie. the number of individuals to be migrated at each communication step. Again, high rates may cause early convergence, low rates may cause complete deme independence.
+\item[cooperative GAs], wherein multiple populations optimize for different aspects of the problem. The fitness of an individual, then, is compared against the best individuals across all populations.
+\end{description}
+
+\subsection{Ant Colony Optimization}
+Ants follow the routes smelling more of ant pheremones. In this way, a decision that can begin randomly may, with random variations, lead to all ants following the same path. This will lead to ants finding the shortest path, since the randomness will favour this route.
+
+This pheremone trail acts as collective memory for the ants to communicate by sense=ing and recording their foraging experience; since the smell disperses over time, the ants can determine how recent the pheremones were spread.
+
+% TODO
+
 \end{document}

@@ -57,6 +57,24 @@ A {\bf switched ethernet} attempts to reduce duplication of packets in a hub; it
 
 Hosts connected to the same switch may not be on the same VLAN ({\bf Virtual LAN}). One way to do this is to have the switch bind a port to a VLAN ID. The traffic, then, is allowed to flow only within the VLAN (ie. we create an extra column in the switching table).
 
-% TODO:
+% TODO
+
+\section{}
+% TODO
+
+\subsection{IP}
+% TODO
+
+\subsection{Routing Algorithms}
+
+\subsubsection{Dijkstra's Algorithm}
+{\bf Dijkstra's Algortithm}, ie. the alogrithm for constructing a minimum spanning tree, can be applied to network graphs to determine the set of routes necessary to create the shortest average distance between nodes. This can be proven correct (Cormen et al.).
+
+% TODO: LS, DV
+
+\subsection{Hierarchical Routing}
+All our discussions of routing so far have been purely idealization; routers are not all connected to each other, they are aggregated into {\bf autonomous systems}, where routers in the same AS run the same routing protocol. We then have intra-AS routing protocols to communicate between these.
+
+We refer to routers on the ``edge'' of their own AS linked to at least one router in a different AS as a {\bf gateway router}.
 
 \end{document}
