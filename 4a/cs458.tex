@@ -314,7 +314,35 @@ There are many network threats to consider:
 \item[protocol failures]: since TCP/IP assumes all nodes implement protocols faithfully, this can be exploited. TCP, for example, has congestion control mechanisms which ask sender nodes to slow down when the network is congested -- attackers, though, can just ignore this. Some implementations don't even check whether a packet is well-formed, thus allowing buffer overflows, etc, or may include broken security mechanisms such as WEP.
 \item[web site vulnerabilities] wherein attackers examine the HTML returned from a server and finds vulnerabilities or sends some malicious URL to a web server to exploit a buffer overflow, invoke a shell, feed in malicious input, etc. Since HTTP is stateless, the client is responsible for storing state\dots\ which means attackers can modify that state and submit modified state information.
 \item[cross-site scripting and cross-site request forgery] attacks (code injection) allows attackers to add their own code to a webpage, eg. by inserting code into a comments section, form, etc. If this is persistent, other users download and execute this code upon visiting the page. XSS code steals sensitive information (eg. cookies) and sends it to the attacker. CSRF code performs a malicious action at some website if the user is currently logged in there (eg. attack all users currently logged into some bank).
+\item[black hole (packet drop) attacks] are when routers advertise a low cost to reaching a specific victim node (so traffic gets routed through this router) then simply dropping the packets.
 \item[denial of service (DoS)] includes cutting a wire, jamming a wireless signal, flooding a node by overlodaing its capacity, flooding with pings, ``smurf attacks'' (sppof source address of ping as victim's address, broadcast this ping \emph{everywhere}), SYN floods (send many SYNs, but no ACKs, thus filling the SYN-ACK table on the victim node), packet fragments which can not be completely re-assembled, or packets which all hash to the same bucket in the hash table.
+\item[distributed denial of service (DDos)] is a DoS attack spread across multiple attacking machines to make it more difficult to trace the attacker, block them, etc. Most machines attacking in a DDoS participate without their owner's knowledge (eg. attacker breaks into their machines, makes it into a bot that will respond to specific command, creates botnet of nodes that attack the victim). Attackers often use amplification (run a service which responds with more data that is received, eg. SNMP) or reflection (attacker spoofs source address of the queries so responses are sent to the victim).
+% botnets
 \end{description}
+
+\subsubsection{Active Code}
+To reduce load on a server (or to generate cool client-side effect), the server may have code run on clients. This can be dangerous for the client. Even Java 1.1, which ran in a sandbox with limited capabilities and is code checked for correctness, could still use up CPU, use memory resources, mess up display, play sound, etc.
+
+\subsubsection{Script Kiddies}
+For all of the above attacks, scripts exist online that anyone can download and run.
+
+% TODO: titale wrong?
+\section{Protection}
+% TODO: first subsection
+
+\subsection{Segmentation and Separation}
+Don't put all servers on a single machines, deploy on multiple machines so an infected box will only affect some services. A company webserver, for example, needs to be accessible from the outside and is thus more vulnerable, so it should be deployed outside the company firewall and not trusted by other company servers.
+
+\subsection{Redundancy}
+Servers should be deployde redundantly on multiple machines, ideally with genetic diversity (different software) at different locatoins. Redundant servers should be kept in close sync so backup servers can take over easily.
+
+\subsection{Access Controls}
+ACLs on router to drop packets in case of flooding, etc. This can also ensure only some users can access privileged sources, which can hepl with security. Unfortunately, ACLs are very slow on routers.
+
+Firewalls can be used on machines, rather than on the routers, and can filter traffic based on more than just packet address. By mounting firewalls on {\bf choke points} through which all traffic must route, we can set up global whitelists and/or blacklists. Note that these will not protect against attacks on company hosts which originate within that company.
+
+Packet filtering is the simplest type of firewall technique; you can make decisions based on the header of a packet, ie. to block port 22 (note: this can be avoided by running an ssh server on a port other than 22\dots).
+
+Stateful inspection firewalls are more expensive than simple packet filtering, but can tie together multiple packets to ensure, eg. a packet is only received into the network when a request for that packet was recently sent out.
 
 \end{document}
