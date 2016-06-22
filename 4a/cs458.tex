@@ -345,4 +345,24 @@ Packet filtering is the simplest type of firewall technique; you can make decisi
 
 Stateful inspection firewalls are more expensive than simple packet filtering, but can tie together multiple packets to ensure, eg. a packet is only received into the network when a request for that packet was recently sent out.
 
+% TODO
+
+\subsection{Secret-Key Encryption}
+{\bf Secret-Key Encryption} is the simplest form of cryptography; also called symmetric encryption, this form of encryption involves having a single key which is shared between the encrypting and decrypting functions. Note that sharing a key between parties is a significant problem with this approach.
+
+A {\bf One-Time Pad} is a specific application of this, wherein the plaintext and some random bitstring of equal length are XORed to create the cipher text. The bitstring XOR the cipher text will return the original plaintext. This form of encryption is ``cryptographically perfect'', since only the original bitstring will decrypt it properly -- iterating through all possible bitstrings will simply give you all possible results.
+
+\subsection{Stream Ciphers}
+A {\bf stream cipher} is what you get when you use a one-time pad generated psuedorandomly rather than truly random. Stream ciphers can be very fast, but they are difficult to use properly (concurrency issues, etc).
+
+\subsection{Block Ciphers}
+Note that stream ciphers operate on the message one bit at a time. If we change just a single bit of plaintext, the cipher changes completely. In contrast, we can use {\bf block ciphers}, which operate on blocks of data at a time, usually 64- or 128-bits.
+
+The {\bf mode of operation} for a block cipher is what it does when presented with multiple blocks (ie. if the plaintext is larger than a single block). The simple solution is to simply encrypt them in sequence and concatenate them together, but there are many other (better) modes, such as {\bf Cipher Block Chaining}, {\bf Counter}, and {\bf Galois Counter} modes. These modes prevent patterns from being exposed, but require some {\bf initial value} (similar to a salt).
+
+\subsection{Public-Key Encryption}
+{\bf Public-Key Encryption}, or assymetric cryptography, involves creating a key for encryption and a key for decryption -- this allows decryption without having a prearranged shared key.
+
+This is accomplished by giving each user a \emph{public} key. This is meant to be shared. Additionally, a user must have a private key (that is not shared) which can decrypt messages encrypted with his public key. Then, we can encrypt any message using a user's public key such that only they can decrypt it (ie. with their private key).
+
 \end{document}
