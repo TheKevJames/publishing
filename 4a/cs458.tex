@@ -365,4 +365,32 @@ The {\bf mode of operation} for a block cipher is what it does when presented wi
 
 This is accomplished by giving each user a \emph{public} key. This is meant to be shared. Additionally, a user must have a private key (that is not shared) which can decrypt messages encrypted with his public key. Then, we can encrypt any message using a user's public key such that only they can decrypt it (ie. with their private key).
 
+\subsubsection*{RSA}
+% TODO
+
+\subsubsection*{Key Management}
+One of the hardest problems with public-key encryption is {\bf key management}. Many systems have different methods: manual addition to a keyring, trusted friends (web of trust), trusted third party (CAs), etc.
+
+A {\bf certificate authority} is a trusted thrid party who keeys a directory of people's (and organization's) verification keys. Users generate signature and verification key pairs, the sends the verification key and a bunch of verification identification, both signed with their signature key. The CA then generates a certificate consisting of personal information and a verification key. The entire certificate is signed with the CA's signature key. The collection of all os this information is considered the user's certificate, and can be validated by an user with the CA's verification key.
+
+\subsection*{Integrity Component}
+% TODO
+
+\subsubsection*{Cryptographic Hash Functions}
+% TODO, + MAC
+
+In practice, we often need both confidentiality and integrity; eg, we need to combine ciphers and MACs. Performing the encryption first is a stronger strategy, though we can do these in either direction (or both at once) -- in fact, many crypto libraries will have an {\bf authenticated encryption mode} where they do the former.
+
+\subsubsection*{Repudiation}
+{\bf Repudiation} is the act of being unable to prove a conversation occurred, or at least what the contents of this conversation were. In other words, non-repudiable conversations are conversations we want to be able to prove have occured.
+
+To allow non-repudiation, we tend to use {\bf digital signatures} with the following properties: if Bob receives a message with Alice's digital signature, then
+\begin{itemize}
+\item Alice sent the message (MAC-like)
+\item The message was not altered (MAC-like)
+\item Bob can prove the above to a third-party (not MAC-like)
+\end{itemize}
+
+We can accomplish the above with an approximation of public-key cryptography, where each user has a private {\bf signature key} and a public {\bf verification key}. Note that this method is slow for signing large messages; instead, we can hybridize singatures to make them faster: we send unsigned messages with a signature on a \emph{hash} of the message -- since the hash is much smaller, it is faster to sign and verify.
+
 \end{document}
