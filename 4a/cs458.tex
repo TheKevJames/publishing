@@ -393,4 +393,14 @@ To allow non-repudiation, we tend to use {\bf digital signatures} with the follo
 
 We can accomplish the above with an approximation of public-key cryptography, where each user has a private {\bf signature key} and a public {\bf verification key}. Note that this method is slow for signing large messages; instead, we can hybridize singatures to make them faster: we send unsigned messages with a signature on a \emph{hash} of the message -- since the hash is much smaller, it is faster to sign and verify.
 
+% TODO
+
+\section*{Transport-Layer Security}
+% TODO
+
+\section*{Application-Layer Security}
+In addition to security over a network (eg. TLS), we sometimes desire security between applications. More specifically, we can consider a graph wherein nodes are applications and edges are transportation protocols. While transport-layer security covers the edges of this graph, to fully secure communication between arbitray nodes we need {\bf application-layer security} on each node along the path, or more generally on the overall path.
+
+For example, consider ssh communication. Upon tunneling through nodes, we want traffic to be encrypted in such a way that it can not be deciphered by intermediary nodes.
+
 \end{document}
