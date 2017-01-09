@@ -1,0 +1,67 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 444 --- Compiler Construction}
+\author{Kevin James}
+\date{\vspace{-2ex}Winter 2017}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Summary}
+
+\section{Analysis}
+The {\bf Analysis} step within a compiler requires we check to ensure validity of the program and then determine its meaning. When possible, we prefer using formal languages as the specificiation for validity checking.
+
+\begin{quote}
+A {\bf formal language} ($L$) has some alphabet ($\Sigma$) with a finite set of symbols, arranged into some words ($w$) which are finite sequences of those symbols.
+\end{quote}
+
+In the first step of the Analysis phase, we split the sequence of input characters into tokens or lexemes. This is refered to as {\bf Scanning} or {\bf Lexical Analysis}. There are several possible approaches to this:
+\begin{itemize}
+    \item simply coding each case
+    \item maximal munch alogrithm, using a DFA
+    \begin{itemize}
+        \item simply coding the entire DFA
+        \item Regex $\to$ \code{lex} $\to$ DFA
+    \end{itemize}
+\end{itemize}
+
+When building a DFA, the $\epsilon$-closure($S$) of a set $S \in Q$ of states is
+\begin{itemize}
+    \item the set of states reachable from $S$ by $\epsilon$-transitions
+    \item the smallest set $S^\prime$ such that $S \subseteq S^\prime$ and $\{q \suchthat q^\prime \in S^\prime, q \in \delta(q^\prime, \epsilon)\} \subseteq S^\prime$
+\end{itemize}
+
+The following psuedo-code defines a method for computing these closures.
+
+\begin{verbatim}
+def compute_closure(S):
+    worklist = S
+    Sprime = S
+    while worklist:
+        qprime = worklist.pop()
+        for q in delta(qprime, epsilon):
+            if q not in Sprime:
+                Sprime.append(q)
+                worklist.append(q)
+    return Sprime
+\end{verbatim}
+
+We may also consider creating a DFA by converting from an NFA ($\{\Sigma, Q, \dots\} \to \{\Sigma^\prime, Q^\prime, \dots\}$).
+
+A state of $q^\prime \in Q^\prime$ corresponds to a set of states from $Q$, ie. $Q^\prime = z^Q$.
+
+\end{document}
