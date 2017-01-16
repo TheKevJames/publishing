@@ -100,4 +100,51 @@ while unprocessed input {
 }
 \end{verbatim}
 
+\subsection{Parsing}
+After the Scanner turns a sequence of characters into a sequence of tokens, those tokens are sent into a Parser which outputs a {\bf parse tree}.
+
+Context-free grammars have concatention, alternation (I) like regular expressions but replace repetition ($*$) with recursion.
+
+\begin{quote}
+A Context-Free Grammar is a 4-tuple $G = (N, T, R, S)$ -- Non-terminals and Terminals (symbols $V = T \cup N$), Rules ($R \subseteq N \times V^*$), and Start ($S \in N$).
+
+We use the symbols $\Rightarrow$ and $\Rightarrow^*$ to imply ``direct derivation'' and ``derivation''.
+
+$\beta A \gamma \Rightarrow \beta\alpha\gamma$ if $A \to \alpha \in R$. Therefore, $\alpha \Rightarrow^* \beta$ if $\alpha = \beta$ or $\alpha \Rightarrow \gamma$ and $\gamma \Rightarrow^* \beta$. $\alpha$ is a sentential form if $S \Rightarrow \alpha$ (where $\alpha$ is the start symbol).
+
+The language of the grammar $L(G) = \{ x\ in T^* \suchthat S \Rightarrow^* x \}$ which is the sentential forms $S(G) \cap T^*$.
+\end{quote}
+
+Therefore, if some $x$ is in the grammar, there must exist some derivation for $x$. Parsing, then, involves finding this derivation. A context-free grammar is unambiguous if there exists only a single parse tree, left derivation, and right derivation for any given word.
+
+We can parse either forwards (top-down, eg. LL1) or backwards (bottom-up, eg. LR1), ie. beginning or ending with the starting token. In this course, we will focus on LR1 parsing.
+
+\begin{verbatim}
+def top_down_parsing():
+    alpha = S
+    while alpha != x
+        replace some A in alpha with B (where A->B is a rule)
+
+def bottom_up_parsing():
+    alpha = x
+    while alpha != S:
+        replace some B in alpha with A (where A->B is a rule)
+\end{verbatim}
+
+In either of the above algorithms, the token being replaced is called the {\bf handle}.
+
+The variation in the above algorithms that defines LL1, LR1, RR1, etc occurs in the loop body. For and LL1 parser, for example:
+\begin{verbatim}
+def ll1_parse():
+    alpha = S
+    while a != x:
+        A = first non-term in alpha (alpha = y A gamma)
+        a = first terminal in x after y (x = y a z)
+        let A->B = predict(A, a)
+        replace A in alpha with B
+
+def predict(A, a):
+    # TODO
+\end{verbatim}
+
 \end{document}
