@@ -62,6 +62,42 @@ def compute_closure(S):
 
 We may also consider creating a DFA by converting from an NFA ($\{\Sigma, Q, \dots\} \to \{\Sigma^\prime, Q^\prime, \dots\}$).
 
-A state of $q^\prime \in Q^\prime$ corresponds to a set of states from $Q$, ie. $Q^\prime = z^Q$.
+A state of $q^\prime \in Q^\prime$ corresponds to a set of states from $Q$, ie. $Q^\prime = z^Q$. More specifically, we have
+\begin{align*}
+q_0^\prime &= \epsilon\text{-closure}(\{q_0\}) \\
+\delta^\prime (q^\prime, a) &= \epsilon\text{-closure}(\displaystyle\bigcup_{q \in q^\prime} \delta(q, a))
+\end{align*}
+and $Q^\prime$ is the smallest set of subsets of $Q$ such that $\{q_0^\prime\} \subseteq Q^\prime$ (where $q_0^\prime \in Q^\prime$) and $\forall a \in \Sigma \cdot Q^\prime, \{\delta^\prime(q^\prime, q) \suchthat q^\prime \in Q^\prime\} \subseteq Q^\prime$. We also have \[ A^\prime = \bigl\{q^\prime \in Q^\prime \suchthat q^\prime \cap A \neq \{\}\bigl\} \]
+
+\begin{quote}
+We can build a recognizer for a DFA with
+\begin{verbatim}
+def is_word_in_language(q0):
+    q = q0
+    for i in range(1, n):
+        q = delta(q, w[i])
+    return q in A
+\end{verbatim}
+\end{quote}
+
+\subsection{Scanning}
+Given some input DFA specifying valid tokens and $w \in \Sigma^*$, output a sequence of tokens whose concatenation is $w$ and each token $t \in L$.
+
+In psuedocode:
+\begin{verbatim}
+while unprocessed input {
+    find a prefix of unprocessed input that is in L
+}
+\end{verbatim}
+
+When using the {\bf Maximal Munch Algorithm} (which is used for virtually all compiler scanners), we instead find the \textit{longest} prefix.
+\begin{verbatim}
+while unprocessed input {
+    run DFA on unprocessed input until it gets stuck
+    backtrack DFA and input to last-seen accepting state or fail
+    output current prefix as token
+    reset DFA to start state
+}
+\end{verbatim}
 
 \end{document}
