@@ -133,7 +133,7 @@ def bottom_up_parsing():
 
 In either of the above algorithms, the token being replaced is called the {\bf handle}.
 
-The variation in the above algorithms that defines LL1, LR1, RR1, etc occurs in the loop body. For and LL1 parser, for example:
+The variation in the above algorithms that defines LL1, LR1, RR1, etc occurs in the loop body. For an LL1 parser, for example:
 \begin{verbatim}
 def ll1_parse():
     alpha = S
@@ -146,5 +146,106 @@ def ll1_parse():
 def predict(A, a):
     # TODO
 \end{verbatim}
+
+We can also define an LR0 parser:
+\begin{verbatim}
+def lr0_parse():
+    for a in x:
+        while reduce(stack) = {A->j}:
+            pop j
+            push A
+
+        if Reject(stack + a): ERROR
+        push a
+
+Reduce(alpha) = { A->j | EB, alpha = Bj and BA is a viable prefix}
+Reject(alpha) = alpha is not a viable prefix
+\end{verbatim}
+
+\begin{quote}
+The stack and the unseen input together comprise the entire input.
+
+The stack is a viable prefix if and only if $\exists\beta \suchthat S \Rightarrow^* \text{stack }\beta$.
+
+We then define $\alpha$ as a {\bf viable prefix} if it is a prefiex of a sentential form. We hope that $\beta \Rightarrow^*$ unseen input.
+\end{quote}
+
+\subsection{Weeding}
+Weeding is a step after parsing wherein we check language restrictions that could be enforced by the parser or scanner, but are easier in code.
+
+\section{Name Resolution}
+\begin{enumerate}
+    \item Build global environment
+    \item Resolve ``type'' names
+    \item Check hierarchy/classes/methods/fields
+    \item Disambiguate namespaces of ambiguous names (a.b.c.d)
+    \item Resolve expressions, variables, static fields
+    \item Type checking
+    \item Resolve instance (non-static) fields, methods
+\end{enumerate}
+
+We resolve names in the following priority:
+\begin{enumerate}
+    \item set of classes, fully-qualified names (including packages)
+    \item qualified name (with a dot), simple name (no dot)
+    \begin{enumerate}
+        \item is it the enclosing class/interface?
+        \item is it a single-type import (eg. a.b.c.d)?
+        \item is it a type in current package?
+        \item is it a type in an import-on-demand (wildcard import) package?
+    \end{enumerate}
+    \item simple checks
+    \begin{description}
+        \item[class A ext B]: B must be a class
+        \item[class C impl D]: D must be an interface
+        \item[no duplicate interface]: class E impl F, F
+        \item[] B cannot be final
+        \item[] two constructors of same class must have distinct parameter types
+        \item[class A ext B impl C, D, E]:
+        \begin{itemize}
+            \item \begin{code}super(A) = \{B, C, D, E\}\end{code}
+            \item direct superclass and superinterface
+            \item if \begin{code}B\end{code} is unspecified, include \begin{code}java.lang.Object\end{code}
+            \item \begin{code}super(java.lang.Object)\end{code} $= \varnothing$.
+        \end{itemize}
+        \item[interface F ext G, h, I]:
+        \begin{itemize}
+            \item \begin{code}super(F) = \{G, H, I\}\end{code}
+            \item In interfaces, methods are implictly \begin{code}public abstract\end{code}
+            \item In interfaces, fields are implicitly \begin{code}static\end{code}
+        \end{itemize}
+    \end{description}
+\end{enumerate}
+
+Each of these steps must be unambiguous.
+
+Hint: the default package is not the root package.
+
+\begin{quote}
+Given
+\begin{align*}
+declare(T)& \text{ is the methods and fields of } T \\
+inherit(T)& \text{ is the methods and fields inherited from supertypes of } T \\
+contain(T)& \text{ is } declare(T)\ \cup\ inherit(T) \\
+replace(a, b)& \text{ is method } a \text{ overwriting method } b \text{ or field } a \text{ ``hiding'' field } b \\
+sig(x)& \text{ is the signature of } x \\
+nodecl(T, m)& \iff \forall m^\prime \in declare(T), sig(m) \neq sig(m^\prime) \\
+allabs(T, m)& \text{ is this method abstract? }
+\end{align*}
+\end{quote}
+
+\section{Type Checking}
+The {\bf static type} of an expression $E$ is a set containing all possible values of $E$.
+
+The {\bf dynamic type} of an expression is a runtime value tha tindicates how to interpret some bits.
+
+The {\bf declared type} of a variable is an assertion that the variable will contain only values of that type.
+
+Type checking, then, is the act of enforcing those assertions. {\bf Static type checking} ensures that every expression evaluates to a value in its type. {\bf Dynamic type checking} is a runtime chekc that the tag on a value is in the declared type to which the value is assigned.
+
+\subsection{Static Type Checking}
+A static type checker infers a static type $T$ for every sub-expressioN$E$ by proving that $E$ evaluates to a value in $T$.
+
+A program is {\bf type correct} if the type assertions hold in all executions. A program is {\bf statically type correct} if it satisfies a system of type inference rates (a {\bf type system}). A type system is sound if being statically type correct implies being type correct.
 
 \end{document}
