@@ -1,0 +1,46 @@
+\documentclass[12pt]{article}
+\usepackage[lmargin=0.5in,rmargin=1.5in,tmargin=0.5in,bmargin=0.75in, marginparwidth=1.25in]{geometry}
+\usepackage{parskip}
+\usepackage{soul}
+
+\usepackage{aurical}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Fontskrivan\Large\bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\Fontskrivan\large\bfseries}
+  {\thesection}{1em}{}
+
+\usepackage{enumitem}
+\setlist[description]{
+  font={\Fontskrivan\bfseries},
+}
+
+\usepackage[document]{ragged2e}
+\usepackage[none]{hyphenat}
+
+\usepackage{wallpaper}
+\begin{document}
+
+\pagestyle{empty}\CenterWallPaper{}{parchement.jpg}
+\Fontauri
+
+\newcommand{\pause}{\rule{\linewidth}{0.2mm}}
+\newcommand{\sleep}{\rule{\linewidth}{0.6mm}}
+\newcommand{\margin}[1]{\marginpar{\Fontlukas\emph{#1}}}
+\renewcommand{\textsc}[1]{\Fontskrivan{#1}\Fontauri}
+
+\input{intro}
+\input{day_one}
+\input{day_two}
+\input{day_three}
+\input{day_four}
+\input{prophecy}
+\input{day_five}
+\input{day_six}
+\input{day_seven}
+\input{day_eight}
+
+\end{document}
