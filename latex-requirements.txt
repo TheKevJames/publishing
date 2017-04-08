@@ -1,3 +1,5 @@
+collection-xetex
+
 booktabs
 listings
 mathtools
