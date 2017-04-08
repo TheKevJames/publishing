@@ -13,4 +13,7 @@ dependencies:
 
 test:
   override:
-    - PATH=/opt/texlive/bin/x86_64-linux:$PATH make -j8
+    - PATH=/opt/texlive/bin/x86_64-linux:$PATH make
+
+  post:
+    - cp journal.pdf $CIRCLE_ARTIFACTS/journal.pdf
