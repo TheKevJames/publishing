@@ -9,7 +9,6 @@ dependencies:
 
   override:
     - sudo /opt/texlive/bin/x86_64-linux/tlmgr install $(cat requirements.txt)
-    - sudo make install
 
 test:
   override:
