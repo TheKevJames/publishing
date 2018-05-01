@@ -1,0 +1,18 @@
+dependencies:
+  cache_directories:
+    - "/opt/texlive/"
+
+  pre:
+    - if [ ! -d /opt/texlive/ ]; then curl -L https://tesseract.in.tu-clausthal.de:8443/index.php/s/3ZKzReAc69yBNou/download | sudo tar xJp --strip 2 -C /opt; fi
+    - sudo /opt/texlive/bin/x86_64-linux/tlmgr update --self --all --reinstall-forcibly-removed
+    - sudo /opt/texlive/bin/x86_64-linux/tlmgr init-usertree
+
+  override:
+    - sudo /opt/texlive/bin/x86_64-linux/tlmgr install $(cat requirements.txt)
+
+test:
+  override:
+    - PATH=/opt/texlive/bin/x86_64-linux:$PATH make
+
+  post:
+    - cp journal.pdf $CIRCLE_ARTIFACTS/journal.pdf
