@@ -6,11 +6,22 @@ jobs:
       - image: jpbernius/xelatex
     steps:
       - run:
+          name: install tex dependencies
+          command: |
+            apt-get update
+            apt-get install -y curl zip
+
+            curl -Ls http://mirrors.ctan.org/fonts/aurical/aurical_texmf.zip > /aurical.zip
+            unzip /aurical.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            texhash
+      - checkout
+      - run:
           name: xelatex curse-of-strahd/journal.tex
           command: |
             cd curse-of-strahd
             xelatex journal.tex
-            mv journal.pdf ../curse-of-strahd.pdf
+            mkdir -p ../build
+            mv journal.pdf ../build/curse-of-strahd.pdf
       - persist_to_workspace:
           root: build
           paths:
