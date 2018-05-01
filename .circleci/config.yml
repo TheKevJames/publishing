@@ -1,0 +1,47 @@
+version: 2
+
+jobs:
+  build-curse-of-strahd:
+    docker:
+      - image: jpbernius/xelatex
+    steps:
+      - run:
+          name: xelatex curse-of-strahd/journal.tex
+          command: |
+            cd curse-of-strahd
+            xelatex journal.tex
+            mv journal.pdf ../curse-of-strahd.pdf
+      - persist_to_workspace:
+          root: build
+          paths:
+            - curse-of-strahd.pdf
+      - store_artifacts:
+          path: build/curse-of-strahd.pdf
+
+  upload:
+    docker:
+      - image: google/cloud-sdk
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /gcloud-service-key.json
+    steps:
+      - run:
+          name: authenticate with google cloud
+          command: |
+            echo "${GCLOUD_SERVICE_KEY}" > "${GOOGLE_APPLICATION_CREDENTIALS}"
+            gcloud auth activate-service-account --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
+            gcloud config set project "thekevjames-175823"
+      - attach_workspace:
+          at: build
+      - run: gsutil -m cp build/curse-of-strahd.pdf gs://thekevjames-artifacts
+
+workflows:
+  version: 2
+  run-jobs:
+    jobs:
+      - build-curse-of-strahd
+      - upload:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-curse-of-strahd
