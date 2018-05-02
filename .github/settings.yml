@@ -1,6 +1,6 @@
 repository:
-  name: writing
-  description: Miscellaneous writings
+  name: publishing
+  description: Miscellaneous writings and publishings
   private: false
 
   has_issues: true
