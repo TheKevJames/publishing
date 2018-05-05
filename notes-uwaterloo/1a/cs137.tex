@@ -34,7 +34,7 @@ We will be covering
 int main(void) {
   // print formatted "Hello, World!"
   printf("Hello, World!");
-  
+
   // returns 0, ie successful completion
   return 0;
 }
@@ -47,10 +47,10 @@ int main(void) {
 int main(void) {
   // declare variables
   int a,b,r;
-  
+
   // take two integers as input, assign them to a and b. %d is for integers
   scanf("%d,%d",&a,&b);
-  
+
   // so long as b is non-zero...
   while(b) {
     // r is the remainder of a divided by b
@@ -69,13 +69,13 @@ int main(void) {
 \centering
   \caption{Types of integers and their sizes and ranges.}
   \begin{tabular}{r|ll}
-  Type & Size & Range \\ \hline 
-  unsigned char & 1 byte & $[0,2^8-1]$ \\ 
-  char   & 1 byte & $[-2^{8-1},2^{8-1}]$ \\ 
-  unsigned short & 2 bytes & $[0,2^{16}-1]$ \\ 
-  short & 2 bytes & $[-2^{16-1},2^{16}]$ \\ 
-  unsigned int & 4 bytes & $[0,2^{32}-1]$ \\ 
-  int & 4 bytes & $[-2^{32-1},2^{32-1}]$ \\ 
+  Type & Size & Range \\ \hline
+  unsigned char & 1 byte & $[0,2^8-1]$ \\
+  char   & 1 byte & $[-2^{8-1},2^{8-1}]$ \\
+  unsigned short & 2 bytes & $[0,2^{16}-1]$ \\
+  short & 2 bytes & $[-2^{16-1},2^{16}]$ \\
+  unsigned int & 4 bytes & $[0,2^{32}-1]$ \\
+  int & 4 bytes & $[-2^{32-1},2^{32-1}]$ \\
   long & 4/8 bytes & $[-2^{64-1},2^{64-1}$ \\ \hline
   \end{tabular}
 \end{table}
@@ -113,14 +113,14 @@ int gcd(int a, int b) {
     b = r;
     r = a % b;
   }
-  
+
   return b;
 }
 
 int main() {
   // print the result of a function call with arguments 806 and 338
   printf("%d\n",gcd(806,338));
-  
+
   return 0;
 }
 \end{verbatim}
@@ -148,7 +148,7 @@ bool isPrime(int num) {
       return false;
       divisor++
     }
-  
+
   return true;
 }
 \end{verbatim}
@@ -161,7 +161,7 @@ bool isPrime(int num) {
 bool leap(int year) {
   // if year <= 1582, terminates with error
   assert(year > 1582);
-  
+
   ...
 }
 \end{verbatim}
@@ -200,7 +200,7 @@ int main() {
   func(a);
   // a has not been changed in this scope
   printf("%d\n",a);
-  
+
   return 0;
 }
 \end{verbatim}
@@ -294,7 +294,7 @@ double bisect(double a, double b, double epsilon, int maxIters) {
 
 int main() {
   printf("%g\n", bisect(-10,10,0.001,1000000);
-  
+
   return 0;
 }
 \end{verbatim}
@@ -314,7 +314,7 @@ int main() {
   // access member variables
   later.hours = now.hours + 3;
   later.minutes = now.minutes;
-  
+
   return 0;
 }
 \end{verbatim}
@@ -331,7 +331,7 @@ typedef struct {
 int main() {
   // notice the lack of struct in the definition?
   tod now = {13,53};
-  
+
   return 0;
 }
 \end{verbatim}
@@ -348,10 +348,10 @@ int main() {
   int *p = &i;
   // set the contents pointed to by p to 10
   *p = 10;
-  
+
   // prints 10
   printf("%d\n",i);
-  
+
   return 0;
 }
 \end{verbatim}
@@ -368,10 +368,10 @@ int main() {
   // no stars here because we're assigning the memory address
   q = p;
   *q = 17;
-  
+
   // prints 17
   printf("%d\n",i);
-  
+
   return 0;
 }
 \end{verbatim}
@@ -388,7 +388,7 @@ void swap(int *p, int *q) {
 int main() {
   int i=1, j=2;
   swap (&i, &j);
-  
+
   // prints 2, 1
   printf("%d, %d\n",i,j);
 }
@@ -409,7 +409,7 @@ int main() {
   // p will point to the largest element
   int *p = largest(test, sizeof(test)/sizeof(test[0]);
   *p = 100;
-  
+
   // the third element is the largest... note how it has been changed to 100
   printf("%d\n",test[3]);
 
