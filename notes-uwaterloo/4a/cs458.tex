@@ -1,0 +1,406 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 458 --- Computer Security and Privacy}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2016}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Program Security}
+Programs have bugs. Thus, security-relevant programs have security bugs.
+
+\subsection{Flaws, Faults, and Failures}
+A {\bf flaw} is a problem with a program. A {\bf security flaw} is one which affects security (confidentiality, integrity, availability) in some way. Flaws can be considered either {\bf faults} or {\bf failures}. A fault is a mistak ebehind the scenes; a potential problem that does not necessarily cause a real issue. A failure, on the other hand, is when something actually goes wrong {\it from the user's perspective}. Generally, a fault will eventually lead to a failure.
+
+We can find faults in several ways: tracing backwards from a failure, trying to cause failures to trace them back, static verification, etc. Once a fault has been found, small patches can be made to fix the issue. We call this ``penetrate and patch'', see Microsoft's ``Patch Tuesday''s.
+
+Patching does not necessarily make things better -- it can actively make things worse! Patches can cause regressions, expose worse flaws, introduce new faults, etc.
+
+Though specifications generally specify minimum required behaviour, for security- or privacy-relevant software, we consider ``and nothing else'' to be implicitly added to the spec.
+
+\subsection{Unintentional Security Flaws}
+Some flaws are intentional: {\bf malicious} flaws intended to attack systems or {\bf nonmalicious} (but intentional) flaws which are generally features that can cause a failure when attacked. Malicious flaws can be split into {\bf general} and {\bf targetted} flaws; eg. software holes vs keyloggers. Most security issues are caused by unintentional flaws.
+
+An example of a nonmalicious flaw is the SSL Heartbleed bug. The heartbeat mechanism was missing a bounds check, so attackers could request arbitrarily large chunks of code from the SSL server's memory -- much of which may include sensitive data.
+
+\subsubsection{Buffer Overflow Attacks}
+One of the most common types of attack vectors are {\bf buffer overflow attacks}. The general idea here is a lack of bounds checking on accessing memory; if this is not properly bounds-checked, attackers can overwrite data past/on the stack to change things such as the saved return address, thus making a program jump to an address of her choice.
+
+Sometimes, buffer overflow attacks are more restricted: off-by-one errors where only a single byte can be overwritten, overflows on the heap instead of the stack, and only being able to jump to other parts of the program (or standard libraries) instead of arbitrary shellcode.
+
+We can defend against buffer overflows by
+\begin{enumerate}
+\item using a language with bounds checking
+\item having a non-executable stack (writeable or executable, never both)
+\item randomized stack location per-process (many OSes do this)
+\item ``canary'' compiler feature to detect stack modifications
+\end{enumerate}
+
+\subsubsection{Format String Vulnerabilities}
+This class of vulnerabilities was only recently (2000) discvoered: basically, any function which allows a user to specify a portion of the format string gives a small chance that the program is vulnerable. For example:
+
+\begin{enumerate}
+\item \code{printf("\%s\%s\%s\%s")} will likely crash
+\item \code{printf("\%x\%x\%x\%x")} will likely dump your stack
+\item \code{\%n} will {\it write} to an address on the stack
+\end{enumerate}
+
+\subsubsection{Incomplete Mediation}
+{\bf Mediation} is the act of validation user-entered data to ensure it is a meaningful request. This is important when we accept input from untrusted users, eg. through webforms. A lack of mediation opens us up to problems such as incorrect data, buffer overflows, SQL injection, etc.
+
+{\bf Client-side mediation} is a common way to validate webforms: this is a bad idea, since users can tamper with the JavaScript code used to prevent illegal inputs. Similarly, client-side state is often used to help remember users, etc. Similarly, this allows users to tamper with the state.
+
+To defend against client-side mediation, server-side mediation is necessary. For values entered by the user, values should be carefully checked; for state stored by the client, a check against client modification is necessary. Client-side mediation, then, is not necessary and provides no security value, though it may be used to provide a friendlier user interface.
+
+\subsubsection{TOCTTOU}
+A TOCTTOU attack is a {\bf time-of-check to time-of-use} attack, which can result in a race condition where the ``check'' is no longer valid at the time of the ``use''. The problem with this is the time in between the two requests, in which an attacker can modify data in order to gain access to something which should have been restricted.
+
+For example, consider \code{cat}. If \code{cat} simply checked the read bit and then, if it was readable, dumped the file, an attacker could run
+
+\begin{verbatim}
+$ touch /tmp/exploit
+$ chmod 0777 /tmp/exploit
+$ ln -s /tmp/exploit leet
+$ cat leet &; ln -s /etc/shadow leet
+...
+root:$6$PASSWORD_HASH_HERE:16451::::::
+...
+\end{verbatim}
+
+To avoid this issue, we muct make sure all information related to the access control decision is constant between the time of the check and the time of the action. Alternatively, locks can be used to ensure no change can occur mid-request.
+
+\subsection{Intentional Security Flaws}
+
+\subsubsection{Malware}
+{\bf Malware} is software written with malicious intent. Malware does require execution to have any effect or cause harm. This often done thorugh user action, eg. a user downloading and running malicious software, inserting a USB drive with autorun enabled, etc. Additionally, it can be possible to exploit some system flaw such as buffer overflows in network daemons, email clients, web browsers, etc.
+
+\subsubsection{Viruses}
+A {\bf virus} is a particular type of malware that infects other files. Traditionally, viruses could only infect executables -- nowadays, many more formats are vulnerable. Typically, the virus activates on execution and tries to infect other files with copies of itself. In this way, a virus can spread between files and computers.
+
+As a general rule, viruses modify other programs to copy itself to the beginning of the target program's code (rather, the virus modifies the entry to point at its code, which is at the end of the program, then jumps back to the original entrypoint; this ensures direct addressing within the original program remains possible). They are generally non-destructive to the file so as to remain undetected.
+
+Additionally, a virus' payload may disable virus scanning software, erase your harddrive, install keyloggers, create a botnet, or start attacking some particular other service or website.
+
+We can protect against viruses through several methods: the most common is to keep a list of known viruses along with some {\bf signature} for identifying them. This signature is generally the infectoin code or payloadd code. We can also identify patterns characteristic of a particular virus, such as where it tries to hide itself and how it propgates.
+
+To avoid this protection, many viruses use {\bf polymorphism}, making slight modifications of itself at each duplication. This is often done through code encryption; by using a different encryption key at each copy, the resulting code has a different checksum. In this case, the decryption code is often used aas the signature for the virus.
+
+\subsubsection{Trojan Horses}
+{\bf Trojan horses} are programs which claim to do something innocuous (and usually do) but which also hide malicious behaviour. These must be programs which the user actually wants to run. The payload of a trojan can be anything; a virus, for example. That said, a trojan doesn't itself usually spread between computers; they instead rely on multiple users executing the software.
+
+{\bf Scareware} is a program which appears to be a warning which convinces you to install some other payload such as a virus. These are often websites that resize your browser to appear as system dialogs warning of viruses.
+
+{\bf Ransomware} generally encrypts your hard-drive until you send them a payment.
+
+A {\bf logic bomb} is malicious code hiding in software already on your computer, waiting for some event to occur. They are often placed by insiders, ie. employees leaving the company. The payload is generally pretty dire: they might erase data, corrupt data, install ransomeware, etc. Either way, te trigger is usually something the insider can effect once he is no longer an insider: on some rare event, when a special sequence is entered on the public aspect of the company's code, or at some given time in the future (``time bombs'').
+
+Spotting torjans and logic bombs is very tricky since they, respectively, appear to be normal programs or appear to do nothing. Since the user is intentionally running the code, it's hard to detect that these could be malicious.
+
+\subsubsection{Worm}
+A {\bf worm} is a self-contained piece of code that can replicate with little or no user involvement. They often use security flaws in widely deployed software as a path to infection. Typically, they exploit some flaw to gain access to a computer, then starts scanning for other computers to infect. There may or may not be some payload that activates at some point, but this is not necessary.
+
+\subsubsection{Web Bugs}
+A {\bf web bug} is an object (usually a 1x1 pixel transparent object) embedded in a web page which is feteched from a different server than the one that originally served the page. This can send information about you to third parties (often advertisers) whithout your consent.
+
+Why do we consider this malicious code? Only because it affects privacy, rather than security. With the help of cookies like this, advertisers and other third parties can learn about the other sites you visit, learn about your identity, etc.
+
+\subsubsection{Back Doors}
+A {\bf back door} (also called a {\bf trap door}) is a set of instructions designed to bypass the normal authentication mechanisms of a system. These can often be included for debugging or testing (and are accidentally not removed!), for legal reasons, or as a malicious addition.
+
+\subsubsection{Salami Attacks}
+A {\bf salami attack} is one that is made up of many smaller, often considered inconsquential, attacks. The classic example: send the fractions of cents of round-off error from many accounts to a single account owned by the attacker. Similarly, there are attacks where credit card thieves make small charges to very many cards, clerks slightly overcharge for service, gas pumps misreport the amount of gas dispensed, etc.
+
+\subsubsection{Rootkits}
+A {\bf rootkit} is often used by skiddies. It often has two main parts: a method for gaining unauthorized root access (either locally from an unprivileged account or remotely) and a way to hide its own existence. These kits often exploit some known flaw and leave a backdoor for if/when that flaw is repaired.
+
+Rootkits hide their presence by cleaning log messages involving themselves, modifying commands such as \code{ls} and \code{ps}, and modifying the kernel itself to hide the kit from userspace.
+
+\subsubsection{Keyloggers}
+A {\bf keystroke logger} might be installed to keep a record of messages sent, passwords, etc. These will often be stored to a disk and accessed locally though some send the data to a remote machine.
+
+These can be application specific, system-wide, or even hardware-based.
+
+\subsubsection{Interface Illusions}
+These are often websites which appear to do one thing but actually do something else, eg. dragging a scrollbar which actually drags a program from a malicious website to your ``Startup'' folder.
+
+Similar to this is the notion of {\bf clickjacking}, wherein, for example, a transparent button taking a malicous action is transparently overlayed upon a real button.
+
+{\bf Phishing} is a type of interface illusion. A phishing attack generally involves pretending to be a service you are not, for example creating a website at \code{paypa1.com} which appears to be the paypal website. Advanced phishing can appear every bit like the real thing, even the URL bar and the SSL certificate.
+
+\subsubsection{Man-in-the-Middle Attacks}
+Keyboard logging (sort of), interface illusions, and phishing are examples of {\bf man-in-the-middle attacks}. Basically, these are defined by a service intercepting the user's communication with their intended target, then passing along the data normally to pretend nothing is wrong. This allows them to take some malicious action against the data being passed back-and-forth without wither side being the wiser.
+
+\subsubsection{Side Channels}
+Sometimes, attackers may use {\bf covert channels} to gain information. A good example of this is stenography, wherein unrelated data is included in an image. More generally, information can be encoded in RF emissions, power consumption, audio emissions, shared CPU caches, computation time, etc.
+
+A timing side channel attack in the quare-and-multiply algorithm: to compute $x^d$ mod $n$, $d$ is a secret represented in binary and for each zero, do one multiplication, for each 1, do two multiplations. Statistical analysis on timings can reveal $d$ to attackers.
+
+\section{Privilege Escalation}
+Most systems have the concept of differing levels of privilege for different users; websites have global read-access and admin-only write-access, Unix lets users write to \code{\ttilde} but not \code{/usr/bin}, owners of mailing lists can perform extra tasks, etc.
+
+A {\bf privilege escalation} is an attack which raises the privilege level of the attacker beyond that to which he would normally be entitled.
+
+\subsection{Sources}
+A privilege escalation flaw often occurs in a part of the system which legitimately runs with a higher privilege that can be tricked into executing commands with that privilege on the attacker's behalf. Examples include buffer overflows in setuid programs or network daemons and component substitution. Another way this can occur is by tricking the system into thinking one has higher privileges than is actually the case, eg. when there are problems with authentication systems (\code{-froot}).
+
+\section{Operating System Security}
+An operating system allows different users to access different resources in a shared way. The OS needs to control this sharing and provide an interface to allow this access. {\bf Identification} and {\bf authentication} are required for this access control.
+
+% TODO: slides
+
+\subsection{Access Control}
+{\bf Access control} generally has three goals:
+\begin{description}
+\item [check every access] otherwise the OS might fail to notice access has been revoked
+\item [enforce least privilege] grant program accesss to only the smallest number of objects required to perform a task
+\item [verify acceptable use] limit types of activity that can be performed on an object
+\end{description}
+
+The {\bf access control matrix} can be used to describe access levels:
+\begin{itemize}
+\item the set of protected objects is $O$ (files, database records)
+\item the set of subjects is $S$ (users, processes acting for them)
+\item the set of rights is $R$ (read, write, execute)
+\end{itemize}
+
+Access control matrix consists of entries $a[s,o]$, where $s \in S$, $o \in O$ and $a[s,o] \subseteq R$. In practice, matrices are not used since they are incredibly sparse.
+
+More frequently, we use {\bf access control lists}, where each object has a list of subjects and that subject's access rights. Subjects are only present in this list if they have some non-empty set of rights.
+
+A {\bf capability} is an unforgeable tokan that gives its owner some access rights to an object. This is enforced by having the OS store and maintain tokens through cryptographic mechanisms. Tokens may be transferable, but this is not necessary.
+
+In some cases, it may make sense to combine both ACLs and capabilities. In UNIX, for example, each file has an ACL which is consulted upon an \code{open()} attempt. If approved, the caller is given a capability listing type of access allowed in the ACL (ie. read/write). Upon calling \code{read()} or \code{write()}, the OS simply looks at the capability (stored in memory) to determine the access type allowed. Note that this violates the goal of ``checking every access''.
+
+There also exists {\bf Role-Based Access Control} (RBAC). This is often used for, eg. companies, whereing a user's access often depends on the user's job function (role) within the company. RBAC also supports more complex access control scenarios: {\bf hierarchical} roles for, eg. managers, {\bf multiple roles} varying based on current tasks, ec. This enforces a {\bf separation of duty}.
+
+\subsubsection{Authentication}
+There are four classes of authentication factors:
+\begin{itemize}
+\item something the user {\bf knows}, such as a password, PIN, or secret question
+\item something the user {\bf has}, such as an ATM card, badge, browser cookie, key, uniform, or phone
+\item something the user {\bf is}, such as biometrics
+\item something about the user's {\bf context}, such as location or time
+\end{itemize}
+
+Different classes of these factors can be combines for more solid authentication. Multiple factors from the same class doesn't really help. It is also important to know that something you have can become something you know, eg. by entering the numbers from your credit card online.
+
+Passwords are the oldest form of authentication mechanism, but have several usability problems: unrecoverable forgotten passwords, inconvenient to enter them, disclosed passwords remove all protection, sharing passwords prevents easy updates. They are also vulnerable to many forms of attacks: shoulder surfing, keystroke logging, interface illusions, phishing, password re-use, password, guessing, et cetera.
+
+Guessing attacks, especially on short passwords, are particularly effective: an eight character password can be brute-force attacked in no more than five hours (though this is exponential by length of password). If we order these attempts by password likelihood, this becomes even faster in the average case.
+
+This doesn't necessarily mean we should give up on passwords, since there are many things that can be done to mitigate these issues. We also don't really have anything better: something like biometrics is a possibility, but it has its own set of problems.
+
+\subsection{Security Policies}
+Typically, a trusted operating system builds on four factors:
+\begin{itemize}
+\item a {\bf policy}, which is a set of rules defining what is secured and why,
+\item a {\bf model} that implements this policy and can be used to reason about it,
+\item a {\bf design}, which specifies how the OS implements the model, and
+\item {\bf trust}, which assures the OS is implemented according to the design.
+\end{itemize}
+
+Trusted software is similar, it's been rigourously developed and analyzed and is thus trusted to do exactly what it promises and no more. For this to be effective, we must have
+\begin{itemize}
+\item functional correctness,
+\item integrity enforcement (ie. wrong inputs don't break good data),
+\item limited privilege, and
+\item appropriate confidence levels (in the software)
+\end{itemize}
+
+To this end, many security policies have been developed. Particularly for industry applications, many of these are modelled upon government security models.
+
+\subsubsection{Chinese Wall Policy}
+\begin{quote}
+Once you have been able to access information about a particular kind of company, you will no longer be able to access information about other companies of the same kind.
+\end{quote}
+
+For example, assume Alice and Bob are consultants for various companies: Wendy's and MacDonalds (restaurants) and Chapters and Amazon (bookstores). If Alice reads Wendy's information, she can never access MacDonalds information. Though this prevents contamination within classifications (eg. restaurants and bookstores). However, this still allows Alice to write to Chapters; if Bob reads from Chapters and writes to MacDonalds, this information can still contaminate MacDonalds. In this way, this policy provides indirect information flow violating its constraints.
+
+\subsubsection{Lattices}
+A {\bf lattice} is a dominance relationship similar to the military security model and defined with antisymmetry and transitivty. It defines a partial order such that, eg. neither $a \geq b$ nor $b \geq a$ might hold for two levels $a$ and $b$. For every $a$ and $b$ in this lattice, there exists some {\bf unique lowest upper bound} $u \geq a$ and $u \geq b$ as well as a {\bf unique greatest lower bound} $l$. There also exist two elements $U$ and $L$ that dominate / are dominated by all levels.
+
+Consider the set $S = \{ x \suchthat x \leq a, x \leq b \}$. In this case, we have defined the lower bounds -- if there exists an element $l \in S$ such that $l \geq x$ for all $x \in S$, then $l$ is the greatest lower bound. Similarly, we can find the greatest upper bound from the upper bounds.
+
+We define the following: $(x, A) \leq (y, B)$ if $x \geq y$ and $B \subseteq A$. This allows us to create a few other definitions:
+\begin{align*}
+GLB((x, A), (y, B)) &= (\min\{x,y\}, A \cap B) \\
+LUB((x, A), (y, B)) &= (\max\{x,y\}, A \cup B)
+\end{align*}
+
+\subsubsection{Bell-La Padula (BLP)}
+This policy regulates information flow in LMS (lattice-based) policies. The basic principle is the information can only flow up: subject $s$ can only read object $o$ if $C(s) \geq C(o)$ and $s$ can only have write access to $o$ if $C(o) \geq C(s)$.
+
+\subsubsection{Biba Integrity Model}
+This prevents inappropriate modification of data and is the dual of BLP: the opposite of the previous relationships hold, eg users can only write below their security level and can only read above that level. This prevents unreliable people from modifying high integrity information and prevents unreliable information from contaminating subjects.
+
+The {\bf Low Watermark Property} states that Biba's access rules are very restrictive. Instead, we can use dynamic integrity levels: the {\bf subject low integrity property} says ``if subject $s$ reads object $o$, the $l(s) = GLB(l(s), l(o))$''. Similarly, if $s$ modifies $o$, then $l(o) = GLB(l(s), l(o))$. Rather, a subject's integrity can decrease as she reads low-integrity objects and an object's integrity can decrease as it is modified by low-integrity subjects. In practice, though, this eventually leads to a no-access-control system wherein all integrity becomes equal (at the loweest tier). To solve this, some method of increasing integrity must exist.
+
+Thos both Biba and BLP are easy to reason about, they are a bit too simple for great practical benefit and must be modified heavily before they are used. Particularly, they don't provide declassification and need both confidentialty and integrity rather than just one of those. Finally, information leaks may still be possible through covert channels not enforced within these models.
+
+\subsubsection{Information Flow Control}
+An {\bf information flow policy} defines the authorized paths along which information can flow. In compiler-based information flow control, a compiler checks whether the information in a program could violate an information flow policy. This can be either explicitly (eg. $x = y$) or implicitly ($if (x == 1) { y = 1 } else { y = 0 }$).
+
+Input parameters to progams have a lattice-based security classification associated with them. The compiler then updates the security classifcation of each variable depending on program usage (ie. with dynamic BLP/Biba). Ultimately, the compiler can then output the classficiations for each output variable. The user (or another program, etc) is only allowed to see outputs which correspond to its security policy.
+
+\subsection{Trusted System Design Elements}
+Security must be part of the design of any system early on; it is extremely difficult to retrofit a system for security.
+
+There are eight design principles we must cover:
+\begin{description}
+\item[last privilege] operate using the fewest privileges possible
+\item[economy of mechanism] protection mechanism should be simple and straightforward
+\item[open design] avoid \emph{security by obsurity}; use secret keys and passwords, not secret algorithms
+\item[complete mediation] every access attempt must be checked
+\item[permission-based / fail-safe defaults] default should be denial of access (whitelists are better than blacklists)
+\item[seperation of privileges] two or more conditions must be met to gain access
+\item[least common mechanism] every shared mechanism could potentially be used as a covert channel
+\item [ease of use] if protection mechanism is too difficult to use, nobody will use it (or nobody will use it properly)
+\end{description}
+
+\subsubsection{Access Control}
+{\bf Mandatory Access Control (MAC)} is a central authority that determines access permissions. This is good for strong military environments, and for implementing systems such as Bell-La Padula, Biba, Chinese Wall, etc.
+
+{\bf Discretionary Access Control (DAC)} is when the owner of a given resource can control access to that resource.
+
+{\bf Role-Based Access Control (RBAC)} is neither MAC nor DBAC, though it is in fact possible to use combinations of these mechanisms.
+
+\subsubsection{Object Resuse Protection}
+Consider the case where some user is allocated memory by the operating system, stores a password in that address, then \code{free}s the memory. The opeating system does not actually clear this memory until it is passed to some other user (when they call \code{malloc}, etc). In the meantime, this password is accessible at some address.
+
+{\bf Defensive programming}, eg. erasing sensitive data yourself rather than relying on external tools, can help mitigate this.
+
+Hidden data (eg. deleting an email without clearing the server's cache, covering up text in a PDF with black squares, etc) is related to this: data that you think you have removed is still physically present \emph{somewhere}.
+
+\subsubsection{Accountability and Auditing}
+An {\bf audit log} should be kept of all security-related events. This should not be modifiable, since an attacker could simply remove traces of their activities. The provides accountiability if something goes wrong\dots\ but it is important to consider the granularity of event logging. Too fine-grained and we run into size concerns and may have difficulty finding the attack, to coarse-grained and the may miss the attack entirely or not have enough data.
+
+\subsubsection{Trusted Computing Base (TCB)}
+TCB consists of the part of a trusted operating system which is necessary to enforce global security. Changing the non-TCB aspects of the system will not affect security; this can be implemented either in different parts of the kernel or in a different module entirely -- either way, this provides a smaller vector to analyze, which helps us to confirm correctness.
+
+Virtualization is another method of accomplishing this: by providing logical separation, we can ensure any attack is limited only to the VM of the attack vector.
+
+% TODO: EAL and Orange Box notes
+
+\section{Network Security}
+The internet is not one single entity; it's a collection of connceted nodes that cover servers, laptops, routers, phones, etc, running a variety of OSes, on wired or wireless links, with various different IP protocols. Traffic is split into packets, which don't even necessarily all follow the same path.
+
+\subsection{Network Threats}
+There are many network threats to consider:
+\begin{description}
+\item[port scans] allow attackers to identify which applications are running one which ports of a target machine; this can allow them to gain information about the state of your machine and potential attack vectors. This information can include lists of services as well as their versions, which is enough to exploit known vulnerabilities in (especially) older versions of software.
+\item[intelligence] attacks, such as social engineering, dumpster diving, eavesdropping, googling, and social profiles.
+\item[eavesdropping and wiretapping] attacks, wherein the owner of a node can always monitor the communication flowing through a node either passively of actively (modification or fabrication of communication), a link traffic is sent though can be spied upon, or traffic can be diverted to a compromised node. It is prudent to assume all communication is wiretapped.
+\item[communication media] interceptions, such as by splicing into a copper (lossy) or optical (lossless) cable physically close to the victim or by eavesdropping on wireless signals. Though these types of attacks are feasible, they are physically expensive and difficult.
+\item[misdelivered information] issues, eg. across a local area network wherein technical issues may cause packets to be sent to multiple nodes (attacker can use a packet sniffer to catch packets not meant for their node) or things such as incorrectly-addressed emails.
+\item[impresonation] attacks, though passwords (by guessing, exploiting defaults, sniffing, or social engineering) and/or by exploiting trust between machines (rhost/rlogin/ssh verified connections can create ``trust chains'').
+\item[spoofing], where an object (URL, node, person, email, wifi access point, etc) pretends to be another one. This can be of the form of URL spoofing (\code{googlee.com}), a second, more power, router with the same network name as another, etc.
+\item[session hijacking], such as: TCP protocol involves a state at sender and receiver which can be hijacks so an attacker appears to be one of the nodes, attackers can sniff cookies to pretend to be a given user, man-in-the-middle attacks where the attacker sits between the two communicating nodes and reacts to data transferred between them.
+\item[traffic analysis] can be used to determine user actions, the mere existence of communication between two parties may be sensitive (think whistleblowers, military environments, CEOs of different companies, torrent downloads vs. browsing, \dots). TCP/IP traffic includes addresses for sender and receiver nodes, so traffic analysis is easy; by sniffing these packets, an attacker can see the addresses of the two end nodes which are communicating.
+\item[integrity attacks], where an attacker modifies packets in transit *change payload, change address of receiver, replay previous packets, delete or create packets). DNS cache poisoning can allow users to map hostnames to incorrect IP addresses. These issues can also be caused by line noise, network congestions, software errors, etc.
+\item[protocol failures]: since TCP/IP assumes all nodes implement protocols faithfully, this can be exploited. TCP, for example, has congestion control mechanisms which ask sender nodes to slow down when the network is congested -- attackers, though, can just ignore this. Some implementations don't even check whether a packet is well-formed, thus allowing buffer overflows, etc, or may include broken security mechanisms such as WEP.
+\item[web site vulnerabilities] wherein attackers examine the HTML returned from a server and finds vulnerabilities or sends some malicious URL to a web server to exploit a buffer overflow, invoke a shell, feed in malicious input, etc. Since HTTP is stateless, the client is responsible for storing state\dots\ which means attackers can modify that state and submit modified state information.
+\item[cross-site scripting and cross-site request forgery] attacks (code injection) allows attackers to add their own code to a webpage, eg. by inserting code into a comments section, form, etc. If this is persistent, other users download and execute this code upon visiting the page. XSS code steals sensitive information (eg. cookies) and sends it to the attacker. CSRF code performs a malicious action at some website if the user is currently logged in there (eg. attack all users currently logged into some bank).
+\item[black hole (packet drop) attacks] are when routers advertise a low cost to reaching a specific victim node (so traffic gets routed through this router) then simply dropping the packets.
+\item[denial of service (DoS)] includes cutting a wire, jamming a wireless signal, flooding a node by overlodaing its capacity, flooding with pings, ``smurf attacks'' (sppof source address of ping as victim's address, broadcast this ping \emph{everywhere}), SYN floods (send many SYNs, but no ACKs, thus filling the SYN-ACK table on the victim node), packet fragments which can not be completely re-assembled, or packets which all hash to the same bucket in the hash table.
+\item[distributed denial of service (DDos)] is a DoS attack spread across multiple attacking machines to make it more difficult to trace the attacker, block them, etc. Most machines attacking in a DDoS participate without their owner's knowledge (eg. attacker breaks into their machines, makes it into a bot that will respond to specific command, creates botnet of nodes that attack the victim). Attackers often use amplification (run a service which responds with more data that is received, eg. SNMP) or reflection (attacker spoofs source address of the queries so responses are sent to the victim).
+% botnets
+\end{description}
+
+\subsubsection{Active Code}
+To reduce load on a server (or to generate cool client-side effect), the server may have code run on clients. This can be dangerous for the client. Even Java 1.1, which ran in a sandbox with limited capabilities and is code checked for correctness, could still use up CPU, use memory resources, mess up display, play sound, etc.
+
+\subsubsection{Script Kiddies}
+For all of the above attacks, scripts exist online that anyone can download and run.
+
+% TODO: titale wrong?
+\section{Protection}
+% TODO: first subsection
+
+\subsection{Segmentation and Separation}
+Don't put all servers on a single machines, deploy on multiple machines so an infected box will only affect some services. A company webserver, for example, needs to be accessible from the outside and is thus more vulnerable, so it should be deployed outside the company firewall and not trusted by other company servers.
+
+\subsection{Redundancy}
+Servers should be deployde redundantly on multiple machines, ideally with genetic diversity (different software) at different locatoins. Redundant servers should be kept in close sync so backup servers can take over easily.
+
+\subsection{Access Controls}
+ACLs on router to drop packets in case of flooding, etc. This can also ensure only some users can access privileged sources, which can hepl with security. Unfortunately, ACLs are very slow on routers.
+
+Firewalls can be used on machines, rather than on the routers, and can filter traffic based on more than just packet address. By mounting firewalls on {\bf choke points} through which all traffic must route, we can set up global whitelists and/or blacklists. Note that these will not protect against attacks on company hosts which originate within that company.
+
+Packet filtering is the simplest type of firewall technique; you can make decisions based on the header of a packet, ie. to block port 22 (note: this can be avoided by running an ssh server on a port other than 22\dots).
+
+Stateful inspection firewalls are more expensive than simple packet filtering, but can tie together multiple packets to ensure, eg. a packet is only received into the network when a request for that packet was recently sent out.
+
+% TODO
+
+\subsection{Secret-Key Encryption}
+{\bf Secret-Key Encryption} is the simplest form of cryptography; also called symmetric encryption, this form of encryption involves having a single key which is shared between the encrypting and decrypting functions. Note that sharing a key between parties is a significant problem with this approach.
+
+A {\bf One-Time Pad} is a specific application of this, wherein the plaintext and some random bitstring of equal length are XORed to create the cipher text. The bitstring XOR the cipher text will return the original plaintext. This form of encryption is ``cryptographically perfect'', since only the original bitstring will decrypt it properly -- iterating through all possible bitstrings will simply give you all possible results.
+
+\subsection{Stream Ciphers}
+A {\bf stream cipher} is what you get when you use a one-time pad generated psuedorandomly rather than truly random. Stream ciphers can be very fast, but they are difficult to use properly (concurrency issues, etc).
+
+\subsection{Block Ciphers}
+Note that stream ciphers operate on the message one bit at a time. If we change just a single bit of plaintext, the cipher changes completely. In contrast, we can use {\bf block ciphers}, which operate on blocks of data at a time, usually 64- or 128-bits.
+
+The {\bf mode of operation} for a block cipher is what it does when presented with multiple blocks (ie. if the plaintext is larger than a single block). The simple solution is to simply encrypt them in sequence and concatenate them together, but there are many other (better) modes, such as {\bf Cipher Block Chaining}, {\bf Counter}, and {\bf Galois Counter} modes. These modes prevent patterns from being exposed, but require some {\bf initial value} (similar to a salt).
+
+\subsection{Public-Key Encryption}
+{\bf Public-Key Encryption}, or assymetric cryptography, involves creating a key for encryption and a key for decryption -- this allows decryption without having a prearranged shared key.
+
+This is accomplished by giving each user a \emph{public} key. This is meant to be shared. Additionally, a user must have a private key (that is not shared) which can decrypt messages encrypted with his public key. Then, we can encrypt any message using a user's public key such that only they can decrypt it (ie. with their private key).
+
+\subsubsection*{RSA}
+% TODO
+
+\subsubsection*{Key Management}
+One of the hardest problems with public-key encryption is {\bf key management}. Many systems have different methods: manual addition to a keyring, trusted friends (web of trust), trusted third party (CAs), etc.
+
+A {\bf certificate authority} is a trusted thrid party who keeys a directory of people's (and organization's) verification keys. Users generate signature and verification key pairs, the sends the verification key and a bunch of verification identification, both signed with their signature key. The CA then generates a certificate consisting of personal information and a verification key. The entire certificate is signed with the CA's signature key. The collection of all os this information is considered the user's certificate, and can be validated by an user with the CA's verification key.
+
+\subsection*{Integrity Component}
+% TODO
+
+\subsubsection*{Cryptographic Hash Functions}
+% TODO, + MAC
+
+In practice, we often need both confidentiality and integrity; eg, we need to combine ciphers and MACs. Performing the encryption first is a stronger strategy, though we can do these in either direction (or both at once) -- in fact, many crypto libraries will have an {\bf authenticated encryption mode} where they do the former.
+
+\subsubsection*{Repudiation}
+{\bf Repudiation} is the act of being unable to prove a conversation occurred, or at least what the contents of this conversation were. In other words, non-repudiable conversations are conversations we want to be able to prove have occured.
+
+To allow non-repudiation, we tend to use {\bf digital signatures} with the following properties: if Bob receives a message with Alice's digital signature, then
+\begin{itemize}
+\item Alice sent the message (MAC-like)
+\item The message was not altered (MAC-like)
+\item Bob can prove the above to a third-party (not MAC-like)
+\end{itemize}
+
+We can accomplish the above with an approximation of public-key cryptography, where each user has a private {\bf signature key} and a public {\bf verification key}. Note that this method is slow for signing large messages; instead, we can hybridize singatures to make them faster: we send unsigned messages with a signature on a \emph{hash} of the message -- since the hash is much smaller, it is faster to sign and verify.
+
+% TODO
+
+\section*{Transport-Layer Security}
+% TODO
+
+\section*{Application-Layer Security}
+In addition to security over a network (eg. TLS), we sometimes desire security between applications. More specifically, we can consider a graph wherein nodes are applications and edges are transportation protocols. While transport-layer security covers the edges of this graph, to fully secure communication between arbitray nodes we need {\bf application-layer security} on each node along the path, or more generally on the overall path.
+
+For example, consider ssh communication. Upon tunneling through nodes, we want traffic to be encrypted in such a way that it can not be deciphered by intermediary nodes.
+
+\end{document}

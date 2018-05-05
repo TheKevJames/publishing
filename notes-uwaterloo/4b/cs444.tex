@@ -1,0 +1,251 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{CS 444 --- Compiler Construction}
+\author{Kevin James}
+\date{\vspace{-2ex}Winter 2017}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Summary}
+
+\section{Analysis}
+The {\bf Analysis} step within a compiler requires we check to ensure validity of the program and then determine its meaning. When possible, we prefer using formal languages as the specificiation for validity checking.
+
+\begin{quote}
+A {\bf formal language} ($L$) has some alphabet ($\Sigma$) with a finite set of symbols, arranged into some words ($w$) which are finite sequences of those symbols.
+\end{quote}
+
+In the first step of the Analysis phase, we split the sequence of input characters into tokens or lexemes. This is refered to as {\bf Scanning} or {\bf Lexical Analysis}. There are several possible approaches to this:
+\begin{itemize}
+    \item simply coding each case
+    \item maximal munch alogrithm, using a DFA
+    \begin{itemize}
+        \item simply coding the entire DFA
+        \item Regex $\to$ \code{lex} $\to$ DFA
+    \end{itemize}
+\end{itemize}
+
+When building a DFA, the $\epsilon$-closure($S$) of a set $S \in Q$ of states is
+\begin{itemize}
+    \item the set of states reachable from $S$ by $\epsilon$-transitions
+    \item the smallest set $S^\prime$ such that $S \subseteq S^\prime$ and $\{q \suchthat q^\prime \in S^\prime, q \in \delta(q^\prime, \epsilon)\} \subseteq S^\prime$
+\end{itemize}
+
+The following psuedo-code defines a method for computing these closures.
+
+\begin{verbatim}
+def compute_closure(S):
+    worklist = S
+    Sprime = S
+    while worklist:
+        qprime = worklist.pop()
+        for q in delta(qprime, epsilon):
+            if q not in Sprime:
+                Sprime.append(q)
+                worklist.append(q)
+    return Sprime
+\end{verbatim}
+
+We may also consider creating a DFA by converting from an NFA ($\{\Sigma, Q, \dots\} \to \{\Sigma^\prime, Q^\prime, \dots\}$).
+
+A state of $q^\prime \in Q^\prime$ corresponds to a set of states from $Q$, ie. $Q^\prime = z^Q$. More specifically, we have
+\begin{align*}
+q_0^\prime &= \epsilon\text{-closure}(\{q_0\}) \\
+\delta^\prime (q^\prime, a) &= \epsilon\text{-closure}(\displaystyle\bigcup_{q \in q^\prime} \delta(q, a))
+\end{align*}
+and $Q^\prime$ is the smallest set of subsets of $Q$ such that $\{q_0^\prime\} \subseteq Q^\prime$ (where $q_0^\prime \in Q^\prime$) and $\forall a \in \Sigma \cdot Q^\prime, \{\delta^\prime(q^\prime, q) \suchthat q^\prime \in Q^\prime\} \subseteq Q^\prime$. We also have \[ A^\prime = \bigl\{q^\prime \in Q^\prime \suchthat q^\prime \cap A \neq \{\}\bigl\} \]
+
+\begin{quote}
+We can build a recognizer for a DFA with
+\begin{verbatim}
+def is_word_in_language(q0):
+    q = q0
+    for i in range(1, n):
+        q = delta(q, w[i])
+    return q in A
+\end{verbatim}
+\end{quote}
+
+\subsection{Scanning}
+Given some input DFA specifying valid tokens and $w \in \Sigma^*$, output a sequence of tokens whose concatenation is $w$ and each token $t \in L$.
+
+In psuedocode:
+\begin{verbatim}
+while unprocessed input {
+    find a prefix of unprocessed input that is in L
+}
+\end{verbatim}
+
+When using the {\bf Maximal Munch Algorithm} (which is used for virtually all compiler scanners), we instead find the \textit{longest} prefix.
+\begin{verbatim}
+while unprocessed input {
+    run DFA on unprocessed input until it gets stuck
+    backtrack DFA and input to last-seen accepting state or fail
+    output current prefix as token
+    reset DFA to start state
+}
+\end{verbatim}
+
+\subsection{Parsing}
+After the Scanner turns a sequence of characters into a sequence of tokens, those tokens are sent into a Parser which outputs a {\bf parse tree}.
+
+Context-free grammars have concatention, alternation (I) like regular expressions but replace repetition ($*$) with recursion.
+
+\begin{quote}
+A Context-Free Grammar is a 4-tuple $G = (N, T, R, S)$ -- Non-terminals and Terminals (symbols $V = T \cup N$), Rules ($R \subseteq N \times V^*$), and Start ($S \in N$).
+
+We use the symbols $\Rightarrow$ and $\Rightarrow^*$ to imply ``direct derivation'' and ``derivation''.
+
+$\beta A \gamma \Rightarrow \beta\alpha\gamma$ if $A \to \alpha \in R$. Therefore, $\alpha \Rightarrow^* \beta$ if $\alpha = \beta$ or $\alpha \Rightarrow \gamma$ and $\gamma \Rightarrow^* \beta$. $\alpha$ is a sentential form if $S \Rightarrow \alpha$ (where $\alpha$ is the start symbol).
+
+The language of the grammar $L(G) = \{ x\ in T^* \suchthat S \Rightarrow^* x \}$ which is the sentential forms $S(G) \cap T^*$.
+\end{quote}
+
+Therefore, if some $x$ is in the grammar, there must exist some derivation for $x$. Parsing, then, involves finding this derivation. A context-free grammar is unambiguous if there exists only a single parse tree, left derivation, and right derivation for any given word.
+
+We can parse either forwards (top-down, eg. LL1) or backwards (bottom-up, eg. LR1), ie. beginning or ending with the starting token. In this course, we will focus on LR1 parsing.
+
+\begin{verbatim}
+def top_down_parsing():
+    alpha = S
+    while alpha != x
+        replace some A in alpha with B (where A->B is a rule)
+
+def bottom_up_parsing():
+    alpha = x
+    while alpha != S:
+        replace some B in alpha with A (where A->B is a rule)
+\end{verbatim}
+
+In either of the above algorithms, the token being replaced is called the {\bf handle}.
+
+The variation in the above algorithms that defines LL1, LR1, RR1, etc occurs in the loop body. For an LL1 parser, for example:
+\begin{verbatim}
+def ll1_parse():
+    alpha = S
+    while a != x:
+        A = first non-term in alpha (alpha = y A gamma)
+        a = first terminal in x after y (x = y a z)
+        let A->B = predict(A, a)
+        replace A in alpha with B
+
+def predict(A, a):
+    # TODO
+\end{verbatim}
+
+We can also define an LR0 parser:
+\begin{verbatim}
+def lr0_parse():
+    for a in x:
+        while reduce(stack) = {A->j}:
+            pop j
+            push A
+
+        if Reject(stack + a): ERROR
+        push a
+
+Reduce(alpha) = { A->j | EB, alpha = Bj and BA is a viable prefix}
+Reject(alpha) = alpha is not a viable prefix
+\end{verbatim}
+
+\begin{quote}
+The stack and the unseen input together comprise the entire input.
+
+The stack is a viable prefix if and only if $\exists\beta \suchthat S \Rightarrow^* \text{stack }\beta$.
+
+We then define $\alpha$ as a {\bf viable prefix} if it is a prefiex of a sentential form. We hope that $\beta \Rightarrow^*$ unseen input.
+\end{quote}
+
+\subsection{Weeding}
+Weeding is a step after parsing wherein we check language restrictions that could be enforced by the parser or scanner, but are easier in code.
+
+\section{Name Resolution}
+\begin{enumerate}
+    \item Build global environment
+    \item Resolve ``type'' names
+    \item Check hierarchy/classes/methods/fields
+    \item Disambiguate namespaces of ambiguous names (a.b.c.d)
+    \item Resolve expressions, variables, static fields
+    \item Type checking
+    \item Resolve instance (non-static) fields, methods
+\end{enumerate}
+
+We resolve names in the following priority:
+\begin{enumerate}
+    \item set of classes, fully-qualified names (including packages)
+    \item qualified name (with a dot), simple name (no dot)
+    \begin{enumerate}
+        \item is it the enclosing class/interface?
+        \item is it a single-type import (eg. a.b.c.d)?
+        \item is it a type in current package?
+        \item is it a type in an import-on-demand (wildcard import) package?
+    \end{enumerate}
+    \item simple checks
+    \begin{description}
+        \item[class A ext B]: B must be a class
+        \item[class C impl D]: D must be an interface
+        \item[no duplicate interface]: class E impl F, F
+        \item[] B cannot be final
+        \item[] two constructors of same class must have distinct parameter types
+        \item[class A ext B impl C, D, E]:
+        \begin{itemize}
+            \item \begin{code}super(A) = \{B, C, D, E\}\end{code}
+            \item direct superclass and superinterface
+            \item if \begin{code}B\end{code} is unspecified, include \begin{code}java.lang.Object\end{code}
+            \item \begin{code}super(java.lang.Object)\end{code} $= \varnothing$.
+        \end{itemize}
+        \item[interface F ext G, h, I]:
+        \begin{itemize}
+            \item \begin{code}super(F) = \{G, H, I\}\end{code}
+            \item In interfaces, methods are implictly \begin{code}public abstract\end{code}
+            \item In interfaces, fields are implicitly \begin{code}static\end{code}
+        \end{itemize}
+    \end{description}
+\end{enumerate}
+
+Each of these steps must be unambiguous.
+
+Hint: the default package is not the root package.
+
+\begin{quote}
+Given
+\begin{align*}
+declare(T)& \text{ is the methods and fields of } T \\
+inherit(T)& \text{ is the methods and fields inherited from supertypes of } T \\
+contain(T)& \text{ is } declare(T)\ \cup\ inherit(T) \\
+replace(a, b)& \text{ is method } a \text{ overwriting method } b \text{ or field } a \text{ ``hiding'' field } b \\
+sig(x)& \text{ is the signature of } x \\
+nodecl(T, m)& \iff \forall m^\prime \in declare(T), sig(m) \neq sig(m^\prime) \\
+allabs(T, m)& \text{ is this method abstract? }
+\end{align*}
+\end{quote}
+
+\section{Type Checking}
+The {\bf static type} of an expression $E$ is a set containing all possible values of $E$.
+
+The {\bf dynamic type} of an expression is a runtime value tha tindicates how to interpret some bits.
+
+The {\bf declared type} of a variable is an assertion that the variable will contain only values of that type.
+
+Type checking, then, is the act of enforcing those assertions. {\bf Static type checking} ensures that every expression evaluates to a value in its type. {\bf Dynamic type checking} is a runtime chekc that the tag on a value is in the declared type to which the value is assigned.
+
+\subsection{Static Type Checking}
+A static type checker infers a static type $T$ for every sub-expressioN$E$ by proving that $E$ evaluates to a value in $T$.
+
+A program is {\bf type correct} if the type assertions hold in all executions. A program is {\bf statically type correct} if it satisfies a system of type inference rates (a {\bf type system}). A type system is sound if being statically type correct implies being type correct.
+
+\end{document}

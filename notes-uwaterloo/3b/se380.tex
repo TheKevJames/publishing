@@ -1,0 +1,476 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,mathtools,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\newcommand{\laplace}[1]{\ensuremath{\mathcal{L} \{#1\}}}
+\newcommand{\invlaplace}[1]{\ensuremath{\mathcal{L}^{-1} \{#1\}}}
+
+\begin{document}
+
+\title{SE 380 --- Introduction to Feedback Control}
+\author{Kevin James}
+\date{\vspace{-2ex}Fall 2015}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+There are two main types of control:
+\begin{description}
+\item[Open-Loop control] simply converts reference inputs to control inputs (through a controller), then combines these with disturbance inputs in the plant to provide outputs.
+\item[Feedback control] adds a second susbsytem, where outputs are fed back into a sensor which measures these outputs, compares them to the reference input, and generates an error signal (which we attempt to minimize)
+\end{description}
+
+Disturbance inputs are typically unmeasured and often unmeasurable.
+
+\subsection{Potential Advantages of Feedback Control}
+\begin{description}
+\item[Tracking] can make output follow reference input.
+\item[Regulation] compensates for disturbance inputs.
+\item[Robustness] compensates for variation in plant dynamics.
+\item[Stabilization] can potentiallially stabilize unsafe plants.
+\end{description}
+
+\section{Signals and Systems}
+A {\bf signal} is a real- or complex-valued function of a real variable $t$. $t$ usually stands for time, eg. $r(t)$ is the reference input at some time. If the domain of the signal is $\mathbb{R}$ (or some interval of $\mathbb{R}$), then we say that the signal is continuous-time (CT). If the domain is a discrete set (say, $\mathbb{Z}$), the signal is discrete-time (DT).
+
+Mathematically, a {\bf system} is a mapping from a class $f$ of input signals to a class $y$ of output signals.
+
+Notation:
+\begin{align*}
+f &\xrightarrow{S} y \\
+y(t) &= S\bigl(f(t)\bigl) \\
+y &= Sf
+\end{align*}
+
+If the inputs and outputs are all CT signals, the system is CT. If the inputs and outputs are DT, the system is DT. If there are both CT and DT signals, the system is hybrid.
+
+A CT sytem might be moddels using linear ODEs with constant coefficients. A DT system might be modelled using difference equations. A hyrbid feedback system may use analog-to-digital and digital-to-analog converters to switch between the signal types.
+
+Properties of all systems:
+\begin{enumerate}
+\item CT, DT, or hybrid
+\item Memoryless (statis) or dynamic
+\item Causality
+\item Multivariable or scalar
+\item Linearity
+\item Time-invariance
+\end{enumerate}
+
+At a given time $t_0$, a memoryless system $y(t_0) = (Sf)(t_0)$ depends only on $f(t_0)$. A system is {\bf dynamic} if it is not memoryless.
+
+Example:
+\begin{align*}
+M\ddot y(t) &= f(t) \\
+\ddot y &= \frac{1}{M} f(t) \\
+y(t) &= \frac{1}{M} \int_{-\infty}^t \int_{-\infty}^\tau f(\theta) \dd\theta \dd \tau
+\end{align*}
+
+$S$ is {\bf causal} if $y(t) = (Sf)(t)$ depends only on $\{ f(\tau) : \tau \leq t \}$, ie. only on past and present values of $f()$. In other words, if $f_1(\tau) = f_2(\tau) \forall \tau \leq t$ and if $y_1 = Sf_1$ and $y_2 = Sf_2$, then $y_1(\tau) = y_s(\tau) \forall \tau \leq t$.
+
+We can think of causal systems as ``real-time'' and {\bf non-causal} signal processing as ``offline''.
+
+A {\bf multivariable} system is one that has many inputs and/or outputs. Think of a showerhead: the hot and cold water valves provide two independendant inputs. Additional, a showerhead has two outputs: total flow rate and temperature. Control problems involving these systems can be much more complicated that scalar systems (single-input single-output system).
+
+A system is linear if
+\begin{align*}
+y_1 = Sf_1 \\
+y_2 = Sf_2
+\end{align*}
+implies \[ y_1 + y_2 = S(f_1 + f_2) \] Additionally, if $c \in \mathbb{C}$, \[ S(cf_1) = cy_1 \]
+
+More formally, a system is linear if a linear combination of inputs outputs a linear combination of those inputs' responses: \[ S(c_1f_1 + c_2f_2) = c_1y_1 + c_2y_2 \] for any $c_1, c_2 \in \mathbb{C}$. We call this the principle of superposition.
+
+Roughly speaking, a system is {\bf time invariant} if its response to a signal doesn't change with time. Mathematically, \[ f(t) \xrightarrow{S} y(t) \implies f(t-T) \rightarrow y(t-T) \]
+
+\subsection{Impulse}
+The {\bf unit impulse} or {\bf Dirac delta function} was inspired by classical mechanics. We notate it as
+\begin{align*}
+m\dot v &= f \\
+\int_{t_1}^{t_2} m\dot v \dd t &= \int_{t_1}^{t_2} f \dd t \\
+mv(t_2) - mv(t_1) &= \int_{t_1}^{t_2} f \dd t
+\end{align*}
+Where the impulse, or change in momentum, is denoted $\displaystyle\int_{t_1}^{t_2} f \dd t$.
+
+Note that impulse doesn't depend on the ``profile'' of $f(t)$, just on the integral $\displaystyle\int_{t_1}^{t_2} f(t)\dd t$.
+
+The unit impulse function represents a finite impulse delivered instantaneously over an interval of length zero. This is physically impossible, but is important as a limiting case.
+
+Intuitively, consider a rectangular pulse of width $\Delta t$. The unit impulse $\delta(t)$ represent sthe ``limiting case'' where $\Delta t \to 0$. Defining propery: the {\bf sifting property}: \[ \int_{-\infty}^\infty f(t) \delta(t) \dd t \]
+
+As $\Delta t$ becomes sufficiently small, we get $f(t) \approx f(0)$ over $\bigl[-\frac{\Delta t}{2}, \frac{\Delta t}{2}\bigl]$. So \[ \int_{-\infty}^\infty f(t) \delta(t) = f(0) \] or more generally \[ \int_{-\infty}^\infty f(t) \delta(t-T) \dd t = f(T) \] The sifting propery, then ``picks out'' the value of $f$ at $t=T$.
+
+Given a linear, time-invariant system, we call the response of the system to an input $f(t) = \delta(t)$ (with zero initial conditions) the {\bf impulse response}.
+
+Example: given an object sliding along a surface with friction (and supposing $f(t) = \delta(t)$), we have
+\begin{align*}
+M\ddot x &= f - b\dot x \\
+M\ddot x + b\dot x &= f \\
+\int_{0^-}^{0^+} (M\ddot x + b\dot x) \dd t &= \int_{0^-}^{0^+} f(t) \dd t \\
+&= \int_{0^-}^{0^+} \delta(t) \dd t \\
+&= \int_{-\infty}^{\infty} \delta(t) \dd t \\
+&= 1 \\
+\int_{0^-}^{0^+} M\ddot x \dd t + \int_{0^-}^{0^+} b\dot x\dd t &= \\
+\int_{0^-}^{0^+} M\ddot x \dd t &= \\
+M\dot x(0^+) - M\dot x(0^-) &= \\
+\dot x(0^+) = \frac{1}{M}
+\end{align*}
+
+Since $\dot x$ remains bounded, we have $x(0^+) = x(0^-)$ and so for $t > 0$, $M\ddot x + b\dot x = 0$ with $\dot x(0^+) = \frac{1}{M}$ and $x(0^+) = 0$.
+
+Let $v = \dot x$. Then $M\dot v + bv = 0$ and for $t > 0$, $v(t) = \frac{1}{M} e^{-\frac{b}{M} t}$.
+
+% TODO: MISSING
+
+The last equation expresses $f$ as a linear combination of unit impulses. Suppose it is the input to an LTI system $S$ and that the impulse response of the system is $g(t)$. The response to $\delta(t-\tau)$ is then $g(t-\tau)$.
+
+The response of $S$ to $f(\tau)\delta(t-\tau)$ is $f(\tau)g(t-\tau)$ by linearity. Finally, the response to $\displaystyle\int_{-\infty}^\infty f(\tau)\delta(t-\tau) \dd\tau$ is $\displaystyle\int_{-\infty}^\infty f(\tau)g(t-\tau) \dd\tau$ (also by linearity).
+
+So for any LTI system with impulse response $g(t)$, the response to an arbitrary input $f(t)$ is \[ y(t) = \int_{\infty}^\infty f(\tau)g(t-\tau) \dd\tau \] the convolution of $f$ and $g$. Note that convolution is symmetric, ie. $f * g = g * f$.
+
+\subsection{Exponential Inputs}
+Let $S$ be an LTI system and let its input be $f(t) = e^{st}$, giving us $y(t) = Se^{st}$. Given a shift in time, we have $y(t-\tau) = Se^{s(t-\tau)}$ by time-invariance.
+
+Then
+\begin{align*}
+y(t-\tau) &= e^{-st}y(t) \\
+y(0) &= e^{-st} y(t), \forall t = \tau \\
+y(t) &= y(0)e^{st}
+\end{align*}
+
+Exponential signals, then, are ``eigenfunctions'' of LTI functions.
+
+By the convolution integral,
+\begin{align*}
+y(t) &= \int_{-\infty}^\infty h(\tau) f(t-\tau) \dd\tau \\
+&= e^{st} \int_{-\infty}^\infty h(\tau) e^{-st} \dd\tau \\
+&= e^{st} H(s)
+\end{align*}
+where $h$ is the impulse reponse of $f$ and $f(t) = e^{st}$.
+
+If we have $y(t) = G(s)e^{st}$, $G(s)$ is the Laplace transform of the impulse response; ie. the {\bf transfer function}. If $s = j\omega$, then $e^{st} = e^{j\omega t} = \cos\omega t + j\sin\omega t$, so we have an imaginary frequency response $G(j\omega)$.
+
+So, by definition, we have \[ G(j\omega) = \bigl| G(j\omega) \bigl| e^{j\angle G(j\omega)} \]
+
+\section{Modelling}
+To model a system, we:
+\begin{enumerate}
+\item Apply relevant physical laws, giving us a system of differential equations
+\item Linearize, giving us a system of linear differential equations
+\item Take Laplace transforms with initial consitions set to zero, giving us a set of linear algebraic equations
+\item Solve for output in terms of input, giving us a transfer function
+\item Experiment to estimate the parameters
+\end{enumerate}
+
+\section{Responses}
+We can relate responses to the positions of poles of transfer functions on the s-plane. Note that poles are the roots of the denominator of the transfer function. Given \[ \frac{Y(s)}{R(s)} = \frac{C(s)P(s)}{1 + C(s)P(s)} \] the control designer can choose $C(s)$ as a root and therefore influence the poles of $\frac{Y(s)}{R(s)}$.
+
+A standard first order system is denoted as \[ G(s) = \frac{K}{s\tau + 1} \] because the polynomial is of degree one (ie. there is only a single pole). The impulse reponse of this function is
+\begin{align*}
+y(t) &= \invlaplace{G(s) \times 1} \\
+&= \invlaplace{\frac{K}{s\tau + 1}} \\
+&= \invlaplace{\frac{\frac{K}{\tau}}{s + \frac{1}{\tau}}} \\
+&= \frac{K}{\tau} \invlaplace{\frac{1}{s+\frac{1}{\tau}}} \\
+&= \frac{K}{\tau} e^{-\frac{t}{\tau}} u(t)
+\end{align*}
+
+Recall that \[ \laplace{e^{-at} u(t)} = \frac{1}{s + a} \] and \[ \laplace{e^{-at} f(t)} = F(s + a) \] Note that you can clearly derive the former from the latter.
+
+The closer the pole $-\frac{1}{\tau}$ is to the imaginary axis, the slower the response.
+
+Given the step response
+\begin{align*}
+y(t) &= \invlaplace{G(s) \times \frac{1}{s}} \\
+&= \invlaplace{\frac{K}{s(s\tau + 1)}} \\
+&= K(1 - e^{-\frac{t}{\tau}}) u(t)
+\end{align*}
+
+It is always the case that the step response is the integral of the impulse response (by the integration of the laplace transform).
+
+A standard first-order system with time constant $\frac{\tau}{1 + K_c K}$ and dc gain $\frac{K}{1 + K_c K}$ has \[ \frac{Y(s)}{R(s)} = \frac{\frac{K_c K}{1 + K_c K}}{s\frac{\tau}{1 + K_c K} + 1} \]
+
+A standard second-rder system is of the form \[ H(s) = \frac{\omega n^2}{s^2 + 2\zeta \omega_n s + \omega_n^2} \] Where $\omega_n$ is the natural frquency and $\zeta$ is the damping ratio.
+
+We'll look at the case where $0 < \zeta < 1$ (the system is {\bf underdamped}). The impulse response is
+\begin{align*}
+y(t) &= \invlaplace{H(s) \times 1} \\
+&= \frac{\omega_n}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin\omega_n\sqrt{1 - \zeta^2} t
+\end{align*}
+and the step response is its integral
+\begin{align*}
+y(t) &= \invlaplace{H(s) \times \frac{1}{s}} \\
+&= 1 - \frac{1}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin(\omega_n\sqrt{1 - \zeta^2} t + \theta)
+\end{align*}
+where $\theta = \cos^{-1} \zeta$. Thus the steady-state response is 1.
+
+The poles of this system are
+\begin{align*}
+s &= \frac{-2\zeta\omega_n \pm \sqrt{4\zeta^2\omega_n^2 - 4\omega_n^2}}{2} \\
+&= -\zeta\omega_n \pm \omega_n\sqrt{\zeta^2- 1} \\
+&= -\zeta\omega_n \pm j\omega_n\sqrt{1 - \zeta^2}
+\end{align*}
+
+The larger the $\omega_n$, the faster the responses. The larger the $\theta$, the smaller the $\zeta$ and the more oscillating the response is.
+
+The {\bf peak time} is the time a system takes to reach the first response peak and is inversely proportional to the imaginary part of the poles
+
+The impulse response is zero if and only if \[ \omega_n \sqrt{1 - \zeta^2} t = 0, \pi, 2\pi \] which implies \[ Tp = \frac{\pi}{\omega_n \sqrt{1 - \zeta^2}} \] where $\omega_n \sqrt{1 - \zeta^2}$ is the imaginary part of the poles.
+
+The {\bf settling time} is the earliest time after which the step response remains within a certain percentage of $y$ (eg. $T(5\%)$).
+
+We have \[ y(t) = \bigl[ 1 - \frac{1}{\sqrt{1 - \zeta^2}} e^{-\zeta\omega_n t} \sin(\omega_n \sqrt{1 - \zeta^2} t + \theta) \bigl] u_{-1}(t) \] To approximate $Ts$, it suffices to focus on $e^{-\zeta\omega_n t}$.
+
+Thus we have \[ e^{-\zeta\omega_n t} \approx 0.05 \iff \zeta\omega_n t = 3 \implies Ts(5\%) \approx \frac{3}{\zeta\omega_n} \] and \[ e^{-\zeta\omega_n t} \approx 0.02 \iff \zeta\omega_n t = 4 \implies Ts(2\%) \approx \frac{4}{\zeta\omega_n} \] These are good approximations for typical values of $\zeta$.
+
+We generally aim for $\zeta \leq 0.7$ (these settling time formulas are only reasonable when $\zeta < 1$.
+
+If some of the poles are much closer (5 to 10 times) to the imaginary axis than the others, they are considered {\bf dominant}.
+
+The real exponentials in the responses have always features the real parts of the poles, eg $e^{-\zeta\omega_n t}$. These are decaying exponentials if and only if the real parts of the poles are negative.
+
+We say that a single-output system is BIBO stable ifits output is bounded whenever its input is.
+
+Theorem: An LLTI system with transfer function $G(s)$ is BIBO stable if and only if $G(s)$ is stable and proper.
+
+$G(s)$ is {\bf stable} if all of its poles lie in $\Re(s) < 0$ (all the poles lie to the left of the imaginary axis).
+
+A rational transfer function $G(s)$ is {\bf proper} if the degree of the numerator polynomial is less than or equal to that of the denominator. $G(s)$ is {\bf strictly proper} if the degree of the numerator is strictly less than that of the denominator.
+
+The {\bf final-value theorem}: if $E(s)$ has no poles in the closed right half-plane (i.e., in $\Re \geq 0$), except possible a single pole at $s = 0$, then \[ \lim_{t\to\infty} e(t) = \lim_{s\to 0} eE(s) \] where $e(t)$ is the steady-state error.
+
+We call $K_p = \lim_{s\to 0} C(s) P(c)$ the {\bf position error constant}.
+
+\subsection{The Fundamental Stability Theorem}
+Let $C = \frac{N_C}{D_C}$ (and the same for $P$ and $F$) which are ratios of coprime polynomials. Then $D_CD_PD_F + N_CN_PN_F$ is the characteristic polynomial of the system.
+
+Suppose C, P, and F are proper and $CPF$ is strictly proper. Then the feedback is BIBO stable if and only if the chip has no roots in $\Re(s) \geq 0$.
+
+Alternatively, if C, P, and F are proper and $CPF$ is strictly proper, the feedback system if BIBO stable if and only if $1 + CPF$ has no roots in $\Re(s) \geq 0$ and $CPF$ has no pole-zero cancellations in $\Re(s) \geq 0$.
+
+\subsection{The Ruth-Horowitz Theorem}
+Given a polynomial $Q(s) = a_ns^n + a_{n-1}s^{n-1} + \dots + a_o$, we construct the table
+\begin{table}[ht]
+\centering
+  \begin{tabular}{r|llll}
+  $n$     & $a_n$     & $a_{n-2}$ & $a_{n-4}$ & \dots \\
+  $n - 1$ & $a_{n-1}$ & $a_{n-3}$ & $a_{n-5}$ & \dots \\
+  $n - 2$ & $b_{n-2}$ & $b_{n-4}$ & $b_{n-6}$ & \dots \\
+  $n - 3$ & $c_{n-3}$ & $c_{n-5}$ & \dots     & \dots \\
+  \dots   & \dots     & \dots     & \dots     & \dots \\
+  \end{tabular}
+\end{table}
+where
+\begin{align*}
+b_{n-2} &= \frac{-1}{a_{n-1}} \begin{vmatrix} a_n & a_{n-2} \\ a_{n-1} & a_{n-3} \end{vmatrix} \\
+b_{n-4} &= \frac{-1}{a_{n-1}} \begin{vmatrix} a_n & a_{n-4} \\ a_{n-1} & a_{n-5} \end{vmatrix} \\
+c_{n-3} &= \frac{-1}{b_{n-2}} \begin{vmatrix} a_n & a_{n-3} \\ b_{n-2} & b_{n-4} \end{vmatrix} \\
+c_{n-5} &= \frac{-1}{b_{n-2}} \begin{vmatrix} a_n & a_{n-5} \\ b_{n-2} & b_{n-6} \end{vmatrix} \\
+\end{align*}
+
+We also fill it in with zeroes as necessary.
+
+The roots of $Q(s)$ all lie in the ``open left half-plane'' $\Re(s) < 0$ if and only if all elements of the first column of the Routh Table are non-zero and have the same sign. A necessary condition for all roots to lie in $\Re(s) < 0$ is that all the coefficients of the polynomial are nonzero and have the same sign.
+
+There's generally a trade-off between steady-state performance and transient performance stability. The variation of the roots of the characteristic polynomial with $K$ is shown by the {\bf root locus}.
+
+\subsection{The Root Locus}
+Suppose that a chip has the form \[ D_CD_PD_F + KN_CN_PN_F \] where $k > 0$. If $D_CD_PD_F$ and $N_CN_PN_F$ have roots in common, these will be roots of the characteristic polynomial that wil not vary with $K$. Let's ignore these fixed roots by dividing by $D_CD_PD_F$ and cancelling common roots, leaving us with \[ 1 + KG(S) = 0 \]
+
+The form of the root lous is determined by {\bf Evan's Rules}:
+\begin{enumerate}
+\item The root locus consists of $n$ branches (the characteristic polynomial is of degree $n$).
+\item The root locus is symmetrical about the real axis (if $s$ is a root so is $s^*$).
+\item As $k\to 0$, the $n$ branches of the root locus approach the poles of $G(s)$ (the characteristic equation can be writtten $D_CD_PD_F + KN_CK_PK_F = 0$). As $K\to\infty$, $m$ of the $n$ branches tend toward the zeroes of $G(s)$.
+\item As $K\to\infty$, the remaining $n-m$ branches tend toward infinity along straight-line asymptotes with angles of \[ \theta = \frac{\pm k180^\circ}{n-m}, h=1,3,5,\dots \] and a common intersection point \[ \sigma = \frac{\displaystyle\sum_{j=1}^n P_j - \displaystyle\sum_{i=1}^m z_i}{n-m} \]
+\item Points of intersection fo branches of the root locus satisfy \[ G^\prime(s) = \deriv{G(s)}{s} = 0 \] If $s_0$ is a point of intersection of two or more branches and $K_0$ is the corresponding value of $K$, then we must have \[ 1 + K_0 G(s) = (s-s_0)^K F(s) \] where $K \geq 2$, thus \[ K_0 G^\prime(s) = K(s-s_0)^{K-1} F(s) + (s-s_0)^K F^\prime(s) \] and finally \[ G^\prime(s) \Bigg|_{s=s_0} = 0 \]
+\end{enumerate}
+
+For $-\infty < K < 0$, we get the {\bf complementary root locus} with an angle relationship of \[ \angle G(s) = \angle\frac{-1}{K} = \pm h180^\circ, h=0,2,4,\dots \] For a complementary root locus, rule 4 becomes \[ \theta = \frac{\pm h180^\circ}{n-m}, h=0,2,4,\dots \] and rule 5 becomes ``A point $s_0 \in \mathbb{R}$ belongs to the root locus if and only if the number of poles and zeroes of $G(s)$ that lie to its right is \textit{open}''.
+
+\section{PID Controllers}
+Ideally, a PID controller system is defined as \[ C(s) = K_P + \frac{K_I}{s} + K_Ds \] Thus we have
+\begin{align*}
+U(s) &= C(s)E(s) \\
+&= K_PE(s) + \frac{K_I}{s}E(s) + K_DsE(s)
+\end{align*}
+
+Since a system like this would not be BIBO-stable, adding a fast real-pole to the $D$ input is often necessary, eg. $\dots + \frac{K_Ds}{s\tau + 1}$. This term should only appear at high-frequency input values.
+
+\subsection{Root-Locus Designs}
+\begin{enumerate}
+\item {\bf Choose time-domain specifications}: $T_P, OS, T_S, \lim_{t\to\infty} e(t)$
+\item {\bf Convert to ``quasispecs''}: constraints on pole locations, $K_P, K_V$
+\item {\bf Choose controller structure}: eg. proportional controller, lead compensator (approx $PD$ controller), lag compensator (approx $PI$ controller)
+\item {\bf Design (choose parameter values)}: using root locus
+\item {\bf Further analysis / simulation}: determine whether meeting quasispecs in this case implies meeting original specifications.
+\end{enumerate}
+
+\begin{example}
+Design a system to implement $P(s) = \frac{1}{s^2}$.
+
+We define the specifications as:
+\begin{enumerate}
+\item $OS \leq 20\%$
+\item $T_P \leq \frac{\pi}{2}$
+\item Steady-state error for a reference $r(t) = \half t^2 u_{-1} (t) \leq 0.20$
+\end{enumerate}
+
+We convert these to ``equivalent'' quasispecs:
+\begin{enumerate}
+\item Assume that $\frac{Y(s)}{R(s)}$ is of the form of the standard second-order step response. Then $OS = e^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}$ or $\zeta \geq \cos^{-1} 63^\circ \approx 0.45$.
+\item For a standard second-order system, $T_p = \frac{\pi}{\omega_N \sqrt{1-\zeta^2}}$ so $\omega_N\sqrt{1-\zeta^2} \geq 2$.
+\item $K_a \geq 5$
+\end{enumerate}
+
+We try a proportional controller $C(s) = K$ which gives us $\frac{Y}{R} = \frac{KP}{1 + KP}$. The poles of the closed-loop system are the roots of $1 + KP(s) = 0$; the best way to analyze them is to draw the corresponding root locus plot. Note the asymptotes are $\theta = \frac{\pm 180^\circ}{n-m} = \pm h 90^\circ, h = 1,3,5,\dots$ and so $\sigma = 0$ (in this case, solving without dawing the plot is straight-forward: $1 + KP(s) = 0 \implies s = \pm j\sqrt{K}$).
+
+Since these roots are only on the imaginary axis (ie. $\Re(s) = 0$, our system is non-stable for all $0 < K < \infty$. Thus, a proportional controller will not work for this purpose. We attempt instead a lead compensator $C(s) = K\frac{s-z}{s-P}, P < z$.
+
+How do we chose $z, P$ such that the root locus passes through $s_{cl}$? We simply satisfy the angle relation: $\frac{Y}{R} = \frac{C(s)P(s)}{1 + C(s)P(s)}$, ie. such that the poles are solutions of $1 + K\frac{s-z}{s-P} P(s) = 0$.
+
+Thus we have
+\begin{align*}
+G(s) &= \frac{-1}{K} \\
+\frac{s-z}{s-P} P(s) &= -\frac{1}{K} \\
+\angle \bigg(\frac{s-z}{s-P} P(s)\bigg) &= \pm h180^\circ, h = 1,3,5,\dots\\
+\angle \bigg(\frac{s_d - z}{s_d - P} \bigg) + \angle P(s_d) &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) + \angle \frac{1}{s_d^2} &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) - 2\angle s_d &= \pm h180^\circ \\
+\angle(s_d - z) - \angle(s_d - P) - 234^\circ &= \pm h180^\circ \\
+\end{align*}
+and so we select $z, P$ such that $\phi = \angle(s_d - z) - \angle(s_d - P) = 54^\circ$.
+
+Choosing a $z$ too close to the imaginary axis can lead to a large overshoot, and placeing $z$ and $P$ too far from the axis can lead to high noise sensitivity.
+
+The high frequency gain of the lead compensator \[ C(s) = K\frac{s-z}{s-P} \] as $|s|$ becomes large \[ C(s) \approx K\frac{z}{P} \] Keeping $K\frac{z}{P}$ small keeps high-frequency gain low.
+
+What's the value of $K$?
+\begin{align*}
+K &= \Bigg| \frac{s_d - P}{s_d - z} \frac{1}{P(s_d)} \\
+&= \frac{|s_d - P|}{|s_d - z|} |s_d|^2
+\end{align*}
+
+Placing $z$ and $P$ too far from the imaginary axis may make the high-frequency gain $K$ excessively large. Rule of thumb: keep $\frac{P}{z} < \{10, 15\}$.
+
+What about steady-state error? For this we need $K_a \geq 5$. Now
+\begin{align*}
+K_a &= \lim_{s\to 0} s^2 C(s)P(s) \\
+&= \lim_{s\to 0} K\frac{s-z}{s-P} \\
+&= K\frac{z}{P} \\
+&= \frac{|s_d - P|}{|s_d - z|} |s_d|^2 \frac{z}{P}
+\end{align*}
+
+This can be maximized, subject to the constrain tthat $\phi = 54^\circ$, eg. by the {\bf Warren-Ross method}.
+\end{example}
+
+\subsection{Lead-Compensator Design Procedure}
+\begin{enumerate}
+\item Using the formulae for a standard second-order system, convert specifications on transient response ($OS$, $T_P$, $T_s$) to constraints on locations of closed-loop poles. Choose a desired pole location $s_d$ accordingly.
+\item If the root locus for a proportional controller passes through the desired region of the s-plane, check whetehr an adequate error constant can be acheived while placing the closed-loop poles in the desired region. If so, skip the next two steps.
+\item Otherwise, compute $\angle P(s_d)$. Choose $z$ and $P$ so that $\angle(s_d - z) - \angle(s_d - P) + \angle P(s_d) = \pm h180^\circ, h=1,3,5,\dots$
+\item Set $K = \frac{|s_d - P|}{|s_d - z|} \frac{1}{|P(s_d)}$ (amplitude of the relation)
+\item Check whether the error constant is adequate.
+\item Simulate the response to a step reference to check $OS, T_P, T_s$.
+\end{enumerate}
+
+A few notes:
+\begin{itemize}
+\item If compensator zero $z$ is close to the imaginary axis, the overshoot will be increased.
+\item If $z$ and $P$ both are too far from the origin, the noise sensitivity will be high. The high-frequency gain of the ompensator is \[ K = \frac{|s_d - P|}{|s-d - z|} \frac{1}{|P(s_d)|} \] so we should keep $\frac{P}{z} < 15$.
+\item It's is generally hard to increase the error very much.
+\item If lead compensation is ineffective, it can be combined with {\bf lag compensation}.
+\end{itemize}
+
+\subsubsection{Summary of Lead Compensation Design}
+\begin{enumerate}
+\item Find the gain $K$ required for adequate $K_P$ or $K_V$ (whichever applies).
+\item Check whether you can achieve simultaneously a small enough OS -- if so, the design is finished.
+\item Draw the Bode plot of the ``uncompensated system'' $KP(s)$.
+\item Guess how much PM must be added to $\omega_{gc}$ and set this equal to $\sin^{-1} \frac{\alpha - 1}{\alpha + 1}$. Find $\alpha$.
+\item Set $\frac{1}{\sqrt{\alpha} \tau}$ to the frequency at which the uncompensated system has a gain of $-10\log_{10} x$. This is the new $\omega_{gc}$.
+\item Simulate to check the step response. If the response is not correct, return to step 4.
+\end{enumerate}
+
+Notes:
+\begin{enumerate}
+\item Lead compensation may be ineffective if the phase drops off too quickly near the uncompensated $\omega_{gc}$.
+\item Lead compensation increases the ``open-loop'' BW (and generally the closed-loop BW) and therefore speeds up the transient response.
+\item By increasing BW, lead compensation tends to increase noise sensitivity.
+\end{enumerate}
+
+\subsection{Lag-Compensator Design}
+The key idea of lag-compensation is to increase the error constant without much degradation of transient performance. For a transfer function $C(s) = \frac{s-z}{s-P}, z < P < 0$, this compensator increases the error by a factor of $\frac{z}{P}$.
+
+We don't want to alter (much) eithe rthe angle relation of the amplitude relation in the neighbourhood of $s_d$.
+
+Placing $z$ (and $P$) close to the imaginary axis means it is likely there will be a closed-loop pole close to the imaginary axis and thus we will likely have a sluggish transient response. Note \[ \frac{Y(s)}{R(s)} = \frac{C(s)P(s)}{1 + C(s)P(s)} \] so our system has a zero at $z$ and may have a root close to $z$. For this transfer funcion, the ``slow'' pole may be essentially cancelled by the zero at $z$.
+
+More notes on compensation:
+\begin{itemize}
+\item The amount by which lead compensation can increase the error constant is limited\dots and our lag-compensator design method doesn't improve transient reponse.
+\item So, a reasonable approach is to use lead compensation to acheive a good transient response, then add (in series) a lag compensator which boosts the error coefficient without degrading the transient reponse.
+\end{itemize}
+
+Consider an ideal P-D controller \[ C(s) = K_p + K_Ds \] which is improper. A more practical P-D controller \[ C(s) = \frac{K_p + K_Ds}{s\tau + 1} \] where $\tau$ is small would add a pole (ie. pole is $\frac{-1}{\tau} < -\frac{k_p}{k_D}$). So a lead compensator is a practical implementation of an ``ideal'' P-D controller.
+
+A lag compensator, on the other hand, is a practical implementation of an ideal P-I controller.
+
+Given \[ P(s) = \frac{8}{s(0.2s + 1)} \] and the specs
+\begin{enumerate}
+\item steady-state error for $r(t) = tu_{-1}(t) \leq 0.2$
+\item $OS < 15\%$
+\end{enumerate}
+we clearly need $K \geq 2.5$ for 1), so we set $K = 2.5$.
+
+Then, the uncompensated system has adequate phase ($-120^\circ$) at $\omega = 2.1s^{-1}$; at this frequency, the uncompensated fain is $20$ dB. We need to add $-20$ dB at this frequency:
+\begin{align*}
+20\log_{10}\alpha &= -20 \\
+\alpha &= 0.1
+\end{align*}
+
+To avoid introducing phase lag at the new $\omega_{gc} = 2.1s^{-1}$, we set
+\begin{align*}
+2.1 &= \frac{10}{\alpha\tau} \\
+\tau &= \frac{10}{0.1 \times 2.1} \\
+&= 47.6 \\
+\frac{1}{\tau} &= 0.021 \\
+\frac{1}{\alpha\tau} &= 0.21
+\end{align*}
+
+\subsection{Unity-Feedback System}
+Consider a system with \[ \frac{Y(s)}{R(s)} = \frac{KC(s) \times P(s)}{1 + KC(s) \times P(s)} \] then suppose that the feedback system is BIBO stable for sufficiently small $K$ and becomes unstable for larger $K$. The root locus branches, then, must cross the imaginary axis.
+
+Let $K_C$ be the least value of $K$ corresponding to a point on the root locus that is imaginary. Let one such point e $s = j\omega_C$. Then
+\begin{align*}
+1 + K_c C(j\omega_C)P(j\omega_C) &= 0 \\
+K_c C(j\omega_C)P(j\omega_C) &= -1 \\
+\bigl| K_c C(j\omega_C)P(j\omega_C) \bigl| &= 0\text{dB} \\
+\angle K_c C(j\omega_C)P(j\omega_C) &= -180^\circ
+\end{align*}
+
+Theorem: Suppose $C$, $P$, ad $F$ are proper and $CPF$ is strictly proper. Then the feedback system is BIBO stable if and only if
+\begin{enumerate}
+\item $1 + CPF$ has no roots in $\Re(s) \geq 0$, and
+\item $CPF$ has no pole-zero cancellations in the CRHF
+\end{enumerate}
+
+We can check this with the {\bf Nyquist Stability Criterion}; this is based on the principle of the argument. Consider a simple (doesn't intersect itself), closed contour $e_s$ on the s-plane. Suppose its ``oriented'' clock-wise. Consider also a simple function $f(s) = s - s_0$. Map the conou $e_s$ by applying $f$ to each point.
+
+Note that $e_f$ encircles the origin (clockwise) if and only if $s_0$ lies inside $e_w$.
+
+Consider what happens to $\angle f(s) = \angle(s - s_0)$ -- the argument of $f(s)$ as $s$ goes around $e_s$: if $s_0$ lies outside $e_s$, $\angle f(s) = \angle(s - s_0)$ goes through a net change of zero. If $s_0$ lies inside the contour, $\angle f(s) = \angle(s - s_0)$ goes though a net change of $-360^\circ$.
+
+Consider $g(s) = \frac{1}{s-s_0}$. $\angle g(s) = -\angle (s-s_0)$ so, as $s$ goes around $e_s$: if $s_0$ lies outside $e_s$, $\angle g(s)$ goes through a net change of zero and if $s_0$ lies inside $e_s$, $\angle g(s) = -\angle f(s)$ goes through a net change of $360^\circ$. The latter implies $e_g$ encircles the origin once, counter-clockwise.
+
+Theorem ({\bf Principle of the Argument}): Let $G(s)$ be a rational function and let $e_s$ be a single, closed contour on the s-plane, oriented clockwise. Suppose the $G(s)$ has no poles or zeroes on $e_s$, but that the contour $e_s$ encircles $n$ poles and $m$ zeroes of $G$. Thus, aas follows $e_s$. $G(s)$ traces out a curve $e_G$ that encircles the origin $n-m$ times counter-clockwise.
+
+\end{document}

@@ -1,0 +1,189 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{ECE 358 --- Computer Networks}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2016}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{AI}
+We can define the types of artificial intelligence on a graph: each instance falls somewhere on the scale between mimicking thoughts processes vs mimicking behaviour, as well as having success in terms of human performance vs rational/ideal performance. In this course, we will focus mostly on rational performance.
+
+The scientific goals of AI focus on developing mechanisms of understanding biological behaviour. The engineering goal, though, is to develop the practice of {\it building} intelligent machines.
+
+Thinking rationally involves using logic to achieve goals via logical inference. This makes it difficult to represent informal knowledge and does not give us the capability of solving all problems. Behaving rationally, on the other hand, involves perceiving the world and acting to achieve some goals given some set of beliefs. This is much more amenable to computing and problem-solving in general -- it is more general than inferencing , but may involve taking individual actions toward a goal that, though they accomplish the task on hand, may not necessarily be ``correct''.
+
+We introduce {\bf agent-based systems} as systems containing one or more agents: subsystems which sense their environment and act upon it. We further define {\bf rational agents} as agents that, for each perceived sequence of events, does what is expected to maximize performance on the basis of perceptual history and built-in knowledge (see: autonomy). There are many categories of agents:
+\begin{description}
+\item[Simple Reflex Agents] table-lookup style approach, requires fully-observable environment
+\item[Model-Based Reflex Agents] adds state information to handle partially-observable environments
+\item[Goal-Based Agents] adds goal concept to augment knowledge to help chose the best actions
+\item[Utility-Based Agents] adds utility mechanism to decide ``good'' and ``bad'' with conflicting goals
+\item[Learning Agents]adds learning concept to find situations that affect performance then decide how to change things to improve
+\end{description}
+
+More generally: agent design becomes more or less complex based on the particular characteristics of the environment.
+
+Some important dimensions of environments which influence agent design include
+\begin{itemize}
+\item fully vs partially observable
+\item deterministic vs stochastic
+\item episodic vs sequential
+\item static vs dynamic
+\item discrete vs continuous
+\item competitive vs co-operative
+\end{itemize}
+
+{\bf Cooperation} is the act of using a group to solve a joint problem or perform common tasks based on sharing the responsibility of reaching that goal. This can be accomplished with either direct or indirect communication, or even by independent actions involving no communication. Cooperation can involve division of labour, collective autonomy, conflict avoidance, maintaining group functionality, collecting and sharing knowledge, et cetera.
+
+\subsection{Classes of Problems}
+There exist several types of problems:
+\begin{description}
+\item[well-structured problems] a problem for which the existing state and the desired state are clearly identified and the methods to reach the desired state are fairly obvious
+\item[ill-structured problems] a situation in which the existing and desired states are unclear and, thus, methods of reaching the desired state cannot be found. We may be able to identify whether a given step moves us toward a goal, but we are unlikely to be able to define a list of steps to take
+\end{description}
+
+For ill-structured problems, there are several potential methods of problem-solving:
+\begin{itemize}
+\item retreiving a solution or answer
+\item starting from a guess and improving upon it
+\item searchign among alternatives
+\item searching forward from the problem to the answer
+\item searching backwards from a goal to the situations of the problem.
+\end{itemize}
+
+For the most part, theoretically ill-structured problems are practically ill-structured and theoretically well-structured prblems are practically well-structured. That said, there also exist problems that are theoretically well-structured (or ill-structured), but practically the opposite. For example, the {\bf Clustering Problem} is a well-structured problem but practially ill-structured.
+
+\subsubsection{The Clustering Problem}
+Given $n$ objects, group them in $c$ groups (clusters) in such a way that all objects in a single group have a ``natural'' relation to one another and objects not in the same group are somehow different.
+
+For {\bf set partitioning}, the number of possible sets is given by \[ N(n,c) = \binom{1}{c!}\sum_{m=1}^c (-1)^{c-m} \binom{c}{m} m^n \] Thus we do have a well-formed solution space, but enumerating $N(50, 4) = 6.7 \times 10^{58}$ solutions is clearly impractical (even though $n$ and $c$ are small).
+
+\subsection{Optimization Problems}
+{\bf Optimization problems} are a class of problems for which we can use either exact or approximate algorithms; exact algorithms find the optimal solution but require high computational costs whereas approximate algorithms find sub-optimal solutions but only require low computational costs.
+
+\subsubsection{Optimization Algorithms}
+We can divide approximate algorithms into
+\begin{description}
+\item [constructive methods] which start from scratch and try to build the complete solution by adding one component at a time, and
+\item [local search methods] which start from an initial solution and iteratively try to replace the current solution with a better one.
+\end{description}
+
+\section{Search}
+We can often solve problems using {\bf search}. Using a search-based methodology has two requirements:
+\begin{description}
+\item[goal formulation] we need goals to limit search and allow termination
+\item[problem formulation] we need a compact represenatation of problem spaces (states), a set of defined actions for each given state, and defined costs for each action.
+\end{description}
+
+Search then involved moving between states within the problem space to find a goal.
+
+A goal-based search requires a fully-observable, deterministic, sequential, static, and discrete environment.
+
+\subsection{Heuristics}
+A heuristic algorithm $h$ on some state $n$ gives $h(n)$ is the expected cost of getting to a known good state from $n$. In informed search, we encode all domain knowledge used in that search. This is considered a {\bf weak method}.
+
+In general: $h(n) \geq 0$, where $h(n) = 0 \implies$ $n$ is a goal state and $h(n) = \infty \implies$ $n$ is a dead-end that can never lead to a goal.
+
+A heuristic is {\bf admissible} if if never overestimates the cost of reaching a goal. This is also refered to as an {\bf optimistic heuristic}.
+
+\subsection{Meta-Heuristics}
+{\bf Meta-Heuristics} are algorithms that combine heuristics in a higher level framework aimed at efficiently and effectively exploring the search space. A meta-heuristic search is a non-exhaustive search algorithm with an internal heuristic: thus, these are often hybrid searches where:
+\begin{enumerate}
+\item the first search identifies neighbourhoods which may be valid locations for the search term, then
+\item the second search intensifies the search to find the right answer
+\end{enumerate}
+
+The problem with this technique is that it may skip some correct answers (eg. if they are filtered out in the first search). Meta-heuristics, then, are considered an approximate algorithm.
+
+There are two types of meta-heuristic algorithms:
+\begin{description}
+\item [trajectory methods] which handle a single solution at a time, starting with a single base case and recursively replacing it with a better solution, and
+\item [population methods] which begin with some randomly generated group of solutions and recursively replaces portions of the solution space with sub-groups of better solutions.
+\end{description}
+
+\subsubsection{Trajectory Methods}
+{\bf Trajectory methods} are variations of local search which are used to avoid getting stuck on local optima. The {\bf Tabu search} is among the most popular of these: it uses memory structures to avoid local minima and avoid re-visiting nodes. Other trajectory methods include simulated annealing, genetic algorithms, swarm intelligence, ant colony optimization, and particle swarm optimization.
+
+\subsection{Types of Search}
+There exist two broad types of search:
+\begin{description}
+\item[Uninformed Search] which only has the information provided by the problem formulation (initial state, set of actions, goal test, and cost), and
+\item[Informed Search] which additionally has some information which allows it to judge the promise of an action (ie. the estimated cost from a state to a goal).
+\end{description}
+
+An {\bf uninformed search} is also described as a {\it blind} search. For a blind search, we can use several strategies:
+\begin{itemize}
+\item breadth-first search
+\item uniform-cost search
+\item depth-first search
+\item iterative deepening search
+\end{itemize}
+
+{\bf Informed search} involves some amount of extra information used to improve a standard search algorithm.
+
+\subsubsection{Hill-Climbing}
+{\bf Hill Climbing} is a step-based approach for tree traversal. Beginning with some base case, hill-climbing alogirthms calculate the value of each child of that node. They pick the best of these options, and repeat the algorithm until they reach the locally optimal value. Hill-climbing is extremely straightforward, but can easily get ``stuck'' on local maxima.
+
+\subsubsection{Beam Search}
+A {\bf beam search} is an informed breadth-first search. A beam search adds every successor of a node to a search list, solving for the value of each of them. Then, it recursively travels down up to some max number $n$ of children nodes. For example, when the beam value $n = 2$, this algorithm recurses to the two best children. This is a form of memory optimization, where we exclude some potentially bad results in exchange for reducing our search space considerably. Note than when $n = \infty$ we simply perform a complete breadth-first search.
+
+\subsubsection{$A^*$}
+An {\bf $A^*$} pathing algorithm tries to avoid expanding paths that are already expensive: it uses the evaluation function \[ f(n) = g(n) + h(n) \] where $g(n)$ is the cost from start node to $n$, and $h(n)$ is the estimate cost from $n$ to the goal. $A^*$ uses admissible heuristic $h(n) \leq h^*(n)$ where $h^*(n)$ is the actual cost from $n$ to the goal and $h(n) \geq 0$. $A^*$ always gives the optimal solution.
+
+\subsection{Game-Playing}
+% TODO: perfect information, max/min, alpha-beta pruning,
+
+\section{Algorithms}
+\subsection{Tabu Search}
+% TODO: local search, tabu search, adaption and cooperation
+
+\subsection{Simulated Annealing}
+% TODO: physical, simulated, schedules, temperature, convergence, adaption and cooperation
+
+\subsection{Genetic Algorithms}
+% TODO
+
+\subsubsection{Simple Genetic Algorithms}
+% TODO
+
+% TODO: selection (fps, rank, tourney, survivor)
+
+\subsubsection{Real-Valued GAs}
+% TODO
+
+\subsubsection{Permutation GAs}
+% TODO
+
+% TODO: adaptive
+
+There exist four broad categories of parallelization in genetic algorithms:
+\begin{description}
+\item[master-slave (globall-parallel) GAs], wherein the master population handles selection and and mating and applies the results to the entire population, distributing the fitness evaluation process amongst slave processors.
+\item[fine-grained GAs], wherein selection and mating is restricted to (potentially overlapping) local populations. This is suitable for massive-scale systems, eg. wherein each individual can have a dedicated processor.
+\item[coarse-grained (multiple-popultion, multiple-deme, distributed, ``island'' parallel) GAs], wherein multiple populations evolve in parallel, selection and mating is restricted to within that population, and populations exchange individuals now and again. This can be either dense or sparse, where dense topologies lead to faster propogation and sparser ones lead to more isolated systems with the potential of merging solutions eventually for better results. Additionally, we can decide a {\bf migration strategy} for the migratory individuals (best-worst, best-random, random-random, random-worst, etc) and a {\bf migration frequency}, which is self-explanatory but may be based either on time ($n$-generations) or some event (eg. converged populations) -- it is important to avoid migrating too early, so as to avoid creating sub-optimal solutions. We also set a {\bf migration rate}, ie. the number of individuals to be migrated at each communication step. Again, high rates may cause early convergence, low rates may cause complete deme independence.
+\item[cooperative GAs], wherein multiple populations optimize for different aspects of the problem. The fitness of an individual, then, is compared against the best individuals across all populations.
+\end{description}
+
+\subsection{Ant Colony Optimization}
+Ants follow the routes smelling more of ant pheremones. In this way, a decision that can begin randomly may, with random variations, lead to all ants following the same path. This will lead to ants finding the shortest path, since the randomness will favour this route.
+
+This pheremone trail acts as collective memory for the ants to communicate by sense=ing and recording their foraging experience; since the smell disperses over time, the ants can determine how recent the pheremones were spread.
+
+% TODO
+
+\end{document}

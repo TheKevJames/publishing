@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,bookmark,parskip,custom}
+\usepackage[margin=.8in]{geometry}
+\allowdisplaybreaks
+\hypersetup{colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\title{ECE 358 --- Computer Networks}
+\author{Kevin James}
+\date{\vspace{-2ex}Spring 2016}
+\maketitle\HRule
+
+\tableofcontents
+\newpage
+
+\section{Overlay Networking}
+{\bf Overlay Networking} is the act of overlaying an alternate style of networking on top of TCP/IP or UDP/IP. For example, a p2p network.
+
+One common use case of a p2p system is to store content across peers. The content should be distributed across all peers for storage, but should be accessible by any of them. One method of organizing these peers is to use the {\bf Chord Approach}.
+
+\subsection{The Chord Approach}
+We define the Chord DHT (Distributed Hash Table) as an $m$-bit unique key for every peer and piece of content. We can then define succ($k$) for any key $K$ as the peer that exists with the smallest id $\geq k$. The content of $k$ is hosted on succ($k$).
+
+We may want to perform a lookup of any data $k$ on any peer. In this case, we simply route the request to succ($k$).
+
+We can maintain a {\bf finger table} (routing table) on each peer $p$ containing $m$ entries: \[ FT_p[i] = succ(p + 2^{i-1}) \] If peers route requests to the result of looking up $k$ in $FT$, after some number of ``hops'' we will reach the peer containing the content (note that a peer can identify whether it was routed to because it hosts the content if its ID is greater than $k$).
+
+This algorithm has a guaranteed termination within a most $m$ hops, since we can not go around the circle more than once. The expected number of hops, though, is $O(\log n)$ where $n$ is the number of peers. The proof of this was originally hand-wavey, but relies on the fact that each hop covers at least half the arc length and peers are roughly equidistant (under the randomness assumption).
+
+Suppose we do lookup($k$) at peer $p$. Assume that $r$ is the peer immediately before succ($k$). Suppose that the next hop at $p$ is $q$. Then $q - p > \frac{r-p}{2}$. Suppose $q = FT_p[j]$. Then $q \geq p + q^{j-1}$ and $r < p + 2^j$.
+
+\subsection{Subnets}
+Though in theory IPs are divided into addresses and hosts, in reality we divide the host into multiple subnets for the purpose of splitting address blocks. For example, a subnet may be $64.83.192.0/18$. This implies that the address range from $64.83.192.0$ to $64.83.255.255$ is on the subnet (16382 addresses).
+
+\subsection{Hubs}
+Hubs are the connection centers to which all devices on an ethernet are connected. Upon receiving a packet from any device, it simply mirrors that packet to all other devices.
+
+\subsubsection{CSMA/CD}
+{\bf Carrier Sense Multiple Access} with {\bf Collision Detection} is a technology used on hubs; carriers do not transmit when they know someone else is doing so. A collision occurs when more than one pulse exists on the bus at any one time. Hosts check from collision immediately after transmission. The maximum frame size (64B) is designed with this in mind -- this ensures that a carrier can always tell whether a collision was due to their frame, based on some speed of light/packet size calculations we aren't going to cover. In this case, carriers will (often) retry sending the packet.
+
+We use {\bf exponential backoff} when retrying network packets, ie. in attempting to send a frame $f$ after the $c$th collision, we
+\begin{enumerate}
+\item choose a uniform integer $i \in [0, 2^c-1]$
+\item delay by $i$ times the ``slot time''
+\item give up after some max value for $c$ (often $c \in [0,16]$)
+\end{enumerate}
+
+\subsubsection{Switched Ethernet}
+A {\bf switched ethernet} attempts to reduce duplication of packets in a hub; it begins by acting as a hub, but eventually learns which devices are connected to which ports and only mirrors relevant packets to those ports. Eventually, it learns and maintains a switching table.
+
+Hosts connected to the same switch may not be on the same VLAN ({\bf Virtual LAN}). One way to do this is to have the switch bind a port to a VLAN ID. The traffic, then, is allowed to flow only within the VLAN (ie. we create an extra column in the switching table).
+
+% TODO
+
+\section{}
+% TODO
+
+\subsection{IP}
+% TODO
+
+\subsection{Routing Algorithms}
+
+\subsubsection{Dijkstra's Algorithm}
+{\bf Dijkstra's Algortithm}, ie. the alogrithm for constructing a minimum spanning tree, can be applied to network graphs to determine the set of routes necessary to create the shortest average distance between nodes. This can be proven correct (Cormen et al.).
+
+% TODO: LS, DV
+
+\subsection{Hierarchical Routing}
+All our discussions of routing so far have been purely idealization; routers are not all connected to each other, they are aggregated into {\bf autonomous systems}, where routers in the same AS run the same routing protocol. We then have intra-AS routing protocols to communicate between these.
+
+We refer to routers on the ``edge'' of their own AS linked to at least one router in a different AS as a {\bf gateway router}.
+
+\end{document}
