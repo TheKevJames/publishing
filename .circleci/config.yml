@@ -29,6 +29,57 @@ jobs:
       - store_artifacts:
           path: build/curse-of-strahd.pdf
 
+  build-notes:
+    docker:
+      - image: jpbernius/xelatex
+    steps:
+      - run:
+          name: install tex dependencies
+          command: |
+            apt-get update
+            apt-get install -y curl zip
+
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/booktabs.zip > /booktabs.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/listings.zip > /listings.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/mathtools.zip > /mathtools.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/parskip.zip > /parskip.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/pict2e.zip > /pict2e.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/qtree.zip > /qtree.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/ulem.zip > /ulem.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/url.zip > /url.zip
+            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/wrapfig.zip > /wrapfig.zip
+
+            unzip /booktabs.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /listings.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /mathtools.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /parskip.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /pict2e.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /qtree.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /ulem.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /url.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+            unzip /wrapfig.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+
+            mkdir -p ~/texmf/tex/latex/
+            cp -r $(kpsewhich --var-value TEXMFLOCAL)/qtree ~/texmf/tex/latex/
+
+            texhash
+      - checkout
+      - run:
+          name: install custom.sty
+          command: |
+            mkdir -p ~/texmf/tex/latex/custom
+            cp notes-uwaterloo/custom.sty ~/texmf/tex/latex/custom/custom.sty
+            texhash
+      - run:
+          name: make
+          command: |
+            cd notes-uwaterloo
+            make -j2
+            mkdir -p ../build
+            find . -name '*.pdf' | xargs -I{} mv {} ../build
+      - store_artifacts:
+          path: build/
+
   upload:
     docker:
       - image: google/cloud-sdk
@@ -50,6 +101,7 @@ workflows:
   run-jobs:
     jobs:
       - build-curse-of-strahd
+      - build-notes
       - upload:
           filters:
             branches:

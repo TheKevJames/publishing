@@ -1,3 +1,5 @@
-curse-of-strahd/*.log
-curse-of-strahd/journal.aux
-curse-of-strahd/journal.pdf
+**/*.aux
+**/*.log
+**/*.out
+**/*.pdf
+**/*.toc
