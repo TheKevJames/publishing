@@ -16,7 +16,7 @@ No, Graham wasn't bitter, why do you ask?
 
 Not for the first time, Graham felt annoyed at his magic. Illusion magic, sure, maybe at the upper tiers that could be useful against some of the weaker monsters, but with the sort of power Graham held? Respectable enough to be useful for performing, for entertaining the Defenders between deployments, but little else. Working for little pay, just to amuse the upper class who *knew* they were better than him? No, thank you, he'd rather spend his days moving crates of food from point A to point B. The pay would be a bit better and he'd get a bit of satisfaction out of helping keep folks fed at least.
 
-And *Water* Illusion magic? What a joke. Maybe with a strong enough synergy, with Light Illusion magic or Air or -- since it's all in his wildest dreams, why not go big? -- any sort of amalgam, he'd at least have gotten something better than a pitying look when he got tested. Better than a brochure for the sort of positions available to a Normie. Better than the condescending looks of those who tested with better powers, the ones whose names and powers would be displayed for the world to see and to appluad.
+And *Water* Illusion magic? What a joke. Maybe with a strong enough synergy, with Light Illusion magic or Air or -- since it's all in his wildest dreams, why not go big? -- any sort of amalgam, he'd at least have gotten something better than a pitying look when he got tested. Better than a brochure for the sort of positions available to a Normie. Better than the condescending looks of those who tested with better powers, the ones whose names and powers would be shouted out so the whole school could applaud.
 
 But no, there he'd been, a senior in high school with any hopes of a bright future dashed by the dim glow of a testing orb. His mother had been supportive, of course, she always was, but he could still remember the mostly hidden disappointment in her eyes. The resigned acceptance that they'd have to continue barely holding their lives together, barely keeping their bellies filled and their heaters powered for another half dozen years until his baby sister Elizabeth -- *call my Lizzie*, she'd decided a few weeks back, Graham chuckled -- had her chance at something more.
 
@@ -48,7 +48,7 @@ One thing to be said in favour of being sacrificed by cultists in a lengthy ritu
 
 Don't misunderstand: he was still terrified. Terrified out of his wits and pretty confident he wasn't making it to morning. But he'd moved pretty rapidly through the stages of grief to resigned acceptance, which a tinge of regret. He thought back to his mother, who may never know what happened to him. To his sister, who he prayed would have better luck than him in life.
 
-*"...Oh, Jal'Corazeth, accept this vessel as our sacrifice!" the cultists shouted in a final declaration as a swirling wind began to tug incesantly at Grahams robes.
+*"...Oh, Jal'Corazeth, accept this vessel as our sacrifice!"* the cultists shouted in a final declaration as a swirling wind began to tug incesantly at Grahams robes.
 
 Eh, what does he have to lose at this point?
 

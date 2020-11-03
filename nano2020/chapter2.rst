@@ -34,7 +34,7 @@ By the time she'd stood up, the demon was upon her. It plunged one fist into her
 
 Graham had seen enough. He emptied the contents of his stomach onto the floor beside him and curled into a ball, hiding his eyes from the terrible happenings around him. He couldn't ignore the whistling of the demon's claws, the screams of the cultists, or the squishes of... or the other sounds, but he did his best to pretend he was somewhere, anywhere, else.
 
-He stayed like that for what felt like hours, the hideous sounds around him continuing. The occasional sound set his confused mind to figuring out what could have caused it until he could wrest a hold of his imagination and quite firmly convince himself he did *not* want to know, thank you very much. 
+He stayed like that for what felt like hours, the hideous sounds around him continuing. The occasional sound set his confused mind to figuring out what could have caused it until he could wrest a hold of his imagination and quite firmly convince himself he did *not* want to know, thank you very much.
 
 Eventually, the sounds stopped. Graham kept his eyes covered at first, but soon couldn't shake a sense of expectation enveloping him. With a fortifying deep breath, Graham slowly opened his eyes and took a look around the room.
 
@@ -86,7 +86,7 @@ The demon looked around with a critical eye as the scene changed to something wh
 
 After the scene settled, the demon turned back to him and gave a satisfied grunt. **"Good luck, human,"** it said with a chuckle. It flung forwards two bolts of magic, one headed towards Graham's feet and the other straight towards his chest, before slowly melting into the floor and disappearing from the dungeon.
 
-Graham couldn't help but stumble backwards as the magic bolt hit the ground before his feet and burst into another stone spike, piercing directly through his chains but making his heart skip a beat. The chains slid off towards the ground as the demon's second bolt hit him directly in the chest.
+Graham couldn't help but stumble backwards as the magic bolt hit the ground before his feet and burst into another stone spike, piercing directly through his chains but making his heart skip a beat. The chains slid off his wrists towards the ground as the demon's second bolt hit him directly in the chest.
 
 *This is it,* Graham thought to himself. *Ironic death, here I come.*
 
