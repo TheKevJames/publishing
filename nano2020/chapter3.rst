@@ -76,7 +76,7 @@ It took a few seconds for the chains to fully dissolve. *Bollocks*, he'd tried f
 
 "Nah, Conjurer, I've only got enough Transmutation for some parlor tricks. I've got dual Aspects just like you, though I'm not nearly as jammy," Calm down, Reese, you're letting your jealousy show. Three weeks being surrounded by weaklings and suddenly you're salivating over the first real powerhouse you see. That's not the way to impress him!
 
-"You did all this while chained to the floor?" Ugh, speaking of the wrong way too impress someone. Even among the sorry excuses for Defenders they've got out here, Shea barely counts as more than a Normie. She's got to have paid someone off to get tossed onto the right side of the fence. Her Transmutation wasn't even as strong as his, and that was her only talent! "Wow, that's amazing!"
+"You did all this while chained to the floor?" Ugh, speaking of the wrong way to impress someone. Even among the sorry excuses for Defenders they've got out here, Shea barely counts as more than a Normie. She's got to have paid someone off to get tossed onto the right side of the fence. Her Transmutation wasn't even as strong as his and that was her only talent! "Wow, that's amazing!"
 
 Reese snorted and Ava shot him a glance. Oops, a bit too loud, our fancy *Second Rank Mage* is annoyed at me.
 
@@ -93,3 +93,29 @@ Graham chuckled at them, as if the though of the cultists succeeding at summonin
 "Sure thing, no problem at all, happy to give you the full story." Reese's eyes widened in excitement at hearing more of what happened here.
 
 *I'm so excited*
+
+----
+
+the group of three walk back to the headquarters
+
+ava starting to get the story from graham
+
+graham has to make up a whole bunch, to hide the normie thing
+
+reese keeps interjecting questions about power and such, so graham has to exaggerate
+
+reese starts scheming how to get graham to cambridge, dropping hints
+
+graham panics, comes up with some bad excuses (cost, doesn't want to be famous, halfway through the year)
+
+ava mentions needing to look up his records
+
+arrive at HQ, lockdown for stolen records (foreshadow: Nolan?)
+
+she needs to head off to try to help, tells reese to watch graham
+
+reese takes his chance; shoots down graham's bad excuses (scholarship&stipend, will forge records to make him less obviously powerful, pull strings to catch him up early)
+
+the stipend piece gets graham -- in for a penny...
+
+reese calls his uncle(?) via corephone, gets an agreement, gives graham a time and a place -- mentions he'll follow next week once done deployment
