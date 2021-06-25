@@ -1,30 +1,27 @@
 version: 2.1
 
 orbs:
-  linter: thekevjames/linter@0
+  linter: talkiq/linter@1
 
 jobs:
   build-curse-of-strahd:
     docker:
       - image: jpbernius/xelatex
     steps:
+      - run: apt-get update -qy
+      - run: apt-get install -qy curl zip
       - run:
           name: install tex dependencies
           command: |
-            apt-get update
-            apt-get install -y curl zip
-
             curl -Ls http://mirrors.ctan.org/fonts/aurical/aurical_texmf.zip > /aurical.zip
             unzip /aurical.zip -d $(kpsewhich --var-value TEXMFLOCAL)
             texhash
       - checkout
       - run:
-          name: xelatex curse-of-strahd/journal.tex
-          command: |
-            cd curse-of-strahd
-            xelatex journal.tex
-            mkdir -p ../build
-            mv journal.pdf ../build/curse-of-strahd.pdf
+          command: xelatex journal.tex
+          working_directory: curse-of-strahd
+      - run: mkdir -p build/
+      - run: mv curse-of-strahd/journal.pdf build/curse-of-strahd.pdf
       - persist_to_workspace:
           root: build
           paths:
@@ -36,12 +33,11 @@ jobs:
     docker:
       - image: jpbernius/xelatex
     steps:
+      - run: apt-get update -qy
+      - run: apt-get install -qy curl zip
       - run:
           name: install tex dependencies
           command: |
-            apt-get update
-            apt-get install -y curl zip
-
             curl -Ls http://mirrors.ctan.org/macros/latex/contrib/booktabs.zip > /booktabs.zip
             curl -Ls http://mirrors.ctan.org/macros/latex/contrib/listings.zip > /listings.zip
             curl -Ls http://mirrors.ctan.org/macros/latex/contrib/mathtools.zip > /mathtools.zip
@@ -73,13 +69,13 @@ jobs:
             mkdir -p ~/texmf/tex/latex/custom
             cp notes-uwaterloo/custom.sty ~/texmf/tex/latex/custom/custom.sty
             texhash
+      - run: mkdir -p build/
       - run:
           name: make
           command: |
-            cd notes-uwaterloo
             make -j2
-            mkdir -p ../build
             find . -name '*.pdf' | xargs -I{} mv {} ../build
+          working_directory: notes-uwaterloo
       - store_artifacts:
           path: build/
 
@@ -89,12 +85,9 @@ jobs:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /gcloud-service-key.json
     steps:
-      - run:
-          name: authenticate with google cloud
-          command: |
-            echo "${GCLOUD_SERVICE_KEY}" > "${GOOGLE_APPLICATION_CREDENTIALS}"
-            gcloud auth activate-service-account --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
-            gcloud config set project "thekevjames-175823"
+      - run: echo "${GCLOUD_SERVICE_KEY}" > "${GOOGLE_APPLICATION_CREDENTIALS}"
+      - run: gcloud auth activate-service-account --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
+      - run: gcloud config set project "thekevjames-175823"
       - attach_workspace:
           at: build
       - run: gsutil -m cp build/curse-of-strahd.pdf gs://thekevjames-artifacts
@@ -102,8 +95,7 @@ jobs:
 workflows:
   run-jobs:
     jobs:
-      - linter/pre-commit:
-          python_version: 3.7.4
+      - linter/pre-commit
       - build-curse-of-strahd
       - build-notes
       - upload:
