@@ -6,10 +6,13 @@ orbs:
 commands:
   fetch-tex:
     parameters:
+      path:
+        default: 'macros/latex/contrib'
+        type: string
       pkg:
         type: string
     steps:
-      - run: curl -Ls http://mirrors.ctan.org/macros/latex/contrib/<<parameters.pkg>>.zip > /tmp.zip
+      - run: curl -LsS http://mirrors.ctan.org/<<parameters.path>>/<<parameters.pkg>>.zip > /tmp.zip
       - run: unzip /tmp.zip -d $(kpsewhich --var-value TEXMFLOCAL)
 
 jobs:
@@ -19,12 +22,10 @@ jobs:
     steps:
       - run: apt-get update -qy
       - run: apt-get install -qy curl zip
-      - run:
-          name: install tex dependencies
-          command: |
-            curl -Ls http://mirrors.ctan.org/fonts/aurical/aurical_texmf.zip > /aurical.zip
-            unzip /aurical.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-            texhash
+      - fetch-tex:
+          path: 'fonts/aurical'
+          pkg: aurical_texmf
+      - run: texhash
       - checkout
       - run:
           command: xelatex journal.tex
