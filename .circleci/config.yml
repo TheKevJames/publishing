@@ -3,6 +3,15 @@ version: 2.1
 orbs:
   linter: talkiq/linter@1
 
+commands:
+  fetch-tex:
+    parameters:
+      pkg:
+        type: string
+    steps:
+      - run: curl -Ls http://mirrors.ctan.org/macros/latex/contrib/<<parameters.pkg>>.zip > /tmp.zip
+      - run: unzip /tmp.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+
 jobs:
   build-curse-of-strahd:
     docker:
@@ -35,54 +44,26 @@ jobs:
     steps:
       - run: apt-get update -qy
       - run: apt-get install -qy curl zip
-      - run:
-          name: install booktabs
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/booktabs.zip > /booktabs.zip
-            unzip /booktabs.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install listings
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/listings.zip > /listings.zip
-            unzip /listings.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install mathtools
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/mathtools.zip > /mathtools.zip
-            unzip /mathtools.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install parskip
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/parskip.zip > /parskip.zip
-            unzip /parskip.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install pict2e
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/pict2e.zip > /pict2e.zip
-            unzip /pict2e.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install qtree
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/qtree.zip > /qtree.zip
-            unzip /qtree.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-
-            mkdir -p ~/texmf/tex/latex/
-            cp -r $(kpsewhich --var-value TEXMFLOCAL)/qtree ~/texmf/tex/latex/
-      - run:
-          name: install ulem
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/ulem.zip > /ulem.zip
-            unzip /ulem.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install url
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/url.zip > /url.zip
-            unzip /url.zip -d $(kpsewhich --var-value TEXMFLOCAL)
-      - run:
-          name: install wrapfig
-          command: |
-            curl -Ls http://mirrors.ctan.org/macros/latex/contrib/wrapfig.zip > /wrapfig.zip
-            unzip /wrapfig.zip -d $(kpsewhich --var-value TEXMFLOCAL)
+      - fetch-tex:
+          pkg: booktabs
+      - fetch-tex:
+          pkg: listings
+      - fetch-tex:
+          pkg: mathtools
+      - fetch-tex:
+          pkg: parskip
+      - fetch-tex:
+          pkg: pict2e
+      - fetch-tex:
+          pkg: qtree
+      - run: mkdir -p ~/texmf/tex/latex/
+      - run: cp -r $(kpsewhich --var-value TEXMFLOCAL)/qtree ~/texmf/tex/latex/
+      - fetch-tex:
+          pkg: ulem
+      - fetch-tex:
+          pkg: url
+      - fetch-tex:
+          pkg: wrapfig
       - run: texhash
       - checkout
       - run:
