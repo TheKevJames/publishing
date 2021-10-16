@@ -12,7 +12,7 @@ commands:
       pkg:
         type: string
     steps:
-      - run: curl -LsS http://mirrors.ctan.org/<<parameters.path>>/<<parameters.pkg>>.zip > /tmp.zip
+      - run: curl -LsS https://mirror.ctan.org/<<parameters.path>>/<<parameters.pkg>>.zip > /tmp.zip
       - run: unzip /tmp.zip -d $(kpsewhich --var-value TEXMFLOCAL)
 
 jobs:
