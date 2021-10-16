@@ -11,8 +11,12 @@ commands:
         type: string
       pkg:
         type: string
+      url:
+        default: 'https://mirrors.rit.edu/CTAN/'
+        # default: 'https://mirror.ctan.org'
+        type: string
     steps:
-      - run: curl -LsS https://mirror.ctan.org/<<parameters.path>>/<<parameters.pkg>>.zip > /tmp.zip
+      - run: curl -LsS <<parameters.url>>/<<parameters.path>>/<<parameters.pkg>>.zip > /tmp.zip
       - run: unzip /tmp.zip -d $(kpsewhich --var-value TEXMFLOCAL)
 
 jobs:
