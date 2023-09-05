@@ -3,6 +3,12 @@ version: 2.1
 orbs:
   linter: talkiq/linter@3
 
+executors:
+  xelatex:
+    docker:
+      - image: moss/xelatex:v1.2.0
+    resource_class: medium
+
 commands:
   fetch-tex:
     parameters:
@@ -21,8 +27,7 @@ commands:
 
 jobs:
   build-curse-of-strahd:
-    docker:
-      - image: jpbernius/xelatex
+    executor: xelatex
     steps:
       - run: apt-get update -qy
       - run: apt-get install -qy curl zip
@@ -44,8 +49,7 @@ jobs:
           path: build/curse-of-strahd.pdf
 
   build-notes:
-    docker:
-      - image: jpbernius/xelatex
+    executor: xelatex
     steps:
       - run: apt-get update -qy
       - run: apt-get install -qy curl zip
