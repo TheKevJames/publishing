@@ -4,6 +4,10 @@ orbs:
   linter: talkiq/linter@4
 
 executors:
+  python:
+    docker:
+      - image: python:3.11.9
+    resource_class: medium
   xelatex:
     docker:
       - image: moss/xelatex:v1.2.0
@@ -105,14 +109,24 @@ jobs:
       - run: gsutil -m cp build/curse-of-strahd.pdf gs://thekevjames-artifacts
 
 workflows:
-  run-jobs:
+  build:
+    when:
+      not:
+        equal: [ master, << pipeline.git.branch >> ]
     jobs:
-      - linter/pre-commit
+      - linter/pre-commit:
+          executor: python
+      - build-curse-of-strahd
+      - build-notes
+
+  upload:
+    when:
+      equal: [ master, << pipeline.git.branch >> ]
+    jobs:
+      - linter/pre-commit:
+          executor: python
       - build-curse-of-strahd
       - build-notes
       - upload:
-          filters:
-            branches:
-              only: master
           requires:
             - build-curse-of-strahd
