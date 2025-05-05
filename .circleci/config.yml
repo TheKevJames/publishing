@@ -10,7 +10,7 @@ executors:
     resource_class: medium
   xelatex:
     docker:
-      - image: moss/xelatex:1.3.2
+      - image: moss/xelatex:1.3.3
     resource_class: medium
 
 commands:
